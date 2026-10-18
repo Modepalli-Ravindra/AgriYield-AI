@@ -543,3 +543,22 @@ a {
   height: 14px;
   color: var(--color-lime);
 }
+
+/* Uniform 3x2 Grid for Core Capabilities Section - All cards same size */
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1080px) {
+  .capabilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .capabilities-grid {
+    grid-template-columns: 1fr;
+  }
+}

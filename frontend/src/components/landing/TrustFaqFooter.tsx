@@ -4,7 +4,6 @@ import {
   ChevronUpIcon, 
   ShieldCheckIcon, 
   ExclamationTriangleIcon, 
-  ArrowTopRightOnSquareIcon,
   QuestionMarkCircleIcon
 } from '@heroicons/react/24/outline';
 
@@ -103,17 +102,17 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
 
       {/* FAQ Section */}
       <section id="faq" style={{ padding: '90px 0', backgroundColor: '#121B11' }}>
-        <div className="container" style={{ maxWidth: 880 }}>
+        <div className="container" style={{ maxWidth: 960 }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <div className="section-pill-badge">
               <QuestionMarkCircleIcon />
               <span>FREQUENTLY ASKED QUESTIONS</span>
             </div>
             <h2 style={{
-              fontSize: 'clamp(28px, 3.8vw, 42px)',
+              fontSize: 'clamp(24px, 2.4vw, 36px)',
               color: 'var(--color-offwhite)',
-              marginTop: 12,
-              marginBottom: 16,
+              marginTop: 10,
+              marginBottom: 14,
               fontWeight: 800
             }}>
               Clear answers on models, data & uncertainty.
@@ -177,7 +176,7 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer without GitHub button */}
       <footer style={{
         backgroundColor: '#0E160D',
         borderTop: '1px solid var(--color-forest-border)',
@@ -212,27 +211,11 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-            <a
-              href="https://github.com/Modepalli-Ravindra/AgriYield-AI"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                fontSize: 13.5,
-                color: 'var(--color-lime)',
-                fontWeight: 600
-              }}
-            >
-              <span>GitHub</span>
-              <ArrowTopRightOnSquareIcon style={{ width: 15, height: 15 }} />
-            </a>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <button
               className="btn-primary"
               onClick={onGetStarted}
-              style={{ padding: '8px 20px', fontSize: 13 }}
+              style={{ padding: '10px 24px', fontSize: 13.5 }}
             >
               Launch Console
             </button>

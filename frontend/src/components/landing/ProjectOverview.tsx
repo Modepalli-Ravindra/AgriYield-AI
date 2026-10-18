@@ -10,13 +10,13 @@ export const ProjectOverview: React.FC = () => {
   return (
     <section id="overview" style={{ padding: '90px 0', backgroundColor: '#152214' }}>
       <div className="container">
-        <div style={{ maxWidth: 780, marginBottom: 50 }}>
+        <div style={{ maxWidth: 1050, marginBottom: 50 }}>
           <div className="section-pill-badge">
             <CpuChipIcon />
             <span>INTELLIGENCE ARCHITECTURE</span>
           </div>
           <h2 style={{
-            fontSize: 'clamp(28px, 3.8vw, 44px)',
+            fontSize: 'clamp(24px, 2.4vw, 36px)',
             color: 'var(--color-offwhite)',
             marginTop: 12,
             marginBottom: 16,
@@ -162,3 +162,4 @@ export const ProjectOverview: React.FC = () => {
     </section>
   );
 };
+

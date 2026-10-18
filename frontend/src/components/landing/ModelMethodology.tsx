@@ -48,13 +48,13 @@ export const ModelMethodology: React.FC = () => {
   return (
     <section id="insights" style={{ padding: '90px 0', backgroundColor: '#152214', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
-        <div style={{ maxWidth: 740, marginBottom: 50 }}>
+        <div style={{ maxWidth: 1050, marginBottom: 50 }}>
           <div className="section-pill-badge">
             <CheckCircleIcon />
             <span>MODEL BENCHMARKS</span>
           </div>
           <h2 style={{
-            fontSize: 'clamp(28px, 3.8vw, 42px)',
+            fontSize: 'clamp(24px, 2.4vw, 36px)',
             color: 'var(--color-offwhite)',
             marginTop: 12,
             marginBottom: 16,
@@ -150,3 +150,4 @@ export const ModelMethodology: React.FC = () => {
     </section>
   );
 };
+
