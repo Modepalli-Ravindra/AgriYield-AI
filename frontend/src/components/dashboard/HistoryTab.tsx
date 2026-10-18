@@ -121,7 +121,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
             Prediction History & Trend Analysis
           </h3>
           <p style={{ fontSize: 13.5, color: 'var(--color-muted)', marginTop: 4 }}>
-            Past predictions saved in InsForge PostgreSQL. Review harvest trends, compare past estimates, and export data.
+            Past predictions saved in Terraflect database. Review harvest trends, compare past estimates, and export data.
           </p>
         </div>
 

@@ -6,7 +6,6 @@ import {
   ShieldCheck, 
   BarChart3, 
   CloudSun, 
-  Database,
   Layers,
   Sliders,
   GitCompare,
@@ -159,16 +158,16 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
           boxShadow: 'var(--shadow-card)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-            <Database size={14} style={{ color: 'var(--color-lime)' }} />
+            <Sliders size={14} style={{ color: 'var(--color-lime)' }} />
             <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', textTransform: 'uppercase' }}>
-              Cloud Database
+              Explainable AI
             </span>
           </div>
           <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 2 }}>
-            InsForge Postgres
+            TreeSHAP Insights
           </div>
           <p style={{ fontSize: 11.5, color: 'var(--color-muted)', margin: 0, lineHeight: 1.4 }}>
-            Zero-OTP authenticated storage with encrypted exports.
+            Exact climatic variables reveal why yields rise or fall.
           </p>
         </div>
       </div>

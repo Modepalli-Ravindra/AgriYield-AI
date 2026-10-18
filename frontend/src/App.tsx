@@ -189,7 +189,7 @@ export default function App() {
         case 'benchmarks':
           return { title: 'Model Benchmarks & Global Importance', subtitle: 'Empirical multi-architecture comparison and Gini gain' };
         case 'history':
-          return { title: 'Prediction Audit History', subtitle: 'User-isolated query history stored in InsForge PostgreSQL' };
+          return { title: 'Prediction Audit History', subtitle: 'User-isolated query history stored securely with encrypted exports' };
         default:
           return { title: 'Workspace', subtitle: 'Terraflect Platform' };
       }
