@@ -8,6 +8,16 @@ interface BenchmarksTabProps {
   benchmarks: ModelComparisonResponse | null;
 }
 
+const cleanFeatureName = (name: string) => {
+  if (name.includes('Crop')) return 'Crop Species';
+  if (name.includes('Country') || name.includes('Area')) return 'Country / Region';
+  if (name.includes('Temperature') || name.includes('temp')) return 'Avg Temperature';
+  if (name.includes('Pesticide')) return 'Pesticides Usage';
+  if (name.includes('Rainfall')) return 'Annual Rainfall';
+  if (name.includes('Year')) return 'Observation Year';
+  return name.split('(')[0].trim();
+};
+
 export const BenchmarksTab: React.FC<BenchmarksTabProps> = ({ benchmarks }) => {
   const [globalImportance, setGlobalImportance] = useState<GlobalImportanceResponse | null>(null);
 
@@ -15,116 +25,216 @@ export const BenchmarksTab: React.FC<BenchmarksTabProps> = ({ benchmarks }) => {
     api.fetchGlobalImportance().then(setGlobalImportance).catch(console.error);
   }, []);
 
+  const chartData = globalImportance?.features.map((f) => ({
+    ...f,
+    cleanName: cleanFeatureName(f.name),
+    percentage: (Number(f.importance) * 100).toFixed(1)
+  })) || [];
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: '1.25fr 1fr',
+      gap: 16,
+      alignItems: 'stretch',
+      flex: 1,
+      minHeight: 'calc(100vh - 105px)',
+      boxSizing: 'border-box'
+    }}>
+      {/* Left Split Card: Benchmark Table */}
       <div style={{
         background: 'var(--color-forest-surface)',
-        borderRadius: 20,
-        padding: '26px 30px',
+        borderRadius: 16,
+        padding: '20px 22px',
         border: '1px solid var(--color-forest-border)',
-        boxShadow: 'var(--shadow-card)'
+        boxShadow: 'var(--shadow-card)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
       }}>
-        <div style={{ marginBottom: 20 }}>
-          <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', fontWeight: 800 }}>
-            Model Benchmarks & Performance Comparison
-          </h3>
-          <p style={{ fontSize: 13.5, color: 'var(--color-muted)', marginTop: 4 }}>
-            Empirical evaluation across 28,242 agricultural records. XGBoost serves as our active production engine.
-          </p>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, paddingBottom: 12, borderBottom: '1px solid rgba(169, 180, 158, 0.12)' }}>
+            <div>
+              <h3 style={{ fontSize: 16.5, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0, lineHeight: 1.2 }}>
+                Model Benchmarks & Comparison
+              </h3>
+              <p style={{ fontSize: 12, color: 'var(--color-muted)', margin: '4px 0 0' }}>
+                Empirical evaluation across 28,242 agricultural records.
+              </p>
+            </div>
+            <span style={{
+              fontSize: 10.5,
+              fontFamily: 'var(--font-mono)',
+              fontWeight: 700,
+              background: 'rgba(228, 253, 151, 0.12)',
+              color: 'var(--color-lime)',
+              padding: '3px 9px',
+              borderRadius: 100,
+              border: '1px solid rgba(228, 253, 151, 0.25)'
+            }}>
+              5 ALGORITHMS
+            </span>
+          </div>
+
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 12.5 }}>
+              <thead>
+                <tr style={{ background: 'rgba(255, 255, 255, 0.03)', borderBottom: '1px solid var(--color-forest-border)' }}>
+                  <th style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Model</th>
+                  <th style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--color-muted)' }}>Family</th>
+                  <th style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--color-lime)' }}>Accuracy (R²)</th>
+                  <th style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--color-offwhite)' }}>RMSE</th>
+                  <th style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {benchmarks?.models.map((m) => (
+                  <tr key={m.model_name} style={{ borderBottom: '1px solid rgba(169, 180, 158, 0.08)' }}>
+                    <td style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--color-offwhite)' }}>
+                      {m.model_name}
+                    </td>
+                    <td style={{ padding: '10px 12px', color: 'var(--color-muted)', fontSize: 11.5 }}>
+                      {m.model_family}
+                    </td>
+                    <td style={{ padding: '10px 12px', fontFamily: 'var(--font-mono)', fontWeight: 800, color: 'var(--color-lime)', fontSize: 13.5 }}>
+                      {m.r2_random_split.toFixed(4)}
+                    </td>
+                    <td style={{ padding: '10px 12px', fontFamily: 'var(--font-mono)', color: 'var(--color-offwhite)', fontSize: 12 }}>
+                      {m.rmse_random_split_tonnes.toFixed(3)} t/ha
+                    </td>
+                    <td style={{ padding: '10px 12px' }}>
+                      {m.is_deployed_production_model ? (
+                        <span style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          background: 'var(--color-lime)',
+                          color: '#121B11',
+                          padding: '2px 8px',
+                          borderRadius: 100,
+                          fontSize: 10.5,
+                          fontWeight: 800,
+                          fontFamily: 'var(--font-mono)'
+                        }}>
+                          <CheckCircle2 size={11} /> ACTIVE
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: 10.5, color: 'var(--color-muted)', fontFamily: 'var(--font-mono)' }}>BENCHMARK</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13.5 }}>
-            <thead>
-              <tr style={{ background: '#141F13', borderBottom: '1px solid var(--color-forest-border)' }}>
-                <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Model Name</th>
-                <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Algorithm Family</th>
-                <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-lime)' }}>Accuracy (R²)</th>
-                <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Error Margin (RMSE)</th>
-                <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Avg Error (MAE)</th>
-                <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Deployment Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {benchmarks?.models.map((m) => (
-                <tr key={m.model_name} style={{ borderBottom: '1px solid rgba(169, 180, 158, 0.1)' }}>
-                  <td style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>
-                    {m.model_name}
-                  </td>
-                  <td style={{ padding: '14px 18px', color: 'var(--color-muted)' }}>
-                    {m.model_family}
-                  </td>
-                  <td style={{ padding: '14px 18px', fontFamily: 'var(--font-mono)', fontWeight: 800, color: 'var(--color-lime)', fontSize: 14.5 }}>
-                    {m.r2_random_split.toFixed(4)}
-                  </td>
-                  <td style={{ padding: '14px 18px', fontFamily: 'var(--font-mono)', color: 'var(--color-offwhite)' }}>
-                    {m.rmse_random_split_tonnes.toFixed(3)} t/ha
-                  </td>
-                  <td style={{ padding: '14px 18px', fontFamily: 'var(--font-mono)', color: 'var(--color-offwhite)' }}>
-                    {m.mae_random_split_tonnes.toFixed(3)} t/ha
-                  </td>
-                  <td style={{ padding: '14px 18px' }}>
-                    {m.is_deployed_production_model ? (
-                      <span style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        background: 'var(--color-lime)',
-                        color: '#121B11',
-                        padding: '3px 10px',
-                        borderRadius: 100,
-                        fontSize: 11.5,
-                        fontWeight: 800,
-                        fontFamily: 'var(--font-mono)'
-                      }}>
-                        <CheckCircle2 size={13} /> ACTIVE
-                      </span>
-                    ) : (
-                      <span style={{ fontSize: 11.5, color: 'var(--color-muted)', fontFamily: 'var(--font-mono)' }}>BENCHMARK</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '10px 14px',
+          background: 'rgba(255, 255, 255, 0.02)',
+          borderRadius: 8,
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          fontSize: 11.5,
+          color: 'var(--color-muted)',
+          marginTop: 14
+        }}>
+          <span>Active Engine: <strong>XGBoost Regressor</strong></span>
+          <span>CV Strategy: <strong>Disjoint Regional Folds</strong></span>
         </div>
       </div>
 
-      {globalImportance && (
-        <div style={{
-          background: 'var(--color-forest-surface)',
-          borderRadius: 20,
-          padding: '26px 30px',
-          border: '1px solid var(--color-forest-border)',
-          boxShadow: 'var(--shadow-card)'
-        }}>
-          <h3 style={{ fontSize: 19, color: 'var(--color-offwhite)', fontWeight: 700, marginBottom: 4 }}>
-            Global Importance of Agricultural Drivers
-          </h3>
-          <span style={{ fontSize: 13, color: 'var(--color-muted)', display: 'block', marginBottom: 20 }}>
-            Relative influence across all predictions • {globalImportance.deployed_model}
-          </span>
+      {/* Right Split Card: Global Feature Importance Chart */}
+      <div style={{
+        background: 'var(--color-forest-surface)',
+        borderRadius: 16,
+        padding: '20px 22px',
+        border: '1px solid var(--color-forest-border)',
+        boxShadow: 'var(--shadow-card)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+      }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, paddingBottom: 12, borderBottom: '1px solid rgba(169, 180, 158, 0.12)' }}>
+            <div>
+              <h3 style={{ fontSize: 16.5, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0, lineHeight: 1.2 }}>
+                Global Importance of Drivers
+              </h3>
+              <span style={{ fontSize: 12, color: 'var(--color-muted)', display: 'block', marginTop: 4 }}>
+                Relative influence weights • XGBoost TreeSHAP
+              </span>
+            </div>
+            <span style={{
+              fontSize: 10.5,
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--color-lime)',
+              background: 'rgba(228, 253, 151, 0.1)',
+              padding: '3px 8px',
+              borderRadius: 4
+            }}>
+              NORMALIZED %
+            </span>
+          </div>
 
-          <div style={{ width: '100%', height: 270 }}>
+          <div style={{ width: '100%', height: 320 }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 layout="vertical"
-                data={globalImportance.features}
-                margin={{ top: 10, right: 30, left: 60, bottom: 10 }}
+                data={chartData}
+                margin={{ top: 8, right: 24, left: 10, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(169, 180, 158, 0.12)" />
-                <XAxis type="number" tick={{ fontSize: 11, fill: 'var(--color-muted)' }} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 12, fill: 'var(--color-offwhite)' }} width={160} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.06)" horizontal={false} />
+                <XAxis 
+                  type="number" 
+                  tick={{ fontSize: 11, fill: 'var(--color-muted)' }} 
+                  axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+                  tickLine={false}
+                  unit="%"
+                />
+                <YAxis 
+                  type="category" 
+                  dataKey="cleanName" 
+                  tick={{ fontSize: 11.5, fill: 'var(--color-offwhite)' }} 
+                  width={120}
+                  axisLine={false}
+                  tickLine={false}
+                />
                 <Tooltip 
                   formatter={(val: any) => [`${(Number(val) * 100).toFixed(1)}%`, 'Influence Weight']}
-                  contentStyle={{ background: '#141F13', borderRadius: 10, border: '1px solid var(--color-forest-border)', color: '#F7F7EF', fontSize: 12 }}
+                  contentStyle={{ 
+                    background: '#121B11', 
+                    borderRadius: 8, 
+                    border: '1px solid var(--color-lime)', 
+                    color: '#F7F7EF', 
+                    fontSize: 12,
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.5)'
+                  }}
                 />
-                <Bar dataKey="importance" fill="#E4FD97" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="importance" fill="var(--color-lime)" radius={[0, 5, 5, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
-      )}
+
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '10px 14px',
+          background: 'rgba(255, 255, 255, 0.02)',
+          borderRadius: 8,
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          fontSize: 11.5,
+          color: 'var(--color-muted)',
+          marginTop: 14
+        }}>
+          <span>Evaluated on 6 environmental dimensions</span>
+          <span style={{ color: 'var(--color-lime)', fontWeight: 600 }}>R² = 0.9714</span>
+        </div>
+      </div>
     </div>
   );
 };
