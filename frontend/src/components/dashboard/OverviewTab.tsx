@@ -32,7 +32,8 @@ const CLIMATE_DRIVERS = [
   { factor: 'Annual Rainfall (mm)', impact: '+38.5%', pct: '88%', color: '#E4FD97' },
   { factor: 'Mean Temperature (?C)', impact: '-26.2%', pct: '66%', color: '#FCD34D' },
   { factor: 'Crop Protection / Pesticides', impact: '+18.4%', pct: '48%', color: '#93C5FD' },
-  { factor: 'Soil & Geographic Baseline', impact: '+16.9%', pct: '42%', color: '#A78BFA' }
+  { factor: 'Soil Quality & Organic Base', impact: '+16.9%', pct: '44%', color: '#A78BFA' },
+  { factor: 'Regional Agricultural Zone', impact: '+14.2%', pct: '38%', color: '#34D399' }
 ];
 
 const CustomCropTooltip = ({ active, payload, label }: any) => {
@@ -43,15 +44,15 @@ const CustomCropTooltip = ({ active, payload, label }: any) => {
         background: '#121B11',
         border: '1px solid var(--color-lime)',
         borderRadius: 8,
-        padding: '8px 12px',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
-        fontSize: 11.5
+        padding: '10px 14px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+        fontSize: 12
       }}>
-        <div style={{ color: 'var(--color-offwhite)', fontWeight: 700, marginBottom: 2 }}>{label}</div>
-        <div style={{ color: 'var(--color-lime)', fontWeight: 800 }}>
+        <div style={{ color: 'var(--color-offwhite)', fontWeight: 700, marginBottom: 4, fontSize: 13 }}>{label}</div>
+        <div style={{ color: 'var(--color-lime)', fontWeight: 800, fontSize: 13.5 }}>
           Expected Yield: {data.yield} t/ha
         </div>
-        <div style={{ color: 'var(--color-muted)', fontSize: 10.5, marginTop: 2 }}>
+        <div style={{ color: 'var(--color-muted)', fontSize: 11, marginTop: 4 }}>
           90% Bounds: {data.low} - {data.high} t/ha
         </div>
       </div>
@@ -62,7 +63,7 @@ const CustomCropTooltip = ({ active, payload, label }: any) => {
 
 export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigate }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       {/* Streamlined Welcome Bar */}
       <div style={{
         background: 'linear-gradient(135deg, #1A2819 0%, #131E12 100%)',
@@ -418,28 +419,29 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
         </div>
       </div>
 
-      {/* Bottom Visual Telemetry & Analytics Hub */}
+      {/* Bottom Visual Telemetry & Analytics Hub - Expanded Height */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1.6fr 1.1fr',
-        gap: 12,
+        gap: 14,
         marginTop: 2
       }}>
         {/* Left: Multi-Crop Yield Baseline Chart */}
         <div style={{
           background: 'var(--color-forest-surface)',
-          borderRadius: 12,
-          padding: '12px 16px',
+          borderRadius: 14,
+          padding: '18px 22px',
           border: '1px solid var(--color-forest-border)',
           boxShadow: 'var(--shadow-card)',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          minHeight: 310
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <BarChart3 size={15} style={{ color: 'var(--color-lime)' }} />
-              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-offwhite)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <BarChart3 size={17} style={{ color: 'var(--color-lime)' }} />
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-offwhite)' }}>
                 Global Crop Yield Baselines & Uncertainty (t/ha)
               </span>
             </div>
@@ -447,33 +449,33 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
               display: 'inline-flex',
               alignItems: 'center',
               gap: 5,
-              fontSize: 10,
+              fontSize: 10.5,
               fontFamily: 'var(--font-mono)',
               color: 'var(--color-lime)',
               background: 'rgba(228, 253, 151, 0.08)',
-              padding: '2px 7px',
-              borderRadius: 4,
+              padding: '3px 8px',
+              borderRadius: 6,
               border: '1px solid rgba(228, 253, 151, 0.2)'
             }}>
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--color-lime)', display: 'inline-block' }} />
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-lime)', display: 'inline-block' }} />
               90% Conformal Calibrated
             </span>
           </div>
 
-          <div style={{ width: '100%', height: 165 }}>
+          <div style={{ width: '100%', height: 215 }}>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={CROP_BASELINE_DATA} margin={{ top: 8, right: 12, left: -18, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" vertical={false} />
+              <BarChart data={CROP_BASELINE_DATA} margin={{ top: 12, right: 12, left: -14, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.06)" vertical={false} />
                 <XAxis 
                   dataKey="crop" 
                   stroke="var(--color-muted)" 
-                  fontSize={11} 
+                  fontSize={12} 
                   tickLine={false}
-                  axisLine={{ stroke: 'rgba(255, 255, 255, 0.08)' }}
+                  axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
                 />
                 <YAxis 
                   stroke="var(--color-muted)" 
-                  fontSize={10.5} 
+                  fontSize={11} 
                   tickLine={false}
                   axisLine={false}
                   unit=" t"
@@ -483,19 +485,19 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
                   dataKey="yield" 
                   name="Expected Yield"
                   fill="var(--color-lime)" 
-                  radius={[4, 4, 0, 0]} 
+                  radius={[6, 6, 0, 0]} 
                 />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 10.5, color: 'var(--color-muted)', paddingTop: 4 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 11, color: 'var(--color-muted)', paddingTop: 8, borderTop: '1px solid rgba(255, 255, 255, 0.04)' }}>
             <span>*Calibrated across 28,242 multi-country FAO validated field records</span>
             <span 
               onClick={() => onNavigate('benchmarks')}
-              style={{ color: 'var(--color-lime)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}
+              style={{ color: 'var(--color-lime)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600 }}
             >
-              Full Model Benchmarks <ArrowRight size={11} />
+              Full Model Benchmarks <ArrowRight size={12} />
             </span>
           </div>
         </div>
@@ -503,39 +505,40 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
         {/* Right: Climatic Feature Sensitivity Telemetry */}
         <div style={{
           background: 'var(--color-forest-surface)',
-          borderRadius: 12,
-          padding: '12px 16px',
+          borderRadius: 14,
+          padding: '18px 22px',
           border: '1px solid var(--color-forest-border)',
           boxShadow: 'var(--shadow-card)',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          minHeight: 310
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <Activity size={15} style={{ color: 'var(--color-lime)' }} />
-              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-offwhite)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Activity size={17} style={{ color: 'var(--color-lime)' }} />
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-offwhite)' }}>
                 Global Climatic Feature Impact
               </span>
             </div>
-            <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
+            <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
               TreeSHAP Weights
             </span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
             {CLIMATE_DRIVERS.map((item) => (
               <div key={item.factor}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2, fontSize: 11 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4, fontSize: 11.5 }}>
                   <span style={{ color: 'var(--color-offwhite)', fontWeight: 500 }}>{item.factor}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', color: item.color, fontWeight: 600 }}>{item.impact}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', color: item.color, fontWeight: 700 }}>{item.impact}</span>
                 </div>
-                <div style={{ width: '100%', height: 5, background: 'rgba(255, 255, 255, 0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ width: '100%', height: 6.5, background: 'rgba(255, 255, 255, 0.06)', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     width: item.pct,
                     height: '100%',
                     background: item.color,
-                    borderRadius: 3,
+                    borderRadius: 4,
                     transition: 'width 0.6s ease'
                   }} />
                 </div>
@@ -548,21 +551,21 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
             alignItems: 'center',
             justifyContent: 'space-between',
             background: 'rgba(255, 255, 255, 0.03)',
-            borderRadius: 6,
-            padding: '5px 8px',
-            marginTop: 4,
-            fontSize: 10.5,
+            borderRadius: 8,
+            padding: '7px 12px',
+            marginTop: 8,
+            fontSize: 11,
             border: '1px solid rgba(255, 255, 255, 0.05)'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ADE80', boxShadow: '0 0 6px #4ADE80' }} />
-              <span style={{ color: 'var(--color-offwhite)' }}>Live Calibrated Engine</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ADE80', boxShadow: '0 0 8px #4ADE80' }} />
+              <span style={{ color: 'var(--color-offwhite)', fontWeight: 500 }}>Live Calibrated Engine</span>
             </div>
             <span 
               onClick={() => onNavigate('explain')}
-              style={{ color: 'var(--color-lime)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}
+              style={{ color: 'var(--color-lime)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600 }}
             >
-              Analyze Factors <ArrowRight size={11} />
+              Analyze Factors <ArrowRight size={12} />
             </span>
           </div>
         </div>
