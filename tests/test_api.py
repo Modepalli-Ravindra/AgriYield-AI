@@ -1,0 +1,179 @@
+"""Automated backend API and research test suite."""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+import pytest
+from fastapi.testclient import TestClient
+
+# Ensure candidate-1 is on sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from app.main import app
+
+client = TestClient(app)
+
+def test_health_check():
+    """Verify system status and loaded artifacts."""
+    with TestClient(app) as tc:
+        res = tc.get("/health")
+        assert res.status_code == 200
+        data = res.json()
+        assert data["status"] == "healthy"
+        assert data["model_loaded"] is True
+        assert data["conformal_calibrator_loaded"] is True
+        assert data["ref_data_rows"] > 20000
+
+def test_options_endpoint():
+    """Verify options returns valid countries and crops."""
+    with TestClient(app) as tc:
+        res = tc.get("/api/v1/options")
+        assert res.status_code == 200
+        data = res.json()
+        assert "India" in data["countries"]
+        assert "Wheat" in data["crops"]
+        assert data["year_range"]["min"] >= 1990
+
+def test_zero_otp_auth_flow():
+    """Test full registration and login without OTP or email verification delays."""
+    with TestClient(app) as tc:
+        test_email = "researcher.test@agri-ai.org"
+        test_pass = "AgronomyPass2026!"
+        
+        # 1. Register
+        reg_res = tc.post("/api/v1/auth/register", json={
+            "email": test_email,
+            "password": test_pass,
+            "full_name": "Dr. Agronomy Test",
+            "organization": "Global Agriculture Center"
+        })
+        # If already exists from prior test run, login directly
+        if reg_res.status_code == 400:
+            login_res = tc.post("/api/v1/auth/login", json={
+                "email": test_email,
+                "password": test_pass
+            })
+            assert login_res.status_code == 200
+            token = login_res.json()["access_token"]
+        else:
+            assert reg_res.status_code == 201
+            token = reg_res.json()["access_token"]
+            
+        assert token is not None
+        
+        # 2. Get profile with Bearer token
+        me_res = tc.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {token}"})
+        assert me_res.status_code == 200
+        assert me_res.json()["email"] == test_email
+
+def test_prediction_with_conformal_interval():
+    """Verify yield prediction produces non-negative 90% conformal intervals."""
+    with TestClient(app) as tc:
+        res = tc.post("/api/v1/predict", json={
+            "country": "India",
+            "crop": "Wheat",
+            "year": 2013,
+            "rainfall_mm": 1050.0,
+            "avg_temp_c": 25.5,
+            "pesticides_tonnes": 50000.0
+        })
+        assert res.status_code == 200
+        data = res.json()
+        assert data["predicted_yield_tonnes_per_ha"] > 0.0
+        # Verify conformal interval
+        conformal = data["conformal_interval_90"]
+        assert conformal["nominal_coverage"] == 0.90
+        assert conformal["lower_bound"] >= 0.0
+        assert conformal["upper_bound"] > conformal["lower_bound"]
+        # Verify SHAP contributions exist
+        assert len(data["shap_values"]) == len(data["feature_names"])
+
+def test_explain_and_sensitivity():
+    """Test SHAP explanations and climate sensitivity curve."""
+    with TestClient(app) as tc:
+        # Explain
+        exp_res = tc.post("/api/v1/explain", json={
+            "country": "India",
+            "crop": "Wheat",
+            "year": 2013,
+            "rainfall_mm": 1050.0,
+            "avg_temp_c": 25.5,
+            "pesticides_tonnes": 50000.0
+        })
+        assert exp_res.status_code == 200
+        assert len(exp_res.json()["feature_contributions"]) > 0
+
+        # Sensitivity sweep across rainfall
+        sens_res = tc.post("/api/v1/sensitivity", json={
+            "input_data": {
+                "country": "India",
+                "crop": "Wheat",
+                "year": 2013,
+                "rainfall_mm": 1050.0,
+                "avg_temp_c": 25.5,
+                "pesticides_tonnes": 50000.0
+            },
+            "parameter": "rainfall_mm",
+            "points": 10
+        })
+        assert sens_res.status_code == 200
+        assert len(sens_res.json()["values"]) == 10
+        assert len(sens_res.json()["predictions_tonnes_per_ha"]) == 10
+
+def test_what_if_scenario_comparison():
+    """Verify What-If comparison across multiple climate scenarios."""
+    with TestClient(app) as tc:
+        res = tc.post("/api/v1/what-if", json={
+            "scenarios": [
+                {
+                    "scenario_name": "Baseline (Current)",
+                    "inputs": {
+                        "country": "India",
+                        "crop": "Wheat",
+                        "year": 2013,
+                        "rainfall_mm": 1050.0,
+                        "avg_temp_c": 25.5,
+                        "pesticides_tonnes": 50000.0
+                    }
+                },
+                {
+                    "scenario_name": "Drought & Heatwave (+3°C, -30% Rain)",
+                    "inputs": {
+                        "country": "India",
+                        "crop": "Wheat",
+                        "year": 2013,
+                        "rainfall_mm": 735.0,
+                        "avg_temp_c": 28.5,
+                        "pesticides_tonnes": 50000.0
+                    }
+                }
+            ]
+        })
+        assert res.status_code == 200
+        data = res.json()
+        assert len(data["comparisons"]) == 2
+
+def test_model_benchmarks_and_robustness():
+    """Verify empirical benchmarks and stress-test endpoint."""
+    with TestClient(app) as tc:
+        # Compare models
+        comp_res = tc.get("/api/v1/models/compare")
+        assert comp_res.status_code == 200
+        data = comp_res.json()
+        assert len(data["models"]) >= 4
+        # Verify Stacking Ensemble is included
+        model_names = [m["model_name"] for m in data["models"]]
+        assert "DL-ML Stacking Ensemble" in model_names
+        assert "PyTorch Tabular MLP" in model_names
+
+        # Robustness stress test
+        stress_res = tc.post("/api/v1/robustness/stress-test?test_type=mcar_missingness")
+        assert stress_res.status_code == 200
+        stress_data = stress_res.json()
+        assert len(stress_data["degradation_curve"]) > 0
+
+def test_history_authorization():
+    """Verify unauthorized access to /history is blocked."""
+    with TestClient(app) as tc:
+        res = tc.get("/api/v1/history")
+        assert res.status_code == 401

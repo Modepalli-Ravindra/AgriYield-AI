@@ -1,0 +1,62 @@
+{
+  "dataset_version": "FAOSTAT-WorldBank-Clean-v2",
+  "total_samples": 25932,
+  "train_samples": 16596,
+  "calibration_samples": 4149,
+  "test_samples": 5187,
+  "models": [
+    {
+      "model_name": "Random Forest",
+      "model_family": "ML Baseline",
+      "r2_score": 0.974,
+      "rmse_tonnes_per_ha": 1.373,
+      "mae_tonnes_per_ha": 0.694,
+      "training_time_seconds": 4.92,
+      "parameter_count": 100
+    },
+    {
+      "model_name": "LightGBM",
+      "model_family": "ML Baseline",
+      "r2_score": 0.9736,
+      "rmse_tonnes_per_ha": 1.383,
+      "mae_tonnes_per_ha": 0.728,
+      "training_time_seconds": 1.56,
+      "parameter_count": 300
+    },
+    {
+      "model_name": "XGBoost",
+      "model_family": "ML Baseline",
+      "r2_score": 0.9714,
+      "rmse_tonnes_per_ha": 1.439,
+      "mae_tonnes_per_ha": 0.791,
+      "training_time_seconds": 3.42,
+      "parameter_count": 300
+    },
+    {
+      "model_name": "PyTorch Tabular MLP",
+      "model_family": "Deep Learning",
+      "r2_score": 0.9796,
+      "rmse_tonnes_per_ha": 1.215,
+      "mae_tonnes_per_ha": 0.665,
+      "training_time_seconds": 53.8,
+      "parameter_count": 24736
+    },
+    {
+      "model_name": "DL-ML Stacking Ensemble",
+      "model_family": "Stacking Ensemble",
+      "r2_score": 0.9822,
+      "rmse_tonnes_per_ha": 1.137,
+      "mae_tonnes_per_ha": 0.607,
+      "training_time_seconds": 63.91,
+      "parameter_count": 4
+    }
+  ],
+  "conformal_uncertainty": {
+    "nominal_coverage": 0.9,
+    "empirical_coverage": 0.8899,
+    "average_width_tonnes": 2.6051,
+    "conformal_quantile_q": 1.3272
+  },
+  "best_overall_model": "DL-ML Stacking Ensemble",
+  "dl_vs_ml_empirical_gain": "Ensemble achieves R2=0.9822 and RMSE=1.137 t/ha, improving stability over any single standalone model."
+}
