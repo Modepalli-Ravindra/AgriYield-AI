@@ -61,20 +61,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       <div className="container" style={{ position: 'relative', zIndex: 3 }}>
         {/* Centered Hero Content */}
-        <div style={{ textAlign: 'center', maxWidth: 1020, margin: '0 auto 46px' }}>
-          <div className="section-pill-badge" style={{ marginBottom: 18 }}>
-            <CpuChipIcon />
+        <div style={{ textAlign: 'center', maxWidth: 1180, margin: '0 auto 46px' }}>
+          <div className="section-pill-badge" style={{ 
+            marginBottom: 20,
+            padding: '8px 22px',
+            fontSize: 14,
+            letterSpacing: '0.06em'
+          }}>
+            <CpuChipIcon style={{ width: 17, height: 17 }} />
             <span>ENVIRONMENTAL INTELLIGENCE PLATFORM</span>
           </div>
 
           {/* Exactly two lines headline with grand increased typography */}
           <h1 style={{
-            fontSize: 'clamp(44px, 4.8vw, 68px)',
-            lineHeight: 1.12,
+            fontSize: 'clamp(50px, 5.4vw, 80px)',
+            lineHeight: 1.10,
             fontWeight: 800,
             color: 'var(--color-offwhite)',
             letterSpacing: '-0.035em',
-            marginBottom: 18,
+            marginBottom: 20,
             whiteSpace: 'normal'
           }}>
             <span style={{ display: 'inline-block' }}>Predict crop yields with</span>{' '}
