@@ -89,11 +89,8 @@ export const EnvironmentalContext: React.FC = () => {
           </p>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 24
-        }}>
+        {/* 3 cards on row 1, 3 cards on row 2 */}
+        <div className="environmental-grid">
           {INPUT_FIELDS.map((item, idx) => {
             const Icon = item.icon;
             return (

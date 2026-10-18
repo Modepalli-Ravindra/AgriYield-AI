@@ -499,3 +499,22 @@ a {
   width: 100%;
   margin: 0 auto;
 }
+
+/* 3x2 Grid for Environmental Factors Section */
+.environmental-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1080px) {
+  .environmental-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .environmental-grid {
+    grid-template-columns: 1fr;
+  }
+}
