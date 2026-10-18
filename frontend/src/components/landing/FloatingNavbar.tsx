@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Sprout, Menu, X } from 'lucide-react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 interface FloatingNavbarProps {
   onOpenAuth: (mode: 'login' | 'register') => void;
@@ -45,19 +45,16 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
           className="nav-brand" 
           onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
         >
-          <div style={{
-            width: 36,
-            height: 36,
-            borderRadius: 10,
-            backgroundColor: 'var(--color-lime)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#121B11',
-            boxShadow: '0 2px 8px var(--color-lime-glow)'
-          }}>
-            <Sprout size={20} strokeWidth={2.5} />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="AgriYield AI Logo" 
+            style={{
+              width: 38,
+              height: 38,
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 2px 8px rgba(228, 253, 151, 0.35))'
+            }} 
+          />
           <span>AgriYield AI</span>
         </a>
 
@@ -68,18 +65,18 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
             </button>
           </li>
           <li>
-            <button className="nav-link" onClick={() => scrollToSection('methodology')}>
-              Methodology
+            <button className="nav-link" onClick={() => scrollToSection('features')}>
+              Capabilities
             </button>
           </li>
           <li>
-            <button className="nav-link" onClick={() => scrollToSection('features')}>
-              Features
+            <button className="nav-link" onClick={() => scrollToSection('methodology')}>
+              Workflow
             </button>
           </li>
           <li>
             <button className="nav-link" onClick={() => scrollToSection('insights')}>
-              Model Insights
+              Benchmarks
             </button>
           </li>
           <li>
@@ -107,7 +104,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileMenuOpen ? <XMarkIcon style={{ width: 22, height: 22 }} /> : <Bars3Icon style={{ width: 22, height: 22 }} />}
           </button>
         </div>
       </nav>
@@ -134,14 +131,14 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
           <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('overview')}>
             Overview
           </button>
-          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('methodology')}>
-            Methodology
-          </button>
           <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('features')}>
-            Features
+            Capabilities
+          </button>
+          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('methodology')}>
+            Workflow
           </button>
           <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('insights')}>
-            Model Insights
+            Benchmarks
           </button>
           <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('faq')}>
             FAQ

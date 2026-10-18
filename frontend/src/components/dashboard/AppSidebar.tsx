@@ -1,16 +1,16 @@
 ﻿import React from 'react';
 import { 
-  LayoutDashboard, 
-  Sprout, 
-  Layers, 
-  LineChart, 
-  Sliders, 
-  GitCompare, 
-  Cpu, 
-  History, 
-  LogOut, 
-  User
-} from 'lucide-react';
+  Squares2X2Icon, 
+  ChartBarIcon, 
+  DocumentDuplicateIcon, 
+  PresentationChartLineIcon, 
+  AdjustmentsHorizontalIcon, 
+  ArrowsRightLeftIcon, 
+  CpuChipIcon, 
+  ClockIcon, 
+  UserIcon, 
+  ArrowRightOnRectangleIcon
+} from '@heroicons/react/24/outline';
 import type { UserProfile } from '../../types';
 
 interface AppSidebarProps {
@@ -27,14 +27,14 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   onLogout
 }) => {
   const NAV_ITEMS = [
-    { id: 'overview', label: 'System Overview', icon: LayoutDashboard },
-    { id: 'predict', label: 'Yield Prediction', icon: Sprout },
-    { id: 'batch', label: 'Batch Processing', icon: Layers },
-    { id: 'explain', label: 'Factor Contributions', icon: LineChart },
-    { id: 'sensitivity', label: 'Climate Sensitivity', icon: Sliders },
-    { id: 'whatif', label: 'What-If Scenarios', icon: GitCompare },
-    { id: 'benchmarks', label: 'Model Benchmarks', icon: Cpu },
-    { id: 'history', label: 'Prediction History', icon: History }
+    { id: 'overview', label: 'System Overview', icon: Squares2X2Icon },
+    { id: 'predict', label: 'Yield Prediction', icon: ChartBarIcon },
+    { id: 'batch', label: 'Batch Processing', icon: DocumentDuplicateIcon },
+    { id: 'explain', label: 'Factor Contributions', icon: PresentationChartLineIcon },
+    { id: 'sensitivity', label: 'Climate Sensitivity', icon: AdjustmentsHorizontalIcon },
+    { id: 'whatif', label: 'What-If Scenarios', icon: ArrowsRightLeftIcon },
+    { id: 'benchmarks', label: 'Model Benchmarks', icon: CpuChipIcon },
+    { id: 'history', label: 'Prediction History', icon: ClockIcon }
   ];
 
   return (
@@ -58,31 +58,28 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           padding: '0 8px',
           marginBottom: 32
         }}>
-          <div style={{
-            width: 36,
-            height: 36,
-            borderRadius: 10,
-            backgroundColor: 'var(--color-lime)',
-            color: '#121B11',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 2px 8px var(--color-lime-glow)'
-          }}>
-            <Sprout size={20} strokeWidth={2.5} />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="AgriYield AI" 
+            style={{
+              width: 38,
+              height: 38,
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 2px 8px rgba(228, 253, 151, 0.3))'
+            }} 
+          />
           <div>
             <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-offwhite)', letterSpacing: '-0.02em' }}>
               AgriYield AI
             </div>
             <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)' }}>
-              RESEARCH ENGINE
+              INTELLIGENCE PLATFORM
             </span>
           </div>
         </div>
 
         <nav>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6, padding: 0, margin: 0 }}>
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -104,10 +101,12 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                       backgroundColor: isActive ? 'var(--color-lime)' : 'transparent',
                       boxShadow: isActive ? '0 4px 14px var(--color-lime-glow)' : 'none',
                       transition: 'all 0.2s ease',
-                      textAlign: 'left'
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      border: 'none'
                     }}
                   >
-                    <Icon size={18} />
+                    <Icon style={{ width: 18, height: 18, flexShrink: 0 }} />
                     <span>{item.label}</span>
                   </button>
                 </li>
@@ -138,7 +137,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
             justifyContent: 'center',
             flexShrink: 0
           }}>
-            <User size={18} />
+            <UserIcon style={{ width: 18, height: 18 }} />
           </div>
           <div style={{ minWidth: 0, overflow: 'hidden' }}>
             <div style={{
@@ -149,7 +148,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
               overflow: 'hidden',
               textOverflow: 'ellipsis'
             }}>
-              {currentUser?.full_name || 'Researcher'}
+              {currentUser?.full_name || 'Agronomist'}
             </div>
             <div style={{
               fontSize: 11,
@@ -158,7 +157,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
               overflow: 'hidden',
               textOverflow: 'ellipsis'
             }}>
-              {currentUser?.email || 'Active User'}
+              {currentUser?.email || 'Active Session'}
             </div>
           </div>
         </div>
@@ -167,13 +166,16 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           onClick={onLogout}
           style={{
             padding: 8,
+            background: 'transparent',
+            border: 'none',
             color: 'var(--color-muted)',
             borderRadius: 8,
+            cursor: 'pointer',
             transition: 'color 0.2s ease'
           }}
           title="Sign Out"
         >
-          <LogOut size={16} />
+          <ArrowRightOnRectangleIcon style={{ width: 18, height: 18 }} />
         </button>
       </div>
     </aside>

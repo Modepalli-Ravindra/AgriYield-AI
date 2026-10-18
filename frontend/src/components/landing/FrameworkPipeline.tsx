@@ -1,5 +1,11 @@
 ﻿import React from 'react';
-import { CloudRain, CheckCircle, Cpu, ShieldCheck, FileCheck } from 'lucide-react';
+import { 
+  CloudIcon, 
+  CheckCircleIcon, 
+  CpuChipIcon, 
+  ShieldCheckIcon, 
+  DocumentCheckIcon 
+} from '@heroicons/react/24/outline';
 
 const STAGES = [
   {
@@ -7,43 +13,43 @@ const STAGES = [
     title: 'Environmental Inputs',
     subtitle: 'Climate & Agronomic Indicators',
     desc: 'Ingests rainfall, average temperature, pesticide application, country baseline, and crop species indicators.',
-    icon: CloudRain
+    icon: CloudIcon
   },
   {
     step: '02',
     title: 'Input Validation',
-    subtitle: 'Schema & OOD Protection',
+    subtitle: 'Range & Outlier Protection',
     desc: 'Validates strict numerical bounds and generates advisory alerts if climate values exceed historical training ranges.',
-    icon: CheckCircle
+    icon: CheckCircleIcon
   },
   {
     step: '03',
-    title: 'Dual ML/DL Prediction',
-    subtitle: 'Production XGBoost & Ensembles',
+    title: 'Prediction Pipeline',
+    subtitle: 'XGBoost & Deep Learning Models',
     desc: 'Inference executed through optimized gradient boosted trees with 300 estimators, capturing nonlinear interactions.',
-    icon: Cpu
+    icon: CpuChipIcon
   },
   {
     step: '04',
     title: 'Explainability & Bounds',
     subtitle: 'TreeSHAP & Conformal UQ',
     desc: 'Computes exact additive feature contributions and establishes 90% non-parametric conformal uncertainty intervals.',
-    icon: ShieldCheck
+    icon: ShieldCheckIcon
   },
   {
     step: '05',
     title: 'Decision Support',
     subtitle: 'Actionable Harvest Forecast',
     desc: 'Delivers interpretable yield estimates in metric tonnes/ha, uncertainty boundaries, and sensitivity simulations.',
-    icon: FileCheck
+    icon: DocumentCheckIcon
   }
 ];
 
 export const FrameworkPipeline: React.FC = () => {
   return (
-    <section id="methodology" style={{ padding: '100px 0', backgroundColor: '#121B11', borderBottom: '1px solid var(--color-forest-border)' }}>
+    <section id="methodology" style={{ padding: '90px 0', backgroundColor: '#121B11', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
-        <div style={{ maxWidth: 740, marginBottom: 56 }}>
+        <div style={{ maxWidth: 740, marginBottom: 50 }}>
           <span style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
@@ -52,7 +58,7 @@ export const FrameworkPipeline: React.FC = () => {
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
-            03 / SYSTEM ARCHITECTURE PIPELINE
+            APPLICATION WORKFLOW
           </span>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 42px)',
@@ -61,7 +67,7 @@ export const FrameworkPipeline: React.FC = () => {
             marginBottom: 16,
             fontWeight: 800
           }}>
-            How the DL–ML framework processes environmental data.
+            How AgriYield AI processes environmental data.
           </h2>
           <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6 }}>
             A sequential five-stage pipeline designed for scientific transparency, mathematical rigor, 
@@ -121,7 +127,7 @@ export const FrameworkPipeline: React.FC = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <Icon size={18} />
+                      <Icon style={{ width: 18, height: 18 }} />
                     </div>
                   </div>
 

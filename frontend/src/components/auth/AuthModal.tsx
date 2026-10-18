@@ -1,5 +1,10 @@
 ﻿import React, { useState } from 'react';
-import { X, Sprout, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { 
+  XMarkIcon, 
+  ExclamationCircleIcon, 
+  ArrowRightIcon, 
+  ArrowPathIcon 
+} from '@heroicons/react/24/outline';
 import * as api from '../../api';
 import type { UserProfile } from '../../types';
 
@@ -45,7 +50,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
         border: '1px solid var(--color-forest-border)',
         borderRadius: 24,
         padding: '36px',
-        color: 'var(--color-offwhite)'
+        color: 'var(--color-offwhite)',
+        position: 'relative'
       }}>
         <button 
           onClick={onClose}
@@ -57,33 +63,33 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             color: 'var(--color-muted)',
             padding: 6,
             borderRadius: 8,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
             transition: 'color 0.2s ease'
           }}
         >
-          <X size={20} />
+          <XMarkIcon style={{ width: 20, height: 20 }} />
         </button>
 
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <div style={{
-            width: 44,
-            height: 44,
-            borderRadius: 12,
-            background: 'var(--color-lime)',
-            color: '#121B11',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 12,
-            boxShadow: '0 2px 10px var(--color-lime-glow)'
-          }}>
-            <Sprout size={24} strokeWidth={2.5} />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="AgriYield AI" 
+            style={{
+              width: 54,
+              height: 54,
+              objectFit: 'contain',
+              marginBottom: 12,
+              filter: 'drop-shadow(0 2px 10px rgba(228, 253, 151, 0.35))'
+            }} 
+          />
           <h3 style={{ fontSize: 22, color: 'var(--color-offwhite)', fontWeight: 800 }}>
-            {mode === 'login' ? 'Sign in to AgriYield AI' : 'Create Researcher Account'}
+            {mode === 'login' ? 'Sign in to AgriYield AI' : 'Create Account'}
           </h3>
           <p style={{ fontSize: 13.5, color: 'var(--color-muted)', marginTop: 4 }}>
             {mode === 'login' 
-              ? 'Access verified prediction tools, batch processing, and history.'
+              ? 'Access real-time prediction tools, batch processing, and history.'
               : 'Join the environmental intelligence platform for crop analytics.'}
           </p>
         </div>
@@ -118,7 +124,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             gap: 8,
             marginBottom: 16
           }}>
-            <AlertCircle size={16} style={{ flexShrink: 0 }} />
+            <ExclamationCircleIcon style={{ width: 18, height: 18, flexShrink: 0 }} />
             <span>{error}</span>
           </div>
         )}
@@ -142,13 +148,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
 
               <div>
                 <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-org">
-                  Organization / Institution
+                  Organization / Farm Enterprise
                 </label>
                 <input 
                   id="auth-org"
                   className="form-input"
                   type="text"
-                  placeholder="e.g. Agricultural Research Centre"
+                  placeholder="e.g. Agricultural Advisory Group"
                   value={organization}
                   onChange={(e) => setOrganization(e.target.value)}
                 />
@@ -165,7 +171,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
               className="form-input"
               type="email"
               required
-              placeholder="researcher@university.edu"
+              placeholder="user@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -194,13 +200,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
           >
             {loading ? (
               <>
-                <Loader2 size={16} className="animate-spin" />
+                <ArrowPathIcon style={{ width: 16, height: 16 }} className="animate-spin" />
                 <span>{mode === 'login' ? 'Authenticating...' : 'Registering Account...'}</span>
               </>
             ) : (
               <>
                 <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
-                <ArrowRight size={16} />
+                <ArrowRightIcon style={{ width: 16, height: 16 }} />
               </>
             )}
           </button>

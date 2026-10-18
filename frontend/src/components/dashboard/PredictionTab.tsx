@@ -1,5 +1,13 @@
 ﻿import React from 'react';
-import { Sprout, ShieldCheck, AlertTriangle, LineChart, GitCompare, Loader2 } from 'lucide-react';
+import { 
+  ChartBarIcon, 
+  ShieldCheckIcon, 
+  ExclamationTriangleIcon, 
+  PresentationChartLineIcon, 
+  ArrowsRightLeftIcon, 
+  ArrowPathIcon,
+  SparklesIcon 
+} from '@heroicons/react/24/outline';
 import type { YieldInput, PredictionResponse, OptionsResponse } from '../../types';
 
 interface PredictionTabProps {
@@ -24,12 +32,20 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
   onNavigateToWhatIf
 }) => {
   const handleChange = (field: keyof YieldInput, value: any) => {
-    setInputData(prev => ({ ...prev, [field]: value }));
+    setInputData((prev) => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 28 }}>
-      {/* Input Parameters Form Card */}
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'minmax(340px, 460px) 1fr',
+      gap: 28,
+      alignItems: 'start'
+    }}>
+      {/* Parameter Control Form */}
       <div style={{
         background: 'var(--color-forest-surface)',
         borderRadius: 20,
@@ -39,7 +55,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid rgba(169, 180, 158, 0.15)' }}>
           <div style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(228, 253, 151, 0.12)', color: 'var(--color-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Sprout size={20} />
+            <ChartBarIcon style={{ width: 20, height: 20 }} />
           </div>
           <div>
             <h3 style={{ fontSize: 18, color: 'var(--color-offwhite)', fontWeight: 700 }}>Environmental & Crop Parameters</h3>
@@ -59,7 +75,9 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 value={inputData.country}
                 onChange={(e) => handleChange('country', e.target.value)}
               >
-                {options?.countries.map(c => <option key={c} value={c}>{c}</option>) || <option value="India">India</option>}
+                {options?.countries.map((c) => (
+                  <option key={c} value={c} style={{ background: '#172416' }}>{c}</option>
+                ))}
               </select>
             </div>
 
@@ -72,80 +90,92 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 value={inputData.crop}
                 onChange={(e) => handleChange('crop', e.target.value)}
               >
-                {options?.crops.map(c => <option key={c} value={c}>{c}</option>) || <option value="Wheat">Wheat</option>}
+                {options?.crops.map((cr) => (
+                  <option key={cr} value={cr} style={{ background: '#172416' }}>{cr}</option>
+                ))}
               </select>
             </div>
           </div>
 
           {/* Rainfall Slider & Input */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 13 }}>
-              <span style={{ fontWeight: 600, color: 'var(--color-muted)' }}>Expected Annual Rainfall (mm)</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-lime)' }}>{inputData.rainfall_mm} mm</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+              <label style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)' }}>
+                Average Rainfall (mm/year)
+              </label>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--color-lime)', fontWeight: 700 }}>
+                {inputData.rainfall_mm} mm
+              </span>
             </div>
             <input
               type="range"
-              min="50"
+              min="100"
               max="3500"
               step="10"
               value={inputData.rainfall_mm}
-              onChange={(e) => handleChange('rainfall_mm', parseFloat(e.target.value) || 0)}
-              style={{ width: '100%', accentColor: 'var(--color-lime)' }}
+              onChange={(e) => handleChange('rainfall_mm', parseFloat(e.target.value))}
+              style={{ width: '100%', accentColor: 'var(--color-lime)', cursor: 'pointer' }}
             />
           </div>
 
-          {/* Average Temperature Slider & Input */}
+          {/* Temperature Slider & Input */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 13 }}>
-              <span style={{ fontWeight: 600, color: 'var(--color-muted)' }}>Average Growing Temperature (°C)</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-lime)' }}>{inputData.avg_temp_c} °C</span>
-            </div>
-            <input
-              type="range"
-              min="-5"
-              max="42"
-              step="0.5"
-              value={inputData.avg_temp_c}
-              onChange={(e) => handleChange('avg_temp_c', parseFloat(e.target.value) || 0)}
-              style={{ width: '100%', accentColor: 'var(--color-lime)' }}
-            />
-          </div>
-
-          {/* Pesticide Usage Slider & Input */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 13 }}>
-              <span style={{ fontWeight: 600, color: 'var(--color-muted)' }}>Pesticides Applied (tonnes)</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-lime)' }}>{inputData.pesticides_tonnes.toLocaleString()} t</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+              <label style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)' }}>
+                Mean Temperature (°C)
+              </label>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--color-lime)', fontWeight: 700 }}>
+                {inputData.avg_temp_c.toFixed(1)} °C
+              </span>
             </div>
             <input
               type="range"
               min="0"
-              max="150000"
-              step="500"
-              value={inputData.pesticides_tonnes}
-              onChange={(e) => handleChange('pesticides_tonnes', parseFloat(e.target.value) || 0)}
-              style={{ width: '100%', accentColor: 'var(--color-lime)' }}
+              max="38"
+              step="0.5"
+              value={inputData.avg_temp_c}
+              onChange={(e) => handleChange('avg_temp_c', parseFloat(e.target.value))}
+              style={{ width: '100%', accentColor: 'var(--color-lime)', cursor: 'pointer' }}
             />
           </div>
 
-          {/* Observation Year Slider */}
+          {/* Pesticides */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 13 }}>
-              <span style={{ fontWeight: 600, color: 'var(--color-muted)' }}>Harvest Year Reference</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-lime)' }}>{inputData.year}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+              <label style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)' }}>
+                Pesticide Usage (tonnes)
+              </label>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--color-lime)', fontWeight: 700 }}>
+                {inputData.pesticides_tonnes.toLocaleString()} t
+              </span>
             </div>
             <input
-              type="range"
-              min="1990"
-              max="2013"
-              step="1"
-              value={inputData.year}
-              onChange={(e) => handleChange('year', parseInt(e.target.value) || 2000)}
-              style={{ width: '100%', accentColor: 'var(--color-lime)' }}
+              type="number"
+              className="form-input"
+              value={inputData.pesticides_tonnes}
+              onChange={(e) => handleChange('pesticides_tonnes', parseFloat(e.target.value) || 0)}
+              min="0"
             />
           </div>
 
+          {/* Harvest Year */}
+          <div>
+            <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }}>
+              Projection Year
+            </label>
+            <input
+              type="number"
+              className="form-input"
+              value={inputData.year}
+              onChange={(e) => handleChange('year', parseInt(e.target.value) || 2026)}
+              min="1990"
+              max="2035"
+            />
+          </div>
+
+          {/* Run Inference Action */}
           <button
+            type="button"
             className="btn-primary"
             onClick={onRunPrediction}
             disabled={loading}
@@ -153,12 +183,12 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           >
             {loading ? (
               <>
-                <Loader2 size={18} className="animate-spin" />
+                <ArrowPathIcon style={{ width: 18, height: 18 }} className="animate-spin" />
                 <span>Calculating Yield Forecast...</span>
               </>
             ) : (
               <>
-                <Sprout size={18} />
+                <SparklesIcon style={{ width: 18, height: 18 }} />
                 <span>Estimate Crop Yield</span>
               </>
             )}
@@ -223,7 +253,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <ShieldCheck size={18} style={{ color: 'var(--color-lime)' }} />
+                  <ShieldCheckIcon style={{ width: 18, height: 18, color: 'var(--color-lime)' }} />
                   <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-offwhite)' }}>
                     90% Confidence Interval
                   </span>
@@ -272,7 +302,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 gap: 10,
                 alignItems: 'flex-start'
               }}>
-                <AlertTriangle size={18} style={{ color: '#F59E0B', flexShrink: 0, marginTop: 2 }} />
+                <ExclamationTriangleIcon style={{ width: 18, height: 18, color: '#F59E0B', flexShrink: 0, marginTop: 2 }} />
                 <div style={{ fontSize: 12.5, color: '#FDE68A' }}>
                   {prediction.warnings.map((w: string, idx: number) => <div key={idx}>{w}</div>)}
                 </div>
@@ -286,7 +316,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 onClick={onNavigateToExplain}
                 style={{ flex: 1, padding: '11px 0', fontSize: 13.5 }}
               >
-                <LineChart size={15} />
+                <PresentationChartLineIcon style={{ width: 16, height: 16 }} />
                 <span>Explain Influences</span>
               </button>
               <button
@@ -294,7 +324,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 onClick={onNavigateToWhatIf}
                 style={{ flex: 1, padding: '11px 0', fontSize: 13.5 }}
               >
-                <GitCompare size={15} />
+                <ArrowsRightLeftIcon style={{ width: 16, height: 16 }} />
                 <span>What-If Scenario</span>
               </button>
             </div>
@@ -321,7 +351,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               justifyContent: 'center',
               marginBottom: 16
             }}>
-              <Sprout size={26} />
+              <SparklesIcon style={{ width: 26, height: 26 }} />
             </div>
             <h4 style={{ fontSize: 16, color: 'var(--color-offwhite)', fontWeight: 700, marginBottom: 6 }}>
               Ready for Prediction

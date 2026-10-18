@@ -1,5 +1,9 @@
 ﻿import React from 'react';
-import { ShieldCheck, LogOut, ArrowLeft } from 'lucide-react';
+import { 
+  ShieldCheckIcon, 
+  ArrowLeftIcon, 
+  ArrowRightOnRectangleIcon 
+} from '@heroicons/react/24/outline';
 import type { UserProfile } from '../../types';
 
 interface AppHeaderProps {
@@ -42,7 +46,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           fontFamily: 'var(--font-mono)'
         }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--color-lime)', boxShadow: '0 0 8px var(--color-lime)' }} />
-          <span>INSFORGE POSTGRES ONLINE</span>
+          <span>DATABASE ONLINE</span>
         </div>
 
         <div style={{
@@ -58,7 +62,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           fontFamily: 'var(--font-mono)',
           fontWeight: 700
         }}>
-          <ShieldCheck size={14} />
+          <ShieldCheckIcon style={{ width: 15, height: 15 }} />
           <span>90% CONFIDENCE BOUNDS</span>
         </div>
 
@@ -70,10 +74,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
               fontSize: 12.5,
               fontWeight: 600,
               padding: '6px 14px',
-              borderRadius: 8
+              borderRadius: 8,
+              cursor: 'pointer'
             }}
           >
-            <ArrowLeft size={14} />
+            <ArrowLeftIcon style={{ width: 14, height: 14 }} />
             <span>Public Home</span>
           </button>
         )}
@@ -91,11 +96,12 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             borderRadius: 8,
             fontSize: 12.5,
             fontWeight: 600,
+            cursor: 'pointer',
             transition: 'all 0.2s ease'
           }}
           title="Sign out of current session"
         >
-          <LogOut size={14} />
+          <ArrowRightOnRectangleIcon style={{ width: 15, height: 15 }} />
           <span>Logout</span>
         </button>
       </div>

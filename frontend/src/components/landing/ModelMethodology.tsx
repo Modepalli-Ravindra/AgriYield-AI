@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
 
 const MODELS = [
   {
@@ -46,7 +46,7 @@ const MODELS = [
 
 export const ModelMethodology: React.FC = () => {
   return (
-    <section id="insights" style={{ padding: '100px 0', backgroundColor: '#152214', borderBottom: '1px solid var(--color-forest-border)' }}>
+    <section id="insights" style={{ padding: '90px 0', backgroundColor: '#152214', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
         <div style={{ maxWidth: 740, marginBottom: 50 }}>
           <span style={{
@@ -57,7 +57,7 @@ export const ModelMethodology: React.FC = () => {
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
-            04 / MODEL METHODOLOGY & BENCHMARKS
+            MODEL BENCHMARKS
           </span>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 42px)',
@@ -76,7 +76,7 @@ export const ModelMethodology: React.FC = () => {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: 24
         }}>
           {MODELS.map((m, idx) => (
@@ -109,7 +109,7 @@ export const ModelMethodology: React.FC = () => {
                   </span>
                   {m.active && (
                     <span style={{ color: 'var(--color-lime)', display: 'flex', alignItems: 'center', gap: 4, fontSize: 12 }}>
-                      <CheckCircle2 size={14} />
+                      <CheckCircleIcon style={{ width: 15, height: 15 }} />
                       <span style={{ fontFamily: 'var(--font-mono)' }}>LIVE</span>
                     </span>
                   )}

@@ -1,11 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { 
-  Loader2, 
-  Download, 
-  Filter, 
-  Search, 
-  Sprout
-} from 'lucide-react';
+﻿import React, { useEffect, useState, useMemo } from 'react';
+import { Loader2, Download, Filter, Search } from 'lucide-react';
+import { SparklesIcon } from '@heroicons/react/24/outline';
 import type { HistoryRecord } from '../../types';
 import * as api from '../../api';
 
@@ -76,7 +71,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
 
     return {
       avgYield: validYieldCount > 0 ? (totalYield / validYieldCount).toFixed(2) : '0.00',
-      avgSpread: boundCount > 0 ? `±${(totalBoundSpread / boundCount / 2).toFixed(2)}` : '±1.15',
+      avgSpread: boundCount > 0 ? `Â±${(totalBoundSpread / boundCount / 2).toFixed(2)}` : 'Â±1.15',
       topCrop,
       totalRuns: records.length
     };
@@ -300,7 +295,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
               justifyContent: 'center',
               margin: '0 auto 18px'
             }}>
-              <Sprout size={28} />
+              <SparklesIcon style={{ width: 28, height: 28 }} />
             </div>
             <h4 style={{ fontSize: 18, color: 'var(--color-offwhite)', fontWeight: 700, marginBottom: 8 }}>
               No Predictions Saved Yet
@@ -314,7 +309,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
                 onClick={onNavigateToPredict}
                 style={{ padding: '10px 22px', fontSize: 14 }}
               >
-                <Sprout size={16} />
+                <SparklesIcon style={{ width: 16, height: 16 }} />
                 <span>Make Your First Prediction</span>
               </button>
             )}
@@ -331,7 +326,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
                   <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Rainfall</th>
                   <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>Avg Temp</th>
                   <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-lime)' }}>Predicted Yield</th>
-                  <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>90% Range (Min–Max)</th>
+                  <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--color-offwhite)' }}>90% Range (Minâ€“Max)</th>
                 </tr>
               </thead>
               <tbody>
@@ -366,12 +361,12 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
                       {r.rainfall_mm} mm
                     </td>
                     <td style={{ padding: '14px 18px', fontFamily: 'var(--font-mono)', color: 'var(--color-offwhite)' }}>
-                      {r.avg_temp_c}°C
+                      {r.avg_temp_c}Â°C
                     </td>
                     <td style={{ padding: '14px 18px', fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: 14.5, color: 'var(--color-lime)' }}>
                       {typeof r.predicted_yield_tonnes_per_ha === 'number' 
                         ? `${r.predicted_yield_tonnes_per_ha.toFixed(2)} t/ha`
-                        : '—'}
+                        : 'â€”'}
                     </td>
                     <td style={{ padding: '14px 18px', fontFamily: 'var(--font-mono)', fontSize: 12.5 }}>
                       {r.conformal_lower_bound !== undefined && r.conformal_upper_bound !== undefined ? (
@@ -383,9 +378,9 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
                           fontWeight: 600,
                           color: 'var(--color-offwhite)'
                         }}>
-                          {r.conformal_lower_bound.toFixed(2)} – {r.conformal_upper_bound.toFixed(2)} t/ha
+                          {r.conformal_lower_bound.toFixed(2)} â€“ {r.conformal_upper_bound.toFixed(2)} t/ha
                         </span>
-                      ) : '—'}
+                      ) : 'â€”'}
                     </td>
                   </tr>
                 ))}
@@ -397,3 +392,4 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
     </div>
   );
 };
+

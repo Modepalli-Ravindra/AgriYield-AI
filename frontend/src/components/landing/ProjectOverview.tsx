@@ -1,11 +1,16 @@
 ﻿import React from 'react';
-import { CloudRain, Scale, ShieldAlert, Cpu } from 'lucide-react';
+import { 
+  CloudIcon, 
+  CpuChipIcon, 
+  ScaleIcon, 
+  ShieldCheckIcon 
+} from '@heroicons/react/24/outline';
 
 export const ProjectOverview: React.FC = () => {
   return (
-    <section id="overview" style={{ padding: '100px 0', backgroundColor: '#152214' }}>
+    <section id="overview" style={{ padding: '90px 0', backgroundColor: '#152214' }}>
       <div className="container">
-        <div style={{ maxWidth: 780, marginBottom: 56 }}>
+        <div style={{ maxWidth: 780, marginBottom: 50 }}>
           <span style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
@@ -14,30 +19,30 @@ export const ProjectOverview: React.FC = () => {
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
-            01 / PROJECT OVERVIEW
+            INTELLIGENCE ARCHITECTURE
           </span>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 44px)',
             color: 'var(--color-offwhite)',
             marginTop: 12,
-            marginBottom: 18,
+            marginBottom: 16,
             letterSpacing: '-0.025em',
             fontWeight: 800
           }}>
-            Bridging environmental climate science with machine intelligence.
+            Environmental climate science meets machine intelligence.
           </h2>
-          <p style={{ fontSize: 16.5, color: 'var(--color-muted)', lineHeight: 1.65 }}>
-            Agricultural productivity faces unprecedented variability due to shifting rainfall regimes, 
-            rising temperature anomalies, and variable chemical input efficiency. AgriYield AI provides 
-            a mathematically grounded, dual-model architecture to reliably estimate harvest yield before fieldwork begins.
+          <p style={{ fontSize: 16.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+            Agricultural productivity faces variability from shifting rainfall patterns, temperature 
+            extremes, and changing input conditions. AgriYield AI delivers a calibrated, multi-model 
+            pipeline to estimate harvest outcomes with full attribution and confidence bounds.
           </p>
         </div>
 
         {/* 4 Pillars in clean symmetrical 2x2 grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: 28
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: 24
         }}>
           <div style={{
             background: 'var(--color-forest-surface)',
@@ -58,14 +63,14 @@ export const ProjectOverview: React.FC = () => {
               justifyContent: 'center',
               marginBottom: 20
             }}>
-              <CloudRain size={22} />
+              <CloudIcon style={{ width: 22, height: 22 }} />
             </div>
-            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 12, fontWeight: 700 }}>
-              Climate & Weather Volatility
+            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 10, fontWeight: 700 }}>
+              Climate Volatility Analysis
             </h3>
             <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
-              Extreme precipitation fluctuations, prolonged heat spells, and changing seasons directly threaten food security. 
-              Traditional agronomic lookup tables fail to capture complex, multi-factor climate dependencies.
+              Precipitation anomalies and heat stress are mapped continuously across regional historical baselines, 
+              capturing non-linear climate dependencies that traditional agronomic tables miss.
             </p>
           </div>
 
@@ -88,14 +93,14 @@ export const ProjectOverview: React.FC = () => {
               justifyContent: 'center',
               marginBottom: 20
             }}>
-              <Cpu size={22} />
+              <CpuChipIcon style={{ width: 22, height: 22 }} />
             </div>
-            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 12, fontWeight: 700 }}>
-              Integrated ML & DL Architectures
+            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 10, fontWeight: 700 }}>
+              Integrated ML & DL Models
             </h3>
             <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
-              Combining gradient-boosted trees (XGBoost, LightGBM, Random Forest) with deep neural networks 
-              (PyTorch MLP) allows the system to capture both tabular feature splits and deep continuous cross-interactions.
+              Ensemble gradient-boosted trees (XGBoost, LightGBM, Random Forest) together with deep neural 
+              networks (PyTorch MLP) capture tabular feature boundaries and complex continuous manifolds.
             </p>
           </div>
 
@@ -118,14 +123,14 @@ export const ProjectOverview: React.FC = () => {
               justifyContent: 'center',
               marginBottom: 20
             }}>
-              <Scale size={22} />
+              <ScaleIcon style={{ width: 22, height: 22 }} />
             </div>
-            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 12, fontWeight: 700 }}>
+            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 10, fontWeight: 700 }}>
               Explainable Decision Support
             </h3>
             <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
-              Black-box predictions lack credibility in scientific and farming contexts. We utilize TreeSHAP 
-              (Shapley Additive exPlanations) to transparently isolate each factor's exact marginal contribution in tonnes per hectare.
+              TreeSHAP attribution decomposes predictions into exact marginal contributions (t/ha), allowing 
+              users to understand exactly how temperature, rainfall, and inputs influence the harvest.
             </p>
           </div>
 
@@ -148,14 +153,14 @@ export const ProjectOverview: React.FC = () => {
               justifyContent: 'center',
               marginBottom: 20
             }}>
-              <ShieldAlert size={22} />
+              <ShieldCheckIcon style={{ width: 22, height: 22 }} />
             </div>
-            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 12, fontWeight: 700 }}>
-              Conformal Uncertainty Bounds
+            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 10, fontWeight: 700 }}>
+              Calibrated Uncertainty Bounds
             </h3>
             <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
-              Point estimates can be misleading under severe weather anomalies. Group-aware conformal prediction 
-              generates rigorous 90% confidence bands, giving farmers reliable best-case and worst-case harvest expectations.
+              Group-conditional conformal prediction provides guaranteed 90% confidence bands, giving farmers 
+              realistic best-case and worst-case harvest expectations under climate uncertainty.
             </p>
           </div>
         </div>

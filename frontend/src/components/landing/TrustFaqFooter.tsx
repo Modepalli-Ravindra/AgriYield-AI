@@ -1,26 +1,32 @@
 ﻿import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, ExternalLink, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { 
+  ChevronDownIcon, 
+  ChevronUpIcon, 
+  ShieldCheckIcon, 
+  ExclamationTriangleIcon, 
+  ArrowTopRightOnSquareIcon 
+} from '@heroicons/react/24/outline';
 
 const FAQS = [
   {
-    q: 'How does the framework calculate crop yields in metric tonnes?',
-    a: 'The underlying XGBoost regressor evaluates agricultural indicators in hectograms per hectare (hg/ha) and standardizes them to metric tonnes per hectare (t/ha) by dividing by 10,000, aligning with international agronomic reporting standards.'
+    q: 'How does AgriYield AI predict crop yields?',
+    a: 'AgriYield AI uses an optimized XGBoost gradient-boosted decision tree pipeline (300 estimators, max depth 6) trained on extensive multi-decade environmental and agronomic datasets. It integrates rainfall, mean temperature, pesticide volume, soil profile, and regional baselines.'
   },
   {
-    q: 'What does the 90% conformal uncertainty interval guarantee?',
-    a: 'Conformal prediction provides a distribution-free mathematical guarantee: given typical test conditions, the true harvest yield will fall within the lower and upper bounds at least 90% of the time, calculated crop-by-crop without unrealistic gaussian assumptions.'
+    q: 'What is the significance of the 90% confidence interval?',
+    a: 'Rather than only providing an isolated point estimate, the platform applies group-aware conformal prediction calibrated on disjoint validation splits to produce statistically bounded lower and upper yield limits (t/ha).'
   },
   {
-    q: 'How does the framework handle unknown crops or regions?',
-    a: 'When an uncataloged crop or regional name is supplied, the encoder applies neutral categorical zero weights, activates global uncertainty margins, and includes an advisory notice informing the user of broader variance.'
+    q: 'How are factor contributions calculated?',
+    a: 'We implement exact TreeSHAP (Shapley Additive exPlanations) directly on tree decision paths to calculate additive marginal contributions in metric tonnes/ha for each environmental variable.'
   },
   {
-    q: 'What is the difference between this estimate and actual harvest?',
-    a: 'AgriYield AI estimates yield potential based on macro-environmental conditions (rainfall, temperature, pesticides). It serves as a dependable strategic baseline and complements localized soil moisture and micro-irrigation management.'
+    q: 'Can I test custom weather or agrochemical scenarios?',
+    a: 'Yes. The Sensitivity & What-If scenario consoles allow you to vary rainfall, temperature, or chemical treatments dynamically by ±50% to observe the predicted yield response curve.'
   },
   {
-    q: 'How is user data protected in the cloud database?',
-    a: 'All accounts and prediction records are maintained in a secure InsForge PostgreSQL database with Argon2id password hashing, user-level isolation, and encrypted JWT authentication.'
+    q: 'How is user data protected in the platform?',
+    a: 'All accounts and prediction records are maintained in a secure PostgreSQL database with Argon2id password hashing, user-level isolation, and encrypted JWT authentication.'
   }
 ];
 
@@ -29,8 +35,8 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
 
   return (
     <>
-      {/* Trust & Scientific Limitations Section */}
-      <section style={{ padding: '90px 0', backgroundColor: '#152214', borderTop: '1px solid var(--color-forest-border)' }}>
+      {/* Application Trust & Practical Guidelines Section */}
+      <section style={{ padding: '80px 0', backgroundColor: '#152214', borderTop: '1px solid var(--color-forest-border)' }}>
         <div className="container">
           <div style={{
             background: 'var(--color-forest-surface)',
@@ -54,16 +60,16 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <ShieldCheck size={20} />
+                  <ShieldCheckIcon style={{ width: 20, height: 20 }} />
                 </div>
                 <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', fontWeight: 700 }}>
-                  Intended Research Application
+                  Intended Application Use
                 </h3>
               </div>
               <p style={{ fontSize: 14, color: 'var(--color-muted)', lineHeight: 1.6 }}>
                 AgriYield AI is engineered for regional crop yield estimation, agro-climatic sensitivity modeling, 
-                and uncertainty assessment. It helps agricultural researchers, policy analysts, and farm managers 
-                assess the likely impact of weather anomalies on harvest volume.
+                and uncertainty assessment. It helps agricultural planners, policy analysts, and farm managers 
+                evaluate the likely impact of weather patterns on harvest volume.
               </p>
             </div>
 
@@ -79,10 +85,10 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <AlertTriangle size={20} />
+                  <ExclamationTriangleIcon style={{ width: 20, height: 20 }} />
                 </div>
                 <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', fontWeight: 700 }}>
-                  Model Limitations & Farm Disclaimers
+                  Advisory Guidelines & Disclaimers
                 </h3>
               </div>
               <p style={{ fontSize: 14, color: 'var(--color-muted)', lineHeight: 1.6 }}>
@@ -97,7 +103,7 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
       {/* FAQ Section */}
       <section id="faq" style={{ padding: '90px 0', backgroundColor: '#121B11' }}>
         <div className="container" style={{ maxWidth: 880 }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <span style={{
               fontFamily: 'var(--font-mono)',
               fontSize: 12,
@@ -106,7 +112,7 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
               letterSpacing: '0.05em',
               textTransform: 'uppercase'
             }}>
-              06 / FREQUENTLY ASKED QUESTIONS
+              FREQUENTLY ASKED QUESTIONS
             </span>
             <h2 style={{
               fontSize: 'clamp(28px, 3.8vw, 42px)',
@@ -142,6 +148,9 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       textAlign: 'left',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
                       color: isOpen ? 'var(--color-lime)' : 'var(--color-offwhite)',
                       fontSize: 16,
                       fontWeight: 600,
@@ -149,7 +158,11 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                     }}
                   >
                     <span>{faq.q}</span>
-                    {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                    {isOpen ? (
+                      <ChevronUpIcon style={{ width: 18, height: 18, flexShrink: 0 }} />
+                    ) : (
+                      <ChevronDownIcon style={{ width: 18, height: 18, flexShrink: 0 }} />
+                    )}
                   </button>
                   {isOpen && (
                     <div style={{
@@ -183,13 +196,25 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
           flexWrap: 'wrap',
           gap: 24
         }}>
-          <div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 6 }}>
-              AgriYield AI
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <img 
+              src="/logo.png" 
+              alt="AgriYield AI Logo" 
+              style={{
+                width: 40,
+                height: 40,
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 2px 8px rgba(228, 253, 151, 0.35))'
+              }} 
+            />
+            <div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 2 }}>
+                AgriYield AI
+              </div>
+              <p style={{ fontSize: 13, color: 'var(--color-muted)', maxWidth: 440, margin: 0 }}>
+                Intelligent crop yield estimation powered by environmental data.
+              </p>
             </div>
-            <p style={{ fontSize: 13, color: 'var(--color-muted)', maxWidth: 440 }}>
-              An AI-driven DL–ML integrated framework for crop yield prediction using environmental factors.
-            </p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
@@ -206,20 +231,20 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                 fontWeight: 600
               }}
             >
-              <span>GitHub Repository</span>
-              <ExternalLink size={14} />
+              <span>GitHub</span>
+              <ArrowTopRightOnSquareIcon style={{ width: 15, height: 15 }} />
             </a>
             <button
               className="btn-primary"
               onClick={onGetStarted}
               style={{ padding: '8px 20px', fontSize: 13 }}
             >
-              Sign In / Register
+              Launch Console
             </button>
           </div>
         </div>
         <div className="container" style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid rgba(169, 180, 158, 0.12)', fontSize: 12, color: 'var(--color-muted-dark)', textAlign: 'center' }}>
-          AgriYield AI Platform • Research & Production Release
+          AgriYield AI Platform · Enterprise Environmental Intelligence
         </div>
       </footer>
     </>

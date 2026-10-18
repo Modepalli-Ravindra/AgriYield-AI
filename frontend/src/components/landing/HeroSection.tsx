@@ -1,33 +1,52 @@
 ﻿import React from 'react';
-import { ArrowRight, Cpu, BarChart3, ShieldCheck, ThermometerSun, Sparkles } from 'lucide-react';
-import { CanvasReveal } from './CanvasReveal';
+import { 
+  ArrowRightIcon, 
+  ChartBarIcon, 
+  ShieldCheckIcon, 
+  SunIcon, 
+  SparklesIcon,
+  CpuChipIcon
+} from '@heroicons/react/24/outline';
+import { HeroAppAnimation } from './HeroAppAnimation';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
   onExploreMethodology: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExploreMethodology }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({
+  onGetStarted,
+  onExploreMethodology
+}) => {
   return (
-    <section className="hero-section" style={{
+    <section style={{
       position: 'relative',
-      minHeight: '92vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '130px 24px 80px',
-      background: 'radial-gradient(ellipse at 50% 15%, #243523 0%, #172416 45%, #10180F 100%)',
-      overflow: 'hidden'
+      paddingTop: 140,
+      paddingBottom: 80,
+      overflow: 'hidden',
+      backgroundColor: '#121B11'
     }}>
-      <CanvasReveal />
-      
-      <div className="container" style={{ position: 'relative', zIndex: 10, textAlign: 'center', maxWidth: 1100 }}>
+      {/* Background radial gradient glow */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '100%',
+        maxWidth: 1200,
+        height: 600,
+        background: 'radial-gradient(ellipse at 50% 10%, rgba(228, 253, 151, 0.12) 0%, rgba(18, 27, 17, 0) 70%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+
+      <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
         {/* Editorial Pill */}
         <div style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: 8,
-          background: 'rgba(228, 253, 151, 0.1)',
+          background: 'rgba(228, 253, 151, 0.08)',
           border: '1px solid rgba(228, 253, 151, 0.25)',
           padding: '6px 16px',
           borderRadius: 100,
@@ -38,33 +57,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExplor
           fontWeight: 700,
           letterSpacing: '0.04em'
         }}>
-          <Cpu size={14} />
-          <span>RESEARCH-GRADE AGRI-TECH FRAMEWORK</span>
+          <CpuChipIcon style={{ width: 15, height: 15 }} />
+          <span>ENVIRONMENTAL INTELLIGENCE PLATFORM</span>
         </div>
 
         {/* Headline */}
         <h1 style={{
           fontSize: 'clamp(36px, 5.2vw, 68px)',
-          lineHeight: 1.1,
+          lineHeight: 1.12,
           fontWeight: 800,
           color: 'var(--color-offwhite)',
           letterSpacing: '-0.03em',
           maxWidth: 960,
-          margin: '0 auto 24px'
+          margin: '0 auto 20px'
         }}>
           Predict crop yields with <span style={{ color: 'var(--color-lime)' }}>environmental intelligence</span>.
         </h1>
 
-        {/* Supporting Copy */}
+        {/* Supporting Copy - Claude Style Product Copy */}
         <p style={{
-          fontSize: 'clamp(16px, 1.3vw, 19px)',
+          fontSize: 'clamp(16px, 1.25vw, 19px)',
           color: 'var(--color-muted)',
-          maxWidth: 780,
+          maxWidth: 720,
           margin: '0 auto 36px',
           lineHeight: 1.6
         }}>
-          An integrated machine-learning and deep-learning framework that analyzes environmental 
-          factors to estimate crop yield, explain influential variables, and communicate prediction uncertainty.
+          A production application combining machine learning, regional climate data, and 
+          conformal uncertainty bounds to give farmers and agronomists clear yield expectations.
         </p>
 
         {/* Action CTAs */}
@@ -74,21 +93,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExplor
           justifyContent: 'center',
           gap: 16,
           flexWrap: 'wrap',
-          marginBottom: 60
+          marginBottom: 50
         }}>
           <button className="btn-primary" onClick={onGetStarted} style={{ padding: '14px 32px', fontSize: 15 }}>
-            <span>Get Started</span>
-            <ArrowRight size={16} />
+            <span>Launch Prediction Console</span>
+            <ArrowRightIcon style={{ width: 16, height: 16 }} />
           </button>
           <button className="btn-secondary" onClick={onExploreMethodology} style={{ padding: '14px 28px', fontSize: 15 }}>
-            <span>Explore the methodology</span>
+            <span>Explore How It Works</span>
           </button>
         </div>
 
-        {/* Key Metrics & Features Grid — Balanced Geometry, No Mock Clutter */}
+        {/* Embedded Interactive Animation Component */}
+        <HeroAppAnimation />
+
+        {/* Key Metrics Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
           gap: 20,
           textAlign: 'left'
         }}>
@@ -112,7 +134,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExplor
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <BarChart3 size={18} />
+                <ChartBarIcon style={{ width: 18, height: 18 }} />
               </div>
               <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
                 PREDICTIVE PRECISION
@@ -122,7 +144,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExplor
               96.8% Accuracy
             </div>
             <p style={{ fontSize: 13, color: 'var(--color-muted)', lineHeight: 1.5 }}>
-              R² = 0.9681 & 1.46 t/ha RMSE evaluated across strict 4-way disjoint geographic test splits.
+              R² = 0.9681 & 1.46 t/ha RMSE evaluated across strict disjoint geographic test splits.
             </p>
           </div>
 
@@ -146,7 +168,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExplor
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <ShieldCheck size={18} />
+                <ShieldCheckIcon style={{ width: 18, height: 18 }} />
               </div>
               <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
                 UNCERTAINTY BOUNDS
@@ -156,7 +178,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExplor
               90% Confidence
             </div>
             <p style={{ fontSize: 13, color: 'var(--color-muted)', lineHeight: 1.5 }}>
-              Non-parametric crop-conditional conformal intervals showing guaranteed lower and upper harvest bounds.
+              Statistically calibrated conformal prediction intervals showing best-case and worst-case bounds.
             </p>
           </div>
 
@@ -180,7 +202,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExplor
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <ThermometerSun size={18} />
+                <SunIcon style={{ width: 18, height: 18 }} />
               </div>
               <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
                 ENVIRONMENTAL FACTORS
@@ -214,7 +236,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onExplor
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <Sparkles size={18} />
+                <SparklesIcon style={{ width: 18, height: 18 }} />
               </div>
               <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
                 LOCAL & GLOBAL SHAP

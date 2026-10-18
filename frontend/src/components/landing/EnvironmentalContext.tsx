@@ -1,9 +1,16 @@
 ﻿import React from 'react';
-import { CloudRain, Thermometer, FlaskConical, Calendar, Globe, Sprout } from 'lucide-react';
+import { 
+  CloudIcon, 
+  SunIcon, 
+  BeakerIcon, 
+  CalendarDaysIcon, 
+  GlobeAltIcon, 
+  SparklesIcon 
+} from '@heroicons/react/24/outline';
 
 const INPUT_FIELDS = [
   {
-    icon: Globe,
+    icon: GlobeAltIcon,
     name: 'Country / Region',
     field: 'country',
     unit: '101 Global Regions',
@@ -11,7 +18,7 @@ const INPUT_FIELDS = [
     importance: 'Captures baseline soil typology, regional topography, and macroscopic agro-climatic conditions.'
   },
   {
-    icon: Sprout,
+    icon: SparklesIcon,
     name: 'Crop Species',
     field: 'crop',
     unit: '10 Staple Crops',
@@ -19,31 +26,31 @@ const INPUT_FIELDS = [
     importance: 'Governs photosynthetic efficiency (C3 vs C4), physiological water needs, and biological yield ceilings.'
   },
   {
-    icon: CloudRain,
+    icon: CloudIcon,
     name: 'Precipitation',
     field: 'rainfall_mm',
     unit: 'mm / year',
-    typical: '200 – 3,200 mm',
+    typical: '200 — 3,200 mm',
     importance: 'Directly drives soil moisture availability during critical vegetative, flowering, and grain-filling stages.'
   },
   {
-    icon: Thermometer,
+    icon: SunIcon,
     name: 'Mean Temperature',
     field: 'avg_temp_c',
     unit: '°C',
-    typical: '1.5°C – 30.5°C',
+    typical: '1.5°C — 30.5°C',
     importance: 'Controls thermal growing degree days (GDD), transpiration rates, and metabolic heat stress thresholds.'
   },
   {
-    icon: FlaskConical,
+    icon: BeakerIcon,
     name: 'Pesticide Application',
     field: 'pesticides_tonnes',
     unit: 'metric tonnes',
-    typical: '0.04 – 398,000 tonnes',
+    typical: '0.04 — 398,000 tonnes',
     importance: 'Quantifies crop protection intensity mitigating biomass loss from regional pests and fungal pathogens.'
   },
   {
-    icon: Calendar,
+    icon: CalendarDaysIcon,
     name: 'Harvest Year',
     field: 'year',
     unit: 'Calendar Year',
@@ -54,7 +61,7 @@ const INPUT_FIELDS = [
 
 export const EnvironmentalContext: React.FC = () => {
   return (
-    <section style={{ padding: '100px 0', backgroundColor: '#152214' }}>
+    <section style={{ padding: '90px 0', backgroundColor: '#152214' }}>
       <div className="container">
         <div style={{ maxWidth: 740, marginBottom: 50 }}>
           <span style={{
@@ -65,7 +72,7 @@ export const EnvironmentalContext: React.FC = () => {
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
-            05 / ENVIRONMENTAL INPUTS
+            ENVIRONMENTAL DRIVERS
           </span>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 42px)',
@@ -74,7 +81,7 @@ export const EnvironmentalContext: React.FC = () => {
             marginBottom: 16,
             fontWeight: 800
           }}>
-            Verified agricultural features accepted by the pipeline.
+            Agricultural features analyzed by the pipeline.
           </h2>
           <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6 }}>
             Every prediction is conditioned on genuine agro-climatic indicators validated against 
@@ -84,7 +91,7 @@ export const EnvironmentalContext: React.FC = () => {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: 24
         }}>
           {INPUT_FIELDS.map((item, idx) => {
@@ -121,7 +128,7 @@ export const EnvironmentalContext: React.FC = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <Icon size={20} />
+                      <Icon style={{ width: 20, height: 20 }} />
                     </div>
                     <span style={{
                       fontFamily: 'var(--font-mono)',

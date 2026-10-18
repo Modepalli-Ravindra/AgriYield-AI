@@ -1,6 +1,6 @@
 ﻿import React from 'react';
+import { SparklesIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 import { 
-  Sprout, 
   ArrowRight, 
   LineChart, 
   Sliders, 
@@ -69,7 +69,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
             onClick={() => onNavigate('predict')}
             style={{ padding: '12px 22px', fontSize: 14 }}
           >
-            <Sprout size={16} />
+            <SparklesIcon style={{ width: 16, height: 16 }} />
             <span>New Prediction</span>
           </button>
           <button 
@@ -207,7 +207,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
               justifyContent: 'center',
               marginBottom: 14
             }}>
-              <Sprout size={20} />
+              <ChartBarIcon style={{ width: 20, height: 20 }} />
             </div>
             <h4 style={{ fontSize: 17, color: 'var(--color-offwhite)', marginBottom: 6, fontWeight: 700 }}>
               Single Crop Prediction
@@ -404,3 +404,4 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
     </div>
   );
 };
+
