@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { 
   ChartBarIcon, 
   PresentationChartLineIcon, 
@@ -55,31 +55,30 @@ const CAPABILITIES = [
 
 export const BentoGrid: React.FC = () => {
   return (
-    <section id="features" style={{ padding: '90px 0', backgroundColor: '#121B11', borderTop: '1px solid var(--color-forest-border)', borderBottom: '1px solid var(--color-forest-border)' }}>
+    <section id="features" style={{ padding: '60px 0', backgroundColor: '#121B11', borderTop: '1px solid var(--color-forest-border)', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
         {/* Centered Section Header */}
-        <div style={{ maxWidth: 1100, margin: '0 auto 48px', textAlign: 'center' }}>
-          <div className="section-pill-badge">
+        <div style={{ maxWidth: 1100, margin: '0 auto 36px', textAlign: 'center' }}>
+          <div className="section-pill-badge" style={{ marginBottom: 12 }}>
             <ChartBarIcon />
             <span>CORE CAPABILITIES</span>
           </div>
           <h2 style={{
-            fontSize: 'clamp(24px, 2.4vw, 36px)',
+            fontSize: 'clamp(22px, 2.2vw, 32px)',
             color: 'var(--color-offwhite)',
-            marginTop: 10,
-            marginBottom: 14,
+            marginBottom: 10,
             fontWeight: 800,
             letterSpacing: '-0.025em'
           }}>
             Comprehensive intelligence for agricultural planning.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 840, margin: '0 auto' }}>
+          <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.5, maxWidth: 840, margin: '0 auto' }}>
             Every tool in the AgriYield AI suite connects directly to the validated backend API, 
             providing instant single-field inferences, batch processing, and uncertainty analysis.
           </p>
         </div>
 
-        {/* Symmetrical Uniform 3x2 Grid - All cards identical size */}
+        {/* Compact Symmetrical Uniform 3x2 Grid */}
         <div className="capabilities-grid">
           {CAPABILITIES.map((item, idx) => {
             const Icon = item.icon;
@@ -89,37 +88,36 @@ export const BentoGrid: React.FC = () => {
                 style={{
                   background: 'var(--color-forest-surface)',
                   border: '1px solid var(--color-forest-border)',
-                  borderRadius: 20,
-                  padding: 28,
+                  borderRadius: 16,
+                  padding: '18px 20px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   boxShadow: 'var(--shadow-card)',
-                  transition: 'all 0.25s ease',
-                  minHeight: 280
+                  transition: 'all 0.25s ease'
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                     <div style={{
-                      width: 42,
-                      height: 42,
-                      borderRadius: 12,
+                      width: 36,
+                      height: 36,
+                      borderRadius: 10,
                       background: 'rgba(228, 253, 151, 0.12)',
                       color: 'var(--color-lime)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <Icon style={{ width: 20, height: 20 }} />
+                      <Icon style={{ width: 18, height: 18 }} />
                     </div>
                     <span style={{
                       fontFamily: 'var(--font-mono)',
-                      fontSize: 11,
+                      fontSize: 10.5,
                       fontWeight: 700,
                       color: 'var(--color-lime)',
                       background: 'rgba(228, 253, 151, 0.12)',
-                      padding: '4px 10px',
+                      padding: '3px 9px',
                       borderRadius: 100,
                       letterSpacing: '0.04em'
                     }}>
@@ -127,19 +125,19 @@ export const BentoGrid: React.FC = () => {
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: 19, color: 'var(--color-offwhite)', marginBottom: 8, fontWeight: 700 }}>
+                  <h3 style={{ fontSize: 17, color: 'var(--color-offwhite)', marginBottom: 6, fontWeight: 700 }}>
                     {item.title}
                   </h3>
-                  <p style={{ fontSize: 13.5, color: 'var(--color-muted)', lineHeight: 1.55 }}>
+                  <p style={{ fontSize: 12.8, color: 'var(--color-muted)', lineHeight: 1.48 }}>
                     {item.desc}
                   </p>
                 </div>
 
                 <div style={{
-                  paddingTop: 16,
-                  marginTop: 20,
+                  paddingTop: 12,
+                  marginTop: 14,
                   borderTop: '1px solid rgba(169, 180, 158, 0.14)',
-                  fontSize: 12,
+                  fontSize: 11.5,
                   fontFamily: 'var(--font-mono)',
                   color: 'var(--color-lime)',
                   display: 'flex',

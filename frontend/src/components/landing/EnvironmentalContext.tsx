@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { 
   CloudIcon, 
   SunIcon, 
@@ -61,30 +61,29 @@ const INPUT_FIELDS = [
 
 export const EnvironmentalContext: React.FC = () => {
   return (
-    <section style={{ padding: '90px 0', backgroundColor: '#152214' }}>
+    <section style={{ padding: '60px 0', backgroundColor: '#152214' }}>
       <div className="container">
         {/* Centered Section Header */}
-        <div style={{ maxWidth: 1050, margin: '0 auto 52px', textAlign: 'center' }}>
-          <div className="section-pill-badge">
+        <div style={{ maxWidth: 1050, margin: '0 auto 36px', textAlign: 'center' }}>
+          <div className="section-pill-badge" style={{ marginBottom: 12 }}>
             <GlobeAltIcon />
             <span>ENVIRONMENTAL DRIVERS</span>
           </div>
           <h2 style={{
-            fontSize: 'clamp(24px, 2.4vw, 36px)',
+            fontSize: 'clamp(22px, 2.2vw, 32px)',
             color: 'var(--color-offwhite)',
-            marginTop: 12,
-            marginBottom: 16,
+            marginBottom: 10,
             fontWeight: 800
           }}>
             Agricultural features analyzed by the pipeline.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 820, margin: '0 auto' }}>
+          <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.5, maxWidth: 820, margin: '0 auto' }}>
             Every prediction is conditioned on genuine agro-climatic indicators validated against 
             the backend API schema. Below are the 6 core environmental dimensions analyzed.
           </p>
         </div>
 
-        {/* 3 cards on row 1, 3 cards on row 2 */}
+        {/* Compact 3x2 Grid */}
         <div className="environmental-grid">
           {INPUT_FIELDS.map((item, idx) => {
             const Icon = item.icon;
@@ -93,8 +92,8 @@ export const EnvironmentalContext: React.FC = () => {
                 key={idx}
                 style={{
                   background: 'var(--color-forest-surface)',
-                  borderRadius: 18,
-                  padding: 28,
+                  borderRadius: 16,
+                  padding: '18px 20px',
                   border: '1px solid var(--color-forest-border)',
                   boxShadow: 'var(--shadow-card)',
                   display: 'flex',
@@ -108,11 +107,11 @@ export const EnvironmentalContext: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginBottom: 16
+                    marginBottom: 12
                   }}>
                     <div style={{
-                      width: 42,
-                      height: 42,
+                      width: 36,
+                      height: 36,
                       borderRadius: 10,
                       background: 'rgba(228, 253, 151, 0.12)',
                       color: 'var(--color-lime)',
@@ -120,33 +119,33 @@ export const EnvironmentalContext: React.FC = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <Icon style={{ width: 20, height: 20 }} />
+                      <Icon style={{ width: 18, height: 18 }} />
                     </div>
                     <span style={{
                       fontFamily: 'var(--font-mono)',
-                      fontSize: 11.5,
+                      fontSize: 10.5,
                       fontWeight: 600,
                       background: 'rgba(228, 253, 151, 0.15)',
                       color: 'var(--color-lime)',
-                      padding: '4px 10px',
+                      padding: '3px 9px',
                       borderRadius: 100
                     }}>
                       {item.unit}
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: 18, color: 'var(--color-offwhite)', marginBottom: 8, fontWeight: 700 }}>
+                  <h3 style={{ fontSize: 16.5, color: 'var(--color-offwhite)', marginBottom: 6, fontWeight: 700 }}>
                     {item.name}
                   </h3>
-                  <p style={{ fontSize: 13.5, color: 'var(--color-muted)', lineHeight: 1.55, marginBottom: 16 }}>
+                  <p style={{ fontSize: 12.8, color: 'var(--color-muted)', lineHeight: 1.48, marginBottom: 12 }}>
                     {item.importance}
                   </p>
                 </div>
 
                 <div style={{
-                  paddingTop: 14,
+                  paddingTop: 10,
                   borderTop: '1px solid rgba(169, 180, 158, 0.15)',
-                  fontSize: 12,
+                  fontSize: 11.5,
                   fontFamily: 'var(--font-mono)',
                   color: 'var(--color-muted-light)'
                 }}>
