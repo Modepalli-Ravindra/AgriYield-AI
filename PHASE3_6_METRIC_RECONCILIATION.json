@@ -1,0 +1,223 @@
+{
+  "audit_phase": "Phase 3.6 \u2014 Implementation Hardening, Metric Reconciliation & Production Validation",
+  "project": "An AI-Driven DL\u2013ML Integrated Framework for Crop Yield Prediction Using Environmental Factors",
+  "branch": "feature/dl-ml-research-framework",
+  "baseline_commit": "1d62634",
+  "timestamp": "2026-10-18T12:02:00Z",
+  "phase2_discrepancy_reconciliations": {
+    "1_temporal_test_size": {
+      "discrepancy": "Temporal test size previously reported as 5,750 vs 4,534 rows.",
+      "source_investigation": "Evaluated on clean deduplicated dataset (25,932 rows). For chronological boundary train <= 2008 and test >= 2009, exact counts are Train = 20,182 rows (77.8%), Test = 5,750 rows (22.2%). 4,534 was an ungrounded report entry (25,932 - 21,398).",
+      "ground_truth_train_rows": 20182,
+      "ground_truth_test_rows": 5750,
+      "boundary_rule": "df_clean['Year'] <= 2008 (train), df_clean['Year'] >= 2009 (test)",
+      "status": "RECONCILED"
+    },
+    "2_geographic_test_size": {
+      "discrepancy": "Geographic test size previously reported as 5,197 rows across 16 unseen countries vs 4,376 rows across 20 unseen countries.",
+      "source_investigation": "Evaluated using GroupKFold(n_splits=5) on Area. First fold yields exactly 16 held-out countries with 5,197 rows (20.04% of 25,932). 20 countries was a theoretical assumption (101 * 0.20 = 20.2), ignoring heterogeneous station counts per country.",
+      "ground_truth_train_rows": 20735,
+      "ground_truth_test_rows": 5197,
+      "ground_truth_held_out_countries": 16,
+      "split_mechanism": "GroupKFold(n_splits=5) grouped on Area",
+      "status": "RECONCILED"
+    },
+    "3_base_training_group_count": {
+      "discrepancy": "Base-training group count reported as 6,564 vs 6,707.",
+      "source_investigation": "Derived from 4-way disjoint group split. df_train_meta contains 8,534 unique groups. GroupShuffleSplit(n_splits=1, test_size=0.2308, random_state=42) produces exactly 6,564 groups for Base and 1,970 groups for Meta. 6,707 was an unrounded theoretical estimate (8,534 - 1,827).",
+      "ground_truth_base_groups": 6564,
+      "ground_truth_base_rows": 13392,
+      "status": "RECONCILED"
+    },
+    "4_meta_training_group_count": {
+      "discrepancy": "Meta-training group count reported as 1,970 vs 1,827.",
+      "source_investigation": "As proven above, GroupShuffleSplit(n_splits=1, test_size=0.2308, random_state=42) on df_train_meta (8,534 groups) partitions exactly 1,970 groups into Meta-Training. 6,564 + 1,970 = 8,534. Sum across all 4 sets: 6,564 (Base) + 1,970 (Meta) + 1,970 (Calib) + 2,626 (Test) = 13,130 unique groups.",
+      "ground_truth_meta_groups": 1970,
+      "ground_truth_meta_rows": 3598,
+      "status": "RECONCILED"
+    },
+    "5_stacking_r2_naive_random_split": {
+      "discrepancy": "Stacking R2 reported as 0.9815 vs 0.9822 on naive random split.",
+      "source_investigation": "Both represent the 4-model DL\u2013ML Stacking Meta-Ensemble evaluated on the exact same 80/20 naive random split (5,187 test rows). The 0.0007 difference stems from non-deterministic CPU floating-point accumulation in PyTorch Tabular Neural Network backpropagation across runs. Crucially, both are inflated by 58.67% test row repeated-tuple leakage. True leakage-aware grouped generalization is R2 = 0.9671.",
+      "ground_truth_random_r2_range": "0.9815 - 0.9822",
+      "ground_truth_grouped_r2": 0.9671,
+      "status": "RECONCILED"
+    }
+  },
+  "phase3_evaluation_integrity_metrics": {
+    "grouped_leakage_aware_split": {
+      "test_rows": 5185,
+      "test_groups": 2626,
+      "models": {
+        "Random Forest (Trained on 16,723 rows)": {
+          "r2": 0.9689,
+          "rmse_tonnes": 1.448,
+          "mae_tonnes": 0.808
+        },
+        "XGBoost (Trained on 16,723 rows)": {
+          "r2": 0.9681,
+          "rmse_tonnes": 1.466,
+          "mae_tonnes": 0.855
+        },
+        "Stacking Ensemble (Base on 13,392 rows, Meta on 3,598 rows)": {
+          "r2": 0.9671,
+          "rmse_tonnes": 1.49,
+          "mae_tonnes": 0.827
+        }
+      },
+      "honesty_declaration": "Random Forest (R2=0.9689, RMSE=1.448 t/ha) slightly outperforms Stacking (R2=0.9671, RMSE=1.490 t/ha) on the leakage-aware grouped split. Stacking does NOT outperform every baseline under zero-leakage evaluation."
+    },
+    "chronological_split": {
+      "train_rows": 20182,
+      "test_rows": 5750,
+      "models": {
+        "Random Forest": {
+          "r2": 0.9401,
+          "rmse_tonnes": 2.32,
+          "mae_tonnes": 1.302
+        },
+        "XGBoost": {
+          "r2": 0.9476,
+          "rmse_tonnes": 2.171,
+          "mae_tonnes": 1.181
+        }
+      }
+    },
+    "geographic_split": {
+      "train_rows": 20735,
+      "test_rows": 5197,
+      "held_out_countries": 16,
+      "models": {
+        "Random Forest": {
+          "r2": 0.51,
+          "rmse_tonnes": 6.721,
+          "mae_tonnes": 3.968
+        },
+        "XGBoost": {
+          "r2": 0.5727,
+          "rmse_tonnes": 6.277,
+          "mae_tonnes": 3.624
+        }
+      }
+    }
+  },
+  "phase4_conformal_calibration_audit": {
+    "calibrator_artifact": "models/conformal_calibrator.pkl",
+    "global_group_max_quantile": 2.573,
+    "global_row_quantile": 2.0039,
+    "nominal_coverage": 0.9,
+    "empirical_test_row_coverage_under_group_max": 0.9381,
+    "empirical_test_group_coverage_under_group_max": 0.9105,
+    "bounds_strict_ordering": "lower = max(0.0, y_hat - Q), upper = max(lower, y_hat + Q) verified",
+    "crop_conditional_quantiles": {
+      "Cassava": {
+        "q": 3.484,
+        "calib_rows": 258,
+        "test_rows": 341,
+        "row_cov": 0.9062,
+        "grp_cov": 0.8222
+      },
+      "Maize": {
+        "q": 1.266,
+        "calib_rows": 580,
+        "test_rows": 763,
+        "row_cov": 0.8886,
+        "grp_cov": 0.87
+      },
+      "Plantains and others": {
+        "q": 3.733,
+        "calib_rows": 79,
+        "test_rows": 103,
+        "row_cov": 0.8641,
+        "grp_cov": 0.8539
+      },
+      "Potatoes": {
+        "q": 4.382,
+        "calib_rows": 567,
+        "test_rows": 754,
+        "row_cov": 0.9284,
+        "grp_cov": 0.8863
+      },
+      "Rice, paddy": {
+        "q": 1.101,
+        "calib_rows": 425,
+        "test_rows": 656,
+        "row_cov": 0.9375,
+        "grp_cov": 0.9088
+      },
+      "Sorghum": {
+        "q": 0.777,
+        "calib_rows": 442,
+        "test_rows": 626,
+        "row_cov": 0.9089,
+        "grp_cov": 0.8725
+      },
+      "Soybeans": {
+        "q": 0.613,
+        "calib_rows": 373,
+        "test_rows": 539,
+        "row_cov": 0.8683,
+        "grp_cov": 0.8178
+      },
+      "Sweet potatoes": {
+        "q": 2.937,
+        "calib_rows": 399,
+        "test_rows": 492,
+        "row_cov": 0.8618,
+        "grp_cov": 0.8571
+      },
+      "Wheat": {
+        "q": 0.811,
+        "calib_rows": 542,
+        "test_rows": 736,
+        "row_cov": 0.8913,
+        "grp_cov": 0.8366
+      },
+      "Yams": {
+        "q": 3.428,
+        "calib_rows": 92,
+        "test_rows": 175,
+        "row_cov": 0.9714,
+        "grp_cov": 0.9432
+      }
+    }
+  },
+  "phase5_latency_benchmarks": {
+    "iterations": 100,
+    "hardware": "CPU mode (win32 AMD64)",
+    "raw_model_inference_latency": {
+      "mean_ms": 8.532,
+      "median_ms": 8.244,
+      "p95_ms": 9.273
+    },
+    "pure_treeshap_explainer_latency": {
+      "mean_ms": 20.103,
+      "median_ms": 16.084,
+      "p95_ms": 31.793
+    },
+    "service_predict_latency": {
+      "mean_ms": 40.0,
+      "median_ms": 33.689,
+      "p95_ms": 68.854
+    },
+    "http_post_predict_latency": {
+      "mean_ms": 51.514,
+      "median_ms": 42.331,
+      "p95_ms": 59.832
+    },
+    "http_post_explain_latency": {
+      "mean_ms": 44.264,
+      "median_ms": 40.523,
+      "p95_ms": 43.123
+    },
+    "treeshap_additivity_error": 1.2e-07
+  },
+  "phase7_automated_test_summary": {
+    "test_file": "tests/test_api.py",
+    "total_tests": 24,
+    "passed": 24,
+    "failed": 0,
+    "duration_seconds": 8.26,
+    "frontend_build_status": "SUCCESS (2495 modules transformed in 771ms)"
+  }
+}

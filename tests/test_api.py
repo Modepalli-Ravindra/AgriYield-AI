@@ -446,3 +446,101 @@ def test_phase3_4_production_model_metadata_consistency():
     assert "deployment" in bench
     assert bench["deployment"]["live_deployed_model"] == "XGBoost Regressor"
     assert bench["deployment"]["offline_research_model"] == "DL-ML Stacking Meta-Ensemble"
+
+
+def test_phase3_6_model_direct_prediction_parity():
+    """Phase 3.6: Verify live API prediction parity with direct model artifact."""
+    import joblib, pandas as pd
+    model_path = Path(__file__).resolve().parent.parent / "models" / "crop_yield_model.pkl"
+    pipeline = joblib.load(model_path)
+    
+    test_cases = [
+        {"country": "India", "crop": "Maize", "year": 2013, "rainfall_mm": 1200.0, "avg_temp_c": 26.5, "pesticides_tonnes": 500.0},
+        {"country": "France", "crop": "Wheat", "year": 2010, "rainfall_mm": 850.0, "avg_temp_c": 14.0, "pesticides_tonnes": 250.0},
+    ]
+    for tc in test_cases:
+        df_in = pd.DataFrame([{
+            "Area": tc["country"],
+            "Item": tc["crop"],
+            "Year": tc["year"],
+            "average_rain_fall_mm_per_year": tc["rainfall_mm"],
+            "pesticides_tonnes": tc["pesticides_tonnes"],
+            "avg_temp": tc["avg_temp_c"]
+        }])
+        direct_pred_t = float(pipeline.predict(df_in)[0]) / 10000.0
+        
+        res = client.post("/api/v1/predict", json=tc)
+        assert res.status_code == 200
+        api_pred_t = res.json()["predicted_yield_tonnes_per_ha"]
+        
+        assert abs(direct_pred_t - api_pred_t) < 1e-4
+
+def test_phase3_6_conformal_bounds_strict_ordering_negative_yields():
+    """Phase 3.6: Verify interval bounds ordering even under negative predicted yield."""
+    from app.ml.conformal import ConformalPredictionCalibrator
+    calib = ConformalPredictionCalibrator()
+    
+    res = calib.predict_interval(-2.0, crop="Maize")
+    assert res["lower_bound"] == 0.0
+    assert res["upper_bound"] >= res["lower_bound"]
+    assert res["interval_width_tonnes"] >= 0.0
+
+def test_phase3_6_unknown_crop_global_fallback_and_disclaimer():
+    """Phase 3.6: Verify safe fallback and transparent disclaimer for unknown crops."""
+    unknown_crop_payload = {
+        "country": "India",
+        "crop": "Dragonfruit",
+        "year": 2012,
+        "rainfall_mm": 1200.0,
+        "avg_temp_c": 25.0,
+        "pesticides_tonnes": 100.0
+    }
+    res = client.post("/api/v1/predict", json=unknown_crop_payload)
+    assert res.status_code == 200
+    ci = res.json()["conformal_interval_90"]
+    assert ci["calibrated_margin_q"] == 2.573
+    assert "Fallback" in ci["method"]
+    assert "marginal across eligible groups" in ci["coverage_disclaimer"]
+
+def test_phase3_6_4way_split_exact_disjointness_and_counts():
+    """Phase 3.6: Reconcile exact 4-way split group counts and verify 0 overlap."""
+    import pandas as pd
+    from sklearn.model_selection import GroupShuffleSplit
+    
+    csv_path = Path(__file__).resolve().parent.parent / "data" / "yield_df.csv"
+    df_raw = pd.read_csv(csv_path)
+    if "Unnamed: 0" in df_raw.columns:
+        df_raw = df_raw.drop(columns=["Unnamed: 0"])
+    df = df_raw.drop_duplicates().reset_index(drop=True)
+    df["group_id"] = df["Area"] + "_" + df["Item"] + "_" + df["Year"].astype(str)
+    
+    gss1 = GroupShuffleSplit(n_splits=1, test_size=0.20, random_state=42)
+    dev_idx, test_idx = next(gss1.split(df, groups=df["group_id"]))
+    df_dev = df.iloc[dev_idx].reset_index(drop=True)
+    df_test = df.iloc[test_idx].reset_index(drop=True)
+
+    gss2 = GroupShuffleSplit(n_splits=1, test_size=0.1875, random_state=42)
+    train_meta_idx, calib_idx = next(gss2.split(df_dev, groups=df_dev["group_id"]))
+    df_train_meta = df_dev.iloc[train_meta_idx].reset_index(drop=True)
+    df_calib = df_dev.iloc[calib_idx].reset_index(drop=True)
+
+    gss3 = GroupShuffleSplit(n_splits=1, test_size=0.2308, random_state=42)
+    base_idx, meta_idx = next(gss3.split(df_train_meta, groups=df_train_meta["group_id"]))
+    df_base = df_train_meta.iloc[base_idx].reset_index(drop=True)
+    df_meta = df_train_meta.iloc[meta_idx].reset_index(drop=True)
+
+    # Reconciled group counts: Base=6564, Meta=1970, Calib=1970, Test=2626
+    assert df_base["group_id"].nunique() == 6564
+    assert df_meta["group_id"].nunique() == 1970
+    assert df_calib["group_id"].nunique() == 1970
+    assert df_test["group_id"].nunique() == 2626
+    
+    # 0 Overlap
+    g_base = set(df_base["group_id"])
+    g_meta = set(df_meta["group_id"])
+    g_calib = set(df_calib["group_id"])
+    g_test = set(df_test["group_id"])
+    assert len(g_base.intersection(g_meta)) == 0
+    assert len(g_base.intersection(g_calib)) == 0
+    assert len(g_meta.intersection(g_calib)) == 0
+    assert len((g_base | g_meta | g_calib).intersection(g_test)) == 0

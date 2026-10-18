@@ -1,4 +1,4 @@
-﻿"""Conformal Prediction engine for Distribution-Free Uncertainty Quantification."""
+"""Conformal Prediction engine for Distribution-Free Uncertainty Quantification."""
 from __future__ import annotations
 
 import os
@@ -63,7 +63,7 @@ class ConformalPredictionCalibrator:
             calib_crop = "All crops (Global fallback)"
 
         lower = max(0.0, float(point_prediction_tonnes - q))
-        upper = float(point_prediction_tonnes + q)
+        upper = max(lower, float(point_prediction_tonnes + q))
         width = round(float(upper - lower), 4)
 
         return {

@@ -1,4 +1,4 @@
-﻿"""Prediction, explainability, and uncertainty service with Exact TreeSHAP and Crop-Conditional Conformal UQ."""
+"""Prediction, explainability, and uncertainty service with Exact TreeSHAP and Crop-Conditional Conformal UQ."""
 from __future__ import annotations
 
 import os
@@ -112,9 +112,14 @@ class PredictionService:
             "default_input": default_input
         }
 
-    def _compute_shap(self, row: pd.DataFrame) -> Tuple[List[float], List[str], float, str]:
+    def _compute_shap(self, row: Any) -> Tuple[List[float], List[str], float, str]:
         """Compute exact TreeSHAP attributions with fallback to heuristic proxy."""
         features = ["rainfall", "avg_temp", "pesticides", "year", "crop", "country"]
+        if isinstance(row, pd.Series):
+            row = row.to_frame().T
+        elif isinstance(row, dict):
+            row = pd.DataFrame([row])
+
         if self.tree_explainer is not None and self.model is not None and self.feature_columns is not None:
             try:
                 row_proc = self.model.named_steps["preprocessor"].transform(row)
@@ -145,7 +150,7 @@ class PredictionService:
                 logger.warning("TreeSHAP computation encountered error, using sensitivity proxy: %s", e)
 
         # Fallback to transparently labeled heuristic proxy
-        p = row.iloc[0]
+        p = row.iloc[0] if isinstance(row, pd.DataFrame) else row
         shap_vals = [
             round((p["average_rain_fall_mm_per_year"] - 1100.0) * 0.0005, 3),
             round((p["avg_temp"] - 20.0) * -0.04, 3),
