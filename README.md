@@ -1,4 +1,4 @@
-# AgriYield AI
+# Terraflect
 
 **An AI-Driven DL–ML Integrated Framework for Crop Yield Prediction Using Environmental Factors**
 
@@ -14,7 +14,7 @@
 
 ## Overview
 
-AgriYield AI is an agricultural intelligence platform that predicts crop yields from environmental factors (annual precipitation, mean temperature, pesticide application, crop species, and country/region). The platform integrates:
+Terraflect is an agricultural intelligence platform that predicts crop yields from environmental factors (annual precipitation, mean temperature, pesticide application, crop species, and country/region). The platform integrates:
 
 - **Production ML Engine:** Scikit-Learn Pipeline powered by XGBoost Regressor with 300 tree estimators ($R^2 = 0.9822$).
 - **Group-Aware Conformal Uncertainty:** Crop-conditional non-negative 90% prediction intervals calibrated on disjoint Area-Item-Year groups.
@@ -64,8 +64,8 @@ Crop_Yield_Prediction/
 ### 2. Backend Setup
 ```bash
 # Clone the repository:
-git clone https://github.com/Modepalli-Ravindra/AgriYield-AI.git
-cd AgriYield-AI
+git clone https://github.com/Modepalli-Ravindra/Terraflect.git
+cd Terraflect
 
 # Create and activate a virtual environment:
 python -m venv venv
@@ -127,7 +127,7 @@ For detailed request and response contracts, consult [docs/api/FRONTEND_INTEGRAT
 
 ## Database Configuration (InsForge PostgreSQL)
 
-AgriYield AI uses InsForge Managed PostgreSQL for production persistence. Migrations are tracked under `migrations/` and applied using the InsForge CLI:
+Terraflect uses InsForge Managed PostgreSQL for production persistence. Migrations are tracked under `migrations/` and applied using the InsForge CLI:
 ```bash
 npx -y @insforge/cli db migrations up --all
 ```
@@ -136,5 +136,5 @@ For local offline development, the system automatically falls back to SQLite in 
 ---
 
 ## Official Repository & Branch
-- **GitHub Repository:** [`https://github.com/Modepalli-Ravindra/AgriYield-AI.git`](https://github.com/Modepalli-Ravindra/AgriYield-AI.git)
+- **GitHub Repository:** [`https://github.com/Modepalli-Ravindra/Terraflect.git`](https://github.com/Modepalli-Ravindra/Terraflect.git)
 - **Active Feature Branch:** `feature/dl-ml-research-framework`

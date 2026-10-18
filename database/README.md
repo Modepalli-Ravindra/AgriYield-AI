@@ -1,7 +1,7 @@
 # Database Architecture — InsForge Managed PostgreSQL
 
 ## Overview
-AgriYield AI uses **InsForge Managed PostgreSQL** (`PostgreSQL 15.18 on aarch64-unknown-linux-gnu`) as its production persistence layer. The database provides strict ACID guarantees, foreign-key relational integrity, and user-isolated prediction history.
+Terraflect uses **InsForge Managed PostgreSQL** (`PostgreSQL 15.18 on aarch64-unknown-linux-gnu`) as its production persistence layer. The database provides strict ACID guarantees, foreign-key relational integrity, and user-isolated prediction history.
 
 ## Connection Architecture
 - **Connection Engine:** Dual-engine persistence layer implemented in `app/db/database.py`.

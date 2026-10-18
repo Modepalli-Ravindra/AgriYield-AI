@@ -1,4 +1,4 @@
-# AgriYield AI — Repository Architecture & Directory Structure
+# Terraflect — Repository Architecture & Directory Structure
 
 **Document Version:** 2.0.0  
 **Project:** An AI-Driven DL–ML Integrated Framework for Crop Yield Prediction Using Environmental Factors  

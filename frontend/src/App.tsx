@@ -190,7 +190,7 @@ export default function App() {
         case 'history':
           return { title: 'Prediction Audit History', subtitle: 'User-isolated query history stored in InsForge PostgreSQL' };
         default:
-          return { title: 'Workspace', subtitle: 'AgriYield AI Platform' };
+          return { title: 'Workspace', subtitle: 'Terraflect Platform' };
       }
     };
 

@@ -73,7 +73,7 @@ export const BentoGrid: React.FC = () => {
             Comprehensive intelligence for agricultural planning.
           </h2>
           <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.5, maxWidth: 840, margin: '0 auto' }}>
-            Every tool in the AgriYield AI suite connects directly to the validated backend API, 
+            Every tool in the Terraflect suite connects directly to the validated backend API, 
             providing instant single-field inferences, batch processing, and uncertainty analysis.
           </p>
         </div>

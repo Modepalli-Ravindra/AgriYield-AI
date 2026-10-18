@@ -58,7 +58,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
             Welcome back, {currentUser?.full_name || currentUser?.email.split('@')[0] || 'Researcher'}
           </h1>
           <p style={{ fontSize: 15, color: 'var(--color-muted)', lineHeight: 1.6 }}>
-            The AgriYield AI engine is online and ready. Enter environmental and climate factors to estimate 
+            The Terraflect engine is online and ready. Enter environmental and climate factors to estimate 
             crop yields, see which factors matter most, and explore what-if farming scenarios.
           </p>
         </div>

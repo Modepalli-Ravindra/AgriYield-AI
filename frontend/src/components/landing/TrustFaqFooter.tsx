@@ -9,8 +9,8 @@ import {
 
 const FAQS = [
   {
-    q: 'How does AgriYield AI predict crop yields?',
-    a: 'AgriYield AI uses an optimized XGBoost gradient-boosted decision tree pipeline (300 estimators, max depth 6) trained on extensive multi-decade environmental and agronomic datasets. It integrates rainfall, mean temperature, pesticide volume, soil profile, and regional baselines.'
+    q: 'How does Terraflect predict crop yields?',
+    a: 'Terraflect uses an optimized XGBoost gradient-boosted decision tree pipeline (300 estimators, max depth 6) trained on extensive multi-decade environmental and agronomic datasets. It integrates rainfall, mean temperature, pesticide volume, soil profile, and regional baselines.'
   },
   {
     q: 'What is the significance of the 90% confidence interval?',
@@ -63,11 +63,11 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                   <ShieldCheckIcon style={{ width: 20, height: 20 }} />
                 </div>
                 <h3 style={{ fontSize: 19, color: 'var(--color-offwhite)', fontWeight: 700 }}>
-                  How AgriYield AI Helps You
+                  How Terraflect Helps You
                 </h3>
               </div>
               <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
-                AgriYield AI helps farmers, advisors, and farm managers estimate crop harvests ahead of time. 
+                Terraflect helps farmers, advisors, and farm managers estimate crop harvests ahead of time. 
                 By entering simple weather factors like rainfall and temperature along with farm inputs, 
                 you get clear yield forecasts and reliable high-to-low harvest ranges.
               </p>
@@ -194,7 +194,7 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <img 
               src="/logo.png" 
-              alt="AgriYield AI Logo" 
+              alt="Terraflect Logo" 
               style={{
                 width: 40,
                 height: 40,
@@ -204,7 +204,7 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
             />
             <div>
               <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 2 }}>
-                AgriYield AI
+                Terraflect
               </div>
               <p style={{ fontSize: 13, color: 'var(--color-muted)', maxWidth: 440, margin: 0 }}>
                 Intelligent crop yield estimation powered by environmental data.
@@ -223,7 +223,7 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
           </div>
         </div>
         <div className="container" style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid rgba(169, 180, 158, 0.12)', fontSize: 12, color: 'var(--color-muted-dark)', textAlign: 'center' }}>
-          AgriYield AI Platform · Enterprise Environmental Intelligence
+          Terraflect Platform · Enterprise Environmental Intelligence
         </div>
       </footer>
     </>

@@ -75,7 +75,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <img 
             src="/logo.png" 
-            alt="AgriYield AI" 
+            alt="Terraflect" 
             style={{
               width: 54,
               height: 54,
@@ -85,7 +85,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             }} 
           />
           <h3 style={{ fontSize: 22, color: 'var(--color-offwhite)', fontWeight: 800 }}>
-            {mode === 'login' ? 'Sign in to AgriYield AI' : 'Create Account'}
+            {mode === 'login' ? 'Sign in to Terraflect' : 'Create Account'}
           </h3>
           <p style={{ fontSize: 13.5, color: 'var(--color-muted)', marginTop: 4 }}>
             {mode === 'login' 

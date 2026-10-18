@@ -60,7 +60,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
         }}>
           <img 
             src="/logo.png" 
-            alt="AgriYield AI" 
+            alt="Terraflect" 
             style={{
               width: 38,
               height: 38,
@@ -70,7 +70,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           />
           <div>
             <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-offwhite)', letterSpacing: '-0.02em' }}>
-              AgriYield AI
+              Terraflect
             </div>
             <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)' }}>
               INTELLIGENCE PLATFORM

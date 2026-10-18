@@ -23,7 +23,7 @@ def _get_default_cors_origins() -> List[str]:
     ]
 
 class Settings(BaseModel):
-    PROJECT_NAME: str = "AI-Driven DL-ML Crop Yield Research Platform"
+    PROJECT_NAME: str = "Terraflect — Crop Yield Intelligence Platform"
     VERSION: str = "2.0.0"
     API_V1_STR: str = "/api/v1"
     

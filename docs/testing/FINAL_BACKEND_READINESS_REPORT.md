@@ -1,9 +1,9 @@
 # Final Backend Production-Readiness Audit Report
 
-**Application Name:** AgriYield AI  
+**Application Name:** Terraflect  
 **Project Title:** An AI-Driven DL–ML Integrated Framework for Crop Yield Prediction Using Environmental Factors  
 **Local Workspace:** `C:\Users\user\OneDrive\Desktop\Crop_Yield_Prediction`  
-**Official GitHub Repository:** `https://github.com/Modepalli-Ravindra/AgriYield-AI.git`  
+**Official GitHub Repository:** `https://github.com/Modepalli-Ravindra/Terraflect.git`  
 **Git Branch:** `feature/dl-ml-research-framework`  
 **Git Commit Hash:** `fc90ab3`  
 **Audit Timestamp:** 2026-10-18T13:40:00+05:30  
@@ -13,7 +13,7 @@
 
 ## 1. Executive Summary
 
-This report establishes the final production readiness of the AgriYield AI backend. Every subsystem—including API endpoints, ML inference pipelines, TreeSHAP explainability, group-aware conformal prediction intervals, InsForge managed PostgreSQL connectivity, connection pooling, and user data isolation—has been independently audited and verified with automated test suites and live HTTP requests.
+This report establishes the final production readiness of the Terraflect backend. Every subsystem—including API endpoints, ML inference pipelines, TreeSHAP explainability, group-aware conformal prediction intervals, InsForge managed PostgreSQL connectivity, connection pooling, and user data isolation—has been independently audited and verified with automated test suites and live HTTP requests.
 
 - **Total Backend Tests:** **41 / 41 PASSED (100% pass rate)**.
 - **Database Status:** Connected to live InsForge PostgreSQL (`PostgreSQL 15.18 on aarch64-unknown-linux-gnu`) via `ThreadedConnectionPool`.

@@ -28,7 +28,7 @@ export const ProjectOverview: React.FC = () => {
           </h2>
           <p style={{ fontSize: 16.5, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 840, margin: '0 auto' }}>
             Agricultural productivity faces variability from shifting rainfall patterns, temperature 
-            extremes, and changing input conditions. AgriYield AI delivers a calibrated, multi-model 
+            extremes, and changing input conditions. Terraflect delivers a calibrated, multi-model 
             pipeline to estimate harvest outcomes with full attribution and confidence bounds.
           </p>
         </div>

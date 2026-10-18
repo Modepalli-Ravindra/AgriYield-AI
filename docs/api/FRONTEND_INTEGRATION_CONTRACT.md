@@ -1,4 +1,4 @@
-# AgriYield AI — Frontend Integration Contract & API Specification
+# Terraflect — Frontend Integration Contract & API Specification
 
 **Document Version:** 2.0.0  
 **Backend Framework:** FastAPI / Python 3.14  
@@ -68,7 +68,7 @@ The backend explicitly allows credentials (`allow_credentials=True`) with exact 
 
 ## 4. Authentication & Authorization Architecture
 
-AgriYield AI uses **Zero-OTP Immediate Authentication**:
+Terraflect uses **Zero-OTP Immediate Authentication**:
 1. No mandatory email confirmation or SMS OTP delays.
 2. Passwords are mathematically hashed with Argon2id on the server.
 3. Access tokens are HS256-signed JWTs with 24-hour validity (`ACCESS_TOKEN_EXPIRE_MINUTES=1440`).

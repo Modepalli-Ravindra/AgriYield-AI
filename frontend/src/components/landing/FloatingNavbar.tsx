@@ -47,7 +47,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
         >
           <img 
             src="/logo.png" 
-            alt="AgriYield AI Logo" 
+            alt="Terraflect Logo" 
             style={{
               width: 38,
               height: 38,
@@ -55,7 +55,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
               filter: 'drop-shadow(0 2px 8px rgba(228, 253, 151, 0.35))'
             }} 
           />
-          <span>AgriYield AI</span>
+          <span>Terraflect</span>
         </a>
 
         <ul className="nav-links">

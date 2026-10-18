@@ -96,7 +96,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `agriyield_prediction_history_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `terraflect_prediction_history_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

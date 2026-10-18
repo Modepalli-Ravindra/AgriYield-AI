@@ -62,7 +62,7 @@ export const FrameworkPipeline: React.FC = () => {
             marginBottom: 16,
             fontWeight: 800
           }}>
-            How AgriYield AI processes environmental data.
+            How Terraflect processes environmental data.
           </h2>
           <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 820, margin: '0 auto' }}>
             A sequential five-stage pipeline designed for scientific transparency, mathematical rigor, 

@@ -1,4 +1,4 @@
--- AgriYield AI - InsForge Managed PostgreSQL Schema
+-- Terraflect - InsForge Managed PostgreSQL Schema
 -- Platform: InsForge PostgreSQL 15.18 on aarch64-unknown-linux-gnu
 
 -- 1. Researcher Accounts Table
