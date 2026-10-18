@@ -107,7 +107,10 @@ export default function App() {
   const handleRunPrediction = async () => {
     setLoadingPred(true);
     try {
-      const res = await api.predictYield(inputData);
+      const [res] = await Promise.all([
+        api.predictYield(inputData),
+        new Promise((resolve) => setTimeout(resolve, 800))
+      ]);
       setPrediction(res);
     } catch (err: any) {
       alert(err.message || 'Prediction failed');
@@ -119,7 +122,10 @@ export default function App() {
   const handleRunExplain = async () => {
     setLoadingExplain(true);
     try {
-      const res = await api.fetchExplanation(inputData);
+      const [res] = await Promise.all([
+        api.fetchExplanation(inputData),
+        new Promise((resolve) => setTimeout(resolve, 850))
+      ]);
       setExplainData(res);
     } catch (err: any) {
       alert(err.message || 'Explanation failed');
@@ -131,7 +137,10 @@ export default function App() {
   const handleRunSensitivity = async () => {
     setLoadingSens(true);
     try {
-      const res = await api.runSensitivity(inputData, sensParam);
+      const [res] = await Promise.all([
+        api.runSensitivity(inputData, sensParam),
+        new Promise((resolve) => setTimeout(resolve, 850))
+      ]);
       setSensData(res);
     } catch (err: any) {
       alert(err.message || 'Sensitivity analysis failed');
@@ -161,7 +170,10 @@ export default function App() {
           inputs: { ...inputData, rainfall_mm: inputData.rainfall_mm * 1.2 }
         }
       ];
-      const res = await api.runWhatIf(scenarios);
+      const [res] = await Promise.all([
+        api.runWhatIf(scenarios),
+        new Promise((resolve) => setTimeout(resolve, 850))
+      ]);
       setWhatIfData(res);
     } catch (err: any) {
       alert(err.message || 'What-if simulation failed');

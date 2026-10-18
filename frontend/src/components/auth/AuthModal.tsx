@@ -64,13 +64,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
 
     try {
       if (mode === 'login') {
-        const res = await api.loginUser(email, password);
+        const [res] = await Promise.all([
+          api.loginUser(email, password),
+          new Promise((r) => setTimeout(r, 650))
+        ]);
         onSuccess(res.user);
       } else if (mode === 'register') {
-        const res = await api.registerUser(email, password, fullName || undefined, undefined);
+        const [res] = await Promise.all([
+          api.registerUser(email, password, fullName || undefined, undefined),
+          new Promise((r) => setTimeout(r, 700))
+        ]);
         onSuccess(res.user);
       } else if (mode === 'forgot') {
-        const res = await api.resetPassword(email, password);
+        const [res] = await Promise.all([
+          api.resetPassword(email, password),
+          new Promise((r) => setTimeout(r, 700))
+        ]);
         setSuccessMsg(res.message || 'Password has been reset successfully! You can now sign in.');
         setPassword('');
         setConfirmPassword('');
