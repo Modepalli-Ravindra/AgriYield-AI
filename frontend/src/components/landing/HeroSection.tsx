@@ -21,7 +21,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section style={{
       position: 'relative',
-      paddingTop: 'clamp(118px, 11.5vh, 138px)',
+      paddingTop: 'clamp(145px, 13.8vh, 168px)',
       paddingBottom: 64,
       overflow: 'hidden',
       backgroundColor: '#121B11'
@@ -144,21 +144,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
         </div>
 
-        {/* Compressed Key Metrics Grid with Decreased Width */}
+        {/* Key Metrics Grid with Increased Middle Space */}
         <div style={{
-          maxWidth: 1040,
+          maxWidth: 1140,
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: 14,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+          gap: 24,
           textAlign: 'left'
         }}>
           <div style={{
             background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
-            borderRadius: 14,
-            padding: '16px 18px',
+            borderRadius: 16,
+            padding: '18px 20px',
             boxShadow: 'var(--shadow-card)',
             transition: 'all 0.25s ease'
           }}>
@@ -191,8 +191,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
-            borderRadius: 14,
-            padding: '16px 18px',
+            borderRadius: 16,
+            padding: '18px 20px',
             boxShadow: 'var(--shadow-card)',
             transition: 'all 0.25s ease'
           }}>
@@ -225,8 +225,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
-            borderRadius: 14,
-            padding: '16px 18px',
+            borderRadius: 16,
+            padding: '18px 20px',
             boxShadow: 'var(--shadow-card)',
             transition: 'all 0.25s ease'
           }}>
@@ -259,8 +259,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
-            borderRadius: 14,
-            padding: '16px 18px',
+            borderRadius: 16,
+            padding: '18px 20px',
             boxShadow: 'var(--shadow-card)',
             transition: 'all 0.25s ease'
           }}>
