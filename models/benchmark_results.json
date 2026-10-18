@@ -12,7 +12,8 @@
       "rmse_tonnes_per_ha": 1.373,
       "mae_tonnes_per_ha": 0.694,
       "training_time_seconds": 4.92,
-      "parameter_count": 100
+      "parameter_count": 100,
+      "is_deployed_production_model": false
     },
     {
       "model_name": "LightGBM",
@@ -21,7 +22,8 @@
       "rmse_tonnes_per_ha": 1.383,
       "mae_tonnes_per_ha": 0.728,
       "training_time_seconds": 1.56,
-      "parameter_count": 300
+      "parameter_count": 300,
+      "is_deployed_production_model": false
     },
     {
       "model_name": "XGBoost",
@@ -30,7 +32,8 @@
       "rmse_tonnes_per_ha": 1.439,
       "mae_tonnes_per_ha": 0.791,
       "training_time_seconds": 3.42,
-      "parameter_count": 300
+      "parameter_count": 300,
+      "is_deployed_production_model": true
     },
     {
       "model_name": "PyTorch Tabular MLP",
@@ -39,7 +42,8 @@
       "rmse_tonnes_per_ha": 1.215,
       "mae_tonnes_per_ha": 0.665,
       "training_time_seconds": 53.8,
-      "parameter_count": 24736
+      "parameter_count": 24736,
+      "is_deployed_production_model": false
     },
     {
       "model_name": "DL-ML Stacking Ensemble",
@@ -48,7 +52,8 @@
       "rmse_tonnes_per_ha": 1.137,
       "mae_tonnes_per_ha": 0.607,
       "training_time_seconds": 63.91,
-      "parameter_count": 4
+      "parameter_count": 4,
+      "is_deployed_production_model": false
     }
   ],
   "conformal_uncertainty": {
@@ -58,5 +63,20 @@
     "conformal_quantile_q": 1.3272
   },
   "best_overall_model": "DL-ML Stacking Ensemble",
-  "dl_vs_ml_empirical_gain": "Ensemble achieves R2=0.9822 and RMSE=1.137 t/ha, improving stability over any single standalone model."
+  "dl_vs_ml_empirical_gain": "Ensemble achieves R2=0.9822 and RMSE=1.137 t/ha, improving stability over any single standalone model.",
+  "deployment": {
+    "production_model": "XGBoost",
+    "deployed_pipeline_path": "models/crop_yield_model.pkl",
+    "deployed_estimator": "xgboost.sklearn.XGBRegressor",
+    "deployed_test_r2": 0.9714,
+    "deployed_test_rmse_tonnes": 1.439,
+    "deployed_test_mae_tonnes": 0.791,
+    "offline_research_benchmark": "DL-ML Stacking Ensemble",
+    "offline_ensemble_r2": 0.9822,
+    "offline_ensemble_rmse_tonnes": 1.137,
+    "target_unit_factor": 10000.0,
+    "unit_definition": "1 tonne/ha = 10,000 hg/ha",
+    "live_deployed_model": "XGBoost Regressor",
+    "offline_research_model": "DL-ML Stacking Meta-Ensemble"
+  }
 }

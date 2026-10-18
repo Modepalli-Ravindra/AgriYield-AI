@@ -1,4 +1,4 @@
-"""Prediction and reference options Pydantic schemas."""
+﻿"""Prediction and reference options Pydantic schemas."""
 from __future__ import annotations
 
 from datetime import datetime
@@ -22,14 +22,22 @@ class ConfidenceInterval(BaseModel):
 class ConformalInterval(BaseModel):
     lower_bound: float
     upper_bound: float
+    interval_width_tonnes: float = 0.0
     nominal_coverage: float = 0.90
-    method: str = "Conformalized Quantile Regression (CQR)"
+    calibrated_margin_q: float = 0.0
+    calibration_crop: Optional[str] = None
+    method: str = "Crop-Conditional Conformal Quantile Calibration"
     unit: str = "tonnes/ha"
+    coverage_disclaimer: str = (
+        "Reported 90% coverage is marginal across eligible groups; "
+        "does not guarantee 90% on every individual crop or future distribution shift."
+    )
 
 class PredictionResponse(BaseModel):
     predicted_yield_hg_per_ha: float
     predicted_yield_tonnes_per_ha: float
     model_name: str
+    deployed_estimator: str = "xgboost.sklearn.XGBRegressor"
     model_test_r2: float
     model_test_rmse_hg_ha: float
     confidence_interval: ConfidenceInterval
@@ -37,6 +45,7 @@ class PredictionResponse(BaseModel):
     shap_values: Optional[List[float]] = None
     feature_names: Optional[List[str]] = None
     base_value: Optional[float] = None
+    attribution_method: str = "Exact TreeSHAP (shap.TreeExplainer)"
     timestamp: str
 
 class BatchPredictionRequest(BaseModel):

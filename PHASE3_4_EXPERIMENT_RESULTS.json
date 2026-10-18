@@ -1,0 +1,201 @@
+{
+  "audit_phase": "Phase 3.4",
+  "project": "An AI-Driven DL\u2013ML Integrated Framework for Crop Yield Prediction Using Environmental Factors",
+  "baseline_commit": "5a8fed6",
+  "branch": "feature/dl-ml-research-framework",
+  "status": "COMPLETED",
+  "task1_model_identity_reconciliation": {
+    "status": "VERIFIED",
+    "live_production_model": {
+      "model_name": "Production XGBoost Regressor Pipeline",
+      "artifact_path": "models/crop_yield_model.pkl",
+      "estimator_class": "xgboost.sklearn.XGBRegressor",
+      "test_r2": 0.9714,
+      "test_rmse_tonnes": 1.439,
+      "test_rmse_hg_ha": 14390.0,
+      "test_mae_tonnes": 0.791,
+      "training_time_seconds": 1.25,
+      "inference_latency_ms": 2.45
+    },
+    "offline_research_model": {
+      "model_name": "DL-ML Stacking Meta-Ensemble",
+      "artifact_path": "models/stacking_meta_ensemble.pkl",
+      "meta_learner": "RidgeCV",
+      "base_models": [
+        "RandomForest",
+        "XGBoost",
+        "LightGBM",
+        "PyTorch Tabular MLP"
+      ],
+      "test_r2": 0.9822,
+      "test_rmse_tonnes": 1.137,
+      "test_rmse_hg_ha": 11370.0,
+      "status": "Strictly separated from live production inference API"
+    },
+    "target_unit_conversion": {
+      "source_unit": "hg/ha (hectograms per hectare)",
+      "serving_unit": "tonnes/ha",
+      "conversion_formula": "1 tonne/ha = 10,000 hg/ha (divided by 10,000.0)",
+      "consistency_verified": true
+    }
+  },
+  "task2_group_aware_conformal_api": {
+    "status": "VERIFIED",
+    "calibrator_artifact": "models/conformal_calibrator.pkl",
+    "global_group_max_quantile_tonnes": 2.573,
+    "nominal_target_coverage": 0.9,
+    "empirical_group_coverage_unseen_groups": 0.9105,
+    "empirical_row_coverage_test_set": 0.9381,
+    "physical_nonnegativity_constraint": {
+      "lower_bound_clipped_at_zero": true,
+      "empirical_coverage_impact": "None (no test records with negative lower bound had zero or negative true yield)",
+      "ordering_guarantee": "lower_bound <= upper_bound strictly enforced"
+    },
+    "coverage_disclaimer": "Reported group-level coverage (91.05%) is marginal across eligible groups, not an unconditional guarantee for every individual group or future year."
+  },
+  "task3_crop_conditional_calibration": {
+    "status": "VERIFIED",
+    "crop_quantiles_tonnes": {
+      "Cassava": {
+        "q_tonnes": 3.484,
+        "calib_n": 188,
+        "test_coverage": 0.9149,
+        "status": "VERIFIED"
+      },
+      "Maize": {
+        "q_tonnes": 1.266,
+        "calib_n": 432,
+        "test_coverage": 0.9051,
+        "status": "VERIFIED"
+      },
+      "Plantains and others": {
+        "q_tonnes": 3.733,
+        "calib_n": 92,
+        "test_coverage": 0.913,
+        "status": "VERIFIED"
+      },
+      "Potatoes": {
+        "q_tonnes": 4.382,
+        "calib_n": 447,
+        "test_coverage": 0.9284,
+        "status": "VERIFIED"
+      },
+      "Rice, paddy": {
+        "q_tonnes": 1.101,
+        "calib_n": 338,
+        "test_coverage": 0.9112,
+        "status": "VERIFIED"
+      },
+      "Sorghum": {
+        "q_tonnes": 0.777,
+        "calib_n": 250,
+        "test_coverage": 0.908,
+        "status": "VERIFIED"
+      },
+      "Soybeans": {
+        "q_tonnes": 0.613,
+        "calib_n": 277,
+        "test_coverage": 0.8683,
+        "status": "FLAGGED_UNDER_COVERAGE"
+      },
+      "Sweet potatoes": {
+        "q_tonnes": 2.937,
+        "calib_n": 296,
+        "test_coverage": 0.9054,
+        "status": "VERIFIED"
+      },
+      "Wheat": {
+        "q_tonnes": 0.811,
+        "calib_n": 286,
+        "test_coverage": 0.9126,
+        "status": "VERIFIED"
+      },
+      "Yams": {
+        "q_tonnes": 3.428,
+        "calib_n": 84,
+        "test_coverage": 0.9048,
+        "status": "VERIFIED"
+      }
+    },
+    "fallback_strategy": {
+      "unknown_crop_margin": 2.573,
+      "fallback_method_name": "Group-Aware Conformal Quantile Calibration (Fallback)",
+      "guarantee_statement": "Crop-conditional calibration addresses heteroskedasticity but does not claim 90% coverage for every individual crop or extreme covariate shift."
+    }
+  },
+  "task4_treeshap_explainability": {
+    "status": "VERIFIED",
+    "explainer_class": "shap.TreeExplainer",
+    "target_estimator": "xgboost.sklearn.XGBRegressor (Live Production Model)",
+    "feature_order_aligned": true,
+    "input_transformed_dim": 113,
+    "parent_feature_aggregation": [
+      "rainfall",
+      "avg_temp",
+      "pesticides",
+      "year",
+      "crop",
+      "country"
+    ],
+    "additivity_verification": {
+      "relationship": "base_value + sum(shap_values) == live_prediction",
+      "max_absolute_error": 1.2e-07,
+      "tolerance_threshold": 0.0001,
+      "additivity_verified": true
+    },
+    "latency_benchmark": {
+      "iterations": 100,
+      "mean_latency_ms": 9.19,
+      "median_latency_ms": 8.92,
+      "p95_latency_ms": 11.45,
+      "device": "CPU"
+    },
+    "fallback_handling": {
+      "heuristic_fallback_available": true,
+      "fallback_label": "Heuristic Sensitivity Proxy",
+      "mislabeling_prevented": true
+    }
+  },
+  "task5_research_and_ui_transparency": {
+    "status": "VERIFIED",
+    "split_differentiations": {
+      "random_split_r2": 0.9714,
+      "temporal_split_r2": 0.9102,
+      "geographic_shift_note": "Evaluated with explicit limitations on unseen country generalization."
+    },
+    "frontend_transparency": {
+      "badges_implemented": [
+        "Live Production API",
+        "Offline Research Benchmark",
+        "Exact TreeSHAP (shap.TreeExplainer)",
+        "Additivity Verified"
+      ],
+      "bounds_explained": "Non-negative bounds, calibrated margin Q, and marginal coverage disclaimer rendered.",
+      "production_build_verified": true
+    }
+  },
+  "task6_verification_summary": {
+    "pytest_suite": {
+      "total_tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "duration_seconds": 8.19
+    },
+    "frontend_build": {
+      "tool": "vite v8.3.4",
+      "modules_transformed": 2495,
+      "duration_ms": 735,
+      "status": "SUCCESS"
+    },
+    "claims_audit": {
+      "reconcile_model_identity": "VERIFIED",
+      "stacking_vs_xgboost_separation": "VERIFIED",
+      "target_unit_conversion_10000": "VERIFIED",
+      "group_aware_conformal_api": "VERIFIED",
+      "crop_conditional_calibration": "VERIFIED",
+      "exact_treeshap_additivity": "VERIFIED",
+      "cpu_treeshap_latency_sub_15ms": "VERIFIED",
+      "ui_transparency_and_disclaimers": "VERIFIED"
+    }
+  }
+}

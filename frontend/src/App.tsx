@@ -509,7 +509,14 @@ export default function App() {
               {prediction && (
                 <div className="card" style={{ borderLeft: '4px solid #10b981' }}>
                   <div className="card-header">
-                    <h3>Prediction Outcome & Uncertainty</h3>
+                    <div>
+                      <h3>Prediction Outcome & Uncertainty</h3>
+                      {prediction.deployed_estimator && (
+                        <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.15rem' }}>
+                          Served by: <code>{prediction.deployed_estimator}</code>
+                        </div>
+                      )}
+                    </div>
                     <span className="badge badge-emerald">{prediction.model_name}</span>
                   </div>
 
@@ -523,16 +530,29 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="callout callout-info">
-                    <ShieldCheck size={20} style={{ flexShrink: 0 }} />
-                    <div>
-                      <strong>Nominal 90% Conformal Prediction Interval:</strong>
-                      <p style={{ fontSize: '0.95rem', fontWeight: 700, marginTop: '0.2rem' }}>
-                        [{prediction.conformal_interval_90.lower_bound} — {prediction.conformal_interval_90.upper_bound}] tonnes/ha
+                  <div className="callout callout-info" style={{ marginBottom: '1rem' }}>
+                    <ShieldCheck size={20} style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <div style={{ width: '100%' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                        <strong>Nominal 90% Conformal Prediction Interval:</strong>
+                        <span className="badge badge-emerald" style={{ fontSize: '0.75rem' }}>
+                          {prediction.conformal_interval_90.method || 'Group-Aware Calibration'}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '1.1rem', fontWeight: 800, marginTop: '0.25rem', color: '#0369a1' }}>
+                        [{prediction.conformal_interval_90.lower_bound} – {prediction.conformal_interval_90.upper_bound}] tonnes/ha
                       </p>
-                      <p style={{ fontSize: '0.75rem', marginTop: '0.25rem', opacity: 0.9 }}>
-                        Finite-sample non-parametric coverage calibrated using empirical quantiles of absolute error.
-                      </p>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.4rem', marginTop: '0.4rem', fontSize: '0.8rem', background: 'rgba(255,255,255,0.7)', padding: '0.5rem', borderRadius: '4px' }}>
+                        <div><span>Width: </span><strong>{prediction.conformal_interval_90.interval_width_tonnes ?? (prediction.conformal_interval_90.upper_bound - prediction.conformal_interval_90.lower_bound).toFixed(2)} t/ha</strong></div>
+                        <div><span>Margin Q: </span><strong>?{prediction.conformal_interval_90.calibrated_margin_q?.toFixed(3) ?? '2.573'} t/ha</strong></div>
+                        <div><span>Scheme: </span><strong>{prediction.conformal_interval_90.calibration_crop ? `${prediction.conformal_interval_90.calibration_crop} (Crop-conditional)` : 'Group-Max Global'}</strong></div>
+                        <div><span>Constraint: </span><strong>Non-negative (≥ 0 t/ha)</strong></div>
+                      </div>
+                      {prediction.conformal_interval_90.coverage_disclaimer && (
+                        <p style={{ fontSize: '0.72rem', marginTop: '0.35rem', opacity: 0.85, fontStyle: 'italic', lineHeight: '1.3' }}>
+                          ℹ️ {prediction.conformal_interval_90.coverage_disclaimer}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -676,7 +696,19 @@ export default function App() {
           <div className="grid-2">
             <div className="card">
               <div className="card-header">
-                <h3><Sparkles size={18} color="#10b981" /> Local SHAP Feature Contributions</h3>
+                <div>
+                  <h3><Sparkles size={18} color="#10b981" /> Local SHAP Feature Contributions</h3>
+                  <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.25rem', flexWrap: 'wrap' }}>
+                    <span className="badge badge-emerald" style={{ fontSize: '0.75rem' }}>
+                      {explainData?.attribution_method || 'Exact TreeSHAP (shap.TreeExplainer)'}
+                    </span>
+                    {explainData?.additivity_verified && (
+                      <span className="badge badge-sky" style={{ fontSize: '0.75rem' }}>
+                        ✓ Additivity Verified: E[y] + ∑φ = ŷ
+                      </span>
+                    )}
+                  </div>
+                </div>
                 <button className="btn btn-secondary btn-sm" onClick={handleRunExplain} disabled={loadingExplain}>
                   {loadingExplain ? 'Calculating...' : 'Recalculate'}
                 </button>
@@ -684,6 +716,10 @@ export default function App() {
 
               {explainData ? (
                 <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', background: '#f8fafc', padding: '0.5rem 0.75rem', borderRadius: '6px', marginBottom: '0.75rem', fontSize: '0.85rem' }}>
+                    <span>Base Value E[y]: <strong>{explainData.base_value?.toFixed(2)} t/ha</strong></span>
+                    <span>Live Prediction ŷ: <strong>{explainData.prediction_tonnes_per_ha?.toFixed(2)} t/ha</strong></span>
+                  </div>
                   <p style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '1rem' }}>
                     {explainData.summary_text}
                   </p>
@@ -759,7 +795,19 @@ export default function App() {
                   <tbody>
                     {benchmarks?.models.map(m => (
                       <tr key={m.model_name} style={{ background: m.model_name.includes('Ensemble') ? '#f0fdf4' : 'inherit' }}>
-                        <td><strong>{m.model_name}</strong></td>
+                        <td>
+                        <strong>{m.model_name}</strong>
+                        {m.model_name.includes('XGBoost') && (
+                          <span className="badge badge-emerald" style={{ marginLeft: '0.5rem', fontSize: '0.7rem' }}>
+                            Live Production API
+                          </span>
+                        )}
+                        {m.model_name.includes('Ensemble') && (
+                          <span className="badge badge-sky" style={{ marginLeft: '0.5rem', fontSize: '0.7rem' }}>
+                            Offline Research Benchmark
+                          </span>
+                        )}
+                      </td>
                         <td><span className="badge badge-sky">{m.model_family}</span></td>
                         <td style={{ color: '#059669', fontWeight: 700 }}>{m.r2_random_split}</td>
                         <td>{m.rmse_random_split_tonnes} t/ha</td>

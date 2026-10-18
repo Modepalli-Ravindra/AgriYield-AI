@@ -1,14 +1,15 @@
-"""Prediction, explainability, and uncertainty service."""
+﻿"""Prediction, explainability, and uncertainty service with Exact TreeSHAP and Crop-Conditional Conformal UQ."""
 from __future__ import annotations
 
 import os
 import json
 import logging
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 import joblib
+import shap
 
 from app.core.config import settings
 from app.db.database import db
@@ -24,17 +25,29 @@ class PredictionService:
         self.ref_data = None
         self.conformal_calibrator = None
         self.benchmark_results = None
+        self.tree_explainer = None
+        self.feature_columns = None
         self._load_artifacts()
 
     def _load_artifacts(self):
-        """Load trained pipeline, metadata, and reference data."""
+        """Load trained pipeline, metadata, reference data, and initialize TreeSHAP explainer."""
         # 1. Pipeline
         if os.path.exists(settings.MODEL_PATH):
             try:
                 self.model = joblib.load(settings.MODEL_PATH)
                 logger.info("Pipeline loaded from %s", settings.MODEL_PATH)
+                # Initialize TreeExplainer on deployed XGBRegressor
+                if hasattr(self.model, "named_steps") and "regressor" in self.model.named_steps:
+                    self.tree_explainer = shap.TreeExplainer(self.model.named_steps["regressor"])
+                    # Cache feature names from preprocessor
+                    preprocessor = self.model.named_steps["preprocessor"]
+                    cat_encoder = preprocessor.named_transformers_["cat"]
+                    cat_cols = cat_encoder.get_feature_names_out(["Area", "Item"])
+                    num_cols = ["Year", "average_rain_fall_mm_per_year", "pesticides_tonnes", "avg_temp"]
+                    self.feature_columns = list(num_cols) + list(cat_cols)
+                    logger.info("TreeSHAP initialized on deployed estimator with %d transformed features", len(self.feature_columns))
             except Exception as e:
-                logger.error("Failed to load pipeline: %s", e)
+                logger.error("Failed to load pipeline or TreeSHAP: %s", e)
 
         # 2. Metadata
         if os.path.exists(settings.METADATA_PATH):
@@ -99,8 +112,52 @@ class PredictionService:
             "default_input": default_input
         }
 
+    def _compute_shap(self, row: pd.DataFrame) -> Tuple[List[float], List[str], float, str]:
+        """Compute exact TreeSHAP attributions with fallback to heuristic proxy."""
+        features = ["rainfall", "avg_temp", "pesticides", "year", "crop", "country"]
+        if self.tree_explainer is not None and self.model is not None and self.feature_columns is not None:
+            try:
+                row_proc = self.model.named_steps["preprocessor"].transform(row)
+                raw_sv = self.tree_explainer.shap_values(row_proc)[0]
+
+                area_indices = [i for i, c in enumerate(self.feature_columns) if c.startswith("Area_")]
+                item_indices = [i for i, c in enumerate(self.feature_columns) if c.startswith("Item_")]
+
+                # Aggregate transformed columns back to parent features (in tonnes/ha)
+                year_shap = float(raw_sv[0]) / 10000.0
+                rain_shap = float(raw_sv[1]) / 10000.0
+                pest_shap = float(raw_sv[2]) / 10000.0
+                temp_shap = float(raw_sv[3]) / 10000.0
+                crop_shap = float(np.sum(raw_sv[item_indices])) / 10000.0
+                country_shap = float(np.sum(raw_sv[area_indices])) / 10000.0
+
+                base_val_tonnes = float(self.tree_explainer.expected_value) / 10000.0
+                shap_vals = [
+                    round(rain_shap, 4),
+                    round(temp_shap, 4),
+                    round(pest_shap, 4),
+                    round(year_shap, 4),
+                    round(crop_shap, 4),
+                    round(country_shap, 4)
+                ]
+                return shap_vals, features, round(base_val_tonnes, 4), "Exact TreeSHAP (shap.TreeExplainer)"
+            except Exception as e:
+                logger.warning("TreeSHAP computation encountered error, using sensitivity proxy: %s", e)
+
+        # Fallback to transparently labeled heuristic proxy
+        p = row.iloc[0]
+        shap_vals = [
+            round((p["average_rain_fall_mm_per_year"] - 1100.0) * 0.0005, 3),
+            round((p["avg_temp"] - 20.0) * -0.04, 3),
+            round((np.log1p(p["pesticides_tonnes"]) - 8.0) * 0.08, 3),
+            round((p["Year"] - 2000) * 0.02, 3),
+            round(0.85 if p["Item"] == "Potatoes" else 0.12, 3),
+            round(0.25 if p["Area"] in ["India", "United States"] else -0.1, 3)
+        ]
+        return shap_vals, features, 2.50, "Heuristic Sensitivity Proxy"
+
     def predict(self, payload: YieldInput, user_id: Optional[str] = None) -> PredictionResponse:
-        """Make point prediction with conformal uncertainty bounds and optional history logging."""
+        """Make point prediction with conformal uncertainty bounds and exact TreeSHAP attributions."""
         if self.model is None:
             raise RuntimeError("Model pipeline not loaded.")
 
@@ -117,38 +174,34 @@ class PredictionService:
         pred_hg = max(0.0, pred_hg)
         pred_tonnes = pred_hg / 10000.0
 
-        # Conformal Prediction 90% interval
-        lower_t, upper_t = self.conformal_calibrator.predict_interval(pred_tonnes)
+        # Conformal Prediction 90% interval (Crop-Conditional with Group-Aware Fallback)
+        uq_dict = self.conformal_calibrator.predict_interval(pred_tonnes, crop=payload.crop)
 
-        # Confidence interval (std dev based)
-        test_rmse_hg = self.metadata.get("test_rmse", 11370.0) if self.metadata else 11370.0
-        test_r2 = self.metadata.get("test_r2", 0.9822) if self.metadata else 0.9822
+        # Confidence interval (parametric normal approximation)
+        deployed_rmse_hg = self.metadata.get("deployed_test_rmse_hg", 14394.0) if self.metadata else 14394.0
+        deployed_r2 = self.metadata.get("deployed_test_r2", 0.9714) if self.metadata else 0.9714
 
         ci = ConfidenceInterval(
-            lower=round(max(0.0, pred_hg - 1.96 * test_rmse_hg), 1),
-            upper=round(pred_hg + 1.96 * test_rmse_hg, 1),
+            lower=round(max(0.0, pred_hg - 1.96 * deployed_rmse_hg), 1),
+            upper=round(pred_hg + 1.96 * deployed_rmse_hg, 1),
             mean=round(pred_hg, 1),
-            std=round(test_rmse_hg, 1)
+            std=round(deployed_rmse_hg, 1)
         )
 
         conf_interval = ConformalInterval(
-            lower_bound=lower_t,
-            upper_bound=upper_t,
-            nominal_coverage=0.90,
-            method="Conformalized Quantile Regression (CQR)",
-            unit="tonnes/ha"
+            lower_bound=uq_dict["lower_bound"],
+            upper_bound=uq_dict["upper_bound"],
+            interval_width_tonnes=uq_dict["interval_width_tonnes"],
+            nominal_coverage=uq_dict["nominal_coverage"],
+            calibrated_margin_q=uq_dict["calibrated_margin_q"],
+            calibration_crop=uq_dict.get("calibration_crop"),
+            method=uq_dict["method"],
+            unit=uq_dict["unit"],
+            coverage_disclaimer=uq_dict["coverage_disclaimer"]
         )
 
-        # Feature contributions / SHAP proxy for fast latency
-        features = ["rainfall", "avg_temp", "pesticides", "year", "crop", "country"]
-        shap_vals = [
-            round((payload.rainfall_mm - 1100.0) * 0.0005, 3),
-            round((payload.avg_temp_c - 20.0) * -0.04, 3),
-            round((np.log1p(payload.pesticides_tonnes) - 8.0) * 0.08, 3),
-            round((payload.year - 2000) * 0.02, 3),
-            round(0.85 if payload.crop == "Potatoes" else 0.12, 3),
-            round(0.25 if payload.country in ["India", "United States"] else -0.1, 3)
-        ]
+        # Exact TreeSHAP feature attribution
+        shap_vals, features, base_val_t, attribution_method = self._compute_shap(row)
 
         timestamp = datetime.now(timezone.utc).isoformat()
 
@@ -163,9 +216,9 @@ class PredictionService:
                 pesticides_tonnes=payload.pesticides_tonnes,
                 predicted_yield_hg_per_ha=round(pred_hg, 1),
                 predicted_yield_tonnes_per_ha=round(pred_tonnes, 4),
-                conformal_lower_bound=lower_t,
-                conformal_upper_bound=upper_t,
-                model_version="Integrated-DL-ML-Ensemble-v2",
+                conformal_lower_bound=uq_dict["lower_bound"],
+                conformal_upper_bound=uq_dict["upper_bound"],
+                model_version="Production-XGBoost-v2",
                 user_id=user_id
             )
         except Exception as e:
@@ -174,14 +227,16 @@ class PredictionService:
         return PredictionResponse(
             predicted_yield_hg_per_ha=round(pred_hg, 1),
             predicted_yield_tonnes_per_ha=round(pred_tonnes, 4),
-            model_name=self.metadata.get("model_name", "DL-ML Stacking Ensemble") if self.metadata else "DL-ML Stacking Ensemble",
-            model_test_r2=round(test_r2, 4),
-            model_test_rmse_hg_ha=round(test_rmse_hg, 1),
+            model_name="Production XGBoost Regressor Pipeline",
+            deployed_estimator="xgboost.sklearn.XGBRegressor",
+            model_test_r2=round(deployed_r2, 4),
+            model_test_rmse_hg_ha=round(deployed_rmse_hg, 1),
             confidence_interval=ci,
             conformal_interval_90=conf_interval,
             shap_values=shap_vals,
             feature_names=features,
-            base_value=round(pred_tonnes * 0.7, 3),
+            base_value=base_val_t,
+            attribution_method=attribution_method,
             timestamp=timestamp
         )
 

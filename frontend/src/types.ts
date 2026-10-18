@@ -1,4 +1,4 @@
-export interface YieldInput {
+﻿export interface YieldInput {
   country: string;
   crop: string;
   year: number;
@@ -10,9 +10,13 @@ export interface YieldInput {
 export interface ConformalInterval {
   lower_bound: number;
   upper_bound: number;
+  interval_width_tonnes?: number;
   nominal_coverage: number;
+  calibrated_margin_q?: number;
+  calibration_crop?: string;
   method: string;
   unit: string;
+  coverage_disclaimer?: string;
 }
 
 export interface ConfidenceInterval {
@@ -26,6 +30,7 @@ export interface PredictionResponse {
   predicted_yield_hg_per_ha: number;
   predicted_yield_tonnes_per_ha: number;
   model_name: string;
+  deployed_estimator?: string;
   model_test_r2: number;
   model_test_rmse_hg_ha: number;
   confidence_interval: ConfidenceInterval;
@@ -33,6 +38,7 @@ export interface PredictionResponse {
   shap_values?: number[];
   feature_names?: string[];
   base_value?: number;
+  attribution_method?: string;
   timestamp: string;
 }
 
@@ -54,6 +60,8 @@ export interface ExplainResponse {
   prediction_tonnes_per_ha: number;
   base_value: number;
   feature_contributions: FeatureContribution[];
+  attribution_method?: string;
+  additivity_verified?: boolean;
   summary_text: string;
 }
 
@@ -73,6 +81,7 @@ export interface WhatIfResponse {
     inputs: YieldInput;
     predicted_yield_tonnes_per_ha: number;
     conformal_interval_90: [number, number];
+    calibrated_margin_q?: number;
     delta_from_baseline_pct: number;
   }>;
 }
@@ -80,6 +89,7 @@ export interface WhatIfResponse {
 export interface ModelBenchmark {
   model_name: string;
   model_family: string;
+  is_deployed_production_model?: boolean;
   r2_random_split: number;
   rmse_random_split_tonnes: number;
   mae_random_split_tonnes: number;

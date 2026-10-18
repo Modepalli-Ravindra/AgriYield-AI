@@ -15,6 +15,8 @@ class ExplainResponse(BaseModel):
     prediction_tonnes_per_ha: float
     base_value: float
     feature_contributions: List[FeatureContribution]
+    attribution_method: Optional[str] = None
+    additivity_verified: Optional[bool] = None
     summary_text: str
 
 class SensitivityRequest(BaseModel):
@@ -40,3 +42,4 @@ class WhatIfRequest(BaseModel):
 class WhatIfResponse(BaseModel):
     baseline_scenario: str
     comparisons: List[Dict[str, Any]]
+

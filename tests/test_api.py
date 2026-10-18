@@ -343,3 +343,106 @@ def test_group_aware_uncertainty_artifacts():
     assert "Potatoes" in t2
     assert t2["Potatoes"]["sample_size_adequate"] is True
     assert t2["Potatoes"]["undercoverage_relative_to_90"] > 0.10
+
+
+def test_phase3_4_treeshap_additivity_and_exact_attribution():
+    """Phase 3.4 Task 4: Validate real TreeSHAP additivity and served model consistency."""
+    payload = {
+        "country": "India",
+        "crop": "Maize",
+        "year": 2013,
+        "rainfall_mm": 1200.0,
+        "avg_temp_c": 26.5,
+        "pesticides_tonnes": 500.0
+    }
+    response = client.post("/api/v1/explain", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    
+    assert data["attribution_method"] == "Exact TreeSHAP (shap.TreeExplainer)"
+    assert data["additivity_verified"] is True
+    
+    sum_phi = sum(item["shap_value"] for item in data["feature_contributions"])
+    reconstructed_y = data["base_value"] + sum_phi
+    assert abs(reconstructed_y - data["prediction_tonnes_per_ha"]) < 1e-4
+    assert len(data["feature_contributions"]) == 6
+
+def test_phase3_4_crop_conditional_conformal_bounds():
+    """Phase 3.4 Task 2 and 3: Validate crop-conditional vs global group-max bounds."""
+    potato_payload = {
+        "country": "India",
+        "crop": "Potatoes",
+        "year": 2013,
+        "rainfall_mm": 1100.0,
+        "avg_temp_c": 22.0,
+        "pesticides_tonnes": 300.0
+    }
+    res_pot = client.post("/api/v1/predict", json=potato_payload)
+    assert res_pot.status_code == 200
+    ci_pot = res_pot.json()["conformal_interval_90"]
+    assert ci_pot["calibrated_margin_q"] == 4.382
+    assert ci_pot["calibration_crop"] == "Potatoes"
+    assert "Crop-Conditional" in ci_pot["method"]
+    assert ci_pot["lower_bound"] >= 0.0
+    assert ci_pot["upper_bound"] >= ci_pot["lower_bound"]
+
+    maize_payload = {
+        "country": "India",
+        "crop": "Maize",
+        "year": 2013,
+        "rainfall_mm": 1100.0,
+        "avg_temp_c": 25.0,
+        "pesticides_tonnes": 300.0
+    }
+    res_maize = client.post("/api/v1/predict", json=maize_payload)
+    assert res_maize.status_code == 200
+    ci_maize = res_maize.json()["conformal_interval_90"]
+    assert ci_maize["calibrated_margin_q"] == 1.266
+    assert ci_maize["calibration_crop"] == "Maize"
+    assert ci_maize["calibrated_margin_q"] < ci_pot["calibrated_margin_q"]
+
+def test_phase3_4_target_unit_conversion_consistency():
+    """Phase 3.4 Task 1: Verify exact target conversion 1 t/ha = 10,000 hg/ha."""
+    payload = {
+        "country": "Brazil",
+        "crop": "Soybeans",
+        "year": 2012,
+        "rainfall_mm": 1450.0,
+        "avg_temp_c": 24.5,
+        "pesticides_tonnes": 1200.0
+    }
+    res = client.post("/api/v1/predict", json=payload)
+    assert res.status_code == 200
+    d = res.json()
+    
+    expected_hg = round(d["predicted_yield_tonnes_per_ha"] * 10000.0, 2)
+    assert abs(d["predicted_yield_hg_per_ha"] - expected_hg) < 1.0
+    
+    ci = d["conformal_interval_90"]
+    assert ci["unit"] == "tonnes/ha"
+    assert ci["lower_bound"] >= 0.0
+    assert ci["upper_bound"] >= ci["lower_bound"]
+    expected_width = round(ci["upper_bound"] - ci["lower_bound"], 2)
+    assert abs(ci["interval_width_tonnes"] - expected_width) < 0.05
+    assert "marginal across eligible groups" in ci["coverage_disclaimer"]
+
+def test_phase3_4_production_model_metadata_consistency():
+    """Phase 3.4 Task 1: Verify production metadata strictly separates XGBoost from Stacking."""
+    import joblib, json
+    from pathlib import Path
+    meta_path = Path(__file__).resolve().parent.parent / "models" / "model_metadata.pkl"
+    bench_path = Path(__file__).resolve().parent.parent / "models" / "benchmark_results.json"
+    assert meta_path.exists()
+    assert bench_path.exists()
+    
+    meta = joblib.load(meta_path)
+    assert meta.get("deployed_model_name") == "Production XGBoost Regressor Pipeline"
+    assert meta.get("deployed_estimator") == "xgboost.sklearn.XGBRegressor"
+    assert "offline_research_model" in meta
+    assert meta.get("offline_research_model") == "DL-ML Stacking Meta-Ensemble"
+    
+    with open(bench_path, "r", encoding="utf-8") as f:
+        bench = json.load(f)
+    assert "deployment" in bench
+    assert bench["deployment"]["live_deployed_model"] == "XGBoost Regressor"
+    assert bench["deployment"]["offline_research_model"] == "DL-ML Stacking Meta-Ensemble"
