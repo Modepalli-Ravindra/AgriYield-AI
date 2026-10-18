@@ -1,15 +1,27 @@
 """Authentication Pydantic schemas."""
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 class UserRegisterRequest(BaseModel):
     email: EmailStr
-    password: str = Field(..., min_length=6, max_length=128, description="User password (min 6 chars)")
+    password: str = Field(..., min_length=8, max_length=128, description="User password (min 8 chars, uppercase, lowercase)")
     full_name: Optional[str] = Field(None, max_length=100)
     organization: Optional[str] = Field(None, max_length=100)
+
+    @field_validator("password")
+    @classmethod
+    def validate_password_complexity(cls, v: str) -> str:
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters long.")
+        if not re.search(r"[A-Z]", v):
+            raise ValueError("Password must contain at least one uppercase letter (A-Z).")
+        if not re.search(r"[a-z]", v):
+            raise ValueError("Password must contain at least one lowercase letter (a-z).")
+        return v
 
 class UserLoginRequest(BaseModel):
     email: EmailStr

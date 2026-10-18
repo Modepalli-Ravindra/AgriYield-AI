@@ -1,9 +1,12 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   XMarkIcon, 
   ExclamationCircleIcon, 
   ArrowRightIcon, 
-  ArrowPathIcon 
+  ArrowPathIcon,
+  EyeIcon,
+  EyeSlashIcon,
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
 import * as api from '../../api';
 import type { UserProfile } from '../../types';
@@ -18,14 +21,42 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
   const [mode, setMode] = useState<'login' | 'register'>(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [organization, setOrganization] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Password criteria checks
+  const hasMinLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (mode === 'register') {
+      if (!hasMinLength) {
+        setError('Password must contain at least 8 characters.');
+        return;
+      }
+      if (!hasUpperCase) {
+        setError('Password must contain at least one uppercase letter (A-Z).');
+        return;
+      }
+      if (!hasLowerCase) {
+        setError('Password must contain at least one lowercase letter (a-z).');
+        return;
+      }
+      if (password !== confirmPassword) {
+        setError('Password and Confirm Password do not match.');
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
@@ -33,7 +64,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
         const res = await api.loginUser(email, password);
         onSuccess(res.user);
       } else {
-        const res = await api.registerUser(email, password, fullName || undefined, organization || undefined);
+        const res = await api.registerUser(email, password, fullName || undefined, undefined);
         onSuccess(res.user);
       }
     } catch (err: any) {
@@ -51,7 +82,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
         borderRadius: 24,
         padding: '36px',
         color: 'var(--color-offwhite)',
-        position: 'relative'
+        position: 'relative',
+        maxWidth: 480,
+        width: '100%'
       }}>
         <button 
           onClick={onClose}
@@ -131,35 +164,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {mode === 'register' && (
-            <>
-              <div>
-                <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-fullname">
-                  Full Name
-                </label>
-                <input 
-                  id="auth-fullname"
-                  className="form-input"
-                  type="text"
-                  placeholder="e.g. Ravindra Modepalli"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-org">
-                  Organization / Farm Enterprise
-                </label>
-                <input 
-                  id="auth-org"
-                  className="form-input"
-                  type="text"
-                  placeholder="e.g. Agricultural Advisory Group"
-                  value={organization}
-                  onChange={(e) => setOrganization(e.target.value)}
-                />
-              </div>
-            </>
+            <div>
+              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-fullname">
+                Full Name
+              </label>
+              <input 
+                id="auth-fullname"
+                className="form-input"
+                type="text"
+                placeholder="e.g. Ravindra Modepalli"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </div>
           )}
 
           <div>
@@ -181,16 +198,144 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-password">
               Password *
             </label>
-            <input 
-              id="auth-password"
-              className="form-input"
-              type="password"
-              required
-              placeholder="••••••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div style={{ position: 'relative' }}>
+              <input 
+                id="auth-password"
+                className="form-input"
+                type={showPassword ? 'text' : 'password'}
+                required
+                placeholder={mode === 'register' ? 'Min 8 chars, uppercase & lowercase' : '••••••••••••'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ paddingRight: 42 }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                style={{
+                  position: 'absolute',
+                  right: 10,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'transparent',
+                  border: 'none',
+                  color: showPassword ? 'var(--color-lime)' : 'var(--color-muted)',
+                  cursor: 'pointer',
+                  padding: 4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                {showPassword ? (
+                  <EyeSlashIcon style={{ width: 19, height: 19 }} />
+                ) : (
+                  <EyeIcon style={{ width: 19, height: 19 }} />
+                )}
+              </button>
+            </div>
           </div>
+
+          {mode === 'register' && (
+            <>
+              <div>
+                <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-confirm-password">
+                  Confirm Password *
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <input 
+                    id="auth-confirm-password"
+                    className="form-input"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    placeholder="Re-enter your password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    style={{ paddingRight: 42 }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                    style={{
+                      position: 'absolute',
+                      right: 10,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'transparent',
+                      border: 'none',
+                      color: showConfirmPassword ? 'var(--color-lime)' : 'var(--color-muted)',
+                      cursor: 'pointer',
+                      padding: 4,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeSlashIcon style={{ width: 19, height: 19 }} />
+                    ) : (
+                      <EyeIcon style={{ width: 19, height: 19 }} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Password Requirement Badges */}
+              <div style={{
+                background: 'rgba(28, 42, 27, 0.65)',
+                border: '1px solid rgba(228, 253, 151, 0.12)',
+                borderRadius: 12,
+                padding: '10px 14px',
+                fontSize: 12,
+                fontFamily: 'var(--font-mono)',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: 8
+              }}>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 6,
+                  color: hasMinLength ? 'var(--color-lime)' : 'var(--color-muted)' 
+                }}>
+                  <CheckCircleIcon style={{ width: 14, height: 14, color: hasMinLength ? 'var(--color-lime)' : '#5A6E58' }} />
+                  <span>Min 8 characters</span>
+                </div>
+
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 6,
+                  color: hasUpperCase ? 'var(--color-lime)' : 'var(--color-muted)' 
+                }}>
+                  <CheckCircleIcon style={{ width: 14, height: 14, color: hasUpperCase ? 'var(--color-lime)' : '#5A6E58' }} />
+                  <span>Uppercase (A-Z)</span>
+                </div>
+
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 6,
+                  color: hasLowerCase ? 'var(--color-lime)' : 'var(--color-muted)' 
+                }}>
+                  <CheckCircleIcon style={{ width: 14, height: 14, color: hasLowerCase ? 'var(--color-lime)' : '#5A6E58' }} />
+                  <span>Lowercase (a-z)</span>
+                </div>
+
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 6,
+                  color: passwordsMatch ? 'var(--color-lime)' : 'var(--color-muted)' 
+                }}>
+                  <CheckCircleIcon style={{ width: 14, height: 14, color: passwordsMatch ? 'var(--color-lime)' : '#5A6E58' }} />
+                  <span>Passwords match</span>
+                </div>
+              </div>
+            </>
+          )}
 
           <button 
             type="submit" 
