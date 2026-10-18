@@ -14,16 +14,10 @@ export const BentoGrid: React.FC = () => {
     <section id="features" style={{ padding: '90px 0', backgroundColor: '#121B11', borderTop: '1px solid var(--color-forest-border)', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
         <div style={{ maxWidth: 760, marginBottom: 50 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 12,
-            fontWeight: 700,
-            color: 'var(--color-lime)',
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase'
-          }}>
-            CORE CAPABILITIES
-          </span>
+          <div className="section-pill-badge">
+            <ChartBarIcon />
+            <span>CORE CAPABILITIES</span>
+          </div>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 44px)',
             color: 'var(--color-offwhite)',

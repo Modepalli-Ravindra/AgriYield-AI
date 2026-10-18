@@ -64,16 +64,10 @@ export const EnvironmentalContext: React.FC = () => {
     <section style={{ padding: '90px 0', backgroundColor: '#152214' }}>
       <div className="container">
         <div style={{ maxWidth: 740, marginBottom: 50 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 12,
-            fontWeight: 700,
-            color: 'var(--color-lime)',
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase'
-          }}>
-            ENVIRONMENTAL DRIVERS
-          </span>
+          <div className="section-pill-badge">
+            <GlobeAltIcon />
+            <span>ENVIRONMENTAL DRIVERS</span>
+          </div>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 42px)',
             color: 'var(--color-offwhite)',

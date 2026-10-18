@@ -49,16 +49,10 @@ export const ModelMethodology: React.FC = () => {
     <section id="insights" style={{ padding: '90px 0', backgroundColor: '#152214', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
         <div style={{ maxWidth: 740, marginBottom: 50 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 12,
-            fontWeight: 700,
-            color: 'var(--color-lime)',
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase'
-          }}>
-            MODEL BENCHMARKS
-          </span>
+          <div className="section-pill-badge">
+            <CheckCircleIcon />
+            <span>MODEL BENCHMARKS</span>
+          </div>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 42px)',
             color: 'var(--color-offwhite)',

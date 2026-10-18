@@ -50,16 +50,10 @@ export const FrameworkPipeline: React.FC = () => {
     <section id="methodology" style={{ padding: '90px 0', backgroundColor: '#121B11', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
         <div style={{ maxWidth: 740, marginBottom: 50 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 12,
-            fontWeight: 700,
-            color: 'var(--color-lime)',
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase'
-          }}>
-            APPLICATION WORKFLOW
-          </span>
+          <div className="section-pill-badge">
+            <CpuChipIcon />
+            <span>APPLICATION WORKFLOW</span>
+          </div>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 42px)',
             color: 'var(--color-offwhite)',

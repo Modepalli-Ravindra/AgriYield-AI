@@ -4,7 +4,8 @@ import {
   ChevronUpIcon, 
   ShieldCheckIcon, 
   ExclamationTriangleIcon, 
-  ArrowTopRightOnSquareIcon 
+  ArrowTopRightOnSquareIcon,
+  QuestionMarkCircleIcon
 } from '@heroicons/react/24/outline';
 
 const FAQS = [
@@ -104,16 +105,10 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
       <section id="faq" style={{ padding: '90px 0', backgroundColor: '#121B11' }}>
         <div className="container" style={{ maxWidth: 880 }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 12,
-              fontWeight: 700,
-              color: 'var(--color-lime)',
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase'
-            }}>
-              FREQUENTLY ASKED QUESTIONS
-            </span>
+            <div className="section-pill-badge">
+              <QuestionMarkCircleIcon />
+              <span>FREQUENTLY ASKED QUESTIONS</span>
+            </div>
             <h2 style={{
               fontSize: 'clamp(28px, 3.8vw, 42px)',
               color: 'var(--color-offwhite)',

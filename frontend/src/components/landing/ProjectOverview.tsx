@@ -11,16 +11,10 @@ export const ProjectOverview: React.FC = () => {
     <section id="overview" style={{ padding: '90px 0', backgroundColor: '#152214' }}>
       <div className="container">
         <div style={{ maxWidth: 780, marginBottom: 50 }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 12,
-            fontWeight: 700,
-            color: 'var(--color-lime)',
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase'
-          }}>
-            INTELLIGENCE ARCHITECTURE
-          </span>
+          <div className="section-pill-badge">
+            <CpuChipIcon />
+            <span>INTELLIGENCE ARCHITECTURE</span>
+          </div>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 44px)',
             color: 'var(--color-offwhite)',
