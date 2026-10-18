@@ -22,8 +22,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section style={{
       position: 'relative',
-      paddingTop: 110,
-      paddingBottom: 45,
+      paddingTop: 165,
+      paddingBottom: 60,
       overflow: 'hidden',
       backgroundColor: '#121B11'
     }}>
@@ -269,3 +269,4 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     </section>
   );
 };
+
