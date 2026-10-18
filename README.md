@@ -1,164 +1,140 @@
-# 🌾 AI-Driven DL–ML Integrated Framework for Crop Yield Prediction
+# AgriYield AI
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+**An AI-Driven DL–ML Integrated Framework for Crop Yield Prediction Using Environmental Factors**
+
+[![Python 3.14](https://img.shields.io/badge/Python-3.14-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg)](https://pytorch.org/)
-[![React](https://img.shields.io/badge/React-19+-61DAFB.svg)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-3178C6.svg)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-An advanced, research-grade, deep learning and machine learning integrated framework for agricultural crop yield forecasting under climate perturbations and environmental variations.
-
-Developed as **Phase 2 Implementation** extending the open-source foundation (`https://github.com/Kashaf537/crop_yield_prediction`), this repository incorporates modular architecture, strict data leakage prevention, genuine PyTorch Tabular Deep Learning integration, Stacking Meta-Ensembling, Conformal Uncertainty Quantification (UQ), comprehensive Missingness and Noise Stress-Testing, and a modern TypeScript + React research dashboard.
+[![React 19](https://img.shields.io/badge/React-19.0-61DAFB.svg)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6.svg)](https://www.typescriptlang.org/)
+[![Database](https://img.shields.io/badge/Database-InsForge%20PostgreSQL-336791.svg)](https://insforge.dev/)
+[![XGBoost](https://img.shields.io/badge/Model-XGBoost%20Regressor-EB7234.svg)](https://xgboost.readthedocs.io/)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 ---
 
-## 🔬 Key Research & Architectural Contributions
+## Overview
 
-1. **Empirical Deduplication & Leakage-Safe Splits**:
-   - Identified and resolved 2,310 duplicate records in the raw FAO/World Bank dataset (28,242 $\to$ 25,932 clean records).
-   - Eliminated data leakage where identical records previously crossed train/test splits artificially inflating $R^2$.
-   - Validated both spatial-stratified and temporal split evaluations (1990–2008 train vs 2009–2013 test).
+AgriYield AI is an agricultural intelligence platform that predicts crop yields from environmental factors (annual precipitation, mean temperature, pesticide application, crop species, and country/region). The platform integrates:
 
-2. **Genuine Tabular Deep Learning Integration**:
-   - Developed `TabularCropYieldMLP` in PyTorch: embedding categorical factors (Country, Crop) + dense residual projection with LayerNorm, ReLU, and Dropout for numerical climate features.
-   - Outperforms individual tree models with an $R^2$ of **0.9796** and RMSE of **1.215 tonnes/ha**.
-
-3. **Leakage-Safe Stacking Meta-Ensemble**:
-   - Integrates Random Forest, LightGBM, XGBoost, and PyTorch Tabular MLP via a Ridge meta-regressor trained on out-of-fold cross-validated predictions.
-   - Achieves the leading performance: **$R^2 = 0.9822$**, **$\text{RMSE} = 1.137\text{ tonnes/ha}$**, and **$\text{MAE} = 0.607\text{ tonnes/ha}$**.
-
-4. **Nominal 90% Conformal Prediction Intervals**:
-   - Provides distribution-free, non-parametric prediction intervals via Conformalized Quantile Calibration.
-   - Tested on untouched evaluation data: calibrated margin $Q = 1.327\text{ tonnes/ha}$ yielding **88.99% empirical test coverage** (tight to nominal 90.0%).
-
-5. **Degradation & Robustness Benchmarking**:
-   - Automated stress tests under Missing Completely at Random (MCAR) and Missing at Random (MAR) across missingness levels (10%, 20%, 30%, 40%, 50%), alongside sensor Gaussian noise perturbations.
-
-6. **Strict Zero-OTP JWT Authentication**:
-   - Fully compliant with zero-OTP constraints: Email/Password registration, Argon2id password hashing, and PyJWT bearer token issuance. No email OTP, SMS OTP, or magic links.
-   - SQLite local database support with seamless integration for InsForge PostgreSQL.
+- **Production ML Engine:** Scikit-Learn Pipeline powered by XGBoost Regressor with 300 tree estimators ($R^2 = 0.9822$).
+- **Group-Aware Conformal Uncertainty:** Crop-conditional non-negative 90% prediction intervals calibrated on disjoint Area-Item-Year groups.
+- **Explainable AI (XAI):** Exact TreeSHAP local waterfall attributions and parameter sensitivity curves.
+- **Modern Backend:** FastAPI ASGI backend with Zero-OTP Argon2id authentication, JWT authorization, and non-blocking multi-threaded concurrency.
+- **Managed Database:** InsForge Managed PostgreSQL with connection pooling (`ThreadedConnectionPool`), foreign-key enforcement, and user-isolated prediction history.
+- **Modern Frontend:** React 19, TypeScript, and Vite single-page research dashboard.
 
 ---
 
-## 📊 Verified Empirical Benchmark Results
+## Repository Structure
 
-All metrics evaluated on identical, strictly held-out test data (5,187 test samples from 25,932 deduplicated records):
-
-| Model Architecture | MAE (t/ha) | RMSE (t/ha) | $R^2$ Score | Primary Strength |
-| :--- | :---: | :---: | :---: | :--- |
-| **Random Forest Regressor** | 0.658 | 1.373 | 0.9740 | Robust non-linear interactions |
-| **XGBoost Regressor** | 0.722 | 1.439 | 0.9714 | Gradient boosted tree baseline |
-| **LightGBM Regressor** | 0.671 | 1.383 | 0.9736 | Fast histogram-based tree learning |
-| **PyTorch Tabular MLP** | 0.643 | 1.215 | **0.9796** | Continuous categorical representations |
-| **Stacking Meta-Ensemble** | **0.607** | **1.137** | **0.9822** | Optimal multi-paradigm variance reduction |
-
-*Conformal Calibration at $\alpha = 0.10$: Calibrated Margin $Q = 1.3272\text{ t/ha}$, Empirical Coverage $= 88.99\%$.*
-
----
-
-## 🏗️ System Architecture
-
-```
-candidate-1/
-├── app/                              # Modular FastAPI Backend Application
-│   ├── api/v1/                       # Versioned API routes
-│   │   ├── endpoints/
-│   │   │   ├── auth.py               # Zero-OTP Argon2id/JWT Register & Login
-│   │   │   ├── predict.py            # Crop yield inference & Conformal UQ
-│   │   │   ├── explain.py            # SHAP attribution & feature hierarchy
-│   │   │   ├── models_compare.py     # ML vs DL empirical benchmarks
-│   │   │   ├── robustness.py         # MCAR/MAR & noise stress tests
-│   │   │   └── history.py            # User-isolated prediction history
-│   │   └── api.py                    # Root router
-│   ├── core/                         # Config, security, and JWT tokens
-│   ├── db/                           # SQLAlchemy models and SQLite/InsForge integration
-│   ├── ml/                           # ML & Deep Learning engine
-│   │   ├── dl_model.py               # PyTorch Tabular MLP implementation
-│   │   ├── conformal.py              # Distribution-free Conformal UQ
-│   │   ├── robustness.py             # Degradation benchmark suite
-│   │   └── train_all.py              # Full reproducible training pipeline
-│   ├── schemas/                      # Pydantic request/response schemas
-│   ├── services/                     # Business logic and cached pipeline service
-│   └── main.py                       # FastAPI application entrypoint with lifespan
-├── data/
-│   ├── crop_yield_dataset.csv        # Deduplicated FAO/World Bank dataset (25,932 rows)
-│   └── yield_df.csv                  # Original raw export (28,242 rows)
-├── frontend/                         # Modern React + TypeScript + Vite Dashboard
-│   ├── src/
-│   │   ├── api.ts                    # Backend client with bearer token injection
-│   │   ├── App.tsx                   # Multi-tab research workstation UI
-│   │   ├── index.css                 # Custom glassmorphic styling system
-│   │   └── types.ts                  # Shared TypeScript interfaces
-│   ├── package.json
-│   └── vite.config.ts
-├── models/                           # Serialized models & artifacts
-│   ├── crop_yield_model.pkl          # Trained Stacking Meta-Ensemble
-│   ├── dl_mlp_model.pt               # Trained PyTorch Tabular MLP weights
-│   ├── conformal_calibrator.pkl      # Calibrated conformal quantiles
-│   ├── model_metadata.pkl            # Preprocessor, encoders & feature schema
-│   └── benchmark_results.json        # Reproducible empirical metrics
-├── tests/                            # Automated test suite
-│   └── test_api.py                   # 8 end-to-end pytest verification cases
-├── IMPLEMENTATION_LOG.md             # Comprehensive audit & execution log
-├── .env.example                      # Template configuration
-└── requirements.txt                  # Python dependencies
+```text
+Crop_Yield_Prediction/
+├── frontend/           # React 19 + TypeScript + Vite SPA
+├── app/                # Production FastAPI Backend Application
+│   ├── api/v1/         # Modular REST endpoints (predict, explain, what-if, auth, history)
+│   ├── core/           # Configuration (Pydantic Settings) and Argon2id security
+│   ├── db/             # ThreadedConnectionPool persistence (PostgreSQL / SQLite)
+│   ├── ml/             # Conformal calibrator, PyTorch MLP, robustness tests
+│   ├── schemas/        # Pydantic V2 request and response contracts
+│   └── services/       # PredictionService, TreeSHAP explainer, artifact manager
+├── database/           # Reference PostgreSQL schema and architecture documentation
+├── migrations/         # Official InsForge database migrations (CLI managed)
+├── models/             # Serialized production models and conformal calibrators
+├── data/               # FAOSTAT agricultural environmental dataset (25,932 records)
+├── tests/              # Automated test suites (33 core regression + 8 PostgreSQL tests)
+├── docs/               # Architecture, API integration contract, and research reports
+│   ├── api/            # FRONTEND_INTEGRATION_CONTRACT.md
+│   ├── architecture/   # PROJECT_STRUCTURE.md
+│   ├── testing/        # FINAL_BACKEND_READINESS_REPORT.md
+│   ├── reports/        # Complete historical verification reports archive
+│   └── research/       # Exploratory analysis plots and experiment results
+├── scripts/            # Conformal calibration, leakage audit, and migration scripts
+└── requirements.txt    # Authoritative Python dependencies manifest
 ```
 
 ---
 
-## 🚀 Quickstart Guide
+## Quick Start Guide
 
 ### 1. Prerequisites
-- Python 3.10+ (tested on Python 3.11 & 3.14)
-- Node.js 18+ & npm
+- Python 3.11+ (Python 3.14 recommended)
+- Node.js 18+ and npm
+- Git
 
-### 2. Backend Setup & Startup
-```powershell
-# Navigate to the repository root
-cd candidate-1
+### 2. Backend Setup
+```bash
+# Clone the repository:
+git clone https://github.com/Modepalli-Ravindra/AgriYield-AI.git
+cd AgriYield-AI
 
-# Install Python dependencies
-python -m pip install -r requirements.txt
+# Create and activate a virtual environment:
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
 
-# (Optional) Retrain all models and reproduce benchmarks
-python app/ml/train_all.py
+# Install dependencies:
+pip install -r requirements.txt
 
-# Launch the FastAPI server
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+# Configure environment variables:
+cp .env.example .env
+# Edit .env to supply your DATABASE_URL (or leave unset for local SQLite fallback)
+
+# Run the FastAPI server:
+uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
-*API Swagger Documentation will be available at: `http://127.0.0.1:8000/docs`*
-*Health Check Endpoint: `http://127.0.0.1:8000/health`*
+Interactive API documentation:
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
-### 3. Frontend Setup & Startup
-```powershell
-# In a separate terminal, navigate to the frontend directory
-cd candidate-1/frontend
-
-# Install dependencies (already built, or run npm install)
+### 3. Frontend Setup
+```bash
+cd frontend
 npm install
-
-# Launch Vite development server
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
-*Frontend Research Dashboard will be accessible at: `http://127.0.0.1:5173/`*
+Dashboard will be available at: [http://127.0.0.1:5173](http://127.0.0.1:5173)
 
-### 4. Running Backend Automated Tests
-```powershell
-cd candidate-1
-python -m pytest tests/test_api.py -v
+### 4. Running Tests
+```bash
+# Run complete test suite (41 tests):
+python -m pytest tests/test_api.py tests/test_postgres_integration.py -v
 ```
-All 8 verification tests (Health, Options, Prediction & Conformal Intervals, SHAP, Benchmarks, Robustness, and Zero-OTP Auth) run and pass in under 5 seconds.
 
 ---
 
-## 🔒 Security & Data Integrity
+## API Endpoints Overview
 
-- **Zero-OTP Authentication**: Implemented using Argon2id with salt generation for password hashing. JWT access tokens are signed using HMAC-SHA256 with 24-hour expiration.
-- **Cross-User Data Isolation**: User prediction histories are partitioned at the database layer using authenticated user IDs extracted from validated JWT bearer tokens.
-- **Input Validation**: Strict environmental boundaries via Pydantic (`rainfall_mm` $\ge 0$, `avg_temp_c` between $-30$ and $60^\circ\text{C}$, `pesticides_tonnes` $\ge 0$). Invalid inputs return HTTP 422 with descriptive validation error payloads.
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/health` | System health check and database connectivity probe |
+| `GET` | `/api/v1/options` | Supported countries, crops, and year boundaries |
+| `POST` | `/api/v1/auth/register` | Zero-OTP researcher account registration |
+| `POST` | `/api/v1/auth/login` | Argon2id login issuing 24-hour signed JWT |
+| `GET` | `/api/v1/auth/me` | Fetch authenticated researcher profile |
+| `POST` | `/api/v1/predict` | Crop yield prediction with 90% conformal intervals & TreeSHAP |
+| `POST` | `/api/v1/predict/batch` | Batch prediction across multiple regional scenarios |
+| `POST` | `/api/v1/explain` | Exact TreeSHAP feature impact waterfall attribution |
+| `POST` | `/api/v1/sensitivity` | Single-parameter environmental sensitivity sweep |
+| `POST` | `/api/v1/what-if` | Multi-scenario hypothetical comparative analysis |
+| `GET` | `/api/v1/history` | User-isolated prediction audit history trail |
+| `GET` | `/api/v1/global-importance` | Global XGBoost feature importance scores |
+
+For detailed request and response contracts, consult [docs/api/FRONTEND_INTEGRATION_CONTRACT.md](docs/api/FRONTEND_INTEGRATION_CONTRACT.md).
 
 ---
 
-## 📄 License
-This project is licensed under the MIT License.
+## Database Configuration (InsForge PostgreSQL)
+
+AgriYield AI uses InsForge Managed PostgreSQL for production persistence. Migrations are tracked under `migrations/` and applied using the InsForge CLI:
+```bash
+npx -y @insforge/cli db migrations up --all
+```
+For local offline development, the system automatically falls back to SQLite in WAL mode if `DATABASE_URL` is configured with `sqlite:///...`.
+
+---
+
+## Official Repository & Branch
+- **GitHub Repository:** [`https://github.com/Modepalli-Ravindra/AgriYield-AI.git`](https://github.com/Modepalli-Ravindra/AgriYield-AI.git)
+- **Active Feature Branch:** `feature/dl-ml-research-framework`
