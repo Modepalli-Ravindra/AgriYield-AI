@@ -1,17 +1,32 @@
-﻿"""Prediction and reference options Pydantic schemas."""
+"""Prediction and reference options Pydantic schemas."""
 from __future__ import annotations
 
+import math
 from datetime import datetime
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, ValidationInfo
 
 class YieldInput(BaseModel):
     country: str = Field(..., description="Reporting country or territory", min_length=1)
     crop: str = Field(..., description="Crop type (e.g. Wheat, Maize, Potatoes)", min_length=1)
-    year: int = Field(default=2013, ge=1960, le=2050, description="Crop harvest observation year")
+    year: int = Field(default=2013, ge=1900, le=2100, description="Crop harvest observation year")
     rainfall_mm: float = Field(..., ge=0.0, le=12000.0, description="Annual aggregate precipitation in mm")
-    avg_temp_c: float = Field(..., ge=-30.0, le=60.0, description="Average annual temperature in Celsius")
+    avg_temp_c: float = Field(..., ge=-50.0, le=60.0, description="Average annual temperature in Celsius")
     pesticides_tonnes: float = Field(default=100.0, ge=0.0, le=1000000.0, description="Pesticide application in metric tonnes")
+
+    @field_validator("rainfall_mm", "avg_temp_c", "pesticides_tonnes")
+    @classmethod
+    def validate_finite_numbers(cls, v: float, info: ValidationInfo) -> float:
+        if v is None or math.isnan(v) or math.isinf(v):
+            raise ValueError(f"Field '{info.field_name}' must be a finite real number; received malformed/non-finite value: {v}")
+        return v
+
+    @field_validator("country", "crop")
+    @classmethod
+    def validate_non_empty_strings(cls, v: str, info: ValidationInfo) -> str:
+        if not isinstance(v, str) or not v.strip():
+            raise ValueError(f"Field '{info.field_name}' must be a non-empty string.")
+        return v.strip()
 
 class ConfidenceInterval(BaseModel):
     lower: float
@@ -46,6 +61,7 @@ class PredictionResponse(BaseModel):
     feature_names: Optional[List[str]] = None
     base_value: Optional[float] = None
     attribution_method: str = "Exact TreeSHAP (shap.TreeExplainer)"
+    warnings: List[str] = Field(default_factory=list, description="Advisory data validation and distribution shift warnings")
     timestamp: str
 
 class BatchPredictionRequest(BaseModel):

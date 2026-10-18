@@ -6,6 +6,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from fastapi.encoders import jsonable_encoder
+from fastapi import Request
+import math
 
 from app.core.config import settings
 from app.api.v1.api import api_router
@@ -44,6 +48,20 @@ app.add_middleware(
 app.include_router(api_router, prefix=settings.API_V1_STR)
 # Mount also without prefix for backward compatibility with existing tests/clients
 app.include_router(api_router, prefix="")
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """Custom validation handler ensuring non-compliant float types (NaN, Inf) serialize cleanly in HTTP 422."""
+    errors = exc.errors()
+    sanitized_errors = []
+    for err in errors:
+        err_copy = dict(err)
+        if "input" in err_copy:
+            val = err_copy["input"]
+            if isinstance(val, float) and (math.isnan(val) or math.isinf(val)):
+                err_copy["input"] = str(val)
+        sanitized_errors.append(err_copy)
+    return JSONResponse(status_code=422, content={"detail": jsonable_encoder(sanitized_errors)})
 
 @app.get("/health", tags=["System Status"])
 def health_check():

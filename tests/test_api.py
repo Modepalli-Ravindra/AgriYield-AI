@@ -1,4 +1,4 @@
-﻿"""Automated backend API and research test suite."""
+"""Automated backend API and research test suite."""
 from __future__ import annotations
 
 import sys
@@ -544,3 +544,158 @@ def test_phase3_6_4way_split_exact_disjointness_and_counts():
     assert len(g_base.intersection(g_calib)) == 0
     assert len(g_meta.intersection(g_calib)) == 0
     assert len((g_base | g_meta | g_calib).intersection(g_test)) == 0
+
+
+# ==============================================================================
+# PHASE 3.7: MODEL SELECTION & PRODUCTION RELIABILITY REGRESSION TESTS
+# ==============================================================================
+
+def test_phase3_7_nan_inf_and_invalid_inputs_rejected():
+    """Phase 3.7 Task 3: Validate API boundary rejection of NaN, Inf, empty, and physically invalid values."""
+    base_payload = {
+        "country": "India",
+        "crop": "Wheat",
+        "year": 2013,
+        "rainfall_mm": 1050.0,
+        "avg_temp_c": 25.5,
+        "pesticides_tonnes": 500.0
+    }
+
+    # 1. Reject NaN rainfall via raw JSON string
+    raw_nan = '{"country": "India", "crop": "Wheat", "year": 2013, "rainfall_mm": NaN, "avg_temp_c": 25.5, "pesticides_tonnes": 500.0}'
+    res = client.post("/api/v1/predict", content=raw_nan, headers={"Content-Type": "application/json"})
+    assert res.status_code == 422, f"Expected 422 for NaN rainfall, got {res.status_code}"
+
+    # 2. Reject Inf temperature via raw JSON string
+    raw_inf = '{"country": "India", "crop": "Wheat", "year": 2013, "rainfall_mm": 1050.0, "avg_temp_c": Infinity, "pesticides_tonnes": 500.0}'
+    res = client.post("/api/v1/predict", content=raw_inf, headers={"Content-Type": "application/json"})
+    assert res.status_code == 422, f"Expected 422 for Inf temperature, got {res.status_code}"
+
+    # 3. Reject negative rainfall
+    p_neg_rain = dict(base_payload, rainfall_mm=-10.0)
+    res = client.post("/api/v1/predict", json=p_neg_rain)
+    assert res.status_code == 422, f"Expected 422 for negative rainfall, got {res.status_code}"
+
+    # 4. Reject extreme physical temperature (>60C)
+    p_extreme_temp = dict(base_payload, avg_temp_c=85.0)
+    res = client.post("/api/v1/predict", json=p_extreme_temp)
+    assert res.status_code == 422, f"Expected 422 for 85C temperature, got {res.status_code}"
+
+    # 5. Reject whitespace-only country
+    p_empty_country = dict(base_payload, country="   ")
+    res = client.post("/api/v1/predict", json=p_empty_country)
+    assert res.status_code == 422, f"Expected 422 for whitespace country, got {res.status_code}"
+
+    # 6. Reject whitespace-only crop
+    p_empty_crop = dict(base_payload, crop="")
+    res = client.post("/api/v1/predict", json=p_empty_crop)
+    assert res.status_code == 422, f"Expected 422 for empty crop, got {res.status_code}"
+
+
+def test_phase3_7_unusual_environmental_values_advisory_warnings():
+    """Phase 3.7 Task 3: Verify unusual values return HTTP 200 with non-blocking advisory warnings."""
+    # Payload with unusual environmental conditions (temp 38C, rainfall 25mm, year 2026, unseen country)
+    unusual_payload = {
+        "country": "Atlantis",
+        "crop": "Wheat",
+        "year": 2026,
+        "rainfall_mm": 25.0,
+        "avg_temp_c": 38.0,
+        "pesticides_tonnes": 500.0
+    }
+    res = client.post("/api/v1/predict", json=unusual_payload)
+    assert res.status_code == 200
+    data = res.json()
+
+    # Valid predictions returned without silent clipping
+    assert data["predicted_yield_tonnes_per_ha"] >= 0.0
+    assert "warnings" in data
+    warnings = data["warnings"]
+    assert len(warnings) >= 3
+
+    # Check specific distribution warnings
+    w_text = " ".join(warnings)
+    assert "historical training range" in w_text
+    assert "unseen in training data" in w_text
+    assert "zero-shot geographic transfer" in w_text
+
+
+def test_phase3_7_prediction_conformal_interval_internal_consistency():
+    """Phase 3.7 Task 4: Ensure internal mathematical consistency across predictions, intervals, and units."""
+    payload = {
+        "country": "India",
+        "crop": "Potatoes",
+        "year": 2012,
+        "rainfall_mm": 1100.0,
+        "avg_temp_c": 24.0,
+        "pesticides_tonnes": 25000.0
+    }
+    res = client.post("/api/v1/predict", json=payload)
+    assert res.status_code == 200
+    data = res.json()
+
+    pred_hg = data["predicted_yield_hg_per_ha"]
+    pred_t = data["predicted_yield_tonnes_per_ha"]
+    ci = data["conformal_interval_90"]
+
+    # Target unit conversion consistency
+    assert abs(pred_t - round(pred_hg / 10000.0, 4)) < 1e-4
+
+    # Strict bounds consistency
+    assert ci["lower_bound"] <= pred_t <= ci["upper_bound"]
+    assert ci["lower_bound"] >= 0.0
+    assert abs(ci["interval_width_tonnes"] - round(ci["upper_bound"] - ci["lower_bound"], 4)) < 1e-4
+    assert ci["unit"] == "tonnes/ha"
+    assert ci["calibration_crop"] == "Potatoes"
+    assert "Crop-Conditional" in ci["method"]
+
+
+def test_phase3_7_production_model_artifact_identity_and_selection_record():
+    """Phase 3.7 Task 2 & 6: Verify deployed artifact identity, metadata, and selection rationale."""
+    import json
+    from sklearn.pipeline import Pipeline
+    from xgboost.sklearn import XGBRegressor
+    from app.services.prediction_service import prediction_service
+
+    # Verify loaded model is XGBoost pipeline
+    assert isinstance(prediction_service.model, Pipeline)
+    assert isinstance(prediction_service.model.named_steps["regressor"], XGBRegressor)
+
+    # Verify model selection comparison artifact exists and records decision
+    comp_path = Path(__file__).resolve().parent.parent / "models" / "model_selection_comparison.json"
+    assert comp_path.exists(), "models/model_selection_comparison.json must exist"
+    with open(comp_path, "r", encoding="utf-8") as f:
+        comp_data = json.load(f)
+
+    assert comp_data["selection_decision"]["status"] == "RETAIN_XGBOOST"
+    assert "Random Forest" in comp_data["operational_metrics"]
+    assert "XGBoost" in comp_data["operational_metrics"]
+    # XGBoost artifact must be significantly smaller than RF
+    xgb_mb = comp_data["operational_metrics"]["XGBoost"]["artifact_size_mb"]
+    rf_mb = comp_data["operational_metrics"]["Random Forest"]["artifact_size_mb"]
+    assert xgb_mb < 5.0
+    assert rf_mb > 20.0
+
+
+def test_phase3_7_treeshap_additivity_and_explanation_consistency():
+    """Phase 3.7 Task 6: Validate TreeSHAP additivity, exact attribution method, and explanation consistency."""
+    payload = {
+        "country": "India",
+        "crop": "Wheat",
+        "year": 2013,
+        "rainfall_mm": 1050.0,
+        "avg_temp_c": 25.5,
+        "pesticides_tonnes": 50000.0
+    }
+    res = client.post("/api/v1/explain", json=payload)
+    assert res.status_code == 200
+    data = res.json()
+
+    assert data["attribution_method"] == "Exact TreeSHAP (shap.TreeExplainer)"
+    assert data["additivity_verified"] is True
+    assert len(data["feature_contributions"]) == 6
+
+    # Verify additivity: base_value + sum(shap_values) equals prediction within 0.05 t/ha
+    total_contrib = sum(fc["shap_value"] for fc in data["feature_contributions"])
+    reconstructed_pred = data["base_value"] + total_contrib
+    assert abs(reconstructed_pred - data["prediction_tonnes_per_ha"]) < 0.05

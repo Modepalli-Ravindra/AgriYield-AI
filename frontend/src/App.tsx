@@ -329,7 +329,7 @@ export default function App() {
               <CheckCircle size={14} /> API Online
             </span>
             <span className="badge badge-sky">
-              <Sparkles size={14} /> DL-ML Stacking v2
+              <Cpu size={14} /> Production XGBoost (v2)
             </span>
             <span className="badge badge-amber">
               <ShieldCheck size={14} /> 90% Conformal UQ
@@ -529,6 +529,22 @@ export default function App() {
                       {prediction.predicted_yield_hg_per_ha.toLocaleString()} hectograms / hectare
                     </p>
                   </div>
+
+                  {prediction.warnings && prediction.warnings.length > 0 && (
+                    <div className="callout callout-warning" style={{ marginBottom: '1.25rem', borderLeft: '4px solid #f59e0b', background: '#fffbeb', padding: '0.85rem 1rem' }}>
+                      <AlertTriangle size={20} style={{ color: '#d97706', flexShrink: 0, marginTop: '2px' }} />
+                      <div style={{ width: '100%' }}>
+                        <strong style={{ color: '#92400e', fontSize: '0.85rem' }}>
+                          Input Reliability & Training Distribution Warnings ({prediction.warnings.length}):
+                        </strong>
+                        <ul style={{ margin: '0.35rem 0 0 1rem', padding: 0, fontSize: '0.8rem', color: '#b45309' }}>
+                          {prediction.warnings.map((w, idx) => (
+                            <li key={idx} style={{ marginTop: '0.2rem' }}>{w}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="callout callout-info" style={{ marginBottom: '1rem' }}>
                     <ShieldCheck size={20} style={{ flexShrink: 0, marginTop: '2px' }} />

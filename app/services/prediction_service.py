@@ -1,45 +1,53 @@
-"""Prediction, explainability, and uncertainty service with Exact TreeSHAP and Crop-Conditional Conformal UQ."""
+"""Prediction service encapsulating production model inference, conformal intervals, and TreeSHAP."""
 from __future__ import annotations
 
 import os
 import json
-import logging
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
+import joblib
 import numpy as np
 import pandas as pd
-import joblib
 import shap
+from datetime import datetime, timezone
+from typing import Dict, List, Optional, Any, Tuple
+import logging
 
 from app.core.config import settings
 from app.db.database import db
-from app.ml.conformal import ConformalPredictionCalibrator
 from app.schemas.prediction import YieldInput, PredictionResponse, ConfidenceInterval, ConformalInterval
+from app.ml.conformal import ConformalPredictionCalibrator
 
 logger = logging.getLogger(__name__)
 
 class PredictionService:
+    """Production service delivering point predictions, calibrated intervals, and feature attributions."""
+
+    # Empirical training distribution limits derived from data/yield_df.csv (25,932 clean records)
+    TRAINING_DISTRIBUTION: Dict[str, Dict[str, float]] = {
+        "year": {"min": 1990.0, "max": 2013.0},
+        "rainfall_mm": {"min": 51.0, "max": 3240.0},
+        "pesticides_tonnes": {"min": 0.04, "max": 367778.0},
+        "avg_temp_c": {"min": 1.30, "max": 30.65}
+    }
+
     def __init__(self):
         self.model = None
         self.metadata = None
-        self.ref_data = None
         self.conformal_calibrator = None
-        self.benchmark_results = None
         self.tree_explainer = None
         self.feature_columns = None
+        self.ref_data = None
+        self.benchmark_results = None
         self._load_artifacts()
 
     def _load_artifacts(self):
-        """Load trained pipeline, metadata, reference data, and initialize TreeSHAP explainer."""
-        # 1. Pipeline
+        """Load production XGBoost pipeline, metadata, and conformal calibrator."""
+        # 1. Pipeline & TreeExplainer
         if os.path.exists(settings.MODEL_PATH):
             try:
                 self.model = joblib.load(settings.MODEL_PATH)
                 logger.info("Pipeline loaded from %s", settings.MODEL_PATH)
-                # Initialize TreeExplainer on deployed XGBRegressor
                 if hasattr(self.model, "named_steps") and "regressor" in self.model.named_steps:
                     self.tree_explainer = shap.TreeExplainer(self.model.named_steps["regressor"])
-                    # Cache feature names from preprocessor
                     preprocessor = self.model.named_steps["preprocessor"]
                     cat_encoder = preprocessor.named_transformers_["cat"]
                     cat_cols = cat_encoder.get_feature_names_out(["Area", "Item"])
@@ -53,6 +61,7 @@ class PredictionService:
         if os.path.exists(settings.METADATA_PATH):
             try:
                 self.metadata = joblib.load(settings.METADATA_PATH)
+                logger.info("Loaded model metadata: %s", self.metadata.get("model_name"))
             except Exception as e:
                 logger.error("Failed to load metadata: %s", e)
 
@@ -60,9 +69,12 @@ class PredictionService:
         if os.path.exists(settings.CONFORMAL_PATH):
             try:
                 self.conformal_calibrator = ConformalPredictionCalibrator.load(settings.CONFORMAL_PATH)
+                logger.info("Loaded group-aware conformal calibrator (Q_group_max=%.4f)",
+                            self.conformal_calibrator.group_max_quantile_q)
             except Exception as e:
                 logger.error("Failed to load conformal calibrator: %s", e)
-        if self.conformal_calibrator is None:
+                self.conformal_calibrator = ConformalPredictionCalibrator()
+        else:
             self.conformal_calibrator = ConformalPredictionCalibrator()
 
         # 4. Benchmark Results
@@ -84,6 +96,8 @@ class PredictionService:
                 logger.info("Reference data loaded: %d rows", len(self.ref_data))
             except Exception as e:
                 logger.error("Failed to load reference data: %s", e)
+
+    load_artifacts = _load_artifacts
 
     def get_options(self) -> Dict[str, Any]:
         """Return available countries, crops, year range, and default values."""
@@ -111,6 +125,68 @@ class PredictionService:
             "year_range": {"min": min_year, "max": max_year},
             "default_input": default_input
         }
+
+    def check_distribution_warnings(self, payload: YieldInput) -> List[str]:
+        """
+        Detect values outside the historical training distribution.
+        Distinguishes valid but unusual inputs from rejected invalid inputs without altering user input.
+        """
+        warnings: List[str] = []
+
+        # 1. Year distribution check
+        year_min = int(self.TRAINING_DISTRIBUTION["year"]["min"])
+        year_max = int(self.TRAINING_DISTRIBUTION["year"]["max"])
+        if payload.year < year_min or payload.year > year_max:
+            warnings.append(
+                f"Observation year {payload.year} is outside historical training range ({year_min} to {year_max}). "
+                "Forward temporal drift may reduce prediction accuracy."
+            )
+
+        # 2. Rainfall distribution check
+        rf_min = self.TRAINING_DISTRIBUTION["rainfall_mm"]["min"]
+        rf_max = self.TRAINING_DISTRIBUTION["rainfall_mm"]["max"]
+        if payload.rainfall_mm < rf_min or payload.rainfall_mm > rf_max:
+            warnings.append(
+                f"Annual precipitation {payload.rainfall_mm:.1f} mm is outside historical training range ({rf_min:.1f} to {rf_max:.1f} mm). "
+                "Extreme hydrological conditions may reduce prediction reliability."
+            )
+
+        # 3. Pesticides distribution check
+        pest_min = self.TRAINING_DISTRIBUTION["pesticides_tonnes"]["min"]
+        pest_max = self.TRAINING_DISTRIBUTION["pesticides_tonnes"]["max"]
+        if payload.pesticides_tonnes < pest_min or payload.pesticides_tonnes > pest_max:
+            warnings.append(
+                f"Pesticide application {payload.pesticides_tonnes:.2f} tonnes is outside historical training range ({pest_min:.2f} to {pest_max:.0f} tonnes)."
+            )
+
+        # 4. Temperature distribution check
+        temp_min = self.TRAINING_DISTRIBUTION["avg_temp_c"]["min"]
+        temp_max = self.TRAINING_DISTRIBUTION["avg_temp_c"]["max"]
+        if payload.avg_temp_c < temp_min or payload.avg_temp_c > temp_max:
+            warnings.append(
+                f"Average temperature {payload.avg_temp_c:.1f} ?C is outside historical training range ({temp_min:.1f} to {temp_max:.1f} ?C). "
+                "Thermal stress extrapolation may reduce model accuracy."
+            )
+
+        # 5. Geographic transfer check
+        if self.ref_data is not None:
+            known_countries = set(self.ref_data["Area"].unique())
+            if payload.country not in known_countries:
+                warnings.append(
+                    f"Country '{payload.country}' is unseen in training data. "
+                    "Prediction relies on zero-shot geographic transfer (cross-country R? ~0.54)."
+                )
+
+        # 6. Crop support check
+        if self.ref_data is not None:
+            known_crops = set(self.ref_data["Item"].unique())
+            if payload.crop not in known_crops:
+                warnings.append(
+                    f"Crop '{payload.crop}' was not observed in training data. "
+                    "Global fallback conformal uncertainty margin (Group Max Q = 2.573 t/ha) has been applied."
+                )
+
+        return warnings
 
     def _compute_shap(self, row: Any) -> Tuple[List[float], List[str], float, str]:
         """Compute exact TreeSHAP attributions with fallback to heuristic proxy."""
@@ -166,6 +242,10 @@ class PredictionService:
         if self.model is None:
             raise RuntimeError("Model pipeline not loaded.")
 
+        # Non-blocking distribution shift and data validity warnings
+        warnings = self.check_distribution_warnings(payload)
+
+        # Preserve legitimate inputs without silent clipping
         row = pd.DataFrame([{
             "Area": payload.country,
             "Item": payload.crop,
@@ -242,6 +322,7 @@ class PredictionService:
             feature_names=features,
             base_value=base_val_t,
             attribution_method=attribution_method,
+            warnings=warnings,
             timestamp=timestamp
         )
 

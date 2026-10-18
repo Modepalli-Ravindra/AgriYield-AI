@@ -1,4 +1,4 @@
-﻿export interface YieldInput {
+export interface YieldInput {
   country: string;
   crop: string;
   year: number;
@@ -39,6 +39,7 @@ export interface PredictionResponse {
   feature_names?: string[];
   base_value?: number;
   attribution_method?: string;
+  warnings?: string[];
   timestamp: string;
 }
 
