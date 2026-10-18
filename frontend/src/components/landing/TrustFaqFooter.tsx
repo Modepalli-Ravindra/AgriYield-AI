@@ -35,21 +35,21 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
 
   return (
     <>
-      {/* Application Trust & Practical Guidelines Section */}
+      {/* Application Trust & Simple English Practical Guidelines Section */}
       <section style={{ padding: '80px 0', backgroundColor: '#152214', borderTop: '1px solid var(--color-forest-border)' }}>
         <div className="container">
           <div style={{
             background: 'var(--color-forest-surface)',
             borderRadius: 24,
-            padding: '40px',
+            padding: '36px',
             border: '1px solid var(--color-forest-border)',
             boxShadow: 'var(--shadow-card)',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 36
+            gap: 32
           }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
                 <div style={{
                   width: 38,
                   height: 38,
@@ -62,19 +62,19 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                 }}>
                   <ShieldCheckIcon style={{ width: 20, height: 20 }} />
                 </div>
-                <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', fontWeight: 700 }}>
-                  Intended Application Use
+                <h3 style={{ fontSize: 19, color: 'var(--color-offwhite)', fontWeight: 700 }}>
+                  How AgriYield AI Helps You
                 </h3>
               </div>
-              <p style={{ fontSize: 14, color: 'var(--color-muted)', lineHeight: 1.6 }}>
-                AgriYield AI is engineered for regional crop yield estimation, agro-climatic sensitivity modeling, 
-                and uncertainty assessment. It helps agricultural planners, policy analysts, and farm managers 
-                evaluate the likely impact of weather patterns on harvest volume.
+              <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+                AgriYield AI helps farmers, advisors, and farm managers estimate crop harvests ahead of time. 
+                By entering simple weather factors like rainfall and temperature along with farm inputs, 
+                you get clear yield forecasts and reliable high-to-low harvest ranges.
               </p>
             </div>
 
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
                 <div style={{
                   width: 38,
                   height: 38,
@@ -87,13 +87,14 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                 }}>
                   <ExclamationTriangleIcon style={{ width: 20, height: 20 }} />
                 </div>
-                <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', fontWeight: 700 }}>
-                  Advisory Guidelines & Disclaimers
+                <h3 style={{ fontSize: 19, color: 'var(--color-offwhite)', fontWeight: 700 }}>
+                  Important Farm Reminders
                 </h3>
               </div>
-              <p style={{ fontSize: 14, color: 'var(--color-muted)', lineHeight: 1.6 }}>
-                Predictions do not account for sudden localized hail damage, post-harvest losses, or unforeseen pest outbreaks. 
-                Yield forecasts should be interpreted alongside local agronomist guidance and field measurements.
+              <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+                Predictions are based on typical weather and crop growth patterns. 
+                They cannot foresee sudden extreme events like unexpected hail, flash floods, or rapid pest outbreaks. 
+                Always combine these numbers with your own field experience and local farming advice.
               </p>
             </div>
           </div>
