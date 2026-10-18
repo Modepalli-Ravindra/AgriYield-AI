@@ -59,16 +59,30 @@ class Database:
         if self.is_postgres:
             self._ensure_pool()
             conn = self._pool.getconn()
+            broken = False
             try:
+                # Fast liveness check
+                if conn.closed:
+                    self._pool.putconn(conn, close=True)
+                    conn = self._pool.getconn()
+
                 with conn.cursor(cursor_factory=RealDictCursor) as cur:
                     yield cur
                 conn.commit()
-            except Exception:
-                conn.rollback()
+            except Exception as e:
+                broken = True
+                try:
+                    if not conn.closed:
+                        conn.rollback()
+                except Exception:
+                    pass
                 raise
             finally:
                 if not self._pool.closed:
-                    self._pool.putconn(conn)
+                    try:
+                        self._pool.putconn(conn, close=broken)
+                    except Exception:
+                        pass
         else:
             if self.db_url.startswith("sqlite:///"):
                 path = self.db_url.replace("sqlite:///", "")
@@ -240,6 +254,20 @@ class Database:
                 cur.execute("SELECT id, email, full_name, organization, created_at FROM app_users WHERE id = ?", (user_id,))
             row = cur.fetchone()
             return dict(row) if row else None
+
+    def update_user_password(self, email: str, new_hashed_password: str) -> bool:
+        with self._get_cursor() as cur:
+            if self.is_postgres:
+                cur.execute(
+                    "UPDATE public.app_users SET hashed_password = %s WHERE email = %s;",
+                    (new_hashed_password, email.lower().strip())
+                )
+            else:
+                cur.execute(
+                    "UPDATE app_users SET hashed_password = ? WHERE email = ?",
+                    (new_hashed_password, email.lower().strip())
+                )
+            return cur.rowcount > 0
 
     # --- Prediction history operations ---
     def save_prediction(

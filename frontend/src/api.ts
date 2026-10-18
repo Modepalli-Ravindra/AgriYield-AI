@@ -172,6 +172,19 @@ export async function loginUser(email: string, password: string): Promise<TokenR
   return data;
 }
 
+export async function resetPassword(email: string, newPassword: string): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/auth/reset-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, new_password: newPassword })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Password reset failed' }));
+    throw new Error(err.detail || 'Password reset failed');
+  }
+  return res.json();
+}
+
 export function getCurrentUser(): UserProfile | null {
   const raw = localStorage.getItem('user_profile');
   if (!raw) return null;

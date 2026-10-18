@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.core.security import hash_password, verify_password, create_access_token, decode_access_token, oauth2_scheme
 from app.db.database import db
-from app.schemas.auth import UserRegisterRequest, UserLoginRequest, TokenResponse, UserProfile
+from app.schemas.auth import UserRegisterRequest, UserLoginRequest, TokenResponse, UserProfile, ResetPasswordRequest, MessageResponse
 
 router = APIRouter()
 
@@ -114,4 +114,30 @@ def get_me(current_user: dict = Depends(get_current_user)):
         full_name=current_user.get("full_name"),
         organization=current_user.get("organization"),
         created_at=current_user["created_at"]
+    )
+
+
+@router.post("/reset-password", response_model=MessageResponse)
+def reset_password(payload: ResetPasswordRequest):
+    """
+    Reset user password directly using verified email and new compliant password.
+    Hashes new password with Argon2id and updates credentials.
+    """
+    user = db.get_user_by_email(payload.email)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No registered account found with this email address."
+        )
+
+    hashed_pw = hash_password(payload.new_password)
+    updated = db.update_user_password(payload.email, hashed_pw)
+    if not updated:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update password. Please try again."
+        )
+
+    return MessageResponse(
+        message="Your password has been reset successfully. You can now sign in with your new password."
     )

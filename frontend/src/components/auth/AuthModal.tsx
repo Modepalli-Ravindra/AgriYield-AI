@@ -6,7 +6,8 @@ import {
   ArrowPathIcon,
   EyeIcon,
   EyeSlashIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  KeyIcon
 } from '@heroicons/react/24/outline';
 import * as api from '../../api';
 import type { UserProfile } from '../../types';
@@ -18,7 +19,7 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSuccess }) => {
-  const [mode, setMode] = useState<'login' | 'register'>(initialMode);
+  const [mode, setMode] = useState<'login' | 'register' | 'forgot'>(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,6 +28,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
 
   // Password criteria checks
   const hasMinLength = password.length >= 8;
@@ -37,8 +39,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
 
-    if (mode === 'register') {
+    if (mode === 'register' || mode === 'forgot') {
       if (!hasMinLength) {
         setError('Password must contain at least 8 characters.');
         return;
@@ -63,15 +66,33 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
       if (mode === 'login') {
         const res = await api.loginUser(email, password);
         onSuccess(res.user);
-      } else {
+      } else if (mode === 'register') {
         const res = await api.registerUser(email, password, fullName || undefined, undefined);
         onSuccess(res.user);
+      } else if (mode === 'forgot') {
+        const res = await api.resetPassword(email, password);
+        setSuccessMsg(res.message || 'Password has been reset successfully! You can now sign in.');
+        setPassword('');
+        setConfirmPassword('');
+        setMode('login');
       }
     } catch (err: any) {
       setError(err.message || 'Authentication failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const getTitle = () => {
+    if (mode === 'login') return 'Sign in to Terraflect';
+    if (mode === 'register') return 'Create Account';
+    return 'Reset Password';
+  };
+
+  const getSubtitle = () => {
+    if (mode === 'login') return 'Access real-time prediction tools, batch processing, and history.';
+    if (mode === 'register') return 'Join the environmental intelligence platform for crop analytics.';
+    return 'Enter your email address and set a secure new password.';
   };
 
   return (
@@ -118,31 +139,68 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             }} 
           />
           <h3 style={{ fontSize: 22, color: 'var(--color-offwhite)', fontWeight: 800 }}>
-            {mode === 'login' ? 'Sign in to Terraflect' : 'Create Account'}
+            {getTitle()}
           </h3>
           <p style={{ fontSize: 13.5, color: 'var(--color-muted)', marginTop: 4 }}>
-            {mode === 'login' 
-              ? 'Access real-time prediction tools, batch processing, and history.'
-              : 'Join the environmental intelligence platform for crop analytics.'}
+            {getSubtitle()}
           </p>
         </div>
 
-        <div className="modal-tabs">
-          <button 
-            type="button"
-            className={mode === 'login' ? 'modal-tab-btn active' : 'modal-tab-btn'}
-            onClick={() => { setMode('login'); setError(''); }}
-          >
-            Sign In
-          </button>
-          <button 
-            type="button"
-            className={mode === 'register' ? 'modal-tab-btn active' : 'modal-tab-btn'}
-            onClick={() => { setMode('register'); setError(''); }}
-          >
-            Register
-          </button>
-        </div>
+        {mode !== 'forgot' ? (
+          <div className="modal-tabs">
+            <button 
+              type="button"
+              className={mode === 'login' ? 'modal-tab-btn active' : 'modal-tab-btn'}
+              onClick={() => { setMode('login'); setError(''); setSuccessMsg(''); }}
+            >
+              Sign In
+            </button>
+            <button 
+              type="button"
+              className={mode === 'register' ? 'modal-tab-btn active' : 'modal-tab-btn'}
+              onClick={() => { setMode('register'); setError(''); setSuccessMsg(''); }}
+            >
+              Register
+            </button>
+          </div>
+        ) : (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            padding: '8px 16px',
+            background: 'rgba(228, 253, 151, 0.08)',
+            border: '1px solid rgba(228, 253, 151, 0.22)',
+            borderRadius: 100,
+            fontSize: 12,
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--color-lime)',
+            margin: '0 auto 20px',
+            width: 'fit-content'
+          }}>
+            <KeyIcon style={{ width: 14, height: 14 }} />
+            <span>PASSWORD RECOVERY</span>
+          </div>
+        )}
+
+        {successMsg && (
+          <div style={{
+            background: 'rgba(34, 197, 94, 0.15)',
+            border: '1px solid rgba(34, 197, 94, 0.35)',
+            borderRadius: 10,
+            padding: '11px 14px',
+            color: '#86EFAC',
+            fontSize: 13,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            marginBottom: 16
+          }}>
+            <CheckCircleIcon style={{ width: 18, height: 18, flexShrink: 0 }} />
+            <span>{successMsg}</span>
+          </div>
+        )}
 
         {error && (
           <div style={{
@@ -195,16 +253,35 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-password">
-              Password *
-            </label>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+              <label style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)' }} htmlFor="auth-password">
+                {mode === 'forgot' ? 'New Password *' : 'Password *'}
+              </label>
+              {mode === 'login' && (
+                <button
+                  type="button"
+                  onClick={() => { setMode('forgot'); setError(''); setSuccessMsg(''); }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--color-lime)',
+                    fontSize: 12,
+                    cursor: 'pointer',
+                    padding: 0,
+                    textDecoration: 'underline'
+                  }}
+                >
+                  Forgot password?
+                </button>
+              )}
+            </div>
             <div style={{ position: 'relative' }}>
               <input 
                 id="auth-password"
                 className="form-input"
                 type={showPassword ? 'text' : 'password'}
                 required
-                placeholder={mode === 'register' ? 'Min 8 chars, uppercase & lowercase' : '••••••••••••'}
+                placeholder={mode !== 'login' ? 'Min 8 chars, uppercase & lowercase' : '••••••••••••'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{ paddingRight: 42 }}
@@ -237,11 +314,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             </div>
           </div>
 
-          {mode === 'register' && (
+          {mode !== 'login' && (
             <>
               <div>
                 <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-confirm-password">
-                  Confirm Password *
+                  {mode === 'forgot' ? 'Confirm New Password *' : 'Confirm Password *'}
                 </label>
                 <div style={{ position: 'relative' }}>
                   <input 
@@ -346,15 +423,42 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             {loading ? (
               <>
                 <ArrowPathIcon style={{ width: 16, height: 16 }} className="animate-spin" />
-                <span>{mode === 'login' ? 'Authenticating...' : 'Registering Account...'}</span>
+                <span>
+                  {mode === 'login' && 'Authenticating...'}
+                  {mode === 'register' && 'Registering Account...'}
+                  {mode === 'forgot' && 'Resetting Password...'}
+                </span>
               </>
             ) : (
               <>
-                <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
+                <span>
+                  {mode === 'login' && 'Sign In'}
+                  {mode === 'register' && 'Create Account'}
+                  {mode === 'forgot' && 'Reset Password'}
+                </span>
                 <ArrowRightIcon style={{ width: 16, height: 16 }} />
               </>
             )}
           </button>
+
+          {mode === 'forgot' && (
+            <div style={{ textAlign: 'center', marginTop: 4 }}>
+              <button
+                type="button"
+                onClick={() => { setMode('login'); setError(''); setSuccessMsg(''); }}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--color-muted)',
+                  fontSize: 13,
+                  cursor: 'pointer',
+                  textDecoration: 'underline'
+                }}
+              >
+                Back to Sign In
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

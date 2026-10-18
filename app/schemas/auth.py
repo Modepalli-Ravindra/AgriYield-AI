@@ -23,6 +23,21 @@ class UserRegisterRequest(BaseModel):
             raise ValueError("Password must contain at least one lowercase letter (a-z).")
         return v
 
+class ResetPasswordRequest(BaseModel):
+    email: EmailStr
+    new_password: str = Field(..., min_length=8, max_length=128, description="New password (min 8 chars, uppercase, lowercase)")
+
+    @field_validator("new_password")
+    @classmethod
+    def validate_password_complexity(cls, v: str) -> str:
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters long.")
+        if not re.search(r"[A-Z]", v):
+            raise ValueError("Password must contain at least one uppercase letter (A-Z).")
+        if not re.search(r"[a-z]", v):
+            raise ValueError("Password must contain at least one lowercase letter (a-z).")
+        return v
+
 class UserLoginRequest(BaseModel):
     email: EmailStr
     password: str
@@ -38,3 +53,6 @@ class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user: UserProfile
+
+class MessageResponse(BaseModel):
+    message: str
