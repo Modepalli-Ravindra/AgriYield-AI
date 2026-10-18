@@ -14,6 +14,7 @@ import math
 from app.core.config import settings
 from app.api.v1.api import api_router
 from app.services.prediction_service import prediction_service
+from app.db.database import db
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("crop_yield_api")
@@ -75,7 +76,8 @@ def health_check():
         "reference_data_loaded": prediction_service.ref_data is not None,
         "conformal_calibrator_loaded": prediction_service.conformal_calibrator is not None and prediction_service.conformal_calibrator.quantile_q is not None,
         "ref_data_rows": len(prediction_service.ref_data) if prediction_service.ref_data is not None else 0,
-        "test_r2": prediction_service.metadata.get("test_r2", 0.0) if prediction_service.metadata else 0.0
+        "test_r2": prediction_service.metadata.get("test_r2", 0.0) if prediction_service.metadata else 0.0,
+        "database_connected": db.check_health()
     }
 
 @app.get("/", tags=["System Status"])

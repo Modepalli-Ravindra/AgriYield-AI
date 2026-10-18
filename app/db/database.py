@@ -18,22 +18,25 @@ class Database:
         self._init_db()
 
     def _get_connection(self) -> sqlite3.Connection:
-        """Get database connection (SQLite engine with row factory)."""
-        # Extract path if sqlite URL
+        """Get database connection (SQLite engine with row factory, WAL-safe concurrency, and foreign keys)."""
         if self.db_url.startswith("sqlite:///"):
             path = self.db_url.replace("sqlite:///", "")
         else:
             path = str(settings.BASE_DIR / "crop_yield_platform.db")
             
-        conn = sqlite3.connect(path, timeout=10.0)
+        conn = sqlite3.connect(path, timeout=30.0, check_same_thread=False)
         conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA foreign_keys = ON;")
         return conn
 
     def _init_db(self):
-        """Initialize required application tables if they do not exist."""
+        """Initialize required application tables and concurrency pragmas."""
         conn = self._get_connection()
         try:
             with conn:
+                # Enable WAL mode and normal synchronous for robust multi-threaded throughput
+                conn.execute("PRAGMA journal_mode = WAL;")
+                conn.execute("PRAGMA synchronous = NORMAL;")
                 conn.execute("""
                 CREATE TABLE IF NOT EXISTS app_users (
                     id TEXT PRIMARY KEY,
@@ -76,9 +79,24 @@ class Database:
                 """)
                 conn.execute("CREATE INDEX IF NOT EXISTS idx_users_email ON app_users(email);")
                 conn.execute("CREATE INDEX IF NOT EXISTS idx_history_user ON prediction_history(user_id);")
-            logger.info("Database initialized successfully.")
+            logger.info("Database initialized successfully with WAL journal mode.")
         finally:
             conn.close()
+
+    def check_health(self) -> bool:
+        """Lightweight database connectivity check."""
+        try:
+            conn = self._get_connection()
+            try:
+                cur = conn.cursor()
+                cur.execute("SELECT 1;")
+                row = cur.fetchone()
+                return row is not None and row[0] == 1
+            finally:
+                conn.close()
+        except Exception as e:
+            logger.error("Database health check ping failed: %s", e)
+            return False
 
     # --- User operations ---
     def create_user(self, email: str, hashed_password: str, full_name: Optional[str] = None, organization: Optional[str] = None) -> Dict[str, Any]:
@@ -138,7 +156,7 @@ class Database:
         predicted_yield_tonnes_per_ha: float,
         conformal_lower_bound: float,
         conformal_upper_bound: float,
-        model_version: str = "Stacking-Ensemble-v2",
+        model_version: str = "Production-XGBoost-v2",
         user_id: Optional[str] = None
     ) -> Dict[str, Any]:
         conn = self._get_connection()

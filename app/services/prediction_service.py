@@ -308,6 +308,8 @@ class PredictionService:
             )
         except Exception as e:
             logger.warning("Could not persist prediction to DB: %s", e)
+            if user_id:
+                warnings.append("Audit warning: Database persistence unavailable; prediction could not be recorded to history trail.")
 
         return PredictionResponse(
             predicted_yield_hg_per_ha=round(pred_hg, 1),

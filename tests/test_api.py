@@ -699,3 +699,104 @@ def test_phase3_7_treeshap_additivity_and_explanation_consistency():
     total_contrib = sum(fc["shap_value"] for fc in data["feature_contributions"])
     reconstructed_pred = data["base_value"] + total_contrib
     assert abs(reconstructed_pred - data["prediction_tonnes_per_ha"]) < 0.05
+
+
+# ==============================================================================
+# BACKEND RELIABILITY, CONCURRENCY, DATABASE RESILIENCE & SECURITY AUDIT TESTS
+# ==============================================================================
+
+def test_backend_database_failure_resilience_and_audit_warning():
+    """Objective 4: Verify database failures cannot silently corrupt or alter prediction outputs."""
+    import unittest.mock as mock
+    import sqlite3
+    from app.services.prediction_service import prediction_service
+    from app.schemas.prediction import YieldInput
+
+    payload = YieldInput(
+        country="India",
+        crop="Wheat",
+        year=2013,
+        rainfall_mm=1050.0,
+        avg_temp_c=25.5,
+        pesticides_tonnes=500.0
+    )
+
+    # Simulate database lock/disk failure during user prediction logging
+    with mock.patch("app.db.database.db.save_prediction", side_effect=sqlite3.OperationalError("database is locked")):
+        res = prediction_service.predict(payload, user_id="auth_researcher_uuid")
+        # Ensure mathematical prediction is intact and uncorrupted
+        assert res.predicted_yield_tonnes_per_ha > 0.0
+        assert res.conformal_interval_90.lower_bound <= res.predicted_yield_tonnes_per_ha <= res.conformal_interval_90.upper_bound
+        assert len(res.shap_values) == 6
+        # Ensure non-silent warning is communicated to user
+        assert any("Database persistence unavailable" in w for w in res.warnings)
+
+
+def test_backend_concurrent_requests_and_session_safety():
+    """Objective 5: Test concurrent prediction and TreeSHAP explainer requests across threads."""
+    import concurrent.futures
+
+    def worker(i: int):
+        payload = {
+            "country": "India",
+            "crop": "Wheat" if i % 2 == 0 else "Rice, paddy",
+            "year": 2013,
+            "rainfall_mm": 1000.0 + (i * 20.0),
+            "avg_temp_c": 24.0 + (i * 0.2),
+            "pesticides_tonnes": 500.0 + (i * 100.0)
+        }
+        pred_res = client.post("/api/v1/predict", json=payload)
+        exp_res = client.post("/api/v1/explain", json=payload)
+        return pred_res.status_code, exp_res.status_code
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        futures = [executor.submit(worker, i) for i in range(12)]
+        results = [f.result() for f in futures]
+
+    assert len(results) == 12
+    for pred_code, exp_code in results:
+        assert pred_code == 200
+        assert exp_code == 200
+
+
+def test_backend_batch_and_whatif_input_validation():
+    """Objective 8: Check input validation on batch prediction and what-if simulation endpoints."""
+    # 1. Empty batch request rejected with 422
+    res_empty_batch = client.post("/api/v1/predict/batch", json={"items": []})
+    assert res_empty_batch.status_code == 422
+
+    # 2. What-if requires at least 2 scenarios
+    single_scenario_payload = {
+        "scenarios": [
+            {
+                "scenario_name": "Single Scenario",
+                "inputs": {
+                    "country": "India",
+                    "crop": "Wheat",
+                    "year": 2013,
+                    "rainfall_mm": 1000.0,
+                    "avg_temp_c": 25.0,
+                    "pesticides_tonnes": 500.0
+                }
+            }
+        ]
+    }
+    res_single = client.post("/api/v1/what-if", json=single_scenario_payload)
+    assert res_single.status_code == 422
+
+
+def test_backend_cors_security_and_health_database_probe():
+    """Objective 3: Verify CORS configuration compliance and database health probe in /health."""
+    from app.core.config import settings
+
+    # 1. Health check includes database connectivity probe
+    res = client.get("/health")
+    assert res.status_code == 200
+    data = res.json()
+    assert "database_connected" in data
+    assert data["database_connected"] is True
+    assert data["model_loaded"] is True
+
+    # 2. CORS security: ensure wildcard * is not in CORS_ORIGINS when credentials are enabled
+    assert "*" not in settings.CORS_ORIGINS
+    assert any("5173" in origin for origin in settings.CORS_ORIGINS)

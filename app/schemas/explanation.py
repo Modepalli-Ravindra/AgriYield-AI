@@ -37,7 +37,7 @@ class WhatIfScenario(BaseModel):
     inputs: YieldInput
 
 class WhatIfRequest(BaseModel):
-    scenarios: List[WhatIfScenario] = Field(..., min_length=2)
+    scenarios: List[WhatIfScenario] = Field(..., min_length=2, max_length=20, description="List of comparative scenarios (between 2 and 20)")
 
 class WhatIfResponse(BaseModel):
     baseline_scenario: str

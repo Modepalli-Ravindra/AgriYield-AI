@@ -1,4 +1,4 @@
-﻿"""Explainability, Sensitivity, and What-If analysis endpoints."""
+"""Explainability, Sensitivity, and What-If analysis endpoints."""
 from __future__ import annotations
 
 from typing import Any, Dict, List
@@ -15,6 +15,8 @@ router = APIRouter()
 @router.post("/explain", response_model=ExplainResponse)
 def explain_prediction(payload: YieldInput):
     """Compute local TreeSHAP feature impact attribution for a single prediction."""
+    if prediction_service.model is None:
+        raise HTTPException(status_code=503, detail="Explanation service unavailable: model artifact is not loaded.")
     pred_res = prediction_service.predict(payload)
     pred_t = pred_res.predicted_yield_tonnes_per_ha
     base_val = pred_res.base_value or 7.6610
@@ -100,6 +102,8 @@ def sensitivity_analysis(payload: SensitivityRequest):
 @router.post("/what-if", response_model=WhatIfResponse)
 def what_if_analysis(payload: WhatIfRequest):
     """Compare multiple hypothetical agricultural and climate scenarios side-by-side."""
+    if prediction_service.model is None:
+        raise HTTPException(status_code=503, detail="Simulation service unavailable: model artifact is not loaded.")
     comparisons = []
     base_pred = None
     baseline_name = payload.scenarios[0].scenario_name

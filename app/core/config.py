@@ -8,6 +8,17 @@ from pydantic import BaseModel, Field
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+def _get_default_cors_origins() -> List[str]:
+    raw = os.getenv("CORS_ORIGINS")
+    if raw:
+        return [origin.strip() for origin in raw.split(",") if origin.strip()]
+    return [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000"
+    ]
+
 class Settings(BaseModel):
     PROJECT_NAME: str = "AI-Driven DL-ML Crop Yield Research Platform"
     VERSION: str = "2.0.0"
@@ -18,14 +29,8 @@ class Settings(BaseModel):
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
     
-    # CORS
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:3000",
-        "*"
-    ]
+    # CORS (Strict origin list without wildcard to comply with W3C allow-credentials policy)
+    CORS_ORIGINS: List[str] = Field(default_factory=_get_default_cors_origins)
     
     # Data & Model Paths
     DATA_PATH: Path = BASE_DIR / "data" / "yield_df.csv"

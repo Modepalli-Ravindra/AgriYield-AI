@@ -24,6 +24,8 @@ def predict_crop_yield(
     Predict crop yield from environmental factors using DL-ML Ensemble.
     Returns point estimate, nominal 90% conformal prediction interval, and SHAP impacts.
     """
+    if prediction_service.model is None:
+        raise HTTPException(status_code=503, detail="Prediction service unavailable: model artifact is not loaded.")
     try:
         user_id = current_user["id"] if current_user else None
         return prediction_service.predict(payload, user_id=user_id)
@@ -36,6 +38,8 @@ def batch_predict(
     current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     """Batch prediction across multiple scenarios or regional zones."""
+    if prediction_service.model is None:
+        raise HTTPException(status_code=503, detail="Prediction service unavailable: model artifact is not loaded.")
     user_id = current_user["id"] if current_user else None
     predictions = [prediction_service.predict(item, user_id=user_id) for item in payload.items]
     return BatchPredictionResponse(count=len(predictions), predictions=predictions)

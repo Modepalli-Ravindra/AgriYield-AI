@@ -22,13 +22,13 @@ python scripts/model_selection_benchmark.py
 - Operational metrics (Artifact size, Cold load time, Inference latency, TreeSHAP latency)
 - Formally recorded production model decision: `RETAIN_XGBOOST`
 
-### 1.2 Automated Backend Regression Tests (29 Tests)
+### 1.2 Automated Backend Regression Tests (33 Tests)
 To run the full regression test suite covering input validation, NaN/Inf rejection, non-blocking advisory warnings, prediction parity, conformal consistency, and TreeSHAP additivity:
 ```powershell
 python -m pytest tests/test_api.py -v
 ```
 **Expected Output**:
-`======================= 29 passed, 4 warnings in ~8.5s =======================`
+`======================= 33 passed, 4 warnings in ~11.9s =======================`
 
 ### 1.3 Production Frontend Compilation
 To compile the TypeScript/React frontend bundle:
@@ -104,3 +104,34 @@ Status 200 OK with point prediction (~4.99 t/ha), conformal bounds [4.19, 5.81] 
 | `frontend/src/types.ts` | Extended `PredictionResponse` interface with optional `warnings?: string[]`. |
 | `frontend/src/App.tsx` | Added amber advisory warnings banner and updated header badge to Production XGBoost (v2). |
 | `tests/test_api.py` | Expanded test suite from 24 to 29 tests covering all Phase 3.7 reliability requirements. |
+
+### 1.4 Database Failure Resilience and Concurrency Test
+To verify that database lock/disk errors cannot corrupt numerical predictions and that concurrent requests run cleanly:
+```powershell
+python -c "
+import unittest.mock as mock, sqlite3, concurrent.futures
+from app.services.prediction_service import prediction_service
+from app.schemas.prediction import YieldInput
+from fastapi.testclient import TestClient
+from app.main import app
+
+client = TestClient(app)
+
+# Test DB resilience
+with mock.patch('app.db.database.db.save_prediction', side_effect=sqlite3.OperationalError('database is locked')):
+    p = YieldInput(country='India', crop='Wheat', year=2013, rainfall_mm=1050.0, avg_temp_c=25.5, pesticides_tonnes=500.0)
+    res = prediction_service.predict(p, user_id='auth_test')
+    assert res.predicted_yield_tonnes_per_ha > 0.0
+    assert any('Database persistence unavailable' in w for w in res.warnings)
+    print('DB resilience verified.')
+
+# Test concurrency
+def worker(i):
+    return client.post('/api/v1/predict', json={'country': 'India', 'crop': 'Wheat', 'year': 2013, 'rainfall_mm': 1000 + i, 'avg_temp_c': 25, 'pesticides_tonnes': 500}).status_code
+
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
+    statuses = list(ex.map(worker, range(16)))
+assert all(s == 200 for s in statuses)
+print('Concurrency verified across 16 threads.')
+"
+```

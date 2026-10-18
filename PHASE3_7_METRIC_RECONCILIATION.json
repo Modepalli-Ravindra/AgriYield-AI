@@ -246,9 +246,30 @@
     }
   },
   "automated_test_suite": {
-    "total_collected": 29,
-    "passed": 29,
+    "total_collected": 33,
+    "passed": 33,
     "failed": 0,
-    "execution_duration_seconds": 8.56
+    "execution_duration_seconds": 11.94,
+    "coverage_areas": [
+      "Health & Options probe",
+      "Zero-OTP Argon2id Auth Flow & User Isolation",
+      "Conformal Quantile Calibration & Bounds Ordering",
+      "Exact TreeSHAP Additivity & Explanation Parity",
+      "Boundary Validation (NaN, Inf, Range)",
+      "Training Distribution Advisory Warnings",
+      "Database Failure Resiliency & Audit Warnings",
+      "Concurrent Prediction & TreeSHAP Multithreading",
+      "Batch & What-If Request Validation",
+      "Strict CORS Compliance & WAL Mode Database"
+    ]
+  },
+  "database_resilience_audit": {
+    "engine": "SQLite WAL Mode (Write-Ahead Logging)",
+    "journal_mode": "WAL",
+    "synchronous": "NORMAL",
+    "foreign_keys": "ON",
+    "connection_timeout_seconds": 30.0,
+    "check_same_thread": false,
+    "failure_behavior": "Database write failures log warning and append non-blocking audit warning to user without corrupting or modifying numerical prediction response"
   }
 }

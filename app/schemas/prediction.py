@@ -65,7 +65,7 @@ class PredictionResponse(BaseModel):
     timestamp: str
 
 class BatchPredictionRequest(BaseModel):
-    items: List[YieldInput]
+    items: List[YieldInput] = Field(..., min_length=1, max_length=500, description="Batch list of crop yield inputs (max 500)")
 
 class BatchPredictionResponse(BaseModel):
     count: int
