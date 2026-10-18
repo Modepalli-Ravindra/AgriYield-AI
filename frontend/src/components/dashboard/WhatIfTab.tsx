@@ -7,12 +7,14 @@ interface WhatIfTabProps {
   whatIfData: WhatIfResponse | null;
   loading: boolean;
   onRunWhatIf: () => void;
+  onClearWhatIf?: () => void;
 }
 
 export const WhatIfTab: React.FC<WhatIfTabProps> = ({
   whatIfData,
   loading,
-  onRunWhatIf
+  onRunWhatIf,
+  onClearWhatIf
 }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -37,12 +39,30 @@ export const WhatIfTab: React.FC<WhatIfTabProps> = ({
           </p>
         </div>
 
-        <button
-          className="btn-primary"
-          onClick={onRunWhatIf}
-          disabled={loading}
-          style={{ padding: '11px 22px', fontSize: 14 }}
-        >
+        <div style={{ display: 'flex', gap: 8 }}>
+          {whatIfData && onClearWhatIf && (
+            <button
+              type="button"
+              onClick={onClearWhatIf}
+              style={{
+                padding: '11px 16px',
+                fontSize: 13,
+                borderRadius: 8,
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid var(--color-forest-border)',
+                color: 'var(--color-muted)',
+                cursor: 'pointer'
+              }}
+            >
+              Clear Scenarios
+            </button>
+          )}
+          <button
+            className="btn-primary"
+            onClick={onRunWhatIf}
+            disabled={loading}
+            style={{ padding: '11px 22px', fontSize: 14 }}
+          >
           {loading ? (
             <>
               <Loader2 size={16} className="animate-spin" />
@@ -56,6 +76,7 @@ export const WhatIfTab: React.FC<WhatIfTabProps> = ({
           )}
         </button>
       </div>
+    </div>
 
       {whatIfData ? (
         <div style={{

@@ -19,6 +19,7 @@ interface SensitivityTabProps {
   setSensParam: (param: string) => void;
   loading: boolean;
   onRunSensitivity: () => void;
+  onClearSensitivity?: () => void;
 }
 
 export const SensitivityTab: React.FC<SensitivityTabProps> = ({
@@ -26,7 +27,8 @@ export const SensitivityTab: React.FC<SensitivityTabProps> = ({
   sensParam,
   setSensParam,
   loading,
-  onRunSensitivity
+  onRunSensitivity,
+  onClearSensitivity
 }) => {
   const chartData = sensData ? sensData.values.map((v, i) => ({
     value: v,
@@ -68,6 +70,23 @@ export const SensitivityTab: React.FC<SensitivityTabProps> = ({
             <option value="pesticides_tonnes">Pesticides (tonnes)</option>
           </select>
 
+          {sensData && onClearSensitivity && (
+            <button
+              type="button"
+              onClick={onClearSensitivity}
+              style={{
+                padding: '8px 14px',
+                fontSize: 12.5,
+                borderRadius: 8,
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid var(--color-forest-border)',
+                color: 'var(--color-muted)',
+                cursor: 'pointer'
+              }}
+            >
+              Clear Sweep
+            </button>
+          )}
           <button
             className="btn-primary"
             onClick={onRunSensitivity}

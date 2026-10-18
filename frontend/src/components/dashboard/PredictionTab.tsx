@@ -9,7 +9,8 @@ import {
   BoltIcon,
   CloudIcon,
   SunIcon,
-  BeakerIcon
+  BeakerIcon,
+  ArrowPathIcon
 } from '@heroicons/react/24/outline';
 import { ButtonSpinner, AIEngineLoader } from '../ui/Loader';
 import type { YieldInput, PredictionResponse, OptionsResponse } from '../../types';
@@ -21,6 +22,7 @@ interface PredictionTabProps {
   prediction: PredictionResponse | null;
   loading: boolean;
   onRunPrediction: () => void;
+  onClearPrediction: () => void;
   onNavigateToExplain: () => void;
   onNavigateToWhatIf: () => void;
 }
@@ -39,6 +41,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
   prediction,
   loading,
   onRunPrediction,
+  onClearPrediction,
   onNavigateToExplain,
   onNavigateToWhatIf
 }) => {
@@ -65,8 +68,8 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
     <div style={{
       display: 'flex',
       flexDirection: 'column',
-      height: '100%',
-      minHeight: 'calc(100vh - 105px)',
+      flex: 1,
+      minHeight: 'calc(100vh - 96px)',
       justifyContent: 'space-between',
       gap: 16
     }}>
@@ -90,14 +93,47 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           justifyContent: 'space-between'
         }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid rgba(169, 180, 158, 0.14)' }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(228, 253, 151, 0.12)', color: 'var(--color-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <ChartBarIcon style={{ width: 20, height: 20 }} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid rgba(169, 180, 158, 0.14)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(228, 253, 151, 0.12)', color: 'var(--color-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <ChartBarIcon style={{ width: 20, height: 20 }} />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: 17, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0, lineHeight: 1.2 }}>Environmental Parameters</h3>
+                  <span style={{ fontSize: 12, color: 'var(--color-muted)' }}>Configure regional and climate variables</span>
+                </div>
               </div>
-              <div>
-                <h3 style={{ fontSize: 17, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0, lineHeight: 1.2 }}>Environmental Parameters</h3>
-                <span style={{ fontSize: 12, color: 'var(--color-muted)' }}>Configure regional and climate variables</span>
-              </div>
+
+              <button
+                type="button"
+                onClick={onClearPrediction}
+                title="Reset all inputs and clear prediction"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid var(--color-forest-border)',
+                  color: 'var(--color-muted)',
+                  padding: '5px 10px',
+                  borderRadius: 6,
+                  fontSize: 11.5,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--color-offwhite)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--color-muted)';
+                  e.currentTarget.style.borderColor = 'var(--color-forest-border)';
+                }}
+              >
+                <ArrowPathIcon style={{ width: 13, height: 13 }} />
+                <span>Reset</span>
+              </button>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -220,31 +256,64 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             </div>
           </div>
 
-          {/* Run Inference Action */}
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={onRunPrediction}
-            disabled={loading}
-            style={{ 
-              width: '100%', 
-              padding: '14px 0', 
-              marginTop: 18, 
-              fontSize: 15, 
-              fontWeight: 800, 
-              borderRadius: 10,
-              boxShadow: '0 4px 16px var(--color-lime-glow)'
-            }}
-          >
-            {loading ? (
-              <ButtonSpinner size={18} text="Calculating Yield Forecast..." />
-            ) : (
-              <>
-                <SparklesIcon style={{ width: 19, height: 19 }} />
-                <span>Estimate Crop Yield</span>
-              </>
-            )}
-          </button>
+          {/* Action Row */}
+          <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={onRunPrediction}
+              disabled={loading}
+              style={{ 
+                flex: 1, 
+                padding: '14px 0', 
+                fontSize: 15, 
+                fontWeight: 800, 
+                borderRadius: 10,
+                boxShadow: '0 4px 16px var(--color-lime-glow)'
+              }}
+            >
+              {loading ? (
+                <ButtonSpinner size={18} text="Calculating Yield Forecast..." />
+              ) : (
+                <>
+                  <SparklesIcon style={{ width: 19, height: 19 }} />
+                  <span>Estimate Crop Yield</span>
+                </>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={onClearPrediction}
+              title="Clear inputs and prediction"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 6,
+                padding: '14px 18px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid var(--color-forest-border)',
+                borderRadius: 10,
+                color: 'var(--color-offwhite)',
+                fontSize: 13.5,
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(248, 113, 113, 0.4)';
+                e.currentTarget.style.color = '#FCA5A5';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-forest-border)';
+                e.currentTarget.style.color = 'var(--color-offwhite)';
+              }}
+            >
+              <ArrowPathIcon style={{ width: 16, height: 16 }} />
+              <span>Clear</span>
+            </button>
+          </div>
         </div>
 
         {/* Prediction Outcome & Uncertainty Card */}
@@ -264,18 +333,38 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 <ShieldCheckIcon style={{ width: 20, height: 20, color: 'var(--color-lime)' }} />
                 <h3 style={{ fontSize: 17, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0 }}>Forecast Results & Confidence</h3>
               </div>
-              <span style={{
-                fontSize: 11,
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 700,
-                background: 'rgba(228, 253, 151, 0.15)',
-                color: 'var(--color-lime)',
-                padding: '4px 10px',
-                borderRadius: 100,
-                border: '1px solid rgba(228, 253, 151, 0.25)'
-              }}>
-                PRODUCTION XGBOOST
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                {prediction && (
+                  <button
+                    type="button"
+                    onClick={onClearPrediction}
+                    style={{
+                      background: 'rgba(248, 113, 113, 0.1)',
+                      border: '1px solid rgba(248, 113, 113, 0.3)',
+                      color: '#FCA5A5',
+                      padding: '3px 9px',
+                      borderRadius: 6,
+                      fontSize: 11,
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Clear Result
+                  </button>
+                )}
+                <span style={{
+                  fontSize: 11,
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 700,
+                  background: 'rgba(228, 253, 151, 0.15)',
+                  color: 'var(--color-lime)',
+                  padding: '4px 10px',
+                  borderRadius: 100,
+                  border: '1px solid rgba(228, 253, 151, 0.25)'
+                }}>
+                  PRODUCTION XGBOOST
+                </span>
+              </div>
             </div>
 
             {loading ? (

@@ -18,9 +18,10 @@ interface ExplainTabProps {
   explainData: ExplainResponse | null;
   loading: boolean;
   onRunExplain: () => void;
+  onClearExplain?: () => void;
 }
 
-export const ExplainTab: React.FC<ExplainTabProps> = ({ explainData, loading, onRunExplain }) => {
+export const ExplainTab: React.FC<ExplainTabProps> = ({ explainData, loading, onRunExplain, onClearExplain }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{
@@ -44,12 +45,30 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({ explainData, loading, on
           </p>
         </div>
 
-        <button
-          className="btn-primary"
-          onClick={onRunExplain}
-          disabled={loading}
-          style={{ padding: '8px 18px', fontSize: 13, borderRadius: 8 }}
-        >
+        <div style={{ display: 'flex', gap: 8 }}>
+          {explainData && onClearExplain && (
+            <button
+              type="button"
+              onClick={onClearExplain}
+              style={{
+                padding: '8px 14px',
+                fontSize: 12.5,
+                borderRadius: 8,
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid var(--color-forest-border)',
+                color: 'var(--color-muted)',
+                cursor: 'pointer'
+              }}
+            >
+              Clear Analysis
+            </button>
+          )}
+          <button
+            className="btn-primary"
+            onClick={onRunExplain}
+            disabled={loading}
+            style={{ padding: '8px 18px', fontSize: 13, borderRadius: 8 }}
+          >
           {loading ? (
             <ButtonSpinner size={15} text="Analyzing Factor Impact..." />
           ) : (
@@ -60,6 +79,7 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({ explainData, loading, on
           )}
         </button>
       </div>
+    </div>
 
       {loading ? (
         <div style={{ background: 'var(--color-forest-surface)', borderRadius: 14, padding: '30px', border: '1px solid var(--color-forest-border)' }}>

@@ -182,6 +182,30 @@ export default function App() {
     }
   };
 
+    const handleClearPrediction = () => {
+    setPrediction(null);
+    setInputData({
+      country: options?.countries[0] || 'India',
+      crop: options?.crops[0] || 'Wheat',
+      rainfall_mm: 1050,
+      avg_temp_c: 25.5,
+      pesticides_tonnes: 50000,
+      year: 2026
+    });
+  };
+
+  const handleClearExplain = () => {
+    setExplainData(null);
+  };
+
+  const handleClearSensitivity = () => {
+    setSensData(null);
+  };
+
+  const handleClearWhatIf = () => {
+    setWhatIfData(null);
+  };
+
   // If user is authenticated and in the 'app' view: render the Authenticated Workspace Shell
   if (view === 'app' && currentUser) {
     const getTabMeta = () => {
@@ -244,6 +268,7 @@ export default function App() {
                 prediction={prediction}
                 loading={loadingPred}
                 onRunPrediction={handleRunPrediction}
+                onClearPrediction={handleClearPrediction}
                 onNavigateToExplain={() => { setActiveTab('explain'); handleRunExplain(); }}
                 onNavigateToWhatIf={() => { setActiveTab('whatif'); handleRunWhatIf(); }}
               />
@@ -254,6 +279,7 @@ export default function App() {
                 explainData={explainData}
                 loading={loadingExplain}
                 onRunExplain={handleRunExplain}
+                onClearExplain={handleClearExplain}
               />
             )}
             {activeTab === 'sensitivity' && (
@@ -263,6 +289,7 @@ export default function App() {
                 setSensParam={setSensParam}
                 loading={loadingSens}
                 onRunSensitivity={handleRunSensitivity}
+                onClearSensitivity={handleClearSensitivity}
               />
             )}
             {activeTab === 'whatif' && (
@@ -271,6 +298,7 @@ export default function App() {
                 whatIfData={whatIfData}
                 loading={loadingWhatIf}
                 onRunWhatIf={handleRunWhatIf}
+                onClearWhatIf={handleClearWhatIf}
               />
             )}
             {activeTab === 'benchmarks' && <BenchmarksTab benchmarks={benchmarks} />}

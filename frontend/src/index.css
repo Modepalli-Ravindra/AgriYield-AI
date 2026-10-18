@@ -508,6 +508,8 @@ a {
   scrollbar-width: thin;
   scrollbar-color: rgba(228, 253, 151, 0.25) transparent;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 3x2 Grid for Environmental Factors Section */
