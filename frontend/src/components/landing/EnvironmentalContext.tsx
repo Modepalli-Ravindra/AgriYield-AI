@@ -63,7 +63,8 @@ export const EnvironmentalContext: React.FC = () => {
   return (
     <section style={{ padding: '90px 0', backgroundColor: '#152214' }}>
       <div className="container">
-        <div style={{ maxWidth: 1050, marginBottom: 50 }}>
+        {/* Centered Section Header */}
+        <div style={{ maxWidth: 1050, margin: '0 auto 52px', textAlign: 'center' }}>
           <div className="section-pill-badge">
             <GlobeAltIcon />
             <span>ENVIRONMENTAL DRIVERS</span>
@@ -77,7 +78,7 @@ export const EnvironmentalContext: React.FC = () => {
           }}>
             Agricultural features analyzed by the pipeline.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 820, margin: '0 auto' }}>
             Every prediction is conditioned on genuine agro-climatic indicators validated against 
             the backend API schema. Below are the 6 core environmental dimensions analyzed.
           </p>
@@ -159,4 +160,3 @@ export const EnvironmentalContext: React.FC = () => {
     </section>
   );
 };
-

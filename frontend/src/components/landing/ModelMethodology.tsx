@@ -48,7 +48,8 @@ export const ModelMethodology: React.FC = () => {
   return (
     <section id="insights" style={{ padding: '90px 0', backgroundColor: '#152214', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
-        <div style={{ maxWidth: 1050, marginBottom: 50 }}>
+        {/* Centered Section Header */}
+        <div style={{ maxWidth: 1050, margin: '0 auto 52px', textAlign: 'center' }}>
           <div className="section-pill-badge">
             <CheckCircleIcon />
             <span>MODEL BENCHMARKS</span>
@@ -62,7 +63,7 @@ export const ModelMethodology: React.FC = () => {
           }}>
             Empirically verified multi-model performance.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 820, margin: '0 auto' }}>
             Every reported metric represents audited results on genuine held-out evaluation splits. 
             No synthetic benchmarks or fabricated scores are used.
           </p>
@@ -150,4 +151,3 @@ export const ModelMethodology: React.FC = () => {
     </section>
   );
 };
-

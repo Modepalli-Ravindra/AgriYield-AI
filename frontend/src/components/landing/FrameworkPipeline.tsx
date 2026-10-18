@@ -49,7 +49,8 @@ export const FrameworkPipeline: React.FC = () => {
   return (
     <section id="methodology" style={{ padding: '90px 0', backgroundColor: '#121B11', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
-        <div style={{ maxWidth: 1050, marginBottom: 50 }}>
+        {/* Centered Section Header */}
+        <div style={{ maxWidth: 1050, margin: '0 auto 52px', textAlign: 'center' }}>
           <div className="section-pill-badge">
             <CpuChipIcon />
             <span>APPLICATION WORKFLOW</span>
@@ -63,7 +64,7 @@ export const FrameworkPipeline: React.FC = () => {
           }}>
             How AgriYield AI processes environmental data.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 820, margin: '0 auto' }}>
             A sequential five-stage pipeline designed for scientific transparency, mathematical rigor, 
             and immediate decision support for agronomists and agricultural planners.
           </p>
@@ -143,4 +144,3 @@ export const FrameworkPipeline: React.FC = () => {
     </section>
   );
 };
-

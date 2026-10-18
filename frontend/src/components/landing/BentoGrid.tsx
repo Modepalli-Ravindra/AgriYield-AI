@@ -57,8 +57,8 @@ export const BentoGrid: React.FC = () => {
   return (
     <section id="features" style={{ padding: '90px 0', backgroundColor: '#121B11', borderTop: '1px solid var(--color-forest-border)', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
-        {/* Section Header with single-line title */}
-        <div style={{ maxWidth: 1100, marginBottom: 44 }}>
+        {/* Centered Section Header */}
+        <div style={{ maxWidth: 1100, margin: '0 auto 48px', textAlign: 'center' }}>
           <div className="section-pill-badge">
             <ChartBarIcon />
             <span>CORE CAPABILITIES</span>
@@ -69,12 +69,11 @@ export const BentoGrid: React.FC = () => {
             marginTop: 10,
             marginBottom: 14,
             fontWeight: 800,
-            letterSpacing: '-0.025em',
-            whiteSpace: 'normal'
+            letterSpacing: '-0.025em'
           }}>
             Comprehensive intelligence for agricultural planning.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 840 }}>
+          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 840, margin: '0 auto' }}>
             Every tool in the AgriYield AI suite connects directly to the validated backend API, 
             providing instant single-field inferences, batch processing, and uncertainty analysis.
           </p>

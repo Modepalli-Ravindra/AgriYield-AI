@@ -1,4 +1,4 @@
-/* AgriYield AI — Complete Unified Theme & Design System */
+﻿/* AgriYield AI â€” Complete Unified Theme & Design System */
 :root {
   /* Mandatory Design Identity Palette */
   --color-lime: #E4FD97;
@@ -203,7 +203,7 @@ a {
 }
 
 /* ==========================================================================
-   FLOATING NAVBAR — EXTENDED WIDTH & LIGHT YELLOW HOVER BOX
+   FLOATING NAVBAR â€” EXTENDED WIDTH & LIGHT YELLOW HOVER BOX
    ========================================================================== */
 .floating-nav-wrapper {
   position: fixed;
@@ -229,7 +229,7 @@ a {
   background: rgba(25, 37, 24, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(169, 180, 158, 0.25);
+  border: 2px solid rgba(228, 253, 151, 0.35);
   border-radius: var(--radius-full);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -585,3 +585,4 @@ a {
     align-items: center;
   }
 }
+

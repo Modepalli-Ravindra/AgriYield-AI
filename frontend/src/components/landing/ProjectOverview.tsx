@@ -10,7 +10,8 @@ export const ProjectOverview: React.FC = () => {
   return (
     <section id="overview" style={{ padding: '90px 0', backgroundColor: '#152214' }}>
       <div className="container">
-        <div style={{ maxWidth: 1050, marginBottom: 50 }}>
+        {/* Centered Section Header */}
+        <div style={{ maxWidth: 1050, margin: '0 auto 52px', textAlign: 'center' }}>
           <div className="section-pill-badge">
             <CpuChipIcon />
             <span>INTELLIGENCE ARCHITECTURE</span>
@@ -25,7 +26,7 @@ export const ProjectOverview: React.FC = () => {
           }}>
             Environmental climate science meets machine intelligence.
           </h2>
-          <p style={{ fontSize: 16.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 16.5, color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: 840, margin: '0 auto' }}>
             Agricultural productivity faces variability from shifting rainfall patterns, temperature 
             extremes, and changing input conditions. AgriYield AI delivers a calibrated, multi-model 
             pipeline to estimate harvest outcomes with full attribution and confidence bounds.
@@ -162,4 +163,3 @@ export const ProjectOverview: React.FC = () => {
     </section>
   );
 };
-
