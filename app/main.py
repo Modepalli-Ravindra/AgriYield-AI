@@ -21,11 +21,12 @@ logger = logging.getLogger("crop_yield_api")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Application lifespan lifecycle: load model artifacts and reference datasets."""
+    """Application lifespan lifecycle: load model artifacts, init DB, and teardown pools."""
     logger.info("Initializing %s v%s", settings.PROJECT_NAME, settings.VERSION)
     prediction_service._load_artifacts()
     yield
     logger.info("Shutting down %s", settings.PROJECT_NAME)
+    db.close()
 
 app = FastAPI(
     title=settings.PROJECT_NAME,

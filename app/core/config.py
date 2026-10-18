@@ -5,8 +5,11 @@ import os
 from pathlib import Path
 from typing import List
 from pydantic import BaseModel, Field
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+# Load .env file for InsForge PostgreSQL and production configuration
+load_dotenv(BASE_DIR / ".env")
 
 def _get_default_cors_origins() -> List[str]:
     raw = os.getenv("CORS_ORIGINS")
