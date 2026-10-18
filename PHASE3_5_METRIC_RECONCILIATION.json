@@ -1,0 +1,378 @@
+{
+  "audit_phase": "Phase 3.5 \u2014 Final Independent Research Validation and Publication Readiness Audit",
+  "project": "An AI-Driven DL\u2013ML Integrated Framework for Crop Yield Prediction Using Environmental Factors",
+  "branch": "feature/dl-ml-research-framework",
+  "baseline_commit": "9ff249d",
+  "audit_timestamp": "2026-10-18T11:45:00Z",
+  "dataset": {
+    "source": "data/yield_df.csv",
+    "clean_rows": 25932,
+    "unique_groups": 13130,
+    "repeated_groups": 3690,
+    "single_groups": 9440,
+    "repeated_group_rate_pct": 28.1,
+    "features": [
+      "Area",
+      "Item",
+      "Year",
+      "average_rain_fall_mm_per_year",
+      "pesticides_tonnes",
+      "avg_temp"
+    ],
+    "target": "hg/ha_yield (converted to tonnes/ha by dividing by 10,000.0)"
+  },
+  "task1_historical_metric_reconciliation": {
+    "status": "RECONCILED",
+    "stacking_09822_vs_09815_resolution": {
+      "finding": "Both metrics represent the DL\u2013ML Stacking Meta-Ensemble evaluated on the exact same 80/20 naive random split (5,187 test rows).",
+      "score_09822": {
+        "source": "Phase 2 training script (app/ml/train_all.py) and models/benchmark_results.json",
+        "r2": 0.9822,
+        "rmse_tonnes": 1.137,
+        "mae_tonnes": 0.607,
+        "split": "Naive random train_test_split(test_size=0.20, random_state=42)"
+      },
+      "score_09815": {
+        "source": "Phase 3 independent verification script (scripts/independent_verification.py)",
+        "r2": 0.981548,
+        "rmse_tonnes": 1.156,
+        "mae_tonnes": 0.621,
+        "split": "Naive random train_test_split(test_size=0.20, random_state=42)",
+        "variation_explanation": "Delta of 0.0007 R2 is due to PyTorch Tabular Neural Network stochastic backpropagation across separate training runs."
+      },
+      "critical_caveat": "The 0.9822 / 0.9815 performance is inflated by 58.67% test row repeated-tuple leakage across the train/test boundary and does NOT represent performance on unobserved environmental conditions."
+    },
+    "evaluation_regimes": [
+      {
+        "regime": "1. Naive Random Split (80/20 row-level)",
+        "test_samples": 5187,
+        "test_groups": 4543,
+        "train_test_group_leakage_pct": 58.67,
+        "models": {
+          "Random Forest": {
+            "r2": 0.974,
+            "rmse_tonnes": 1.373,
+            "mae_tonnes": 0.694
+          },
+          "LightGBM": {
+            "r2": 0.9733,
+            "rmse_tonnes": 1.383,
+            "mae_tonnes": 0.728
+          },
+          "XGBoost (Production Pipeline)": {
+            "r2": 0.9714,
+            "rmse_tonnes": 1.439,
+            "mae_tonnes": 0.791
+          },
+          "PyTorch Tabular MLP": {
+            "r2": 0.9796,
+            "rmse_tonnes": 1.215,
+            "mae_tonnes": 0.665
+          },
+          "DL-ML Stacking Meta-Ensemble": {
+            "r2": 0.9822,
+            "rmse_tonnes": 1.137,
+            "mae_tonnes": 0.607
+          }
+        },
+        "scientific_interpretation": "Interpolation accuracy under observation pseudo-replication. Highly accurate for interpolating weather-station variations for known country-crop-years."
+      },
+      {
+        "regime": "2. Leakage-Aware Grouped Split (GroupShuffleSplit on Area_Item_Year)",
+        "test_samples": 5185,
+        "test_groups": 2626,
+        "train_test_group_overlap": 0,
+        "models": {
+          "Random Forest": {
+            "r2": 0.9689,
+            "rmse_tonnes": 1.448,
+            "mae_tonnes": 0.808
+          },
+          "XGBoost": {
+            "r2": 0.9681,
+            "rmse_tonnes": 1.466,
+            "mae_tonnes": 0.855
+          },
+          "DL-ML Stacking Meta-Ensemble": {
+            "r2": 0.9671,
+            "rmse_tonnes": 1.49,
+            "mae_tonnes": 0.827
+          }
+        },
+        "scientific_interpretation": "True generalization accuracy to unseen (Area, Item, Year) environmental combinations. Random Forest marginally outperforms complex stacking due to tree robustness."
+      },
+      {
+        "regime": "3. Chronological Future-Year Split (Train <= 2008, Test 2009-2013)",
+        "test_samples": 4534,
+        "test_groups": 2245,
+        "train_test_year_overlap": 0,
+        "models": {
+          "Random Forest": {
+            "r2": 0.9238,
+            "rmse_tonnes": 1.764,
+            "mae_tonnes": 1.056
+          },
+          "XGBoost": {
+            "r2": 0.9102,
+            "rmse_tonnes": 1.874,
+            "mae_tonnes": 1.139
+          }
+        },
+        "scientific_interpretation": "Evaluates forward temporal transferability. Substantial degradation (~0.06 R2 loss, ~0.40 t/ha RMSE increase) occurs due to evolving agrarian technology and climate shifts."
+      },
+      {
+        "regime": "4. Geographic Block Split (Held-Out Countries / Zero-Shot Spatial)",
+        "test_samples": 4376,
+        "test_groups": 2210,
+        "train_test_country_overlap": 0,
+        "models": {
+          "Random Forest": {
+            "r2": 0.4932,
+            "rmse_tonnes": 3.962,
+            "mae_tonnes": 2.617
+          },
+          "XGBoost": {
+            "r2": 0.4481,
+            "rmse_tonnes": 4.135,
+            "mae_tonnes": 2.784
+          }
+        },
+        "scientific_interpretation": "Evaluates spatial zero-shot transferability. Severe failure (R2 drops below 0.50, RMSE triples to ~4.0 t/ha). Proves models rely heavily on country identity as a proxy for unobserved soil, governance, and infrastructure."
+      },
+      {
+        "regime": "5. Live Production Model (API Served Pipeline)",
+        "artifact": "models/crop_yield_model.pkl",
+        "estimator": "xgboost.sklearn.XGBRegressor",
+        "test_r2_random": 0.9714,
+        "test_rmse_tonnes_random": 1.439,
+        "test_r2_grouped": 0.9681,
+        "test_rmse_tonnes_grouped": 1.466,
+        "latency_ms": 2.45,
+        "scientific_interpretation": "Deployed for sub-5ms low latency, determinism, and exact TreeSHAP compatibility. Serves as production engine while stacking is maintained as offline research benchmark."
+      }
+    ]
+  },
+  "task2_crop_conditional_reconciliation": {
+    "status": "DISCREPANCIES_RESOLVED",
+    "plantains_discrepancy_resolution": {
+      "reported_in_phase3_3": "Plantains test row coverage = 86.41%, mean width = 7.461 t/ha, Q = 3.7333 t/ha",
+      "reported_in_phase3_4": "Plantains calib_n = 92, test coverage = 91.30%",
+      "root_cause_identified": "Phase 3.4 JSON mistakenly transposed the calibration row count of Yams (92) onto Plantains (whose actual calibration row count was 79). 84/92 was 91.30%.",
+      "ground_truth_test_row_coverage": 0.8641,
+      "ground_truth_test_group_coverage": 0.8539,
+      "calibration_rows": 79,
+      "calibration_groups": 71,
+      "test_rows": 103,
+      "test_groups": 89
+    },
+    "crops_recalculated_audit_table": {
+      "Cassava": {
+        "calib_rows": 258,
+        "calib_groups": 138,
+        "test_rows": 341,
+        "test_groups": 180,
+        "q_tonnes": 3.4839,
+        "test_row_coverage": 0.9062,
+        "test_group_coverage": 0.8222,
+        "status": "VERIFIED"
+      },
+      "Maize": {
+        "calib_rows": 580,
+        "calib_groups": 317,
+        "test_rows": 763,
+        "test_groups": 423,
+        "q_tonnes": 1.2659,
+        "test_row_coverage": 0.8886,
+        "test_group_coverage": 0.87,
+        "status": "VERIFIED_SLIGHT_ROW_UNDERCOVERAGE"
+      },
+      "Plantains and others": {
+        "calib_rows": 79,
+        "calib_groups": 71,
+        "test_rows": 103,
+        "test_groups": 89,
+        "q_tonnes": 3.7333,
+        "test_row_coverage": 0.8641,
+        "test_group_coverage": 0.8539,
+        "status": "FLAGGED_UNDER_COVERAGE"
+      },
+      "Potatoes": {
+        "calib_rows": 567,
+        "calib_groups": 325,
+        "test_rows": 754,
+        "test_groups": 387,
+        "q_tonnes": 4.3817,
+        "test_row_coverage": 0.9284,
+        "test_group_coverage": 0.8863,
+        "status": "VERIFIED"
+      },
+      "Rice, paddy": {
+        "calib_rows": 425,
+        "calib_groups": 219,
+        "test_rows": 656,
+        "test_groups": 296,
+        "q_tonnes": 1.1009,
+        "test_row_coverage": 0.9375,
+        "test_group_coverage": 0.9088,
+        "status": "VERIFIED"
+      },
+      "Sorghum": {
+        "calib_rows": 442,
+        "calib_groups": 220,
+        "test_rows": 626,
+        "test_groups": 306,
+        "q_tonnes": 0.7772,
+        "test_row_coverage": 0.9089,
+        "test_group_coverage": 0.8725,
+        "status": "VERIFIED"
+      },
+      "Soybeans": {
+        "calib_rows": 373,
+        "calib_groups": 170,
+        "test_rows": 539,
+        "test_groups": 258,
+        "q_tonnes": 0.6133,
+        "test_row_coverage": 0.8683,
+        "test_group_coverage": 0.8178,
+        "status": "FLAGGED_UNDER_COVERAGE"
+      },
+      "Sweet potatoes": {
+        "calib_rows": 399,
+        "calib_groups": 178,
+        "test_rows": 492,
+        "test_groups": 238,
+        "q_tonnes": 2.9371,
+        "test_row_coverage": 0.8618,
+        "test_group_coverage": 0.8571,
+        "status": "FLAGGED_UNDER_COVERAGE"
+      },
+      "Wheat": {
+        "calib_rows": 542,
+        "calib_groups": 275,
+        "test_rows": 736,
+        "test_groups": 361,
+        "q_tonnes": 0.8105,
+        "test_row_coverage": 0.8913,
+        "test_group_coverage": 0.8366,
+        "status": "VERIFIED_NEAR_NOMINAL"
+      },
+      "Yams": {
+        "calib_rows": 92,
+        "calib_groups": 56,
+        "test_rows": 175,
+        "test_groups": 88,
+        "q_tonnes": 3.4284,
+        "test_row_coverage": 0.9714,
+        "test_group_coverage": 0.9432,
+        "status": "VERIFIED"
+      }
+    }
+  },
+  "task3_group_aware_conformal_verification": {
+    "status": "VERIFIED",
+    "method": "Group Maximum Nonconformity Score R_g = max_{i in g} |y_{g,i} - y_hat_{g,i}|",
+    "calibration_groups_count": 1970,
+    "calibration_rows_count": 3757,
+    "test_groups_count": 2626,
+    "test_rows_count": 5185,
+    "nominal_coverage": 0.9,
+    "finite_sample_quantile_formula": "p = ceil((n_groups + 1) * 0.90) / n_groups = 1774 / 1970 = 0.900508",
+    "margins": {
+      "row_level_q_tonnes": 2.0039,
+      "group_max_q_tonnes": 2.573
+    },
+    "coverage_comparison": {
+      "under_row_q": {
+        "test_row_coverage": 0.9057,
+        "test_group_coverage": 0.8709,
+        "mean_width_tonnes": 3.809
+      },
+      "under_group_max_q": {
+        "test_row_coverage": 0.9381,
+        "test_group_coverage": 0.9105,
+        "mean_width_tonnes": 4.887
+      }
+    },
+    "exchangeability_assumptions": "Group-level marginal validity requires that calibration and test groups are exchangeable i.i.d. draws from the agricultural system. Valid under randomized GroupShuffleSplit. Invalid under temporal shifts (>2013) or geographic zero-shot shifts."
+  },
+  "task4_production_api_and_treeshap_validation": {
+    "status": "VERIFIED",
+    "deployed_artifact": "models/crop_yield_model.pkl",
+    "deployed_estimator_class": "xgboost.sklearn.XGBRegressor",
+    "direct_artifact_vs_api_parity": {
+      "cases_evaluated": 4,
+      "max_discrepancy_tonnes": 4.75e-05,
+      "max_discrepancy_hg_ha": 0.0344,
+      "unit_consistency_verified": true
+    },
+    "treeshap_validation": {
+      "explainer": "shap.TreeExplainer on live pipeline.named_steps['regressor']",
+      "feature_alignment": "113 transformed sparse columns exactly matched to estimator trees",
+      "parent_aggregation": [
+        "rainfall",
+        "avg_temp",
+        "pesticides",
+        "year",
+        "crop",
+        "country"
+      ],
+      "additivity_verification": {
+        "formula": "base_value + sum(shap_values) == live_prediction",
+        "measured_additivity_error": 1.2e-07,
+        "tolerance": 0.0001,
+        "additivity_verified": true
+      },
+      "mean_latency_ms": 9.19
+    },
+    "fallback_and_clipping": {
+      "lower_bound_clipping_at_zero": "VERIFIED (nonnegative yield physically enforced)",
+      "unknown_crop_fallback": "VERIFIED (dragonfruit falls back to global group-max 2.573 t/ha)"
+    }
+  },
+  "task5_reproducibility_environment": {
+    "os": "Windows (win32)",
+    "python_version": "3.14.5",
+    "pytorch_version": "2.13.0+cpu",
+    "scikit_learn_version": "1.9.0",
+    "xgboost_version": "3.4.1",
+    "lightgbm_version": "4.7.0",
+    "shap_version": "0.54.1",
+    "fastapi_version": "0.128.8",
+    "pydantic_version": "2.13.4",
+    "node_version": "v22.23.2",
+    "npm_version": "10.9.8",
+    "frontend_bundler": "vite v8.3.4"
+  },
+  "publication_claim_matrix": [
+    {
+      "claim": "The DL-ML Stacking Ensemble achieves R2 = 0.9822 under naive random splitting.",
+      "status": "VERIFIED_WITH_CAVEATS",
+      "caveat": "High score is heavily driven by repeated (Area, Item, Year) observations across train/test splits. True grouped generalization is R2 = 0.9671.",
+      "safe_for_paper": true
+    },
+    {
+      "claim": "Group-max conformal calibration guarantees marginal coverage (>=90%) across exchangeable groups.",
+      "status": "VERIFIED",
+      "caveat": "Applies marginally across exchangeable groups; does not guarantee 90% for every individual crop or temporal shift.",
+      "safe_for_paper": true
+    },
+    {
+      "claim": "Crop-conditional calibration guarantees 90% coverage for every crop family.",
+      "status": "FAILED",
+      "caveat": "Soybeans (86.83%), Sweet potatoes (86.18%), and Plantains (86.41%) fall below nominal 90% coverage due to heteroskedastic residual tails and small sample sizes.",
+      "safe_for_paper": false
+    },
+    {
+      "claim": "The model provides zero-shot geographic transfer to unobserved countries.",
+      "status": "FAILED",
+      "caveat": "R2 collapses to 0.4481 under spatial block splitting. Unobserved country predictions require local retraining or recalibration.",
+      "safe_for_paper": false
+    },
+    {
+      "claim": "Live production inference serves standalone XGBoost with exact TreeSHAP attributions in <10ms.",
+      "status": "VERIFIED",
+      "caveat": "Live API does not serve the 4-model stacking ensemble; TreeSHAP efficiency error is < 1e-6 t/ha.",
+      "safe_for_paper": true
+    }
+  ]
+}
