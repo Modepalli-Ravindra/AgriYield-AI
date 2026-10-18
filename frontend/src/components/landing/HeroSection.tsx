@@ -22,7 +22,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     <section style={{
       position: 'relative',
       paddingTop: 'clamp(118px, 11.5vh, 138px)',
-      paddingBottom: 70,
+      paddingBottom: 64,
       overflow: 'hidden',
       backgroundColor: '#121B11'
     }}>
@@ -61,31 +61,34 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       <div className="container" style={{ position: 'relative', zIndex: 3 }}>
         {/* Centered Hero Content */}
-        <div style={{ textAlign: 'center', maxWidth: 880, margin: '0 auto 60px' }}>
-          <div className="section-pill-badge" style={{ marginBottom: 20 }}>
+        <div style={{ textAlign: 'center', maxWidth: 1020, margin: '0 auto 46px' }}>
+          <div className="section-pill-badge" style={{ marginBottom: 18 }}>
             <CpuChipIcon />
             <span>ENVIRONMENTAL INTELLIGENCE PLATFORM</span>
           </div>
 
-          {/* Exactly two lines headline with grand typography */}
+          {/* Exactly two lines headline with grand increased typography */}
           <h1 style={{
-            fontSize: 'clamp(36px, 4.2vw, 58px)',
-            lineHeight: 1.16,
+            fontSize: 'clamp(44px, 4.8vw, 68px)',
+            lineHeight: 1.12,
             fontWeight: 800,
             color: 'var(--color-offwhite)',
-            letterSpacing: '-0.03em',
-            marginBottom: 20
+            letterSpacing: '-0.035em',
+            marginBottom: 18,
+            whiteSpace: 'normal'
           }}>
-            Predict crop yields with <br />
-            <span style={{ color: 'var(--color-lime)' }}>environmental intelligence.</span>
+            <span style={{ display: 'inline-block' }}>Predict crop yields with</span>{' '}
+            <br />
+            <span style={{ display: 'inline-block', color: 'var(--color-lime)' }}>environmental intelligence.</span>
           </h1>
 
+          {/* Subtitle: decreased text size, increased width, strictly two lines */}
           <p style={{
-            fontSize: 'clamp(16px, 1.25vw, 19px)',
+            fontSize: 'clamp(14.5px, 1.05vw, 16px)',
             color: 'var(--color-muted)',
-            marginBottom: 32,
-            lineHeight: 1.6,
-            maxWidth: 680,
+            marginBottom: 28,
+            lineHeight: 1.55,
+            maxWidth: 820,
             marginLeft: 'auto',
             marginRight: 'auto'
           }}>
@@ -100,13 +103,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             justifyContent: 'center',
             gap: 16,
             flexWrap: 'wrap',
-            marginBottom: 32
+            marginBottom: 26
           }}>
-            <button className="btn-primary" onClick={onGetStarted} style={{ padding: '15px 32px', fontSize: 15.5 }}>
+            <button className="btn-primary" onClick={onGetStarted} style={{ padding: '14px 30px', fontSize: 15 }}>
               <span>Launch Prediction Console</span>
-              <ArrowRightIcon style={{ width: 17, height: 17 }} />
+              <ArrowRightIcon style={{ width: 16, height: 16 }} />
             </button>
-            <button className="btn-secondary" onClick={onExploreMethodology} style={{ padding: '15px 28px', fontSize: 15.5 }}>
+            <button className="btn-secondary" onClick={onExploreMethodology} style={{ padding: '14px 26px', fontSize: 15 }}>
               <span>Explore How It Works</span>
             </button>
           </div>
@@ -115,64 +118,66 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: 24,
+            gap: 22,
             flexWrap: 'wrap',
-            fontSize: 13,
+            fontSize: 12.5,
             fontFamily: 'var(--font-mono)',
             color: 'var(--color-muted)'
           }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <CheckCircleIcon style={{ width: 16, height: 16, color: 'var(--color-lime)' }} />
+              <CheckCircleIcon style={{ width: 15, height: 15, color: 'var(--color-lime)' }} />
               96.8% Accuracy
             </span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <CheckCircleIcon style={{ width: 16, height: 16, color: 'var(--color-lime)' }} />
+              <CheckCircleIcon style={{ width: 15, height: 15, color: 'var(--color-lime)' }} />
               90% Confidence Bounds
             </span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <CheckCircleIcon style={{ width: 16, height: 16, color: 'var(--color-lime)' }} />
+              <CheckCircleIcon style={{ width: 15, height: 15, color: 'var(--color-lime)' }} />
               TreeSHAP Attributions
             </span>
           </div>
         </div>
 
-        {/* Key Metrics Grid Below */}
+        {/* Compressed Key Metrics Grid with Decreased Width */}
         <div style={{
+          maxWidth: 1040,
+          margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
-          gap: 20,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: 14,
           textAlign: 'left'
         }}>
           <div style={{
             background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
-            borderRadius: 18,
-            padding: '24px 22px',
+            borderRadius: 14,
+            padding: '16px 18px',
             boxShadow: 'var(--shadow-card)',
             transition: 'all 0.25s ease'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <div style={{
-                width: 34,
-                height: 34,
-                borderRadius: 8,
+                width: 28,
+                height: 28,
+                borderRadius: 7,
                 background: 'rgba(228, 253, 151, 0.15)',
                 color: 'var(--color-lime)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <ChartBarIcon style={{ width: 18, height: 18 }} />
+                <ChartBarIcon style={{ width: 15, height: 15 }} />
               </div>
-              <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
+              <span style={{ fontSize: 10.5, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', letterSpacing: '0.04em' }}>
                 PREDICTIVE PRECISION
               </span>
             </div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 4 }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 3 }}>
               96.8% Accuracy
             </div>
-            <p style={{ fontSize: 13, color: 'var(--color-muted)', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 12, color: 'var(--color-muted)', lineHeight: 1.45 }}>
               R² = 0.9681 & 1.46 t/ha RMSE evaluated across strict disjoint geographic test splits.
             </p>
           </div>
@@ -181,32 +186,32 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
-            borderRadius: 18,
-            padding: '24px 22px',
+            borderRadius: 14,
+            padding: '16px 18px',
             boxShadow: 'var(--shadow-card)',
             transition: 'all 0.25s ease'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <div style={{
-                width: 34,
-                height: 34,
-                borderRadius: 8,
+                width: 28,
+                height: 28,
+                borderRadius: 7,
                 background: 'rgba(228, 253, 151, 0.15)',
                 color: 'var(--color-lime)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <ShieldCheckIcon style={{ width: 18, height: 18 }} />
+                <ShieldCheckIcon style={{ width: 15, height: 15 }} />
               </div>
-              <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
+              <span style={{ fontSize: 10.5, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', letterSpacing: '0.04em' }}>
                 UNCERTAINTY BOUNDS
               </span>
             </div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 4 }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 3 }}>
               90% Confidence
             </div>
-            <p style={{ fontSize: 13, color: 'var(--color-muted)', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 12, color: 'var(--color-muted)', lineHeight: 1.45 }}>
               Statistically calibrated conformal prediction intervals showing best-case and worst-case bounds.
             </p>
           </div>
@@ -215,32 +220,32 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
-            borderRadius: 18,
-            padding: '24px 22px',
+            borderRadius: 14,
+            padding: '16px 18px',
             boxShadow: 'var(--shadow-card)',
             transition: 'all 0.25s ease'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <div style={{
-                width: 34,
-                height: 34,
-                borderRadius: 8,
+                width: 28,
+                height: 28,
+                borderRadius: 7,
                 background: 'rgba(228, 253, 151, 0.15)',
                 color: 'var(--color-lime)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <SunIcon style={{ width: 18, height: 18 }} />
+                <SunIcon style={{ width: 15, height: 15 }} />
               </div>
-              <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
+              <span style={{ fontSize: 10.5, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', letterSpacing: '0.04em' }}>
                 ENVIRONMENTAL FACTORS
               </span>
             </div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 4 }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 3 }}>
               6 Core Indicators
             </div>
-            <p style={{ fontSize: 13, color: 'var(--color-muted)', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 12, color: 'var(--color-muted)', lineHeight: 1.45 }}>
               Joint analysis of Rainfall, Temperature, Fertilizer, Pesticides, Soil Quality, and Crop category.
             </p>
           </div>
@@ -249,32 +254,32 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
-            borderRadius: 18,
-            padding: '24px 22px',
+            borderRadius: 14,
+            padding: '16px 18px',
             boxShadow: 'var(--shadow-card)',
             transition: 'all 0.25s ease'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <div style={{
-                width: 34,
-                height: 34,
-                borderRadius: 8,
+                width: 28,
+                height: 28,
+                borderRadius: 7,
                 background: 'rgba(228, 253, 151, 0.15)',
                 color: 'var(--color-lime)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <SparklesIcon style={{ width: 18, height: 18 }} />
+                <SparklesIcon style={{ width: 15, height: 15 }} />
               </div>
-              <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>
+              <span style={{ fontSize: 10.5, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', letterSpacing: '0.04em' }}>
                 LOCAL & GLOBAL SHAP
               </span>
             </div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 4 }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 3 }}>
               Explainable AI
             </div>
-            <p style={{ fontSize: 13, color: 'var(--color-muted)', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 12, color: 'var(--color-muted)', lineHeight: 1.45 }}>
               Exact TreeSHAP attributions reveal precisely which climatic variables drove the yield up or down.
             </p>
           </div>
