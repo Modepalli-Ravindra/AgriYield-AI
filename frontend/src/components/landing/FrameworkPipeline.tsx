@@ -1,103 +1,143 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
+﻿import React from 'react';
+import { CloudRain, CheckCircle, Cpu, ShieldCheck, FileCheck } from 'lucide-react';
 
-const PIPELINE_STAGES = [
+const STAGES = [
   {
     step: '01',
-    name: 'Environmental Inputs',
-    role: 'Primary Variables',
-    desc: 'Captures region, crop species, annual precipitation, average surface temperature, pesticide tonnage, and technological trend year.'
+    title: 'Environmental Inputs',
+    subtitle: 'Climate & Agronomic Indicators',
+    desc: 'Ingests rainfall, average temperature, pesticide application, country baseline, and crop species indicators.',
+    icon: CloudRain
   },
   {
     step: '02',
-    name: 'Integrity Validation',
-    role: 'Pre-flight Pipeline',
-    desc: 'Strict non-negative numerical bounds, categorical OHE alignment, and out-of-distribution advisory warning triggers.'
+    title: 'Input Validation',
+    subtitle: 'Schema & OOD Protection',
+    desc: 'Validates strict numerical bounds and generates advisory alerts if climate values exceed historical training ranges.',
+    icon: CheckCircle
   },
   {
     step: '03',
-    name: 'ML–DL Inference',
-    role: 'Production XGBoost',
-    desc: 'Transforms features through preprocessor pipeline into production XGBoost regressor (R² = 0.9681) to compute base yield in t/ha.'
+    title: 'Dual ML/DL Prediction',
+    subtitle: 'Production XGBoost & Ensembles',
+    desc: 'Inference executed through optimized gradient boosted trees with 300 estimators, capturing nonlinear interactions.',
+    icon: Cpu
   },
   {
     step: '04',
-    name: 'Explainability & UQ',
-    role: 'TreeSHAP & Conformal',
-    desc: 'Decomposes feature influence with exact additive Shapley values while calibrating 90% non-parametric conformal error bounds.'
+    title: 'Explainability & Bounds',
+    subtitle: 'TreeSHAP & Conformal UQ',
+    desc: 'Computes exact additive feature contributions and establishes 90% non-parametric conformal uncertainty intervals.',
+    icon: ShieldCheck
   },
   {
     step: '05',
-    name: 'Decisional Result',
-    role: 'Actionable Intelligence',
-    desc: 'Delivers estimated yield, confidence envelope, waterfall breakdown, and optional climate scenario comparisons.'
+    title: 'Decision Support',
+    subtitle: 'Actionable Harvest Forecast',
+    desc: 'Delivers interpretable yield estimates in metric tonnes/ha, uncertainty boundaries, and sensitivity simulations.',
+    icon: FileCheck
   }
 ];
 
 export const FrameworkPipeline: React.FC = () => {
   return (
-    <section id="methodology" style={{ padding: '96px 0', backgroundColor: 'var(--color-offwhite)' }}>
+    <section id="methodology" style={{ padding: '100px 0', backgroundColor: '#121B11', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
-        <div style={{ maxWidth: 740, marginBottom: 50 }}>
+        <div style={{ maxWidth: 740, marginBottom: 56 }}>
           <span style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
             fontWeight: 700,
-            color: 'var(--color-forest)',
+            color: 'var(--color-lime)',
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
-            03 / SYSTEM ARCHITECTURE & PROCESS PIPELINE
+            03 / SYSTEM ARCHITECTURE PIPELINE
           </span>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 42px)',
-            color: 'var(--color-forest-dark)',
+            color: 'var(--color-offwhite)',
             marginTop: 12,
             marginBottom: 16,
-            letterSpacing: '-0.025em'
+            fontWeight: 800
           }}>
-            How the framework processes environmental factors.
+            How the DL–ML framework processes environmental data.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
-            From raw agro-climatic observations to calibrated uncertainty envelopes, every step in the 
-            pipeline preserves physical validity and mathematical integrity.
+          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+            A sequential five-stage pipeline designed for scientific transparency, mathematical rigor, 
+            and immediate decision support for agronomists and agricultural planners.
           </p>
         </div>
 
-        {/* Process Pipeline Track */}
-        <div className="pipeline-track">
-          {PIPELINE_STAGES.map((s, idx) => (
-            <div key={s.step} className="pipeline-node">
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: 12
-              }}>
-                <span className="pipeline-node-number">STAGE {s.step}</span>
-                {idx < PIPELINE_STAGES.length - 1 && (
-                  <span style={{ color: 'var(--color-muted)', display: 'inline-block' }}>
-                    <ArrowRight size={14} />
+        {/* Pipeline Process Flow */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+          gap: 20,
+          position: 'relative'
+        }}>
+          {STAGES.map((s, idx) => {
+            const Icon = s.icon;
+            return (
+              <div
+                key={idx}
+                style={{
+                  background: 'var(--color-forest-surface)',
+                  borderRadius: 18,
+                  padding: 26,
+                  border: '1px solid var(--color-forest-border)',
+                  boxShadow: 'var(--shadow-card)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  transition: 'all 0.25s ease'
+                }}
+              >
+                <div>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: 16
+                  }}>
+                    <span style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: 'var(--color-lime)',
+                      background: 'rgba(228, 253, 151, 0.12)',
+                      padding: '4px 10px',
+                      borderRadius: 100
+                    }}>
+                      {s.step}
+                    </span>
+                    <div style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 10,
+                      background: 'rgba(228, 253, 151, 0.1)',
+                      color: 'var(--color-lime)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <Icon size={18} />
+                    </div>
+                  </div>
+
+                  <h3 style={{ fontSize: 17, color: 'var(--color-offwhite)', marginBottom: 4, fontWeight: 700 }}>
+                    {s.title}
+                  </h3>
+                  <span style={{ fontSize: 12, color: 'var(--color-muted)', display: 'block', marginBottom: 12, fontWeight: 500 }}>
+                    {s.subtitle}
                   </span>
-                )}
+                  <p style={{ fontSize: 13, color: 'var(--color-muted)', lineHeight: 1.55 }}>
+                    {s.desc}
+                  </p>
+                </div>
               </div>
-              <h4 className="pipeline-node-title">{s.name}</h4>
-              <span style={{
-                display: 'inline-block',
-                fontSize: 11,
-                fontFamily: 'var(--font-mono)',
-                color: 'var(--color-forest-light)',
-                background: 'var(--color-offwhite)',
-                padding: '2px 8px',
-                borderRadius: 4,
-                marginBottom: 10,
-                border: '1px solid var(--color-offwhite-border)'
-              }}>
-                {s.role}
-              </span>
-              <p className="pipeline-node-desc">{s.desc}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

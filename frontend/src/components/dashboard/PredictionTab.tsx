@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Sprout, ShieldCheck, AlertTriangle, LineChart, GitCompare, Loader2 } from 'lucide-react';
 import type { YieldInput, PredictionResponse, OptionsResponse } from '../../types';
 
@@ -31,19 +31,19 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 28 }}>
       {/* Input Parameters Form Card */}
       <div style={{
-        background: '#FFFFFF',
+        background: 'var(--color-forest-surface)',
         borderRadius: 20,
-        border: '1px solid var(--color-offwhite-border)',
+        border: '1px solid var(--color-forest-border)',
         boxShadow: 'var(--shadow-card)',
         padding: '30px'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid var(--color-offwhite-border)' }}>
-          <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(45, 62, 44, 0.08)', color: 'var(--color-forest)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid rgba(169, 180, 158, 0.15)' }}>
+          <div style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(228, 253, 151, 0.12)', color: 'var(--color-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Sprout size={20} />
           </div>
           <div>
-            <h3 style={{ fontSize: 18, color: 'var(--color-forest-dark)', fontWeight: 700 }}>Environmental Input Parameters</h3>
-            <span style={{ fontSize: 12, color: 'var(--text-muted-light)' }}>Set region, crop species, and climate indicators</span>
+            <h3 style={{ fontSize: 18, color: 'var(--color-offwhite)', fontWeight: 700 }}>Environmental & Crop Parameters</h3>
+            <span style={{ fontSize: 12.5, color: 'var(--color-muted)' }}>Select region, crop, and expected climate factors</span>
           </div>
         </div>
 
@@ -51,8 +51,8 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           {/* Country & Crop Selectors */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div>
-              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--text-secondary-light)', marginBottom: 6 }}>
-                Country / Territory
+              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }}>
+                Country / Region
               </label>
               <select
                 className="form-input"
@@ -64,7 +64,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--text-secondary-light)', marginBottom: 6 }}>
+              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }}>
                 Crop Species
               </label>
               <select
@@ -80,8 +80,8 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           {/* Rainfall Slider & Input */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 13 }}>
-              <span style={{ fontWeight: 600, color: 'var(--text-secondary-light)' }}>Annual Aggregate Rainfall (mm/year)</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-forest)' }}>{inputData.rainfall_mm} mm</span>
+              <span style={{ fontWeight: 600, color: 'var(--color-muted)' }}>Expected Annual Rainfall (mm)</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-lime)' }}>{inputData.rainfall_mm} mm</span>
             </div>
             <input
               type="range"
@@ -90,15 +90,15 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               step="10"
               value={inputData.rainfall_mm}
               onChange={(e) => handleChange('rainfall_mm', parseFloat(e.target.value) || 0)}
-              style={{ width: '100%', accentColor: 'var(--color-forest)' }}
+              style={{ width: '100%', accentColor: 'var(--color-lime)' }}
             />
           </div>
 
           {/* Average Temperature Slider & Input */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 13 }}>
-              <span style={{ fontWeight: 600, color: 'var(--text-secondary-light)' }}>Average Surface Temperature (°C)</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-forest)' }}>{inputData.avg_temp_c} °C</span>
+              <span style={{ fontWeight: 600, color: 'var(--color-muted)' }}>Average Growing Temperature (°C)</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-lime)' }}>{inputData.avg_temp_c} °C</span>
             </div>
             <input
               type="range"
@@ -107,15 +107,15 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               step="0.5"
               value={inputData.avg_temp_c}
               onChange={(e) => handleChange('avg_temp_c', parseFloat(e.target.value) || 0)}
-              style={{ width: '100%', accentColor: 'var(--color-forest)' }}
+              style={{ width: '100%', accentColor: 'var(--color-lime)' }}
             />
           </div>
 
           {/* Pesticide Usage Slider & Input */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 13 }}>
-              <span style={{ fontWeight: 600, color: 'var(--text-secondary-light)' }}>Pesticides Applied (metric tonnes)</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-forest)' }}>{inputData.pesticides_tonnes.toLocaleString()} t</span>
+              <span style={{ fontWeight: 600, color: 'var(--color-muted)' }}>Pesticides Applied (tonnes)</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-lime)' }}>{inputData.pesticides_tonnes.toLocaleString()} t</span>
             </div>
             <input
               type="range"
@@ -124,15 +124,15 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               step="500"
               value={inputData.pesticides_tonnes}
               onChange={(e) => handleChange('pesticides_tonnes', parseFloat(e.target.value) || 0)}
-              style={{ width: '100%', accentColor: 'var(--color-forest)' }}
+              style={{ width: '100%', accentColor: 'var(--color-lime)' }}
             />
           </div>
 
           {/* Observation Year Slider */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 13 }}>
-              <span style={{ fontWeight: 600, color: 'var(--text-secondary-light)' }}>Observation Year</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-forest)' }}>{inputData.year}</span>
+              <span style={{ fontWeight: 600, color: 'var(--color-muted)' }}>Harvest Year Reference</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--color-lime)' }}>{inputData.year}</span>
             </div>
             <input
               type="range"
@@ -141,7 +141,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               step="1"
               value={inputData.year}
               onChange={(e) => handleChange('year', parseInt(e.target.value) || 2000)}
-              style={{ width: '100%', accentColor: 'var(--color-forest)' }}
+              style={{ width: '100%', accentColor: 'var(--color-lime)' }}
             />
           </div>
 
@@ -154,12 +154,12 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             {loading ? (
               <>
                 <Loader2 size={18} className="animate-spin" />
-                <span>Computing Production Inference...</span>
+                <span>Calculating Yield Forecast...</span>
               </>
             ) : (
               <>
                 <Sprout size={18} />
-                <span>Predict Crop Yield</span>
+                <span>Estimate Crop Yield</span>
               </>
             )}
           </button>
@@ -168,24 +168,24 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
 
       {/* Prediction Outcome & Uncertainty Card */}
       <div style={{
-        background: '#FFFFFF',
+        background: 'var(--color-forest-surface)',
         borderRadius: 20,
-        border: '1px solid var(--color-offwhite-border)',
+        border: '1px solid var(--color-forest-border)',
         boxShadow: 'var(--shadow-card)',
         padding: '30px',
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid var(--color-offwhite-border)' }}>
-          <h3 style={{ fontSize: 18, color: 'var(--color-forest-dark)', fontWeight: 700 }}>Prediction Outcome & Uncertainty</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid rgba(169, 180, 158, 0.15)' }}>
+          <h3 style={{ fontSize: 18, color: 'var(--color-offwhite)', fontWeight: 700 }}>Forecast Results & Confidence</h3>
           <span style={{
             fontSize: 11,
             fontFamily: 'var(--font-mono)',
             fontWeight: 700,
-            background: 'rgba(45, 62, 44, 0.08)',
-            color: 'var(--color-forest)',
-            padding: '3px 8px',
-            borderRadius: 4
+            background: 'rgba(228, 253, 151, 0.15)',
+            color: 'var(--color-lime)',
+            padding: '3px 10px',
+            borderRadius: 100
           }}>
             PRODUCTION XGBOOST
           </span>
@@ -195,101 +195,140 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {/* Main Yield Display */}
             <div style={{
-              background: 'radial-gradient(circle at 50% 30%, #293B28 0%, #1A2719 100%)',
+              background: 'radial-gradient(circle at 50% 30%, #263825 0%, #172416 100%)',
               borderRadius: 16,
               padding: '28px 24px',
+              border: '1px solid var(--color-forest-border)',
               textAlign: 'center',
-              color: 'var(--color-offwhite)',
-              border: '1px solid var(--color-forest-border)'
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)'
             }}>
-              <span style={{ fontSize: 11.5, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', letterSpacing: '0.04em' }}>
-                ESTIMATED CROP YIELD
+              <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', textTransform: 'uppercase' }}>
+                Estimated Harvest Yield
               </span>
-              <div style={{ fontSize: 44, fontWeight: 800, fontFamily: 'var(--font-display)', color: 'var(--color-lime)', lineHeight: 1.1, margin: '8px 0' }}>
-                {prediction.predicted_yield_tonnes_per_ha.toFixed(4)} <span style={{ fontSize: 18, fontWeight: 500, color: 'var(--color-offwhite)' }}>tonnes/ha</span>
+              <div style={{ fontSize: 44, fontWeight: 800, color: 'var(--color-lime)', margin: '6px 0', fontFamily: 'var(--font-display)' }}>
+                {prediction.predicted_yield_tonnes_per_ha.toFixed(2)}
+                <span style={{ fontSize: 18, fontWeight: 500, color: 'var(--color-offwhite)', marginLeft: 6 }}>t/ha</span>
               </div>
-              <span style={{ fontSize: 13, color: 'var(--color-muted)', fontFamily: 'var(--font-mono)' }}>
-                {prediction.predicted_yield_hg_per_ha.toLocaleString(undefined, { maximumFractionDigits: 1 })} hectograms / hectare
-              </span>
-            </div>
-
-            {/* Conformal Prediction Interval (Guaranteed 90%) */}
-            <div style={{
-              background: 'rgba(228, 253, 151, 0.12)',
-              border: '1px solid rgba(45, 62, 44, 0.25)',
-              borderRadius: 14,
-              padding: '16px 18px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <ShieldCheck size={18} color="var(--color-forest)" />
-                <span style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--color-forest-dark)' }}>
-                  Nominal 90% Conformal Prediction Interval:
-                </span>
-              </div>
-              <div style={{ fontSize: 17, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--color-forest)', margin: '4px 0' }}>
-                [{prediction.conformal_interval_90.lower_bound.toFixed(4)} — {prediction.conformal_interval_90.upper_bound.toFixed(4)}] tonnes/ha
-              </div>
-              <p style={{ fontSize: 11.5, color: 'var(--text-muted-light)', lineHeight: 1.5, marginTop: 4 }}>
-                Finite-sample non-parametric coverage calibrated using empirical quantiles of absolute error on holdout groups.
+              <p style={{ fontSize: 13, color: 'var(--color-muted)' }}>
+                Approximately {(prediction.predicted_yield_tonnes_per_ha * 10).toFixed(1)} quintals per hectare
               </p>
             </div>
 
-            {/* Standard Error Bounds */}
+            {/* 90% Confidence Interval Box */}
             <div style={{
-              background: 'var(--color-offwhite)',
-              border: '1px solid var(--color-offwhite-border)',
-              borderRadius: 12,
-              padding: '12px 16px',
-              fontSize: 12.5
+              background: 'rgba(18, 27, 17, 0.8)',
+              borderRadius: 14,
+              padding: '18px 20px',
+              border: '1px solid rgba(169, 180, 158, 0.18)'
             }}>
-              <span style={{ color: 'var(--text-secondary-light)', fontWeight: 600 }}>Standard Error Bounds (±1.96 RMSE):</span>
-              <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-forest)', marginTop: 2 }}>
-                [{prediction.confidence_interval.lower.toFixed(2)} — {prediction.confidence_interval.upper.toFixed(2)}] tonnes/ha
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <ShieldCheck size={18} style={{ color: 'var(--color-lime)' }} />
+                  <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-offwhite)' }}>
+                    90% Confidence Interval
+                  </span>
+                </div>
+                <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)' }}>
+                  RELIABLE RANGE
+                </span>
               </div>
+
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                padding: '12px 0',
+                background: 'rgba(25, 37, 24, 0.6)',
+                borderRadius: 10
+              }}>
+                <div style={{ textAlign: 'center' }}>
+                  <span style={{ fontSize: 11, color: 'var(--color-muted)' }}>Low Estimate (Min)</span>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--color-offwhite)', fontFamily: 'var(--font-mono)' }}>
+                    {prediction.conformal_interval_90.lower_bound.toFixed(2)} t/ha
+                  </div>
+                </div>
+                <div style={{ height: 28, width: 1, background: 'rgba(169, 180, 158, 0.2)' }} />
+                <div style={{ textAlign: 'center' }}>
+                  <span style={{ fontSize: 11, color: 'var(--color-muted)' }}>High Estimate (Max)</span>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--color-offwhite)', fontFamily: 'var(--font-mono)' }}>
+                    {prediction.conformal_interval_90.upper_bound.toFixed(2)} t/ha
+                  </div>
+                </div>
+              </div>
+
+              <p style={{ fontSize: 12, color: 'var(--color-muted)', marginTop: 10, lineHeight: 1.5 }}>
+                Under identical weather patterns, actual harvest yield is mathematically expected to fall within this range 9 times out of 10.
+              </p>
             </div>
 
-            {/* Advisory Warnings if any */}
+            {/* Advisory Warnings */}
             {prediction.warnings && prediction.warnings.length > 0 && (
               <div style={{
-                background: '#FFFBEB',
-                border: '1px solid #FCD34D',
+                background: 'rgba(245, 158, 11, 0.12)',
+                border: '1px solid rgba(245, 158, 11, 0.3)',
                 borderRadius: 12,
-                padding: '12px 16px'
+                padding: '12px 16px',
+                display: 'flex',
+                gap: 10,
+                alignItems: 'flex-start'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#B45309', fontWeight: 600, fontSize: 12.5, marginBottom: 4 }}>
-                  <AlertTriangle size={15} />
-                  <span>Advisory Environmental Warnings</span>
+                <AlertTriangle size={18} style={{ color: '#F59E0B', flexShrink: 0, marginTop: 2 }} />
+                <div style={{ fontSize: 12.5, color: '#FDE68A' }}>
+                  {prediction.warnings.map((w: string, idx: number) => <div key={idx}>{w}</div>)}
                 </div>
-                <ul style={{ fontSize: 12, color: '#92400E', paddingLeft: 18, lineHeight: 1.5 }}>
-                  {prediction.warnings.map((w, idx) => <li key={idx}>{w}</li>)}
-                </ul>
               </div>
             )}
 
-            {/* Action buttons */}
+            {/* Quick Analysis Actions */}
             <div style={{ display: 'flex', gap: 12, marginTop: 6 }}>
-              <button 
-                className="btn-secondary-light" 
+              <button
+                className="btn-secondary"
                 onClick={onNavigateToExplain}
-                style={{ flex: 1 }}
+                style={{ flex: 1, padding: '11px 0', fontSize: 13.5 }}
               >
                 <LineChart size={15} />
-                <span>View SHAP Explainability</span>
+                <span>Explain Influences</span>
               </button>
-              <button 
-                className="btn-secondary-light" 
+              <button
+                className="btn-secondary"
                 onClick={onNavigateToWhatIf}
-                style={{ flex: 1 }}
+                style={{ flex: 1, padding: '11px 0', fontSize: 13.5 }}
               >
                 <GitCompare size={15} />
-                <span>Run What-If Comparison</span>
+                <span>What-If Scenario</span>
               </button>
             </div>
           </div>
         ) : (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted-light)', minHeight: 280, textAlign: 'center' }}>
-            <Sprout size={36} strokeWidth={1.5} style={{ marginBottom: 12, color: 'var(--color-muted)' }} />
-            <span style={{ fontSize: 14 }}>Click "Predict Crop Yield" to run inference on the production model.</span>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flex: 1,
+            padding: '40px 20px',
+            textAlign: 'center',
+            color: 'var(--color-muted)'
+          }}>
+            <div style={{
+              width: 54,
+              height: 54,
+              borderRadius: 16,
+              background: 'rgba(228, 253, 151, 0.1)',
+              color: 'var(--color-lime)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 16
+            }}>
+              <Sprout size={26} />
+            </div>
+            <h4 style={{ fontSize: 16, color: 'var(--color-offwhite)', fontWeight: 700, marginBottom: 6 }}>
+              Ready for Prediction
+            </h4>
+            <p style={{ fontSize: 13, maxWidth: 300, lineHeight: 1.5 }}>
+              Configure your environmental factors on the left and click "Estimate Crop Yield" to view production estimates and confidence intervals.
+            </p>
           </div>
         )}
       </div>

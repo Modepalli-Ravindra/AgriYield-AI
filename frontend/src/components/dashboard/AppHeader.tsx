@@ -1,5 +1,5 @@
-import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+﻿import React from 'react';
+import { ShieldCheck, LogOut, ArrowLeft } from 'lucide-react';
 import type { UserProfile } from '../../types';
 
 interface AppHeaderProps {
@@ -13,68 +13,91 @@ interface AppHeaderProps {
 export const AppHeader: React.FC<AppHeaderProps> = ({
   title,
   subtitle,
+  currentUser: _currentUser,
+  onLogout,
   onBackToLanding
 }) => {
   return (
     <header className="app-topbar">
       <div>
-        <h2 style={{ fontSize: 18, color: 'var(--color-forest-dark)', fontWeight: 700 }}>
+        <h2 style={{ fontSize: 19, color: 'var(--color-offwhite)', fontWeight: 800 }}>
           {title}
         </h2>
-        <span style={{ fontSize: 12.5, color: 'var(--text-muted-light)' }}>
+        <span style={{ fontSize: 13, color: 'var(--color-muted)' }}>
           {subtitle}
         </span>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 6,
-          background: 'rgba(45, 62, 44, 0.06)',
-          border: '1px solid var(--color-offwhite-border)',
-          padding: '4px 10px',
+          gap: 7,
+          background: 'rgba(228, 253, 151, 0.08)',
+          border: '1px solid var(--color-forest-border)',
+          padding: '6px 14px',
           borderRadius: 100,
           fontSize: 12,
-          color: 'var(--color-forest)',
+          color: 'var(--color-offwhite)',
           fontFamily: 'var(--font-mono)'
         }}>
-          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#16A34A' }} />
-          <span>API ONLINE • POSTGRES</span>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--color-lime)', boxShadow: '0 0 8px var(--color-lime)' }} />
+          <span>INSFORGE POSTGRES ONLINE</span>
         </div>
 
         <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: 6,
-          background: 'var(--color-lime-subtle)',
+          background: 'rgba(228, 253, 151, 0.15)',
           border: '1px solid var(--color-lime)',
-          padding: '4px 10px',
+          padding: '6px 14px',
           borderRadius: 100,
           fontSize: 12,
-          color: 'var(--color-forest)',
+          color: 'var(--color-lime)',
           fontFamily: 'var(--font-mono)',
-          fontWeight: 600
+          fontWeight: 700
         }}>
           <ShieldCheck size={14} />
-          <span>90% CONFORMAL UQ</span>
+          <span>90% CONFIDENCE BOUNDS</span>
         </div>
 
         {onBackToLanding && (
           <button
             onClick={onBackToLanding}
+            className="btn-secondary"
             style={{
               fontSize: 12.5,
               fontWeight: 600,
-              color: 'var(--color-forest)',
-              padding: '6px 12px',
-              borderRadius: 6,
-              background: 'var(--color-offwhite)'
+              padding: '6px 14px',
+              borderRadius: 8
             }}
           >
-            Public Site
+            <ArrowLeft size={14} />
+            <span>Public Home</span>
           </button>
         )}
+
+        <button
+          onClick={onLogout}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            background: 'rgba(248, 113, 113, 0.12)',
+            border: '1px solid rgba(248, 113, 113, 0.25)',
+            color: '#FCA5A5',
+            padding: '6px 14px',
+            borderRadius: 8,
+            fontSize: 12.5,
+            fontWeight: 600,
+            transition: 'all 0.2s ease'
+          }}
+          title="Sign out of current session"
+        >
+          <LogOut size={14} />
+          <span>Logout</span>
+        </button>
       </div>
     </header>
   );

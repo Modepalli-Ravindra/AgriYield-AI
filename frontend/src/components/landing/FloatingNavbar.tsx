@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Sprout, Menu, X } from 'lucide-react';
 
 interface FloatingNavbarProps {
@@ -21,7 +21,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
     setMobileMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      const navOffset = 90;
+      const navOffset = 95;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navOffset;
       window.scrollTo({
@@ -36,7 +36,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
       <nav 
         className="floating-navbar" 
         style={{
-          boxShadow: scrolled ? '0 16px 40px rgba(0, 0, 0, 0.35)' : '0 10px 30px rgba(0, 0, 0, 0.22)'
+          boxShadow: scrolled ? '0 20px 48px rgba(0, 0, 0, 0.55)' : '0 12px 36px rgba(0, 0, 0, 0.35)'
         }}
         aria-label="Main Navigation"
       >
@@ -46,19 +46,19 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
           onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
         >
           <div style={{
-            width: 32,
-            height: 32,
-            borderRadius: 8,
+            width: 36,
+            height: 36,
+            borderRadius: 10,
             backgroundColor: 'var(--color-lime)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'var(--color-forest-dark)'
+            color: '#121B11',
+            boxShadow: '0 2px 8px var(--color-lime-glow)'
           }}>
-            <Sprout size={18} strokeWidth={2.5} />
+            <Sprout size={20} strokeWidth={2.5} />
           </div>
           <span>AgriYield AI</span>
-          <span className="nav-brand-badge">DL-ML</span>
         </a>
 
         <ul className="nav-links">
@@ -107,7 +107,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
           >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </nav>
@@ -116,7 +116,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
       {mobileMenuOpen && (
         <div style={{
           position: 'fixed',
-          top: 80,
+          top: 86,
           left: 16,
           right: 16,
           background: 'rgba(25, 37, 24, 0.98)',
@@ -127,37 +127,37 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
           display: 'flex',
           flexDirection: 'column',
           gap: 16,
-          zIndex: 998,
-          boxShadow: '0 20px 48px rgba(0, 0, 0, 0.45)',
+          zIndex: 1001,
+          boxShadow: '0 20px 48px rgba(0, 0, 0, 0.65)',
           pointerEvents: 'auto'
         }}>
-          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 0', fontSize: 16 }} onClick={() => scrollToSection('overview')}>
+          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('overview')}>
             Overview
           </button>
-          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 0', fontSize: 16 }} onClick={() => scrollToSection('methodology')}>
+          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('methodology')}>
             Methodology
           </button>
-          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 0', fontSize: 16 }} onClick={() => scrollToSection('features')}>
+          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('features')}>
             Features
           </button>
-          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 0', fontSize: 16 }} onClick={() => scrollToSection('insights')}>
+          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('insights')}>
             Model Insights
           </button>
-          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 0', fontSize: 16 }} onClick={() => scrollToSection('faq')}>
+          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('faq')}>
             FAQ
           </button>
           <div style={{ height: 1, background: 'rgba(169, 180, 158, 0.2)', margin: '8px 0' }} />
           <div style={{ display: 'flex', gap: 12 }}>
             <button 
               className="btn-secondary" 
-              style={{ flex: 1, padding: '10px 0', fontSize: 14 }}
+              style={{ flex: 1, padding: '11px 0', fontSize: 14 }}
               onClick={() => { setMobileMenuOpen(false); onOpenAuth('login'); }}
             >
               Sign In
             </button>
             <button 
               className="btn-primary" 
-              style={{ flex: 1, padding: '10px 0', fontSize: 14 }}
+              style={{ flex: 1, padding: '11px 0', fontSize: 14 }}
               onClick={() => { setMobileMenuOpen(false); onOpenAuth('register'); }}
             >
               Get Started

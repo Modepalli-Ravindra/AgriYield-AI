@@ -1,147 +1,158 @@
-import React from 'react';
+﻿import React from 'react';
 import { CloudRain, Thermometer, FlaskConical, Calendar, Globe, Sprout } from 'lucide-react';
 
 const INPUT_FIELDS = [
   {
     icon: Globe,
-    name: 'Country / Territory',
+    name: 'Country / Region',
     field: 'country',
-    unit: 'Categorical (101 regions)',
+    unit: '101 Global Regions',
     typical: 'India, United States, France, etc.',
-    importance: 'Captures baseline geographical, soil typology, and macroscopic regional agro-climatic baseline characteristics.'
+    importance: 'Captures baseline soil typology, regional topography, and macroscopic agro-climatic conditions.'
   },
   {
     icon: Sprout,
     name: 'Crop Species',
     field: 'crop',
-    unit: 'Categorical (10 staple crops)',
+    unit: '10 Staple Crops',
     typical: 'Wheat, Maize, Rice, Potatoes, etc.',
-    importance: 'Governs photosynthetic pathway (C3 vs C4), physiological water use efficiency, and inherent biological yield ceilings.'
+    importance: 'Governs photosynthetic efficiency (C3 vs C4), physiological water needs, and biological yield ceilings.'
   },
   {
     icon: CloudRain,
-    name: 'Annual Precipitation',
+    name: 'Precipitation',
     field: 'rainfall_mm',
     unit: 'mm / year',
-    typical: '200 — 3,200 mm',
-    importance: 'Directly drives soil moisture availability during critical phenological growth, flowering, and grain-filling stages.'
+    typical: '200 – 3,200 mm',
+    importance: 'Directly drives soil moisture availability during critical vegetative, flowering, and grain-filling stages.'
   },
   {
     icon: Thermometer,
-    name: 'Average Surface Temperature',
+    name: 'Mean Temperature',
     field: 'avg_temp_c',
     unit: '°C',
-    typical: '1.5 — 30.5 °C',
-    importance: 'Determines thermal accumulation (Growing Degree Days), evapotranspiration rates, and thermal shock thresholds.'
+    typical: '1.5°C – 30.5°C',
+    importance: 'Controls thermal growing degree days (GDD), transpiration rates, and metabolic heat stress thresholds.'
   },
   {
     icon: FlaskConical,
     name: 'Pesticide Application',
     field: 'pesticides_tonnes',
     unit: 'metric tonnes',
-    typical: '0.04 — 398,000 tonnes',
-    importance: 'Quantifies agrochemical intensity and crop protection index mitigating biomass loss from pests and fungal pathogens.'
+    typical: '0.04 – 398,000 tonnes',
+    importance: 'Quantifies crop protection intensity mitigating biomass loss from regional pests and fungal pathogens.'
   },
   {
     icon: Calendar,
-    name: 'Observation Year',
+    name: 'Harvest Year',
     field: 'year',
     unit: 'Calendar Year',
-    typical: '1990 — 2013',
-    importance: 'Serves as an empirical proxy for technological progression, mechanization, hybrid seed adoption, and agronomic management.'
+    typical: 'Historical & Present',
+    importance: 'Accounts for technological improvements, modern hybrid seed adoption, and improved agronomic practices.'
   }
 ];
 
 export const EnvironmentalContext: React.FC = () => {
   return (
-    <section style={{ padding: '96px 0', backgroundColor: 'var(--color-offwhite)' }}>
+    <section style={{ padding: '100px 0', backgroundColor: '#152214' }}>
       <div className="container">
         <div style={{ maxWidth: 740, marginBottom: 50 }}>
           <span style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
             fontWeight: 700,
-            color: 'var(--color-forest)',
+            color: 'var(--color-lime)',
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
-            05 / ENVIRONMENTAL INPUT VARIABLES
+            05 / ENVIRONMENTAL INPUTS
           </span>
           <h2 style={{
             fontSize: 'clamp(28px, 3.8vw, 42px)',
-            color: 'var(--color-forest-dark)',
+            color: 'var(--color-offwhite)',
             marginTop: 12,
             marginBottom: 16,
-            letterSpacing: '-0.025em'
+            fontWeight: 800
           }}>
-            Agronomic parameters accepted by the model.
+            Verified agricultural features accepted by the pipeline.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
-            The backend strictly validates six primary environmental and technological features 
-            derived from curated FAOSTAT agricultural records.
+          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+            Every prediction is conditioned on genuine agro-climatic indicators validated against 
+            the backend API schema. Below are the 6 core environmental dimensions analyzed.
           </p>
         </div>
 
-        {/* Input Parameters Grid */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: 20
+          gap: 24
         }}>
-          {INPUT_FIELDS.map((f) => {
-            const Icon = f.icon;
+          {INPUT_FIELDS.map((item, idx) => {
+            const Icon = item.icon;
             return (
               <div
-                key={f.field}
+                key={idx}
                 style={{
-                  background: '#FFFFFF',
-                  borderRadius: 16,
-                  padding: 24,
-                  border: '1px solid var(--color-offwhite-border)',
-                  boxShadow: 'var(--shadow-subtle)',
+                  background: 'var(--color-forest-surface)',
+                  borderRadius: 18,
+                  padding: 28,
+                  border: '1px solid var(--color-forest-border)',
+                  boxShadow: 'var(--shadow-card)',
                   display: 'flex',
-                  flexDirection: 'column'
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  transition: 'all 0.25s ease'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                <div>
                   <div style={{
-                    width: 38,
-                    height: 38,
-                    borderRadius: 8,
-                    background: 'rgba(45, 62, 44, 0.08)',
-                    color: 'var(--color-forest)',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'space-between',
+                    marginBottom: 16
                   }}>
-                    <Icon size={18} />
-                  </div>
-                  <div>
-                    <h4 style={{ fontSize: 16, color: 'var(--color-forest-dark)', fontWeight: 700 }}>
-                      {f.name}
-                    </h4>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--text-muted-light)' }}>
-                      api: {f.field}
+                    <div style={{
+                      width: 42,
+                      height: 42,
+                      borderRadius: 10,
+                      background: 'rgba(228, 253, 151, 0.12)',
+                      color: 'var(--color-lime)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <Icon size={20} />
+                    </div>
+                    <span style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 11.5,
+                      fontWeight: 600,
+                      background: 'rgba(228, 253, 151, 0.15)',
+                      color: 'var(--color-lime)',
+                      padding: '4px 10px',
+                      borderRadius: 100
+                    }}>
+                      {item.unit}
                     </span>
                   </div>
+
+                  <h3 style={{ fontSize: 18, color: 'var(--color-offwhite)', marginBottom: 8, fontWeight: 700 }}>
+                    {item.name}
+                  </h3>
+                  <p style={{ fontSize: 13.5, color: 'var(--color-muted)', lineHeight: 1.55, marginBottom: 16 }}>
+                    {item.importance}
+                  </p>
                 </div>
 
                 <div style={{
-                  background: 'var(--color-offwhite)',
-                  padding: '8px 12px',
-                  borderRadius: 8,
+                  paddingTop: 14,
+                  borderTop: '1px solid rgba(169, 180, 158, 0.15)',
                   fontSize: 12,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginBottom: 12
+                  fontFamily: 'var(--font-mono)',
+                  color: 'var(--color-muted-light)'
                 }}>
-                  <span style={{ color: 'var(--text-muted-light)' }}>Unit:</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--color-forest)' }}>{f.unit}</span>
+                  Typical Range: <span style={{ color: 'var(--color-offwhite)', fontWeight: 600 }}>{item.typical}</span>
                 </div>
-
-                <p style={{ fontSize: 13, color: 'var(--text-muted-light)', lineHeight: 1.55, marginTop: 'auto' }}>
-                  {f.importance}
-                </p>
               </div>
             );
           })}

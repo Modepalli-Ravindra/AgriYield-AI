@@ -259,7 +259,7 @@ export default function App() {
               />
             )}
             {activeTab === 'benchmarks' && <BenchmarksTab benchmarks={benchmarks} />}
-            {activeTab === 'history' && <HistoryTab />}
+            {activeTab === 'history' && <HistoryTab onNavigateToPredict={() => setActiveTab('predict')} />}
           </main>
         </div>
       </div>

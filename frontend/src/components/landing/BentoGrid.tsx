@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { 
   GitCompare, 
   LineChart, 
@@ -11,60 +11,97 @@ import {
 
 export const BentoGrid: React.FC = () => {
   return (
-    <section id="features" style={{ padding: '96px 0', backgroundColor: '#FFFFFF', borderTop: '1px solid var(--color-offwhite-border)', borderBottom: '1px solid var(--color-offwhite-border)' }}>
+    <section id="features" style={{ padding: '100px 0', backgroundColor: '#121B11', borderTop: '1px solid var(--color-forest-border)', borderBottom: '1px solid var(--color-forest-border)' }}>
       <div className="container">
-        <div style={{ maxWidth: 740, marginBottom: 54 }}>
+        <div style={{ maxWidth: 760, marginBottom: 54 }}>
           <span style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
             fontWeight: 700,
-            color: 'var(--color-forest)',
+            color: 'var(--color-lime)',
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
-            02 / RESEARCH & ENGINEERING CAPABILITIES
+            02 / CORE SYSTEM CAPABILITIES
           </span>
           <h2 style={{
-            fontSize: 'clamp(28px, 3.8vw, 42px)',
-            color: 'var(--color-forest-dark)',
+            fontSize: 'clamp(28px, 3.8vw, 44px)',
+            color: 'var(--color-offwhite)',
             marginTop: 12,
             marginBottom: 16,
+            fontWeight: 800,
             letterSpacing: '-0.025em'
           }}>
             A comprehensive, scientifically audited prediction suite.
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 16, color: 'var(--color-muted)', lineHeight: 1.6 }}>
             Every module in AgriYield AI has been empirically verified across 28,242 historical records, 
             providing verified accuracy, exact feature attributions, and non-parametric uncertainty quantification.
           </p>
         </div>
 
         {/* Bento Grid */}
-        <div className="bento-grid">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(12, 1fr)',
+          gap: 24
+        }}>
           {/* Card 1: Production Pipeline (Span 8) */}
-          <div className="bento-card bento-card-dark bento-span-8">
-            <div className="bento-header">
-              <div className="bento-icon-wrapper">
-                <Cpu size={22} />
+          <div style={{
+            gridColumn: 'span 8',
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 32,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: 'var(--shadow-card)',
+            transition: 'all 0.25s ease'
+          }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+                <div style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 12,
+                  background: 'rgba(228, 253, 151, 0.15)',
+                  color: 'var(--color-lime)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Cpu size={22} />
+                </div>
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11.5,
+                  fontWeight: 700,
+                  background: 'rgba(228, 253, 151, 0.15)',
+                  color: 'var(--color-lime)',
+                  padding: '4px 12px',
+                  borderRadius: 100
+                }}>
+                  PRODUCTION PIPELINE
+                </span>
               </div>
-              <span className="bento-badge">PRODUCTION DEPLOYED</span>
+              <h3 style={{ fontSize: 22, color: 'var(--color-offwhite)', marginBottom: 10, fontWeight: 700 }}>
+                Production XGBoost Regressor Pipeline
+              </h3>
+              <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6, marginBottom: 24 }}>
+                Trained on FAOSTAT environmental indicators across 101 countries. Serves point yield estimates 
+                in metric tonnes per hectare (t/ha) with an independently audited R² of 0.9681 and RMSE of 1.466 t/ha.
+              </p>
             </div>
-            <h3 className="bento-title" style={{ color: 'var(--color-offwhite)' }}>
-              Production XGBoost Regressor Pipeline
-            </h3>
-            <p className="bento-desc">
-              Trained on FAOSTAT environmental indicators across 101 countries. Serves point yield estimates 
-              in metric tonnes per hectare (t/ha) with an independently audited R² of 0.9681 and RMSE of 1.466 t/ha.
-            </p>
+
             <div style={{
-              background: 'rgba(0, 0, 0, 0.3)',
+              background: 'rgba(18, 27, 17, 0.8)',
               borderRadius: 14,
-              padding: '16px 20px',
+              padding: '18px 22px',
               border: '1px solid rgba(169, 180, 158, 0.18)',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-              gap: 16,
-              marginTop: 'auto'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+              gap: 16
             }}>
               <div>
                 <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>TEST R² SCORE</span>
@@ -82,159 +119,264 @@ export const BentoGrid: React.FC = () => {
           </div>
 
           {/* Card 2: Conformal Uncertainty (Span 4) */}
-          <div className="bento-card bento-span-4">
-            <div className="bento-header">
-              <div className="bento-icon-wrapper">
-                <ShieldCheck size={22} />
+          <div style={{
+            gridColumn: 'span 4',
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 32,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: 'var(--shadow-card)',
+            transition: 'all 0.25s ease'
+          }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+                <div style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 12,
+                  background: 'rgba(228, 253, 151, 0.15)',
+                  color: 'var(--color-lime)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <ShieldCheck size={22} />
+                </div>
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11.5,
+                  fontWeight: 700,
+                  background: 'rgba(228, 253, 151, 0.15)',
+                  color: 'var(--color-lime)',
+                  padding: '4px 12px',
+                  borderRadius: 100
+                }}>
+                  90% MARGINAL
+                </span>
               </div>
-              <span className="bento-badge">GUARANTEED 90%</span>
+              <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 10, fontWeight: 700 }}>
+                Conformal Uncertainty Bounds
+              </h3>
+              <p style={{ fontSize: 14, color: 'var(--color-muted)', lineHeight: 1.6, marginBottom: 20 }}>
+                Every prediction is accompanied by non-parametric conformal lower and upper harvest bounds, guaranteeing 90% finite-sample coverage without gaussian distribution assumptions.
+              </p>
             </div>
-            <h3 className="bento-title" style={{ color: 'var(--color-forest-dark)' }}>
-              Group-Aware Conformal Bounds
-            </h3>
-            <p className="bento-desc">
-              Finite-sample distribution-free prediction intervals calibrated per crop category. Delivers empirical 
-              coverage guarantees with strict physical yield non-negativity enforcement.
-            </p>
+
             <div style={{
-              background: 'var(--color-offwhite)',
+              background: 'rgba(18, 27, 17, 0.8)',
               borderRadius: 12,
-              padding: '14px',
-              border: '1px solid var(--color-offwhite-border)',
-              marginTop: 'auto'
+              padding: 14,
+              border: '1px solid rgba(169, 180, 158, 0.18)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: 12,
+              color: 'var(--color-lime)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 12, color: 'var(--text-muted-light)' }}>Coverage Level</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--color-forest)' }}>90.0% Nominal</span>
-              </div>
-              <div style={{ width: '100%', height: 6, background: '#E2E6DC', borderRadius: 3, overflow: 'hidden' }}>
-                <div style={{ width: '90%', height: '100%', background: 'var(--color-forest)' }} />
-              </div>
+              Q_conformal: Crop-conditional non-negative intervals
             </div>
           </div>
 
-          {/* Card 3: TreeSHAP Attribution (Span 4) */}
-          <div className="bento-card bento-span-4">
-            <div className="bento-header">
-              <div className="bento-icon-wrapper">
+          {/* Card 3: TreeSHAP (Span 4) */}
+          <div style={{
+            gridColumn: 'span 4',
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 30,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: 'var(--shadow-card)'
+          }}>
+            <div>
+              <div style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                background: 'rgba(228, 253, 151, 0.15)',
+                color: 'var(--color-lime)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 16
+              }}>
                 <LineChart size={22} />
               </div>
-              <span className="bento-badge">GAME THEORETIC</span>
+              <h3 style={{ fontSize: 19, color: 'var(--color-offwhite)', marginBottom: 8, fontWeight: 700 }}>
+                TreeSHAP Local Explainability
+              </h3>
+              <p style={{ fontSize: 13.5, color: 'var(--color-muted)', lineHeight: 1.55 }}>
+                Exact additive feature attribution breaks down why the model predicted a yield, quantifying rain, temperature, and agrochemical influences.
+              </p>
             </div>
-            <h3 className="bento-title" style={{ color: 'var(--color-forest-dark)' }}>
-              Exact TreeSHAP Attribution
-            </h3>
-            <p className="bento-desc">
-              Explains prediction mechanics through exact Shapley waterfall attributions satisfying strict local additivity: 
-              base value plus all feature contributions equals predicted yield.
-            </p>
             <div style={{
               display: 'flex',
-              flexDirection: 'column',
               gap: 8,
-              marginTop: 'auto',
-              background: 'var(--color-offwhite)',
-              padding: 12,
-              borderRadius: 12,
-              border: '1px solid var(--color-offwhite-border)'
+              marginTop: 18,
+              fontSize: 11.5,
+              fontFamily: 'var(--font-mono)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-                <span style={{ color: 'var(--text-secondary-light)' }}>Rainfall Impact</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: '#2E7D32', fontWeight: 600 }}>+0.42 t/ha</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-                <span style={{ color: 'var(--text-secondary-light)' }}>Heat Stress (Avg Temp)</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: '#C62828', fontWeight: 600 }}>-0.85 t/ha</span>
-              </div>
+              <span style={{ background: 'rgba(228, 253, 151, 0.15)', color: 'var(--color-lime)', padding: '3px 8px', borderRadius: 4 }}>+ Rain Delta</span>
+              <span style={{ background: 'rgba(248, 113, 113, 0.15)', color: '#F87171', padding: '3px 8px', borderRadius: 4 }}>- Heat Deficit</span>
             </div>
           </div>
 
-          {/* Card 4: Comparative Benchmarks (Span 4) */}
-          <div className="bento-card bento-span-4">
-            <div className="bento-header">
-              <div className="bento-icon-wrapper">
+          {/* Card 4: Multi-Model Benchmark (Span 4) */}
+          <div style={{
+            gridColumn: 'span 4',
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 30,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: 'var(--shadow-card)'
+          }}>
+            <div>
+              <div style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                background: 'rgba(228, 253, 151, 0.15)',
+                color: 'var(--color-lime)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 16
+              }}>
                 <GitCompare size={22} />
               </div>
-              <span className="bento-badge">4 ARCHITECTURES</span>
+              <h3 style={{ fontSize: 19, color: 'var(--color-offwhite)', marginBottom: 8, fontWeight: 700 }}>
+                Comparative Model Benchmarks
+              </h3>
+              <p style={{ fontSize: 13.5, color: 'var(--color-muted)', lineHeight: 1.55 }}>
+                Side-by-side empirical comparison between XGBoost, Random Forest, LightGBM, and PyTorch Deep MLP across standard evaluation splits.
+              </p>
             </div>
-            <h3 className="bento-title" style={{ color: 'var(--color-forest-dark)' }}>
-              Multi-Model Research Suite
-            </h3>
-            <p className="bento-desc">
-              Empirical side-by-side benchmark comparing Random Forest (0.9689), XGBoost (0.9681), 
-              LightGBM (0.9665), and PyTorch Tabular MLP (0.9612).
-            </p>
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              background: 'var(--color-offwhite)',
-              padding: '12px 14px',
-              borderRadius: 12,
-              border: '1px solid var(--color-offwhite-border)',
-              marginTop: 'auto'
+              marginTop: 18,
+              fontSize: 12,
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--color-muted)'
             }}>
-              <span style={{ fontSize: 12.5, color: 'var(--text-muted-light)' }}>Ensemble Meta-Model</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--color-forest)' }}>RidgeCV Stacking</span>
+              <span>4 Architectures</span>
+              <span style={{ color: 'var(--color-lime)', fontWeight: 700 }}>R² &gt; 0.96 All Trees</span>
             </div>
           </div>
 
           {/* Card 5: Sensitivity & What-If (Span 4) */}
-          <div className="bento-card bento-span-4">
-            <div className="bento-header">
-              <div className="bento-icon-wrapper">
+          <div style={{
+            gridColumn: 'span 4',
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 30,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: 'var(--shadow-card)'
+          }}>
+            <div>
+              <div style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                background: 'rgba(228, 253, 151, 0.15)',
+                color: 'var(--color-lime)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 16
+              }}>
                 <Sliders size={22} />
               </div>
-              <span className="bento-badge">SWEEP [-30%, +30%]</span>
+              <h3 style={{ fontSize: 19, color: 'var(--color-offwhite)', marginBottom: 8, fontWeight: 700 }}>
+                Sensitivity & What-If Scenarios
+              </h3>
+              <p style={{ fontSize: 13.5, color: 'var(--color-muted)', lineHeight: 1.55 }}>
+                Simulate agricultural decisions before implementation by sweeping rainfall, temperature, or fertilizer inputs to identify optimal yield curves.
+              </p>
             </div>
-            <h3 className="bento-title" style={{ color: 'var(--color-forest-dark)' }}>
-              Sensitivity & What-If Simulator
-            </h3>
-            <p className="bento-desc">
-              Evaluate elasticity responses across rainfall, temperature, and pesticide variations. 
-              Simulate climate scenarios and contrast yield deltas against historical baseline.
-            </p>
             <div style={{
               display: 'flex',
-              gap: 6,
-              marginTop: 'auto'
+              gap: 8,
+              marginTop: 18,
+              fontSize: 11.5,
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--color-muted)'
             }}>
-              <span style={{ fontSize: 11, background: 'var(--color-offwhite)', padding: '4px 8px', borderRadius: 6, border: '1px solid var(--color-offwhite-border)', color: 'var(--text-secondary-light)' }}>Rainfall Sweep</span>
-              <span style={{ fontSize: 11, background: 'var(--color-offwhite)', padding: '4px 8px', borderRadius: 6, border: '1px solid var(--color-offwhite-border)', color: 'var(--text-secondary-light)' }}>Temperature Delta</span>
+              <span>±50% Range Sweeps</span>
+              <span style={{ color: 'var(--color-lime)' }}>• Dynamic Curves</span>
             </div>
           </div>
 
-          {/* Card 6: Batch API & OOD Warnings (Span 6) */}
-          <div className="bento-card bento-span-6">
-            <div className="bento-header">
-              <div className="bento-icon-wrapper">
-                <AlertCircle size={22} />
+          {/* Card 6: InsForge PostgreSQL (Span 6) */}
+          <div style={{
+            gridColumn: 'span 6',
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 28,
+            boxShadow: 'var(--shadow-card)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+              <div style={{
+                width: 38,
+                height: 38,
+                borderRadius: 10,
+                background: 'rgba(228, 253, 151, 0.15)',
+                color: 'var(--color-lime)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Database size={20} />
               </div>
-              <span className="bento-badge">MAX 50 ITEMS</span>
+              <div>
+                <h4 style={{ fontSize: 17, color: 'var(--color-offwhite)', fontWeight: 700 }}>InsForge PostgreSQL Persistence</h4>
+                <span style={{ fontSize: 12, color: 'var(--color-muted)' }}>Production Cloud Database Layer</span>
+              </div>
             </div>
-            <h3 className="bento-title" style={{ color: 'var(--color-forest-dark)' }}>
-              Batch Predictions & Input Validation
-            </h3>
-            <p className="bento-desc">
-              High-throughput batch endpoint supporting up to 50 concurrent agricultural scenarios. 
-              Equipped with strict out-of-distribution advisory warnings for extreme weather extremes.
+            <p style={{ fontSize: 13.5, color: 'var(--color-muted)', lineHeight: 1.55 }}>
+              Thread-safe connection pool with user-isolated prediction history, audited schema migrations, and real-time query rollback protection.
             </p>
           </div>
 
-          {/* Card 7: InsForge Managed PostgreSQL (Span 6) */}
-          <div className="bento-card bento-card-dark bento-span-6">
-            <div className="bento-header">
-              <div className="bento-icon-wrapper">
-                <Database size={22} />
+          {/* Card 7: Input Validation (Span 6) */}
+          <div style={{
+            gridColumn: 'span 6',
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 28,
+            boxShadow: 'var(--shadow-card)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+              <div style={{
+                width: 38,
+                height: 38,
+                borderRadius: 10,
+                background: 'rgba(228, 253, 151, 0.15)',
+                color: 'var(--color-lime)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <AlertCircle size={20} />
               </div>
-              <span className="bento-badge">INSFORGE POSTGRES</span>
+              <div>
+                <h4 style={{ fontSize: 17, color: 'var(--color-offwhite)', fontWeight: 700 }}>Agronomic Range & OOD Warnings</h4>
+                <span style={{ fontSize: 12, color: 'var(--color-muted)' }}>Input Sanitization & Protection</span>
+              </div>
             </div>
-            <h3 className="bento-title" style={{ color: 'var(--color-offwhite)' }}>
-              Audited History & Multi-User Isolation
-            </h3>
-            <p className="bento-desc">
-              Cloud-managed PostgreSQL persistence with strict user isolation, connection pooling, 
-              and foreign key referential integrity.
+            <p style={{ fontSize: 13.5, color: 'var(--color-muted)', lineHeight: 1.55 }}>
+              Pydantic-enforced bounds with advisory warnings for unusual weather conditions, preventing invalid or physically impossible inference.
             </p>
           </div>
         </div>

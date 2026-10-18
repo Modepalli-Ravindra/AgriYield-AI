@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { X, Sprout, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
 import * as api from '../../api';
 import type { UserProfile } from '../../types';
@@ -40,11 +40,25 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
 
   return (
     <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-card" onClick={(e) => e.stopPropagation()} style={{
+        background: '#162215',
+        border: '1px solid var(--color-forest-border)',
+        borderRadius: 24,
+        padding: '36px',
+        color: 'var(--color-offwhite)'
+      }}>
         <button 
-          className="modal-close" 
           onClick={onClose}
           aria-label="Close modal"
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 20,
+            color: 'var(--color-muted)',
+            padding: 6,
+            borderRadius: 8,
+            transition: 'color 0.2s ease'
+          }}
         >
           <X size={20} />
         </button>
@@ -55,18 +69,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             height: 44,
             borderRadius: 12,
             background: 'var(--color-lime)',
-            color: 'var(--color-forest-dark)',
+            color: '#121B11',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 12
+            marginBottom: 12,
+            boxShadow: '0 2px 10px var(--color-lime-glow)'
           }}>
             <Sprout size={24} strokeWidth={2.5} />
           </div>
-          <h3 style={{ fontSize: 22, color: 'var(--color-forest-dark)' }}>
+          <h3 style={{ fontSize: 22, color: 'var(--color-offwhite)', fontWeight: 800 }}>
             {mode === 'login' ? 'Sign in to AgriYield AI' : 'Create Researcher Account'}
           </h3>
-          <p style={{ fontSize: 13.5, color: 'var(--text-muted-light)', marginTop: 4 }}>
+          <p style={{ fontSize: 13.5, color: 'var(--color-muted)', marginTop: 4 }}>
             {mode === 'login' 
               ? 'Access verified prediction tools, batch processing, and history.'
               : 'Join the environmental intelligence platform for crop analytics.'}
@@ -76,14 +91,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
         <div className="modal-tabs">
           <button 
             type="button"
-            className={`modal-tab-btn ${mode === 'login' ? 'active' : ''}`}
+            className={mode === 'login' ? 'modal-tab-btn active' : 'modal-tab-btn'}
             onClick={() => { setMode('login'); setError(''); }}
           >
             Sign In
           </button>
           <button 
             type="button"
-            className={`modal-tab-btn ${mode === 'register' ? 'active' : ''}`}
+            className={mode === 'register' ? 'modal-tab-btn active' : 'modal-tab-btn'}
             onClick={() => { setMode('register'); setError(''); }}
           >
             Register
@@ -92,11 +107,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
 
         {error && (
           <div style={{
-            background: '#FDF2F2',
-            border: '1px solid #F87171',
-            borderRadius: 8,
-            padding: '10px 14px',
-            color: '#B91C1C',
+            background: 'rgba(239, 68, 68, 0.15)',
+            border: '1px solid rgba(239, 68, 68, 0.35)',
+            borderRadius: 10,
+            padding: '11px 14px',
+            color: '#FCA5A5',
             fontSize: 13,
             display: 'flex',
             alignItems: 'center',
@@ -108,28 +123,32 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {mode === 'register' && (
             <>
-              <div className="form-group">
-                <label className="form-label" htmlFor="auth-fullname">Full Name</label>
+              <div>
+                <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-fullname">
+                  Full Name
+                </label>
                 <input 
                   id="auth-fullname"
                   className="form-input"
                   type="text"
-                  placeholder="Dr. Jane Doe"
+                  placeholder="e.g. Ravindra Modepalli"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="auth-org">Organization / Institution</label>
+              <div>
+                <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-org">
+                  Organization / Institution
+                </label>
                 <input 
                   id="auth-org"
                   className="form-input"
                   type="text"
-                  placeholder="Agronomy Research Lab"
+                  placeholder="e.g. Agricultural Research Centre"
                   value={organization}
                   onChange={(e) => setOrganization(e.target.value)}
                 />
@@ -137,21 +156,25 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             </>
           )}
 
-          <div className="form-group">
-            <label className="form-label" htmlFor="auth-email">Email Address *</label>
+          <div>
+            <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-email">
+              Email Address *
+            </label>
             <input 
               id="auth-email"
               className="form-input"
               type="email"
               required
-              placeholder="researcher@institution.org"
+              placeholder="researcher@university.edu"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label" htmlFor="auth-password">Password *</label>
+          <div>
+            <label style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: 'var(--color-muted)', marginBottom: 6 }} htmlFor="auth-password">
+              Password *
+            </label>
             <input 
               id="auth-password"
               className="form-input"
@@ -166,13 +189,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
           <button 
             type="submit" 
             className="btn-primary" 
-            style={{ width: '100%', marginTop: 8, padding: '12px 0' }}
             disabled={loading}
+            style={{ width: '100%', padding: '12px 0', marginTop: 8, fontSize: 14.5 }}
           >
             {loading ? (
               <>
                 <Loader2 size={16} className="animate-spin" />
-                <span>Authenticating...</span>
+                <span>{mode === 'login' ? 'Authenticating...' : 'Registering Account...'}</span>
               </>
             ) : (
               <>

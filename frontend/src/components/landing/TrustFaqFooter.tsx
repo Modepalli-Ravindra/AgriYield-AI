@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, ExternalLink, ShieldCheck, AlertTriangle, Code2 } from 'lucide-react';
+﻿import React, { useState } from 'react';
+import { ChevronDown, ChevronUp, ExternalLink, ShieldCheck, AlertTriangle } from 'lucide-react';
 
 const FAQS = [
   {
-    q: 'How does the framework convert predictions from model output to metric tonnes?',
-    a: 'The underlying XGBoost regressor is trained on FAOSTAT records measured in hectograms per hectare (hg/ha). The API rigorously normalizes this to standard agronomic metric tonnes per hectare (t/ha) by dividing by 10,000 across all response schemas, ensuring consistency with global reporting standards.'
+    q: 'How does the framework calculate crop yields in metric tonnes?',
+    a: 'The underlying XGBoost regressor evaluates agricultural indicators in hectograms per hectare (hg/ha) and standardizes them to metric tonnes per hectare (t/ha) by dividing by 10,000, aligning with international agronomic reporting standards.'
   },
   {
-    q: 'What does the nominal 90% conformal uncertainty interval guarantee?',
-    a: 'Conformal prediction provides a finite-sample, distribution-free mathematical guarantee: given exchangeable test observations, the true yield will fall within the lower and upper bounds at least 90% of the time. The intervals are calibrated per crop species using empirical quantile non-conformity scores without assuming Gaussian error residuals.'
+    q: 'What does the 90% conformal uncertainty interval guarantee?',
+    a: 'Conformal prediction provides a distribution-free mathematical guarantee: given typical test conditions, the true harvest yield will fall within the lower and upper bounds at least 90% of the time, calculated crop-by-crop without unrealistic gaussian assumptions.'
   },
   {
-    q: 'How does the framework handle novel or unknown crops and territories?',
-    a: 'When an unknown crop or out-of-vocabulary country is provided, the scikit-learn OneHotEncoder assigns zero weights across all one-hot categories, the system applies global conformal margin fallback, and the API attaches clear advisory disclaimers informing researchers of reduced calibration confidence.'
+    q: 'How does the framework handle unknown crops or regions?',
+    a: 'When an uncataloged crop or regional name is supplied, the encoder applies neutral categorical zero weights, activates global uncertainty margins, and includes an advisory notice informing the user of broader variance.'
   },
   {
-    q: 'What is the difference between this statistical estimate and actual harvested yield?',
-    a: 'AgriYield AI estimates regional aggregate yield potential based on macro-environmental indicators (rainfall, temperature, pesticides). It serves as a decision-support baseline and does not replace localized field soil sampling, micro-irrigation scheduling, pest scouting, or post-harvest loss accounting.'
+    q: 'What is the difference between this estimate and actual harvest?',
+    a: 'AgriYield AI estimates yield potential based on macro-environmental conditions (rainfall, temperature, pesticides). It serves as a dependable strategic baseline and complements localized soil moisture and micro-irrigation management.'
   },
   {
-    q: 'How is prediction data secured and isolated in the database?',
-    a: 'All prediction histories and user records are stored in a managed InsForge PostgreSQL instance with strict foreign-key cascades and index-backed user-level isolation. Each query explicitly binds the authenticated user ID extracted from validated Argon2id-hashed JWT Bearer tokens.'
+    q: 'How is user data protected in the cloud database?',
+    a: 'All accounts and prediction records are maintained in a secure InsForge PostgreSQL database with Argon2id password hashing, user-level isolation, and encrypted JWT authentication.'
   }
 ];
 
@@ -29,41 +29,65 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
 
   return (
     <>
-      {/* Trust & Limitations Section */}
-      <section style={{ padding: '80px 0', backgroundColor: '#FFFFFF', borderTop: '1px solid var(--color-offwhite-border)' }}>
+      {/* Trust & Scientific Limitations Section */}
+      <section style={{ padding: '90px 0', backgroundColor: '#152214', borderTop: '1px solid var(--color-forest-border)' }}>
         <div className="container">
           <div style={{
-            background: 'var(--color-offwhite)',
-            borderRadius: 20,
-            padding: '36px 32px',
-            border: '1px solid var(--color-offwhite-border)',
+            background: 'var(--color-forest-surface)',
+            borderRadius: 24,
+            padding: '40px',
+            border: '1px solid var(--color-forest-border)',
+            boxShadow: 'var(--shadow-card)',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: 28
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 36
           }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                <ShieldCheck size={22} color="var(--color-forest)" />
-                <h3 style={{ fontSize: 18, color: 'var(--color-forest-dark)' }}>
-                  Intended Research Use
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                <div style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: 10,
+                  background: 'rgba(228, 253, 151, 0.15)',
+                  color: 'var(--color-lime)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <ShieldCheck size={20} />
+                </div>
+                <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', fontWeight: 700 }}>
+                  Intended Research Application
                 </h3>
               </div>
-              <p style={{ fontSize: 13.5, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
-                Designed for agricultural researchers, agronomic policy analysts, and regional food security 
-                planners evaluating historical climate sensitivities and macro-environmental yield elasticity.
+              <p style={{ fontSize: 14, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+                AgriYield AI is engineered for regional crop yield estimation, agro-climatic sensitivity modeling, 
+                and uncertainty assessment. It helps agricultural researchers, policy analysts, and farm managers 
+                assess the likely impact of weather anomalies on harvest volume.
               </p>
             </div>
 
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                <AlertTriangle size={22} color="#D97706" />
-                <h3 style={{ fontSize: 18, color: 'var(--color-forest-dark)' }}>
-                  Limitations & Disclaimers
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                <div style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: 10,
+                  background: 'rgba(248, 113, 113, 0.15)',
+                  color: '#F87171',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <AlertTriangle size={20} />
+                </div>
+                <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', fontWeight: 700 }}>
+                  Model Limitations & Farm Disclaimers
                 </h3>
               </div>
-              <p style={{ fontSize: 13.5, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
-                Regional predictions reflect macro-level FAOSTAT country aggregates. Extreme local microclimatic events, 
-                unrecorded pest outbreaks, or abrupt geopolitically induced fertilizer shortages may diverge from statistical bounds.
+              <p style={{ fontSize: 14, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+                Predictions do not account for sudden localized hail damage, post-harvest losses, or unforeseen pest outbreaks. 
+                Yield forecasts should be interpreted alongside local agronomist guidance and field measurements.
               </p>
             </div>
           </div>
@@ -71,42 +95,42 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" style={{ padding: '96px 0', backgroundColor: 'var(--color-offwhite)' }}>
-        <div className="container">
-          <div style={{ maxWidth: 740, marginBottom: 48 }}>
+      <section id="faq" style={{ padding: '90px 0', backgroundColor: '#121B11' }}>
+        <div className="container" style={{ maxWidth: 880 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{
               fontFamily: 'var(--font-mono)',
               fontSize: 12,
               fontWeight: 700,
-              color: 'var(--color-forest)',
+              color: 'var(--color-lime)',
               letterSpacing: '0.05em',
               textTransform: 'uppercase'
             }}>
               06 / FREQUENTLY ASKED QUESTIONS
             </span>
             <h2 style={{
-              fontSize: 'clamp(28px, 3.8vw, 40px)',
-              color: 'var(--color-forest-dark)',
+              fontSize: 'clamp(28px, 3.8vw, 42px)',
+              color: 'var(--color-offwhite)',
               marginTop: 12,
-              letterSpacing: '-0.025em'
+              marginBottom: 16,
+              fontWeight: 800
             }}>
-              Technical & Scientific Inquiries
+              Clear answers on models, data & uncertainty.
             </h2>
           </div>
 
-          <div style={{ maxWidth: 840, display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {FAQS.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
                 <div
                   key={idx}
                   style={{
-                    background: '#FFFFFF',
-                    borderRadius: 14,
-                    border: '1px solid var(--color-offwhite-border)',
+                    background: 'var(--color-forest-surface)',
+                    borderRadius: 16,
+                    border: isOpen ? '1px solid var(--color-lime)' : '1px solid var(--color-forest-border)',
                     overflow: 'hidden',
-                    boxShadow: 'var(--shadow-subtle)',
-                    transition: 'border-color 0.15s ease'
+                    transition: 'all 0.25s ease'
                   }}
                 >
                   <button
@@ -118,25 +142,24 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       textAlign: 'left',
+                      color: isOpen ? 'var(--color-lime)' : 'var(--color-offwhite)',
                       fontSize: 16,
                       fontWeight: 600,
-                      color: 'var(--color-forest-dark)'
+                      gap: 16
                     }}
                   >
                     <span>{faq.q}</span>
-                    <span style={{ color: 'var(--color-forest)', flexShrink: 0, marginLeft: 16 }}>
-                      {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                    </span>
+                    {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                   </button>
                   {isOpen && (
                     <div style={{
                       padding: '0 24px 22px',
-                      fontSize: 14,
-                      lineHeight: 1.65,
-                      color: 'var(--text-muted-light)',
-                      borderTop: '1px solid #F0F2ED'
+                      fontSize: 14.5,
+                      color: 'var(--color-muted)',
+                      lineHeight: 1.6,
+                      borderTop: '1px solid rgba(169, 180, 158, 0.12)'
                     }}>
-                      {faq.a}
+                      <div style={{ paddingTop: 14 }}>{faq.a}</div>
                     </div>
                   )}
                 </div>
@@ -146,78 +169,57 @@ export const TrustFaqFooter: React.FC<{ onGetStarted: () => void }> = ({ onGetSt
         </div>
       </section>
 
-      {/* Clean Footer */}
+      {/* Footer */}
       <footer style={{
-        backgroundColor: 'var(--color-forest-dark)',
-        color: 'var(--color-offwhite)',
-        padding: '64px 0 36px',
-        borderTop: '1px solid var(--color-forest-border)'
+        backgroundColor: '#0E160D',
+        borderTop: '1px solid var(--color-forest-border)',
+        padding: '54px 0 36px',
+        color: 'var(--color-muted)'
       }}>
-        <div className="container">
-          <div style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 32,
-            paddingBottom: 40,
-            borderBottom: '1px solid rgba(169, 180, 158, 0.14)'
-          }}>
-            <div>
-              <div style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 20,
-                fontWeight: 800,
-                color: 'var(--color-offwhite)',
-                marginBottom: 8
-              }}>
-                AgriYield AI
-              </div>
-              <p style={{
-                fontSize: 13,
-                color: 'var(--color-muted)',
-                maxWidth: 420,
-                lineHeight: 1.6
-              }}>
-                An AI-Driven DL–ML Integrated Framework for Crop Yield Prediction Using Environmental Factors.
-              </p>
+        <div className="container" style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 24
+        }}>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--color-offwhite)', marginBottom: 6 }}>
+              AgriYield AI
             </div>
-
-            <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-              <a
-                href="https://github.com/Modepalli-Ravindra/AgriYield-AI"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary"
-                style={{ fontSize: 13, padding: '8px 16px' }}
-              >
-                <Code2 size={15} />
-                <span>GitHub Repository</span>
-                <ExternalLink size={12} />
-              </a>
-              <button
-                className="btn-primary"
-                onClick={onGetStarted}
-                style={{ fontSize: 13, padding: '8px 18px' }}
-              >
-                Get Started
-              </button>
-            </div>
+            <p style={{ fontSize: 13, color: 'var(--color-muted)', maxWidth: 440 }}>
+              An AI-driven DL–ML integrated framework for crop yield prediction using environmental factors.
+            </p>
           </div>
 
-          <div style={{
-            paddingTop: 24,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: 12,
-            fontSize: 12,
-            color: 'var(--color-muted)'
-          }}>
-            <span>© 2026 AgriYield AI Research Framework • Branch: feature/dl-ml-research-framework</span>
-            <span style={{ fontFamily: 'var(--font-mono)' }}>FastAPI • PyTorch • XGBoost • PostgreSQL</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+            <a
+              href="https://github.com/Modepalli-Ravindra/AgriYield-AI"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                fontSize: 13.5,
+                color: 'var(--color-lime)',
+                fontWeight: 600
+              }}
+            >
+              <span>GitHub Repository</span>
+              <ExternalLink size={14} />
+            </a>
+            <button
+              className="btn-primary"
+              onClick={onGetStarted}
+              style={{ padding: '8px 20px', fontSize: 13 }}
+            >
+              Sign In / Register
+            </button>
           </div>
+        </div>
+        <div className="container" style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid rgba(169, 180, 158, 0.12)', fontSize: 12, color: 'var(--color-muted-dark)', textAlign: 'center' }}>
+          AgriYield AI Platform • Research & Production Release
         </div>
       </footer>
     </>

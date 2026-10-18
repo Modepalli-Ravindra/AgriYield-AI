@@ -1,60 +1,58 @@
-import React from 'react';
+﻿import React from 'react';
 import { CloudRain, Scale, ShieldAlert, Cpu } from 'lucide-react';
 
 export const ProjectOverview: React.FC = () => {
   return (
-    <section id="overview" style={{ padding: '96px 0', backgroundColor: 'var(--color-offwhite)' }}>
+    <section id="overview" style={{ padding: '100px 0', backgroundColor: '#152214' }}>
       <div className="container">
-        <div style={{ maxWidth: 760, marginBottom: 56 }}>
+        <div style={{ maxWidth: 780, marginBottom: 56 }}>
           <span style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
             fontWeight: 700,
-            color: 'var(--color-forest)',
+            color: 'var(--color-lime)',
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
             01 / PROJECT OVERVIEW
           </span>
           <h2 style={{
-            fontSize: 'clamp(28px, 3.8vw, 42px)',
-            color: 'var(--color-forest-dark)',
+            fontSize: 'clamp(28px, 3.8vw, 44px)',
+            color: 'var(--color-offwhite)',
             marginTop: 12,
             marginBottom: 18,
-            letterSpacing: '-0.025em'
+            letterSpacing: '-0.025em',
+            fontWeight: 800
           }}>
             Bridging environmental climate science with machine intelligence.
           </h2>
-          <p style={{ fontSize: 16.5, color: 'var(--text-muted-light)', lineHeight: 1.65 }}>
+          <p style={{ fontSize: 16.5, color: 'var(--color-muted)', lineHeight: 1.65 }}>
             Agricultural productivity faces unprecedented variability due to shifting rainfall regimes, 
             rising temperature anomalies, and variable chemical input efficiency. AgriYield AI provides 
-            a transparent, scientifically audited framework to anticipate harvest outcomes while quantifying 
-            predictive uncertainty.
+            a mathematically grounded, dual-model architecture to reliably estimate harvest yield before fieldwork begins.
           </p>
         </div>
 
-        {/* 4 Pillars Grid */}
+        {/* 4 Pillars in clean symmetrical 2x2 grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: 24
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: 28
         }}>
-          {/* Pillar 1 */}
           <div style={{
-            background: '#FFFFFF',
-            border: '1px solid var(--color-offwhite-border)',
-            borderRadius: 18,
-            padding: 30,
-            boxShadow: 'var(--shadow-subtle)',
-            display: 'flex',
-            flexDirection: 'column'
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 32,
+            boxShadow: 'var(--shadow-card)',
+            transition: 'all 0.25s ease'
           }}>
             <div style={{
               width: 44,
               height: 44,
-              borderRadius: 10,
-              background: 'rgba(45, 62, 44, 0.08)',
-              color: 'var(--color-forest)',
+              borderRadius: 12,
+              background: 'rgba(228, 253, 151, 0.12)',
+              color: 'var(--color-lime)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -62,31 +60,29 @@ export const ProjectOverview: React.FC = () => {
             }}>
               <CloudRain size={22} />
             </div>
-            <h3 style={{ fontSize: 18, color: 'var(--color-forest-dark)', marginBottom: 10 }}>
-              Environmental Sensitivity
+            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 12, fontWeight: 700 }}>
+              Climate & Weather Volatility
             </h3>
-            <p style={{ fontSize: 14, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
-              Aggregates precipitation regimes, mean surface temperatures, and historical pesticide 
-              application rates across 101 global agro-climatic zones to capture non-linear agro-meteorological responses.
+            <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+              Extreme precipitation fluctuations, prolonged heat spells, and changing seasons directly threaten food security. 
+              Traditional agronomic lookup tables fail to capture complex, multi-factor climate dependencies.
             </p>
           </div>
 
-          {/* Pillar 2 */}
           <div style={{
-            background: '#FFFFFF',
-            border: '1px solid var(--color-offwhite-border)',
-            borderRadius: 18,
-            padding: 30,
-            boxShadow: 'var(--shadow-subtle)',
-            display: 'flex',
-            flexDirection: 'column'
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 32,
+            boxShadow: 'var(--shadow-card)',
+            transition: 'all 0.25s ease'
           }}>
             <div style={{
               width: 44,
               height: 44,
-              borderRadius: 10,
-              background: 'rgba(45, 62, 44, 0.08)',
-              color: 'var(--color-forest)',
+              borderRadius: 12,
+              background: 'rgba(228, 253, 151, 0.12)',
+              color: 'var(--color-lime)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -94,31 +90,29 @@ export const ProjectOverview: React.FC = () => {
             }}>
               <Cpu size={22} />
             </div>
-            <h3 style={{ fontSize: 18, color: 'var(--color-forest-dark)', marginBottom: 10 }}>
-              Integrated DL–ML Engine
+            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 12, fontWeight: 700 }}>
+              Integrated ML & DL Architectures
             </h3>
-            <p style={{ fontSize: 14, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
-              Combines gradient-boosted decision trees (XGBoost, LightGBM, Random Forest) with deep 
-              tabular neural networks (PyTorch Tabular MLP) and meta-ensembling to evaluate architectural tradeoffs.
+            <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+              Combining gradient-boosted trees (XGBoost, LightGBM, Random Forest) with deep neural networks 
+              (PyTorch MLP) allows the system to capture both tabular feature splits and deep continuous cross-interactions.
             </p>
           </div>
 
-          {/* Pillar 3 */}
           <div style={{
-            background: '#FFFFFF',
-            border: '1px solid var(--color-offwhite-border)',
-            borderRadius: 18,
-            padding: 30,
-            boxShadow: 'var(--shadow-subtle)',
-            display: 'flex',
-            flexDirection: 'column'
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 32,
+            boxShadow: 'var(--shadow-card)',
+            transition: 'all 0.25s ease'
           }}>
             <div style={{
               width: 44,
               height: 44,
-              borderRadius: 10,
-              background: 'rgba(45, 62, 44, 0.08)',
-              color: 'var(--color-forest)',
+              borderRadius: 12,
+              background: 'rgba(228, 253, 151, 0.12)',
+              color: 'var(--color-lime)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -126,31 +120,29 @@ export const ProjectOverview: React.FC = () => {
             }}>
               <Scale size={22} />
             </div>
-            <h3 style={{ fontSize: 18, color: 'var(--color-forest-dark)', marginBottom: 10 }}>
-              Exact TreeSHAP Explainability
+            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 12, fontWeight: 700 }}>
+              Explainable Decision Support
             </h3>
-            <p style={{ fontSize: 14, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
-              Moves beyond black-box estimates by providing game-theoretic Shapley additive feature 
-              attributions that quantify exactly how much each environmental factor nudged yield above or below base.
+            <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+              Black-box predictions lack credibility in scientific and farming contexts. We utilize TreeSHAP 
+              (Shapley Additive exPlanations) to transparently isolate each factor's exact marginal contribution in tonnes per hectare.
             </p>
           </div>
 
-          {/* Pillar 4 */}
           <div style={{
-            background: '#FFFFFF',
-            border: '1px solid var(--color-offwhite-border)',
-            borderRadius: 18,
-            padding: 30,
-            boxShadow: 'var(--shadow-subtle)',
-            display: 'flex',
-            flexDirection: 'column'
+            background: 'var(--color-forest-surface)',
+            border: '1px solid var(--color-forest-border)',
+            borderRadius: 20,
+            padding: 32,
+            boxShadow: 'var(--shadow-card)',
+            transition: 'all 0.25s ease'
           }}>
             <div style={{
               width: 44,
               height: 44,
-              borderRadius: 10,
-              background: 'rgba(45, 62, 44, 0.08)',
-              color: 'var(--color-forest)',
+              borderRadius: 12,
+              background: 'rgba(228, 253, 151, 0.12)',
+              color: 'var(--color-lime)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -158,12 +150,12 @@ export const ProjectOverview: React.FC = () => {
             }}>
               <ShieldAlert size={22} />
             </div>
-            <h3 style={{ fontSize: 18, color: 'var(--color-forest-dark)', marginBottom: 10 }}>
+            <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', marginBottom: 12, fontWeight: 700 }}>
               Conformal Uncertainty Bounds
             </h3>
-            <p style={{ fontSize: 14, color: 'var(--text-muted-light)', lineHeight: 1.6 }}>
-              Calibrates prediction intervals with guaranteed finite-sample nominal 90% coverage without 
-              assuming normal error distributions, delivering realistic risk boundaries for agronomic planning.
+            <p style={{ fontSize: 14.5, color: 'var(--color-muted)', lineHeight: 1.6 }}>
+              Point estimates can be misleading under severe weather anomalies. Group-aware conformal prediction 
+              generates rigorous 90% confidence bands, giving farmers reliable best-case and worst-case harvest expectations.
             </p>
           </div>
         </div>
