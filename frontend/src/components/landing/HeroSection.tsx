@@ -27,21 +27,43 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       overflow: 'hidden',
       backgroundColor: '#121B11'
     }}>
-      {/* Background radial gradient glow */}
+      {/* Background Plant Canopy with Sunlight & Rain Atmospheric Overlays */}
       <div style={{
         position: 'absolute',
-        top: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '100%',
-        maxWidth: 1200,
-        height: 600,
-        background: 'radial-gradient(ellipse at 50% 10%, rgba(228, 253, 151, 0.12) 0%, rgba(18, 27, 17, 0) 70%)',
+        inset: 0,
+        zIndex: 0,
         pointerEvents: 'none',
-        zIndex: 0
-      }} />
+        overflow: 'hidden'
+      }}>
+        {/* Real Agricultural Crop Canopy Image */}
+        <img 
+          src="/hero-bg.jpg" 
+          alt="Agricultural Plant Canopy" 
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center 20%',
+            opacity: 0.38,
+            filter: 'saturate(1.15) brightness(0.92)'
+          }} 
+        />
 
-      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        {/* Ambient Dark Forest Blend Gradient */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(180deg, rgba(18, 27, 17, 0.78) 0%, rgba(18, 27, 17, 0.38) 35%, rgba(18, 27, 17, 0.82) 75%, #121B11 100%)'
+        }} />
+
+        {/* Golden Sunlight Beam Flare */}
+        <div className="hero-sunlight-beam" />
+
+        {/* Gentle Ambient Rain Mist Drift */}
+        <div className="hero-rain-overlay" />
+      </div>
+
+      <div className="container" style={{ position: 'relative', zIndex: 3 }}>
         {/* Split Grid: Left side text/CTAs, Right side Animation Component */}
         <div className="hero-split-grid" style={{ marginBottom: 50 }}>
           {/* Left Column */}
@@ -110,7 +132,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 90% Confidence Bounds
               </span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                <CheckCircleIcon style={{ width: 15, height: 15, color: 'var(--color-lime)' }} />
+                <CheckCircleIcon style={{ width: 15, height: 14, color: 'var(--color-lime)' }} />
                 TreeSHAP Attributions
               </span>
             </div>
@@ -130,7 +152,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           textAlign: 'left'
         }}>
           <div style={{
-            background: 'rgba(28, 42, 27, 0.75)',
+            background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
             borderRadius: 18,
@@ -164,7 +186,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           <div style={{
-            background: 'rgba(28, 42, 27, 0.75)',
+            background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
             borderRadius: 18,
@@ -198,7 +220,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           <div style={{
-            background: 'rgba(28, 42, 27, 0.75)',
+            background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
             borderRadius: 18,
@@ -232,7 +254,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           <div style={{
-            background: 'rgba(28, 42, 27, 0.75)',
+            background: 'rgba(28, 42, 27, 0.78)',
             backdropFilter: 'blur(16px)',
             border: '1px solid var(--color-forest-border)',
             borderRadius: 18,
