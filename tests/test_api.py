@@ -1,4 +1,4 @@
-"""Automated backend API and research test suite."""
+﻿"""Automated backend API and research test suite."""
 from __future__ import annotations
 
 import sys
@@ -137,7 +137,7 @@ def test_what_if_scenario_comparison():
                     }
                 },
                 {
-                    "scenario_name": "Drought & Heatwave (+3°C, -30% Rain)",
+                    "scenario_name": "Drought & Heatwave (+3Â°C, -30% Rain)",
                     "inputs": {
                         "country": "India",
                         "crop": "Wheat",
@@ -177,3 +177,115 @@ def test_history_authorization():
     with TestClient(app) as tc:
         res = tc.get("/api/v1/history")
         assert res.status_code == 401
+
+def test_invalid_inputs_rejected():
+    """Verify input validation rejects physically impossible environmental numbers."""
+    with TestClient(app) as tc:
+        # Negative rainfall
+        res = tc.post("/api/v1/predict", json={
+            "country": "India",
+            "crop": "Wheat",
+            "year": 2013,
+            "rainfall_mm": -100.0,
+            "avg_temp_c": 25.5,
+            "pesticides_tonnes": 50000.0
+        })
+        assert res.status_code == 422
+
+        # Temperature above physical threshold (> 60 C)
+        res2 = tc.post("/api/v1/predict", json={
+            "country": "India",
+            "crop": "Wheat",
+            "year": 2013,
+            "rainfall_mm": 1050.0,
+            "avg_temp_c": 85.0,
+            "pesticides_tonnes": 50000.0
+        })
+        assert res2.status_code == 422
+
+def test_auth_failure_wrong_password():
+    """Verify login with incorrect password fails with HTTP 401."""
+    with TestClient(app) as tc:
+        res = tc.post("/api/v1/auth/login", json={
+            "email": "researcher.test@agri-ai.org",
+            "password": "CompletelyWrongPassword123!"
+        })
+        assert res.status_code == 401
+        assert "Incorrect email or password" in res.json()["detail"]
+
+def test_expired_or_invalid_jwt_token():
+    """Verify forged or malformed JWT token is rejected."""
+    with TestClient(app) as tc:
+        res = tc.get("/api/v1/auth/me", headers={"Authorization": "Bearer forged.invalid.token"})
+        assert res.status_code == 401
+
+def test_user_isolation_prediction_history():
+    """Verify strict cross-user data isolation: User A cannot see User B's predictions."""
+    with TestClient(app) as tc:
+        import uuid
+        uid1 = uuid.uuid4().hex[:6]
+        uid2 = uuid.uuid4().hex[:6]
+        user_a_email = f"user_a_{uid1}@agri.org"
+        user_b_email = f"user_b_{uid2}@agri.org"
+        password = "SecurePassword2026!"
+
+        # Register User A
+        reg_a = tc.post("/api/v1/auth/register", json={
+            "email": user_a_email,
+            "password": password,
+            "full_name": "User Alpha"
+        })
+        token_a = reg_a.json()["access_token"]
+
+        # Register User B
+        reg_b = tc.post("/api/v1/auth/register", json={
+            "email": user_b_email,
+            "password": password,
+            "full_name": "User Beta"
+        })
+        token_b = reg_b.json()["access_token"]
+
+        # User A makes a prediction (authenticated)
+        tc.post(
+            "/api/v1/predict",
+            json={
+                "country": "India",
+                "crop": "Rice, paddy",
+                "year": 2012,
+                "rainfall_mm": 1200.0,
+                "avg_temp_c": 27.0,
+                "pesticides_tonnes": 30000.0
+            },
+            headers={"Authorization": f"Bearer {token_a}"}
+        )
+
+        # User A queries history -> should contain at least 1 record
+        hist_a = tc.get("/api/v1/history", headers={"Authorization": f"Bearer {token_a}"})
+        assert hist_a.status_code == 200
+        records_a = hist_a.json()["history"]
+        assert len(records_a) >= 1
+        assert any(r["crop"] == "Rice, paddy" for r in records_a)
+
+        # User B queries history -> must be empty (0 records), User A's record NOT leaked!
+        hist_b = tc.get("/api/v1/history", headers={"Authorization": f"Bearer {token_b}"})
+        assert hist_b.status_code == 200
+        records_b = hist_b.json()["history"]
+        assert len(records_b) == 0
+
+def test_prediction_physical_nonnegativity_bounds():
+    """Verify conformal lower bounds are never negative regardless of extreme inputs."""
+    with TestClient(app) as tc:
+        # Extremely low yielding crop and harsh conditions
+        res = tc.post("/api/v1/predict", json={
+            "country": "Algeria",
+            "crop": "Sorghum",
+            "year": 1995,
+            "rainfall_mm": 10.0,
+            "avg_temp_c": 45.0,
+            "pesticides_tonnes": 1.0
+        })
+        assert res.status_code == 200
+        data = res.json()
+        assert data["conformal_interval_90"]["lower_bound"] >= 0.0
+        assert data["predicted_yield_tonnes_per_ha"] >= 0.0
+

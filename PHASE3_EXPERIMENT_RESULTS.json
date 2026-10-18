@@ -1,0 +1,272 @@
+{
+  "metadata": {
+    "timestamp": "2026-10-18T10:59:46Z",
+    "python_version": "3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)]",
+    "torch_version": "2.13.0+cpu",
+    "sklearn_version": "1.9.0",
+    "raw_samples": 28242,
+    "clean_samples": 25932,
+    "duplicates_removed": 2310
+  },
+  "random_split_benchmarks": {
+    "random_forest": {
+      "r2": 0.9739817474371925,
+      "rmse_tonnes": 1.3732350842717136,
+      "mae_tonnes": 0.6937766568119792
+    },
+    "xgboost": {
+      "r2": 0.9714141488075256,
+      "rmse_tonnes": 1.4393997082117254,
+      "mae_tonnes": 0.790721875
+    },
+    "lightgbm": {
+      "r2": 0.9736119307653897,
+      "rmse_tonnes": 1.3829600522432282,
+      "mae_tonnes": 0.7276324701192509
+    },
+    "pytorch_mlp": {
+      "r2": 0.978723406791687,
+      "rmse_tonnes": 1.2418149942724963,
+      "mae_tonnes": 0.6679197265625
+    },
+    "stacking_ensemble": {
+      "r2": 0.9815484037887369,
+      "rmse_tonnes": 1.156439185095437,
+      "mae_tonnes": 0.62131163366928
+    }
+  },
+  "chronological_generalization": {
+    "split_info": {
+      "train_years": "1990-2008",
+      "test_years": "2009-2013",
+      "train_n": 20182,
+      "test_n": 5750
+    },
+    "random_forest": {
+      "r2": 0.9401139104423436,
+      "rmse_tonnes": 2.319815481295573,
+      "mae_tonnes": 1.3019698243427504
+    },
+    "xgboost": {
+      "r2": 0.9475651383399963,
+      "rmse_tonnes": 2.1707037752765808,
+      "mae_tonnes": 1.1810615234375
+    }
+  },
+  "geographic_generalization": {
+    "split_info": {
+      "held_out_countries_count": 16,
+      "train_n": 20735,
+      "test_n": 5197
+    },
+    "random_forest": {
+      "r2": 0.5099582864338168,
+      "rmse_tonnes": 6.7213837087023744,
+      "mae_tonnes": 3.968051592613556
+    },
+    "xgboost": {
+      "r2": 0.572674036026001,
+      "rmse_tonnes": 6.276561810418185,
+      "mae_tonnes": 3.6236078125
+    }
+  },
+  "conformal_uq": {
+    "overall": {
+      "nominal_coverage": 0.9,
+      "empirical_coverage": 0.8868,
+      "average_width_tonnes": 2.6019,
+      "conformal_quantile_q": 1.3313
+    },
+    "by_crop": {
+      "Maize": {
+        "n": 753,
+        "coverage": 0.9402390438247012,
+        "avg_yield_t": 3.669060026560425
+      },
+      "Potatoes": {
+        "n": 824,
+        "coverage": 0.6699029126213593,
+        "avg_yield_t": 19.735554733009707
+      },
+      "Rice, paddy": {
+        "n": 607,
+        "coverage": 0.9604612850082372,
+        "avg_yield_t": 4.257006754530479
+      },
+      "Sorghum": {
+        "n": 552,
+        "coverage": 0.9746376811594203,
+        "avg_yield_t": 1.8879338768115945
+      },
+      "Soybeans": {
+        "n": 616,
+        "coverage": 0.9967532467532467,
+        "avg_yield_t": 1.7117683441558442
+      },
+      "Wheat": {
+        "n": 697,
+        "coverage": 0.9827833572453372,
+        "avg_yield_t": 3.1574558106169297
+      },
+      "Cassava": {
+        "n": 381,
+        "coverage": 0.7742782152230971,
+        "avg_yield_t": 14.704625721784778
+      },
+      "Sweet potatoes": {
+        "n": 486,
+        "coverage": 0.8148148148148148,
+        "avg_yield_t": 12.45874465020576
+      },
+      "Plantains and others": {
+        "n": 115,
+        "coverage": 0.7652173913043478,
+        "avg_yield_t": 10.790449565217392
+      },
+      "Yams": {
+        "n": 156,
+        "coverage": 0.9038461538461539,
+        "avg_yield_t": 11.921562179487179
+      }
+    },
+    "by_yield_tier": {
+      "low_yield (< 33rd pct)": 0.9830508474576272,
+      "mid_yield (33rd-66th pct)": 0.9304906542056075,
+      "high_yield (>= 66th pct)": 0.7511337868480725
+    },
+    "under_temporal_shift": {
+      "calibration_years": "2005-2008",
+      "test_years": "2009-2013",
+      "nominal_coverage": 0.9,
+      "empirical_coverage": 0.7791,
+      "quantile_q": 1.4312
+    }
+  },
+  "robustness": {
+    "mcar": [
+      {
+        "rate": 0.0,
+        "mae_tonnes_per_ha": 0.7907,
+        "rmse_tonnes_per_ha": 1.4394,
+        "r2_score": 0.9714,
+        "error_inflation_pct": 0.0
+      },
+      {
+        "rate": 0.1,
+        "mae_tonnes_per_ha": 0.9101,
+        "rmse_tonnes_per_ha": 1.6764,
+        "r2_score": 0.9612,
+        "error_inflation_pct": 16.47
+      },
+      {
+        "rate": 0.2,
+        "mae_tonnes_per_ha": 1.0386,
+        "rmse_tonnes_per_ha": 1.9562,
+        "r2_score": 0.9472,
+        "error_inflation_pct": 35.9
+      },
+      {
+        "rate": 0.3,
+        "mae_tonnes_per_ha": 1.1533,
+        "rmse_tonnes_per_ha": 2.1344,
+        "r2_score": 0.9371,
+        "error_inflation_pct": 48.28
+      },
+      {
+        "rate": 0.4,
+        "mae_tonnes_per_ha": 1.2604,
+        "rmse_tonnes_per_ha": 2.2712,
+        "r2_score": 0.9288,
+        "error_inflation_pct": 57.79
+      },
+      {
+        "rate": 0.5,
+        "mae_tonnes_per_ha": 1.3733,
+        "rmse_tonnes_per_ha": 2.4645,
+        "r2_score": 0.9162,
+        "error_inflation_pct": 71.22
+      }
+    ],
+    "mar": [
+      {
+        "rate": 0.0,
+        "mae_tonnes_per_ha": 0.7907,
+        "rmse_tonnes_per_ha": 1.4394,
+        "r2_score": 0.9714,
+        "error_inflation_pct": 0.0
+      },
+      {
+        "rate": 0.1,
+        "mae_tonnes_per_ha": 0.8652,
+        "rmse_tonnes_per_ha": 1.5893,
+        "r2_score": 0.9652,
+        "error_inflation_pct": 10.41
+      },
+      {
+        "rate": 0.2,
+        "mae_tonnes_per_ha": 0.9425,
+        "rmse_tonnes_per_ha": 1.7321,
+        "r2_score": 0.9586,
+        "error_inflation_pct": 20.33
+      },
+      {
+        "rate": 0.3,
+        "mae_tonnes_per_ha": 1.0085,
+        "rmse_tonnes_per_ha": 1.8376,
+        "r2_score": 0.9534,
+        "error_inflation_pct": 27.67
+      },
+      {
+        "rate": 0.4,
+        "mae_tonnes_per_ha": 1.0796,
+        "rmse_tonnes_per_ha": 1.932,
+        "r2_score": 0.9485,
+        "error_inflation_pct": 34.22
+      },
+      {
+        "rate": 0.5,
+        "mae_tonnes_per_ha": 1.1719,
+        "rmse_tonnes_per_ha": 2.0913,
+        "r2_score": 0.9397,
+        "error_inflation_pct": 45.29
+      }
+    ],
+    "sensor_noise": [
+      {
+        "rate": 0.0,
+        "mae_tonnes_per_ha": 0.7907,
+        "rmse_tonnes_per_ha": 1.4394,
+        "r2_score": 0.9714,
+        "error_inflation_pct": 0.0
+      },
+      {
+        "rate": 0.1,
+        "mae_tonnes_per_ha": 1.0056,
+        "rmse_tonnes_per_ha": 1.763,
+        "r2_score": 0.9571,
+        "error_inflation_pct": 22.48
+      },
+      {
+        "rate": 0.2,
+        "mae_tonnes_per_ha": 1.1213,
+        "rmse_tonnes_per_ha": 1.9052,
+        "r2_score": 0.9499,
+        "error_inflation_pct": 32.36
+      },
+      {
+        "rate": 0.3,
+        "mae_tonnes_per_ha": 1.1961,
+        "rmse_tonnes_per_ha": 1.9947,
+        "r2_score": 0.9451,
+        "error_inflation_pct": 38.58
+      },
+      {
+        "rate": 0.5,
+        "mae_tonnes_per_ha": 1.4235,
+        "rmse_tonnes_per_ha": 2.3777,
+        "r2_score": 0.922,
+        "error_inflation_pct": 65.18
+      }
+    ]
+  }
+}
