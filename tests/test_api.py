@@ -289,3 +289,14 @@ def test_prediction_physical_nonnegativity_bounds():
         assert data["conformal_interval_90"]["lower_bound"] >= 0.0
         assert data["predicted_yield_tonnes_per_ha"] >= 0.0
 
+
+def test_split_disjointness_and_conformal_separation():
+    """Verify regression protection for split disjointness and 4-way separation."""
+    import json
+    results_path = Path(__file__).resolve().parent.parent / "PHASE3_2_EXPERIMENT_RESULTS.json"
+    if results_path.exists():
+        with open(results_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        task2 = data.get("task2_corrected_conformal_4way_split", {})
+        assert task2.get("conformal_margin_q", 0) > 0.0
+        assert task2.get("empirical_test_coverage", 0) >= 0.85

@@ -1,0 +1,92 @@
+{
+  "task1_leakage_audit": {
+    "total_clean_rows": 25932,
+    "unique_groups": 13130,
+    "repeated_groups": 3690,
+    "single_groups": 9440,
+    "random_split_test_group_leakage_pct": 47.41,
+    "random_split_test_rows_belonging_to_train_group_pct": 58.67
+  },
+  "task1b_grouped_evaluation": {
+    "split_type": "GroupShuffleSplit on (Area, Item, Year)",
+    "train_rows": 16723,
+    "calib_rows": 4024,
+    "test_rows": 5185,
+    "random_forest": {
+      "r2": 0.9689350456019495,
+      "rmse_tonnes": 1.4479205422567727,
+      "mae_tonnes": 0.8079229712927777
+    },
+    "xgboost": {
+      "r2": 0.9681450128555298,
+      "rmse_tonnes": 1.4662166279237185,
+      "mae_tonnes": 0.855251953125
+    }
+  },
+  "task2_corrected_conformal_4way_split": {
+    "base_train_rows": 13392,
+    "meta_train_rows": 3598,
+    "conformal_calib_rows": 3757,
+    "test_rows": 5185,
+    "conformal_margin_q": 2.0039,
+    "empirical_test_coverage": 0.9057,
+    "average_width_tonnes": 3.8086,
+    "crop_coverage": {
+      "Cassava": {
+        "n": 341,
+        "coverage": 0.7214,
+        "mean_yield_t": 11.57
+      },
+      "Maize": {
+        "n": 763,
+        "coverage": 0.9685,
+        "mean_yield_t": 3.59
+      },
+      "Plantains and others": {
+        "n": 103,
+        "coverage": 0.767,
+        "mean_yield_t": 9.55
+      },
+      "Potatoes": {
+        "n": 754,
+        "coverage": 0.7401,
+        "mean_yield_t": 20.28
+      },
+      "Rice, paddy": {
+        "n": 656,
+        "coverage": 0.9893,
+        "mean_yield_t": 4.06
+      },
+      "Sorghum": {
+        "n": 626,
+        "coverage": 0.984,
+        "mean_yield_t": 1.84
+      },
+      "Soybeans": {
+        "n": 539,
+        "coverage": 0.9963,
+        "mean_yield_t": 1.7
+      },
+      "Sweet potatoes": {
+        "n": 492,
+        "coverage": 0.7703,
+        "mean_yield_t": 12.88
+      },
+      "Wheat": {
+        "n": 736,
+        "coverage": 1.0,
+        "mean_yield_t": 2.92
+      },
+      "Yams": {
+        "n": 175,
+        "coverage": 0.8971,
+        "mean_yield_t": 11.04
+      }
+    },
+    "ensemble_test_metrics": {
+      "r2": 0.967108976442939,
+      "rmse_tonnes": 1.4898689315883482,
+      "mae_tonnes": 0.8267638354868104
+    }
+  }
+}
