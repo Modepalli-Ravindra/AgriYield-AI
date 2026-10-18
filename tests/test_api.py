@@ -300,3 +300,46 @@ def test_split_disjointness_and_conformal_separation():
         task2 = data.get("task2_corrected_conformal_4way_split", {})
         assert task2.get("conformal_margin_q", 0) > 0.0
         assert task2.get("empirical_test_coverage", 0) >= 0.85
+
+def test_model_artifact_identity_and_transparency():
+    """Verify served model artifact identity and transparency (Task 3)."""
+    import joblib
+    model_path = Path(__file__).resolve().parent.parent / "models" / "crop_yield_model.pkl"
+    meta_path = Path(__file__).resolve().parent.parent / "models" / "model_metadata.pkl"
+    
+    assert model_path.exists()
+    assert meta_path.exists()
+    
+    model = joblib.load(model_path)
+    metadata = joblib.load(meta_path)
+    
+    # Assert pipeline steps
+    assert hasattr(model, "named_steps")
+    assert "preprocessor" in model.named_steps
+    assert "regressor" in model.named_steps
+    
+    # Regressor is verified XGBRegressor
+    reg_class = model.named_steps["regressor"].__class__.__name__
+    assert reg_class == "XGBRegressor"
+    
+    # Verify metadata declares the primary tree engine
+    assert metadata.get("primary_tree_engine") == "XGBoost Regressor"
+
+def test_group_aware_uncertainty_artifacts():
+    """Verify group-aware uncertainty and crop-conditional results artifact (Tasks 1 & 2)."""
+    import json
+    p3_3_path = Path(__file__).resolve().parent.parent / "PHASE3_3_EXPERIMENT_RESULTS.json"
+    assert p3_3_path.exists()
+    
+    with open(p3_3_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        
+    t1 = data["task1_conformal_validity"]
+    assert t1["q_row_tonnes"] > 1.5
+    assert t1["q_group_max_tonnes"] > t1["q_row_tonnes"]
+    assert t1["row_level_coverage_under_q_row"] >= 0.89
+    
+    t2 = data["task2_crop_reliability"]
+    assert "Potatoes" in t2
+    assert t2["Potatoes"]["sample_size_adequate"] is True
+    assert t2["Potatoes"]["undercoverage_relative_to_90"] > 0.10
