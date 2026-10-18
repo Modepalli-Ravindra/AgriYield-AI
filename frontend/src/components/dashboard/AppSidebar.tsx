@@ -64,54 +64,108 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
     >
       <div>
         {/* Brand & Toggle Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: sidebarCollapsed ? 'center' : 'space-between',
-          padding: sidebarCollapsed ? '0' : '0 6px',
-          marginBottom: 24
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+        {sidebarCollapsed ? (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 12,
+            marginBottom: 22
+          }}>
             <img 
               src="/logo.png" 
               alt="Terraflect" 
-              title="Terraflect Intelligence Platform"
+              title="Terraflect Intelligence Platform - Click to expand"
+              onClick={onToggleSidebar}
               style={{
                 width: 34,
                 height: 34,
                 objectFit: 'contain',
-                flexShrink: 0,
-                filter: 'drop-shadow(0 2px 8px rgba(228, 253, 151, 0.35))'
+                filter: 'drop-shadow(0 2px 8px rgba(228, 253, 151, 0.35))',
+                cursor: 'pointer'
               }} 
             />
-            {!sidebarCollapsed && (
+            {onToggleSidebar && (
+              <button
+                type="button"
+                onClick={onToggleSidebar}
+                className="sidebar-toggle-btn"
+                title="Expand sidebar"
+                style={{
+                  width: 32,
+                  height: 26,
+                  borderRadius: 6,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid var(--color-forest-border)',
+                  color: 'var(--color-lime)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <ChevronRightIcon style={{ width: 15, height: 15 }} />
+              </button>
+            )}
+          </div>
+        ) : (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 4px',
+            marginBottom: 22
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+              <img 
+                src="/logo.png" 
+                alt="Terraflect" 
+                title="Terraflect Intelligence Platform"
+                style={{
+                  width: 34,
+                  height: 34,
+                  objectFit: 'contain',
+                  flexShrink: 0,
+                  filter: 'drop-shadow(0 2px 8px rgba(228, 253, 151, 0.35))'
+                }} 
+              />
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--color-offwhite)', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+                <div style={{ fontSize: 16.5, fontWeight: 800, color: 'var(--color-offwhite)', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
                   Terraflect
                 </div>
-                <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', letterSpacing: '0.04em' }}>
+                <span style={{ fontSize: 9.5, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', letterSpacing: '0.04em' }}>
                   INTELLIGENCE
                 </span>
               </div>
+            </div>
+
+            {onToggleSidebar && (
+              <button
+                type="button"
+                onClick={onToggleSidebar}
+                className="sidebar-toggle-btn"
+                title="Collapse sidebar"
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  border: '1px solid var(--color-forest-border)',
+                  color: 'var(--color-muted)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  flexShrink: 0
+                }}
+              >
+                <ChevronLeftIcon style={{ width: 15, height: 15 }} />
+              </button>
             )}
           </div>
-
-          {onToggleSidebar && (
-            <button
-              type="button"
-              onClick={onToggleSidebar}
-              className="sidebar-toggle-btn"
-              title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-              style={{ flexShrink: 0 }}
-            >
-              {sidebarCollapsed ? (
-                <ChevronRightIcon style={{ width: 16, height: 16 }} />
-              ) : (
-                <ChevronLeftIcon style={{ width: 16, height: 16 }} />
-              )}
-            </button>
-          )}
-        </div>
+        )}
 
         {/* Navigation list */}
         <nav>

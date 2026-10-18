@@ -215,8 +215,6 @@ export default function App() {
             currentUser={currentUser}
             onLogout={handleLogout}
             onBackToLanding={() => setView('landing')}
-            sidebarCollapsed={sidebarCollapsed}
-            onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
           />
 
           <main className="app-view-body">

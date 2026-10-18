@@ -1,9 +1,5 @@
 import React from 'react';
-import { 
-  ArrowRightOnRectangleIcon,
-  Bars3Icon,
-  ChevronLeftIcon
-} from '@heroicons/react/24/outline';
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import type { UserProfile } from '../../types';
 
 interface AppHeaderProps {
@@ -12,8 +8,6 @@ interface AppHeaderProps {
   currentUser: UserProfile | null;
   onLogout: () => void;
   onBackToLanding?: () => void;
-  sidebarCollapsed?: boolean;
-  onToggleSidebar?: () => void;
 }
 
 export const AppHeader: React.FC<AppHeaderProps> = ({
@@ -21,43 +15,24 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   subtitle,
   currentUser: _currentUser,
   onLogout,
-  onBackToLanding: _onBackToLanding,
-  sidebarCollapsed = false,
-  onToggleSidebar
+  onBackToLanding: _onBackToLanding
 }) => {
   return (
     <header className="app-topbar">
-      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        {onToggleSidebar && (
-          <button
-            type="button"
-            onClick={onToggleSidebar}
-            className="sidebar-toggle-btn"
-            title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            {sidebarCollapsed ? (
-              <Bars3Icon style={{ width: 18, height: 18 }} />
-            ) : (
-              <ChevronLeftIcon style={{ width: 18, height: 18 }} />
-            )}
-          </button>
-        )}
-
-        <div>
-          <h2 style={{ 
-            fontSize: 18, 
-            color: 'var(--color-offwhite)', 
-            fontWeight: 800, 
-            marginBottom: 2, 
-            letterSpacing: '-0.02em',
-            lineHeight: 1.2
-          }}>
-            {title}
-          </h2>
-          <span style={{ fontSize: 12, color: 'var(--color-muted)' }}>
-            {subtitle}
-          </span>
-        </div>
+      <div>
+        <h2 style={{ 
+          fontSize: 18, 
+          color: 'var(--color-offwhite)', 
+          fontWeight: 800, 
+          marginBottom: 2, 
+          letterSpacing: '-0.02em',
+          lineHeight: 1.2
+        }}>
+          {title}
+        </h2>
+        <span style={{ fontSize: 12, color: 'var(--color-muted)' }}>
+          {subtitle}
+        </span>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
