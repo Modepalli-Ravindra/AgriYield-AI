@@ -293,7 +293,9 @@ def test_prediction_physical_nonnegativity_bounds():
 def test_split_disjointness_and_conformal_separation():
     """Verify regression protection for split disjointness and 4-way separation."""
     import json
-    results_path = Path(__file__).resolve().parent.parent / "PHASE3_2_EXPERIMENT_RESULTS.json"
+    results_path = Path(__file__).resolve().parent.parent / "docs" / "reports" / "PHASE3_2_EXPERIMENT_RESULTS.json"
+    if not results_path.exists():
+        results_path = Path(__file__).resolve().parent.parent / "PHASE3_2_EXPERIMENT_RESULTS.json"
     if results_path.exists():
         with open(results_path, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -328,7 +330,9 @@ def test_model_artifact_identity_and_transparency():
 def test_group_aware_uncertainty_artifacts():
     """Verify group-aware uncertainty and crop-conditional results artifact (Tasks 1 & 2)."""
     import json
-    p3_3_path = Path(__file__).resolve().parent.parent / "PHASE3_3_EXPERIMENT_RESULTS.json"
+    p3_3_path = Path(__file__).resolve().parent.parent / "docs" / "reports" / "PHASE3_3_EXPERIMENT_RESULTS.json"
+    if not p3_3_path.exists():
+        p3_3_path = Path(__file__).resolve().parent.parent / "PHASE3_3_EXPERIMENT_RESULTS.json"
     assert p3_3_path.exists()
     
     with open(p3_3_path, "r", encoding="utf-8") as f:
