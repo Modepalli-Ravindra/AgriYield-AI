@@ -5,7 +5,8 @@ import {
   ShieldCheckIcon, 
   SunIcon, 
   SparklesIcon,
-  CpuChipIcon
+  CpuChipIcon,
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
 import { HeroAppAnimation } from './HeroAppAnimation';
 
@@ -21,8 +22,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section style={{
       position: 'relative',
-      paddingTop: 140,
-      paddingBottom: 80,
+      paddingTop: 130,
+      paddingBottom: 70,
       overflow: 'hidden',
       backgroundColor: '#121B11'
     }}>
@@ -40,74 +41,86 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         zIndex: 0
       }} />
 
-      <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-        {/* Editorial Pill */}
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          background: 'rgba(228, 253, 151, 0.08)',
-          border: '1px solid rgba(228, 253, 151, 0.25)',
-          padding: '6px 16px',
-          borderRadius: 100,
-          marginBottom: 24,
-          color: 'var(--color-lime)',
-          fontSize: 12.5,
-          fontFamily: 'var(--font-mono)',
-          fontWeight: 700,
-          letterSpacing: '0.04em'
-        }}>
-          <CpuChipIcon style={{ width: 15, height: 15 }} />
-          <span>ENVIRONMENTAL INTELLIGENCE PLATFORM</span>
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        {/* Split Grid: Left side text/CTAs, Right side Animation Component */}
+        <div className="hero-split-grid">
+          {/* Left Column */}
+          <div className="hero-split-left">
+            <div className="section-pill-badge" style={{ marginBottom: 20 }}>
+              <CpuChipIcon />
+              <span>ENVIRONMENTAL INTELLIGENCE PLATFORM</span>
+            </div>
+
+            <h1 style={{
+              fontSize: 'clamp(32px, 3.8vw, 56px)',
+              lineHeight: 1.12,
+              fontWeight: 800,
+              color: 'var(--color-offwhite)',
+              letterSpacing: '-0.03em',
+              marginBottom: 18
+            }}>
+              Predict crop yields with <span style={{ color: 'var(--color-lime)' }}>environmental intelligence</span>.
+            </h1>
+
+            <p style={{
+              fontSize: 'clamp(15px, 1.15vw, 17.5px)',
+              color: 'var(--color-muted)',
+              marginBottom: 32,
+              lineHeight: 1.6,
+              maxWidth: 580
+            }}>
+              A production application combining machine learning, regional climate data, and 
+              conformal uncertainty bounds to give farmers and agronomists clear yield expectations.
+            </p>
+
+            {/* Action CTAs */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 14,
+              flexWrap: 'wrap',
+              marginBottom: 32
+            }}>
+              <button className="btn-primary" onClick={onGetStarted} style={{ padding: '13px 28px', fontSize: 14.5 }}>
+                <span>Launch Prediction Console</span>
+                <ArrowRightIcon style={{ width: 15, height: 15 }} />
+              </button>
+              <button className="btn-secondary" onClick={onExploreMethodology} style={{ padding: '13px 24px', fontSize: 14.5 }}>
+                <span>Explore How It Works</span>
+              </button>
+            </div>
+
+            {/* Trust Highlights */}
+            <div style={{
+              display: 'flex',
+              gap: 18,
+              flexWrap: 'wrap',
+              fontSize: 12,
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--color-muted)'
+            }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <CheckCircleIcon style={{ width: 14, height: 14, color: 'var(--color-lime)' }} />
+                96.8% Accuracy
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <CheckCircleIcon style={{ width: 14, height: 14, color: 'var(--color-lime)' }} />
+                90% Confidence Bounds
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <CheckCircleIcon style={{ width: 14, height: 14, color: 'var(--color-lime)' }} />
+                TreeSHAP Attributions
+              </span>
+            </div>
+          </div>
+
+          {/* Right Column: HeroAppAnimation arranged beside the hero text */}
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+            <HeroAppAnimation />
+          </div>
         </div>
 
-        {/* Headline */}
-        <h1 style={{
-          fontSize: 'clamp(36px, 5.2vw, 68px)',
-          lineHeight: 1.12,
-          fontWeight: 800,
-          color: 'var(--color-offwhite)',
-          letterSpacing: '-0.03em',
-          maxWidth: 960,
-          margin: '0 auto 20px'
-        }}>
-          Predict crop yields with <span style={{ color: 'var(--color-lime)' }}>environmental intelligence</span>.
-        </h1>
-
-        {/* Supporting Copy - Claude Style Product Copy */}
-        <p style={{
-          fontSize: 'clamp(16px, 1.25vw, 19px)',
-          color: 'var(--color-muted)',
-          maxWidth: 720,
-          margin: '0 auto 36px',
-          lineHeight: 1.6
-        }}>
-          A production application combining machine learning, regional climate data, and 
-          conformal uncertainty bounds to give farmers and agronomists clear yield expectations.
-        </p>
-
-        {/* Action CTAs */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 16,
-          flexWrap: 'wrap',
-          marginBottom: 50
-        }}>
-          <button className="btn-primary" onClick={onGetStarted} style={{ padding: '14px 32px', fontSize: 15 }}>
-            <span>Launch Prediction Console</span>
-            <ArrowRightIcon style={{ width: 16, height: 16 }} />
-          </button>
-          <button className="btn-secondary" onClick={onExploreMethodology} style={{ padding: '14px 28px', fontSize: 15 }}>
-            <span>Explore How It Works</span>
-          </button>
-        </div>
-
-        {/* Embedded Interactive Animation Component */}
-        <HeroAppAnimation />
-
-        {/* Key Metrics Grid */}
+        {/* Key Metrics Grid Below */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',

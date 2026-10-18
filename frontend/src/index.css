@@ -562,3 +562,26 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+/* Side-by-side Hero Split Grid Layout */
+.hero-split-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 0.96fr;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 56px;
+  text-align: left;
+}
+
+@media (max-width: 1120px) {
+  .hero-split-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  .hero-split-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
