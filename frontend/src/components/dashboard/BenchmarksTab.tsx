@@ -35,11 +35,13 @@ export const BenchmarksTab: React.FC<BenchmarksTabProps> = ({ benchmarks }) => {
     <div style={{
       display: 'grid',
       gridTemplateColumns: '1.25fr 1fr',
-      gap: 16,
+      gap: 14,
       alignItems: 'stretch',
+      height: '100%',
       flex: 1,
-      minHeight: 'calc(100vh - 105px)',
-      boxSizing: 'border-box'
+      minHeight: 0,
+      boxSizing: 'border-box',
+      overflow: 'hidden'
     }}>
       {/* Left Split Card: Benchmark Table */}
       <div style={{

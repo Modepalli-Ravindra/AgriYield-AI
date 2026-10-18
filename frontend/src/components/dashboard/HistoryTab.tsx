@@ -108,9 +108,11 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      minHeight: 'calc(100vh - 96px)',
+      flex: 1,
+      minHeight: 0,
       gap: 10,
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
+      overflow: 'hidden'
     }}>
       {/* Compact Top Header */}
       <div style={{
@@ -285,12 +287,12 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
         background: 'var(--color-forest-surface)',
         borderRadius: 12,
         border: '1px solid var(--color-forest-border)',
-        overflow: 'hidden',
         boxShadow: 'var(--shadow-card)',
         flex: 1,
+        minHeight: 0,
         display: 'flex',
         flexDirection: 'column',
-        minHeight: 0
+        overflow: 'hidden'
       }}>
         {loading ? (
           <div style={{ padding: 40, textAlign: 'center', color: 'var(--color-muted)', margin: 'auto' }}>
@@ -335,9 +337,9 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
         ) : (
           <div style={{
             flex: 1,
+            minHeight: 0,
             overflowY: 'auto',
             overflowX: 'auto',
-            maxHeight: 'calc(100vh - 290px)',
             scrollbarWidth: 'thin'
           }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 12.5 }}>

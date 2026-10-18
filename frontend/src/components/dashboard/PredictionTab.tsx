@@ -68,10 +68,12 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
     <div style={{
       display: 'flex',
       flexDirection: 'column',
+      height: '100%',
       flex: 1,
-      minHeight: 'calc(100vh - 96px)',
+      minHeight: 0,
       justifyContent: 'space-between',
-      gap: 16
+      gap: 12,
+      overflow: 'hidden'
     }}>
       {/* Primary Work Grid */}
       <div style={{
