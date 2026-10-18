@@ -15,11 +15,11 @@ export const WhatIfTab: React.FC<WhatIfTabProps> = ({
   onRunWhatIf
 }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{
         background: 'var(--color-forest-surface)',
-        borderRadius: 20,
-        padding: '24px 28px',
+        borderRadius: 14,
+        padding: '14px 18px',
         border: '1px solid var(--color-forest-border)',
         boxShadow: 'var(--shadow-card)',
         display: 'flex',
@@ -72,7 +72,7 @@ export const WhatIfTab: React.FC<WhatIfTabProps> = ({
                   background: isBaseline ? '#263825' : 'var(--color-forest-surface)',
                   color: 'var(--color-offwhite)',
                   border: isBaseline ? '1.5px solid var(--color-lime)' : '1px solid var(--color-forest-border)',
-                  borderRadius: 20,
+                  borderRadius: 14,
                   padding: 26,
                   boxShadow: isBaseline ? '0 12px 32px var(--color-lime-glow)' : 'var(--shadow-card)',
                   display: 'flex',
@@ -144,7 +144,7 @@ export const WhatIfTab: React.FC<WhatIfTabProps> = ({
       ) : (
         <div style={{
           background: 'var(--color-forest-surface)',
-          borderRadius: 20,
+          borderRadius: 14,
           border: '1px solid var(--color-forest-border)',
           padding: 60,
           textAlign: 'center',

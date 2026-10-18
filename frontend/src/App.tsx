@@ -37,6 +37,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [view, setView] = useState<'landing' | 'app'>('landing');
   const [activeTab, setActiveTab] = useState<'overview' | 'predict' | 'batch' | 'explain' | 'sensitivity' | 'whatif' | 'benchmarks' | 'history'>('overview');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Auth modal state
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -203,6 +204,8 @@ export default function App() {
           onTabChange={setActiveTab}
           currentUser={currentUser}
           onLogout={handleLogout}
+          sidebarCollapsed={sidebarCollapsed}
+          onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
         />
 
         <div className="app-main-content">
@@ -212,6 +215,8 @@ export default function App() {
             currentUser={currentUser}
             onLogout={handleLogout}
             onBackToLanding={() => setView('landing')}
+            sidebarCollapsed={sidebarCollapsed}
+            onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
           />
 
           <main className="app-view-body">

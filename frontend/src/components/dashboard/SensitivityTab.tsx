@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sliders, Loader2 } from 'lucide-react';
+import { Sliders } from 'lucide-react';
 import { 
   ResponsiveContainer, 
   LineChart, 
@@ -10,6 +10,7 @@ import {
   CartesianGrid, 
   ReferenceLine 
 } from 'recharts';
+import { ButtonSpinner, AIEngineLoader } from '../ui/Loader';
 import type { SensitivityResponse } from '../../types';
 
 interface SensitivityTabProps {
@@ -33,54 +34,51 @@ export const SensitivityTab: React.FC<SensitivityTabProps> = ({
   })) : [];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{
         background: 'var(--color-forest-surface)',
-        borderRadius: 20,
-        padding: '24px 28px',
+        borderRadius: 14,
+        padding: '14px 18px',
         border: '1px solid var(--color-forest-border)',
         boxShadow: 'var(--shadow-card)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap',
-        gap: 16
+        gap: 14
       }}>
         <div>
-          <h3 style={{ fontSize: 20, color: 'var(--color-offwhite)', fontWeight: 800 }}>
-            Climate Sensitivity Analysis
+          <h3 style={{ fontSize: 17, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0 }}>
+            Climate Sensitivity Curve
           </h3>
-          <p style={{ fontSize: 13.5, color: 'var(--color-muted)', marginTop: 4 }}>
-            See how crop yield responds as a single environmental factor (like rain or temperature) increases or decreases.
+          <p style={{ fontSize: 12.5, color: 'var(--color-muted)', marginTop: 2, margin: 0 }}>
+            Simulate how varying individual climate parameters shifts expected yield.
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <select
+            className="form-input"
             value={sensParam}
             onChange={(e) => setSensParam(e.target.value)}
-            className="form-input"
-            style={{ width: 'auto', padding: '9px 16px', fontSize: 13.5 }}
+            style={{ width: 'auto', padding: '7px 12px', fontSize: 12.5 }}
           >
-            <option value="rainfall_mm">Vary Rainfall (mm)</option>
-            <option value="avg_temp_c">Vary Temperature (°C)</option>
-            <option value="pesticides_tonnes">Vary Pesticides (tonnes)</option>
+            <option value="rainfall_mm">Rainfall (mm)</option>
+            <option value="avg_temp_c">Temperature (°C)</option>
+            <option value="pesticides_tonnes">Pesticides (tonnes)</option>
           </select>
 
           <button
             className="btn-primary"
             onClick={onRunSensitivity}
             disabled={loading}
-            style={{ padding: '10px 22px', fontSize: 14 }}
+            style={{ padding: '8px 18px', fontSize: 13, borderRadius: 8 }}
           >
             {loading ? (
-              <>
-                <Loader2 size={16} className="animate-spin" />
-                <span>Sweeping Parameter...</span>
-              </>
+              <ButtonSpinner size={15} text="Sweeping Parameter..." />
             ) : (
               <>
-                <Sliders size={16} />
+                <Sliders size={15} />
                 <span>Simulate Response</span>
               </>
             )}
@@ -88,47 +86,38 @@ export const SensitivityTab: React.FC<SensitivityTabProps> = ({
         </div>
       </div>
 
-      {sensData ? (
+      {loading ? (
+        <div style={{ background: 'var(--color-forest-surface)', borderRadius: 14, padding: '30px', border: '1px solid var(--color-forest-border)' }}>
+          <AIEngineLoader 
+            title="Dynamic Sweep Simulation"
+            subtitle="Evaluating multi-point non-linear response curves across 50 simulated points..."
+          />
+        </div>
+      ) : sensData ? (
         <div style={{
           background: 'var(--color-forest-surface)',
-          borderRadius: 20,
-          padding: 28,
+          borderRadius: 14,
+          padding: '16px 20px',
           border: '1px solid var(--color-forest-border)',
           boxShadow: 'var(--shadow-card)'
         }}>
-          <h4 style={{ fontSize: 18, color: 'var(--color-offwhite)', marginBottom: 4, fontWeight: 700 }}>
-            Yield Response Curve across Varying {sensParam.replace('_', ' ').toUpperCase()}
-          </h4>
-          <span style={{ fontSize: 13, color: 'var(--color-muted)', display: 'block', marginBottom: 24 }}>
-            Baseline Value: {sensData.baseline_value} • Baseline Predicted Yield: {sensData.baseline_prediction_tonnes_per_ha.toFixed(2)} t/ha
-          </span>
-
-          <div style={{ width: '100%', height: 380 }}>
+          <div style={{ height: 260, width: '100%' }}>
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(169, 180, 158, 0.12)" />
-                <XAxis 
-                  dataKey="value" 
-                  tick={{ fontSize: 12, fill: 'var(--color-muted)' }}
-                  label={{ value: sensParam, position: 'insideBottom', offset: -10, fill: 'var(--color-muted)', fontSize: 12 }}
+              <LineChart data={chartData} margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(169, 180, 158, 0.1)" />
+                <XAxis dataKey="value" stroke="var(--color-muted)" fontSize={11} />
+                <YAxis stroke="var(--color-muted)" fontSize={11} domain={['auto', 'auto']} />
+                <Tooltip
+                  formatter={(val: any) => [`${parseFloat(val).toFixed(2)} t/ha`, 'Expected Yield']}
+                  contentStyle={{
+                    background: '#152214',
+                    border: '1px solid var(--color-forest-border)',
+                    borderRadius: 8,
+                    fontSize: 12
+                  }}
                 />
-                <YAxis 
-                  tick={{ fontSize: 12, fill: 'var(--color-muted)' }}
-                  label={{ value: 'Yield (t/ha)', angle: -90, position: 'insideLeft', fill: 'var(--color-muted)', fontSize: 12 }}
-                />
-                <Tooltip 
-                  formatter={(val: any) => [`${Number(val).toFixed(2)} t/ha`, 'Yield']}
-                  contentStyle={{ background: '#141F13', borderRadius: 10, border: '1px solid var(--color-forest-border)', color: '#F7F7EF', fontSize: 12 }}
-                />
-                <ReferenceLine y={sensData.baseline_prediction_tonnes_per_ha} stroke="rgba(228, 253, 151, 0.4)" strokeDasharray="4 4" label={{ value: 'Baseline', fill: 'var(--color-lime)', fontSize: 11 }} />
-                <Line 
-                  type="monotone" 
-                  dataKey="yield" 
-                  stroke="#E4FD97" 
-                  strokeWidth={3} 
-                  dot={{ r: 4, fill: '#121B11', stroke: '#E4FD97', strokeWidth: 2 }}
-                  activeDot={{ r: 7, fill: '#E4FD97' }}
-                />
+                <ReferenceLine y={sensData.baseline_prediction_tonnes_per_ha} stroke="var(--color-lime)" strokeDasharray="4 4" label={{ value: 'Baseline', fill: 'var(--color-lime)', fontSize: 10 }} />
+                <Line type="monotone" dataKey="yield" stroke="var(--color-lime)" strokeWidth={2.5} dot={{ r: 3, fill: 'var(--color-lime)' }} activeDot={{ r: 5 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -136,18 +125,16 @@ export const SensitivityTab: React.FC<SensitivityTabProps> = ({
       ) : (
         <div style={{
           background: 'var(--color-forest-surface)',
-          borderRadius: 20,
+          borderRadius: 14,
+          padding: '40px 20px',
           border: '1px solid var(--color-forest-border)',
-          padding: 60,
           textAlign: 'center',
           color: 'var(--color-muted)'
         }}>
-          <Sliders size={32} style={{ margin: '0 auto 12px', color: 'var(--color-lime)' }} />
-          <h4 style={{ fontSize: 17, color: 'var(--color-offwhite)', fontWeight: 700, marginBottom: 6 }}>
-            Ready for Sensitivity Sweep
-          </h4>
-          <p style={{ fontSize: 13.5, maxWidth: 360, margin: '0 auto' }}>
-            Select a parameter above and click "Simulate Response" to generate the dynamic yield sensitivity curve.
+          <Sliders size={32} style={{ color: 'var(--color-lime)', marginBottom: 12 }} />
+          <h4 style={{ fontSize: 16, color: 'var(--color-offwhite)', marginBottom: 6 }}>Ready for Sensitivity Sweep</h4>
+          <p style={{ fontSize: 13, maxWidth: 400, margin: '0 auto' }}>
+            Select an environmental parameter and click <strong>Simulate Response</strong>.
           </p>
         </div>
       )}

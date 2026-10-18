@@ -34,7 +34,7 @@ export const BatchPredictionTab: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <div style={{
         background: 'var(--color-forest-surface)',
-        borderRadius: 20,
+        borderRadius: 14,
         padding: '24px 28px',
         border: '1px solid var(--color-forest-border)',
         boxShadow: 'var(--shadow-card)',
@@ -92,7 +92,7 @@ export const BatchPredictionTab: React.FC = () => {
 
       <div style={{
         background: 'var(--color-forest-surface)',
-        borderRadius: 20,
+        borderRadius: 14,
         border: '1px solid var(--color-forest-border)',
         overflow: 'hidden',
         boxShadow: 'var(--shadow-card)'

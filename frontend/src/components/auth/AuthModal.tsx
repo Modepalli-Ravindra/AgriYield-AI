@@ -3,12 +3,12 @@ import {
   XMarkIcon, 
   ExclamationCircleIcon, 
   ArrowRightIcon, 
-  ArrowPathIcon,
   EyeIcon,
   EyeSlashIcon,
   CheckCircleIcon,
   KeyIcon
 } from '@heroicons/react/24/outline';
+import { ButtonSpinner } from '../ui/Loader';
 import * as api from '../../api';
 import type { UserProfile } from '../../types';
 
@@ -421,14 +421,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ initialMode, onClose, onSu
             style={{ width: '100%', padding: '12px 0', marginTop: 8, fontSize: 14.5 }}
           >
             {loading ? (
-              <>
-                <ArrowPathIcon style={{ width: 16, height: 16 }} className="animate-spin" />
-                <span>
-                  {mode === 'login' && 'Authenticating...'}
-                  {mode === 'register' && 'Registering Account...'}
-                  {mode === 'forgot' && 'Resetting Password...'}
-                </span>
-              </>
+              <ButtonSpinner 
+                size={16} 
+                text={mode === 'login' ? 'Authenticating...' : mode === 'register' ? 'Registering Account...' : 'Resetting Password...'} 
+              />
             ) : (
               <>
                 <span>
