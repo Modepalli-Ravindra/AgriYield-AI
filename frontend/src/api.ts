@@ -1,20 +1,29 @@
 import type { 
   YieldInput, 
   PredictionResponse, 
+  BatchPredictionResponse,
   OptionsResponse, 
   ExplainResponse, 
   SensitivityResponse, 
   WhatIfResponse, 
   ModelComparisonResponse,
+  GlobalImportanceResponse,
   TokenResponse,
-  UserProfile 
+  UserProfile,
+  HistoryResponse
 } from './types';
 
-const API_BASE = 'http://localhost:8000/api/v1';
+const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:8000') + '/api/v1';
 
 function getAuthHeader(): Record<string, string> {
   const token = localStorage.getItem('access_token');
   return token ? { 'Authorization': `Bearer ${token}` } : {};
+}
+
+export async function fetchHealth(): Promise<{ status: string; database: string; model_loaded: boolean; timestamp: string }> {
+  const res = await fetch(`${API_BASE.replace('/api/v1', '')}/health`);
+  if (!res.ok) throw new Error('Health check failed');
+  return res.json();
 }
 
 export async function fetchOptions(): Promise<OptionsResponse> {
@@ -32,7 +41,26 @@ export async function predictYield(input: YieldInput): Promise<PredictionRespons
     },
     body: JSON.stringify(input)
   });
-  if (!res.ok) throw new Error('Prediction failed');
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Prediction failed' }));
+    throw new Error(err.detail || 'Prediction failed');
+  }
+  return res.json();
+}
+
+export async function predictYieldBatch(items: YieldInput[]): Promise<BatchPredictionResponse> {
+  const res = await fetch(`${API_BASE}/predict/batch`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeader()
+    },
+    body: JSON.stringify({ items })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Batch prediction failed' }));
+    throw new Error(err.detail || 'Batch prediction failed');
+  }
   return res.json();
 }
 
@@ -42,7 +70,10 @@ export async function fetchExplanation(input: YieldInput): Promise<ExplainRespon
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(input)
   });
-  if (!res.ok) throw new Error('Explanation failed');
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Explanation failed' }));
+    throw new Error(err.detail || 'Explanation failed');
+  }
   return res.json();
 }
 
@@ -52,7 +83,10 @@ export async function runSensitivity(input: YieldInput, parameter: string): Prom
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ input_data: input, parameter, points: 12 })
   });
-  if (!res.ok) throw new Error('Sensitivity analysis failed');
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Sensitivity analysis failed' }));
+    throw new Error(err.detail || 'Sensitivity analysis failed');
+  }
   return res.json();
 }
 
@@ -62,13 +96,22 @@ export async function runWhatIf(scenarios: Array<{ scenario_name: string; inputs
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ scenarios })
   });
-  if (!res.ok) throw new Error('What-if analysis failed');
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'What-if analysis failed' }));
+    throw new Error(err.detail || 'What-if analysis failed');
+  }
   return res.json();
 }
 
 export async function fetchModelBenchmarks(): Promise<ModelComparisonResponse> {
   const res = await fetch(`${API_BASE}/models/compare`);
   if (!res.ok) throw new Error('Model comparison failed');
+  return res.json();
+}
+
+export async function fetchGlobalImportance(): Promise<GlobalImportanceResponse> {
+  const res = await fetch(`${API_BASE}/global-importance`);
+  if (!res.ok) throw new Error('Global importance failed to load');
   return res.json();
 }
 
@@ -86,11 +129,14 @@ export async function executeStressTest(testType: string): Promise<any> {
   return res.json();
 }
 
-export async function fetchPredictionHistory(): Promise<any> {
+export async function fetchPredictionHistory(): Promise<HistoryResponse> {
   const res = await fetch(`${API_BASE}/history`, {
     headers: { ...getAuthHeader() }
   });
-  if (!res.ok) throw new Error('History requires authentication');
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Authentication required' }));
+    throw new Error(err.detail || 'History requires authentication');
+  }
   return res.json();
 }
 

@@ -43,6 +43,21 @@ export interface PredictionResponse {
   timestamp: string;
 }
 
+export interface BatchItemResult {
+  input: YieldInput;
+  predicted_yield_tonnes_per_ha: number;
+  conformal_interval_90: {
+    lower_bound: number;
+    upper_bound: number;
+  };
+  warnings?: string[];
+}
+
+export interface BatchPredictionResponse {
+  total_items: number;
+  predictions: BatchItemResult[];
+}
+
 export interface OptionsResponse {
   countries: string[];
   crops: string[];
@@ -111,6 +126,17 @@ export interface ModelComparisonResponse {
   dl_vs_ml_empirical_gain: string;
 }
 
+export interface GlobalImportanceFeature {
+  name: string;
+  importance: number;
+}
+
+export interface GlobalImportanceResponse {
+  features: GlobalImportanceFeature[];
+  method: string;
+  deployed_model: string;
+}
+
 export interface UserProfile {
   id: string;
   email: string;
@@ -123,4 +149,25 @@ export interface TokenResponse {
   access_token: string;
   token_type: string;
   user: UserProfile;
+}
+
+export interface HistoryRecord {
+  id: string;
+  user_id: string;
+  country: string;
+  crop: string;
+  year: number;
+  rainfall_mm: number;
+  avg_temp_c: number;
+  pesticides_tonnes: number;
+  predicted_yield_tonnes_per_ha: number;
+  conformal_lower_bound?: number;
+  conformal_upper_bound?: number;
+  model_name: string;
+  created_at: string;
+}
+
+export interface HistoryResponse {
+  total: number;
+  records: HistoryRecord[];
 }
