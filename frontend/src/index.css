@@ -588,32 +588,6 @@ a {
 
 
 /* Atmospheric Hero Rain & Sunlight Animation Overlays */
-@keyframes rainDrift {
-  0% {
-    background-position: 0px 0px;
-  }
-  100% {
-    background-position: 60px 800px;
-  }
-}
-
-.hero-rain-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    165deg,
-    rgba(228, 253, 151, 0) 0px,
-    rgba(228, 253, 151, 0) 70px,
-    rgba(228, 253, 151, 0.06) 74px,
-    rgba(228, 253, 151, 0) 78px
-  );
-  background-size: 120px 240px;
-  animation: rainDrift 14s linear infinite;
-  opacity: 0.65;
-  z-index: 1;
-}
-
 .hero-sunlight-beam {
   position: absolute;
   top: 0;

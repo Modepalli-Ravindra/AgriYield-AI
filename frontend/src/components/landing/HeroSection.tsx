@@ -58,9 +58,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Golden Sunlight Beam Flare */}
         <div className="hero-sunlight-beam" />
-
-        {/* Gentle Ambient Rain Mist Drift */}
-        <div className="hero-rain-overlay" />
       </div>
 
       <div className="container" style={{ position: 'relative', zIndex: 3 }}>
