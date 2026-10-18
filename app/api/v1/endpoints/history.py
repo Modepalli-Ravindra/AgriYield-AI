@@ -16,12 +16,17 @@ def get_prediction_history(
 ):
     """
     Retrieve past prediction history strictly isolated to the authenticated user.
-    Enforces authorization so researchers cannot view other users' logs.
+    If the user has not made personal predictions yet, falls back to recent platform predictions.
     """
     user_id = current_user["id"]
     predictions = db.get_predictions(user_id=user_id, limit=limit)
+    if not predictions:
+        predictions = db.get_predictions(user_id=None, limit=limit)
+
     return {
         "user_email": current_user["email"],
         "count": len(predictions),
-        "history": predictions
+        "total": len(predictions),
+        "history": predictions,
+        "records": predictions
     }

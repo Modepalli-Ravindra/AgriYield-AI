@@ -53,24 +53,43 @@ export const BatchPredictionTab: React.FC = () => {
           </p>
         </div>
 
-        <button
-          className="btn-primary"
-          onClick={handleRunBatch}
-          disabled={loading || items.length === 0}
-          style={{ padding: '11px 22px', fontSize: 14 }}
-        >
-          {loading ? (
-            <>
-              <Loader2 size={16} className="animate-spin" />
-              <span>Processing Batch...</span>
-            </>
-          ) : (
-            <>
-              <Layers size={16} />
-              <span>Run Batch Prediction ({items.length} Scenarios)</span>
-            </>
+        <div style={{ display: 'flex', gap: 10 }}>
+          {results.length > 0 && (
+            <button
+              type="button"
+              onClick={() => { setResults([]); setError(''); }}
+              style={{
+                padding: '11px 16px',
+                fontSize: 13.5,
+                borderRadius: 10,
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid var(--color-forest-border)',
+                color: 'var(--color-muted)',
+                cursor: 'pointer'
+              }}
+            >
+              Clear Results
+            </button>
           )}
-        </button>
+          <button
+            className="btn-primary"
+            onClick={handleRunBatch}
+            disabled={loading || items.length === 0}
+            style={{ padding: '11px 22px', fontSize: 14 }}
+          >
+            {loading ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                <span>Processing Batch...</span>
+              </>
+            ) : (
+              <>
+                <Layers size={16} />
+                <span>Run Batch Prediction ({items.length} Scenarios)</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       {error && (

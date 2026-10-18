@@ -168,6 +168,8 @@ export interface HistoryRecord {
 }
 
 export interface HistoryResponse {
-  total: number;
+  total?: number;
+  count?: number;
   records: HistoryRecord[];
+  history?: HistoryRecord[];
 }

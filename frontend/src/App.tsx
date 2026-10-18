@@ -101,6 +101,19 @@ export default function App() {
     api.logoutUser();
     setCurrentUser(null);
     setView('landing');
+    // Clear all workspace states on signout
+    setPrediction(null);
+    setExplainData(null);
+    setSensData(null);
+    setWhatIfData(null);
+    setInputData({
+      country: options?.countries[0] || 'India',
+      crop: options?.crops[0] || 'Wheat',
+      rainfall_mm: 1050,
+      avg_temp_c: 25.5,
+      pesticides_tonnes: 50000,
+      year: 2026
+    });
   };
 
   // Actions
@@ -254,13 +267,14 @@ export default function App() {
           />
 
           <main className="app-view-body">
-            {activeTab === 'overview' && (
+            <div style={{ display: activeTab === 'overview' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
               <OverviewTab
                 currentUser={currentUser}
                 onNavigate={(tab: any) => setActiveTab(tab)}
               />
-            )}
-            {activeTab === 'predict' && (
+            </div>
+
+            <div style={{ display: activeTab === 'predict' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
               <PredictionTab
                 inputData={inputData}
                 setInputData={setInputData}
@@ -269,20 +283,25 @@ export default function App() {
                 loading={loadingPred}
                 onRunPrediction={handleRunPrediction}
                 onClearPrediction={handleClearPrediction}
-                onNavigateToExplain={() => { setActiveTab('explain'); handleRunExplain(); }}
-                onNavigateToWhatIf={() => { setActiveTab('whatif'); handleRunWhatIf(); }}
+                onNavigateToExplain={() => { setActiveTab('explain'); if (!explainData) handleRunExplain(); }}
+                onNavigateToWhatIf={() => { setActiveTab('whatif'); if (!whatIfData) handleRunWhatIf(); }}
               />
-            )}
-            {activeTab === 'batch' && <BatchPredictionTab />}
-            {activeTab === 'explain' && (
+            </div>
+
+            <div style={{ display: activeTab === 'batch' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+              <BatchPredictionTab />
+            </div>
+
+            <div style={{ display: activeTab === 'explain' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
               <ExplainTab
                 explainData={explainData}
                 loading={loadingExplain}
                 onRunExplain={handleRunExplain}
                 onClearExplain={handleClearExplain}
               />
-            )}
-            {activeTab === 'sensitivity' && (
+            </div>
+
+            <div style={{ display: activeTab === 'sensitivity' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
               <SensitivityTab
                 sensData={sensData}
                 sensParam={sensParam}
@@ -291,8 +310,9 @@ export default function App() {
                 onRunSensitivity={handleRunSensitivity}
                 onClearSensitivity={handleClearSensitivity}
               />
-            )}
-            {activeTab === 'whatif' && (
+            </div>
+
+            <div style={{ display: activeTab === 'whatif' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
               <WhatIfTab
                 inputData={inputData}
                 whatIfData={whatIfData}
@@ -300,9 +320,15 @@ export default function App() {
                 onRunWhatIf={handleRunWhatIf}
                 onClearWhatIf={handleClearWhatIf}
               />
-            )}
-            {activeTab === 'benchmarks' && <BenchmarksTab benchmarks={benchmarks} />}
-            {activeTab === 'history' && <HistoryTab onNavigateToPredict={() => setActiveTab('predict')} />}
+            </div>
+
+            <div style={{ display: activeTab === 'benchmarks' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+              <BenchmarksTab benchmarks={benchmarks} />
+            </div>
+
+            <div style={{ display: activeTab === 'history' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+              <HistoryTab onNavigateToPredict={() => setActiveTab('predict')} />
+            </div>
           </main>
         </div>
       </div>

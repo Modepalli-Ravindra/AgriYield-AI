@@ -17,7 +17,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({ onNavigateToPredict }) =
 
   useEffect(() => {
     api.fetchPredictionHistory()
-      .then(res => setRecords(res.records || []))
+      .then(res => setRecords((res as any).records || (res as any).history || []))
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
