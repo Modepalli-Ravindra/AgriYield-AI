@@ -379,7 +379,7 @@ a {
 }
 
 .app-topbar {
-  height: 68px;
+  height: 86px;
   background: var(--color-forest-dark);
   border-bottom: 1px solid var(--color-forest-border);
   display: flex;
