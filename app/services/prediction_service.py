@@ -1,14 +1,29 @@
 """Prediction service encapsulating production model inference, conformal intervals, and TreeSHAP."""
 from __future__ import annotations
 
+import sys
+import types
+
+# Guard against Windows Application Control blocking unused sklearn svm C-extensions during unpickling
+for _mod in ("sklearn.svm._libsvm_sparse", "sklearn.svm._libsvm"):
+    if _mod not in sys.modules:
+        try:
+            __import__(_mod)
+        except Exception:
+            sys.modules[_mod] = types.ModuleType(_mod)
+
 import os
 import json
 import joblib
 import numpy as np
 import pandas as pd
-import shap
+try:
+    import shap
+except (ImportError, Exception):
+    shap = None
 from datetime import datetime, timezone
 from typing import Dict, List, Optional, Any, Tuple
+
 import logging
 
 from app.core.config import settings
@@ -56,13 +71,18 @@ class PredictionService:
                 if hasattr(self.model, "named_steps") and "regressor" in self.model.named_steps:
                     reg_step = self.model.named_steps["regressor"]
                     inner_reg = getattr(reg_step, "regressor_", reg_step)
-                    self.tree_explainer = shap.TreeExplainer(inner_reg)
+                    if shap is not None:
+                        try:
+                            self.tree_explainer = shap.TreeExplainer(inner_reg)
+                            logger.info("TreeSHAP initialized on deployed estimator")
+                        except Exception as te_err:
+                            logger.warning("TreeSHAP initialization skipped: %s", te_err)
                     preprocessor = self.model.named_steps["preprocessor"]
                     cat_encoder = preprocessor.named_transformers_["cat"]
                     cat_cols = cat_encoder.get_feature_names_out(["Area", "Item"])
                     num_cols = ["Year", "average_rain_fall_mm_per_year", "pesticides_tonnes", "avg_temp"]
                     self.feature_columns = list(num_cols) + list(cat_cols)
-                    logger.info("TreeSHAP initialized on deployed estimator with %d transformed features", len(self.feature_columns))
+                    logger.info("Feature columns extracted: %d features", len(self.feature_columns))
             except Exception as e:
                 logger.error("Failed to load pipeline or TreeSHAP: %s", e)
 
@@ -94,7 +114,12 @@ class PredictionService:
                 if hasattr(self.pilot_model, "named_steps") and "regressor" in self.pilot_model.named_steps:
                     reg_step = self.pilot_model.named_steps["regressor"]
                     inner_reg = getattr(reg_step, "regressor_", reg_step)
-                    self.pilot_tree_explainer = shap.TreeExplainer(inner_reg)
+                    if shap is not None:
+                        try:
+                            self.pilot_tree_explainer = shap.TreeExplainer(inner_reg)
+                            logger.info("TreeSHAP initialized on pilot model")
+                        except Exception as te_err:
+                            logger.warning("Pilot TreeSHAP initialization skipped: %s", te_err)
                     preprocessor = self.pilot_model.named_steps["preprocessor"]
                     cat_encoder = preprocessor.named_transformers_["cat"]
                     cat_cols = cat_encoder.get_feature_names_out(["Area", "Item"])
@@ -105,7 +130,7 @@ class PredictionService:
                         "irrigation_equipped_pct"
                     ]
                     self.pilot_feature_columns = list(cat_cols) + list(num_cols)
-                    logger.info("TreeSHAP initialized on pilot model with %d transformed features", len(self.pilot_feature_columns))
+                    logger.info("Pilot feature columns extracted: %d features", len(self.pilot_feature_columns))
             except Exception as e:
                 logger.warning("Failed to load pilot model or TreeSHAP: %s", e)
 
