@@ -1,0 +1,431 @@
+{
+  "timestamp": "2026-10-19T07:23:58Z",
+  "hashes": {
+    "staging_model_pkl": "9dbad95acf46d73f11827cc1e42507606695dc6bef20e0616c3b58cb965cd75a",
+    "staging_conformal_pkl": "b297aa56ebc254c64a87e27cfeda9e15173dbaa2deb91f5cdad071cb23af3316",
+    "staging_metadata_pkl": "e30a80eaf7d9685743ed145923e2de8b6b45b2a3a74a1c8486408d562fd5d046",
+    "prod_model_pkl": "3cb876da311450dff568d388872f385666359c3fa0fa31f129b78cf63afbd732",
+    "prod_conformal_pkl": "10f53394043ea9ba779eb086d92d74a3387df5f49d084c58ebe722779cbcba26",
+    "prod_metadata_pkl": "930dc0c49c4da6332abd672f420cd86a7426a0d05a95f7edaaa1dd1f3d409487"
+  },
+  "representative_predictions": [
+    {
+      "country": "India",
+      "crop": "Wheat",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 25075.83,
+      "predicted_yield_tonnes_per_ha": 2.5076,
+      "conformal_interval_90": {
+        "lower_bound": 0.0,
+        "upper_bound": 6.1594,
+        "interval_width_tonnes": 6.1594,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 3.6518,
+        "calibration_crop": "Wheat",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0004,
+          0.0004,
+          0.0138,
+          -0.0127,
+          -0.7152,
+          -1.013
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "India",
+      "crop": "Rice, paddy",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 40497.11,
+      "predicted_yield_tonnes_per_ha": 4.0497,
+      "conformal_interval_90": {
+        "lower_bound": 1.5398,
+        "upper_bound": 6.5596,
+        "interval_width_tonnes": 5.0198,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 2.5099,
+        "calibration_crop": "Rice, paddy",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          0.0067,
+          -0.0007,
+          0.019,
+          -0.0153,
+          0.9205,
+          -1.1152
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "United States",
+      "crop": "Maize",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 109630.85,
+      "predicted_yield_tonnes_per_ha": 10.9631,
+      "conformal_interval_90": {
+        "lower_bound": 7.9262,
+        "upper_bound": 14.0,
+        "interval_width_tonnes": 6.0738,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 3.0369,
+        "calibration_crop": "Maize",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0022,
+          -0.0058,
+          0.0407,
+          -0.0243,
+          9.3692,
+          -2.6492
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "United States",
+      "crop": "Soybeans",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 26964.37,
+      "predicted_yield_tonnes_per_ha": 2.6964,
+      "conformal_interval_90": {
+        "lower_bound": 1.5924,
+        "upper_bound": 3.8004,
+        "interval_width_tonnes": 2.208,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 1.104,
+        "calibration_crop": "Soybeans",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0009,
+          0.0021,
+          0.0179,
+          -0.0098,
+          -0.4196,
+          -1.1278
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "Nigeria",
+      "crop": "Cassava",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 127574.67,
+      "predicted_yield_tonnes_per_ha": 12.7575,
+      "conformal_interval_90": {
+        "lower_bound": 4.7114,
+        "upper_bound": 20.8036,
+        "interval_width_tonnes": 16.0922,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 8.0461,
+        "calibration_crop": "Cassava",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0019,
+          -0.0013,
+          0.0354,
+          -0.0329,
+          3.5232,
+          5.0002
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "Nigeria",
+      "crop": "Yams",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 103746.07,
+      "predicted_yield_tonnes_per_ha": 10.3746,
+      "conformal_interval_90": {
+        "lower_bound": 0.0,
+        "upper_bound": 25.0652,
+        "interval_width_tonnes": 25.0652,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 14.6906,
+        "calibration_crop": "Yams",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0017,
+          -0.0012,
+          0.0286,
+          -0.0293,
+          7.0997,
+          -0.9561
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "Uganda",
+      "crop": "Plantains and others",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 44528.92,
+      "predicted_yield_tonnes_per_ha": 4.4529,
+      "conformal_interval_90": {
+        "lower_bound": 0.5256,
+        "upper_bound": 8.3802,
+        "interval_width_tonnes": 7.8546,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 3.9273,
+        "calibration_crop": "Plantains and others",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0013,
+          -0.0007,
+          0.0207,
+          -0.0216,
+          -0.0596,
+          0.2807
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "Rwanda",
+      "crop": "Sweet potatoes",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 70170.94,
+      "predicted_yield_tonnes_per_ha": 7.0171,
+      "conformal_interval_90": {
+        "lower_bound": 0.0,
+        "upper_bound": 16.284,
+        "interval_width_tonnes": 16.284,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 9.2669,
+        "calibration_crop": "Sweet potatoes",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0019,
+          -0.0004,
+          0.0072,
+          -0.0265,
+          3.6181,
+          -0.814
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "Sudan",
+      "crop": "Sorghum",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 3660.3,
+      "predicted_yield_tonnes_per_ha": 0.366,
+      "conformal_interval_90": {
+        "lower_bound": 0.0,
+        "upper_bound": 2.2189,
+        "interval_width_tonnes": 2.2189,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 1.8529,
+        "calibration_crop": "Sorghum",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0157,
+          -0.0003,
+          0.0113,
+          -0.0061,
+          -2.7643,
+          -1.0935
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    },
+    {
+      "country": "Germany",
+      "crop": "Potatoes",
+      "year": 2024,
+      "predicted_yield_hg_per_ha": 420469.69,
+      "predicted_yield_tonnes_per_ha": 42.047,
+      "conformal_interval_90": {
+        "lower_bound": 30.2092,
+        "upper_bound": 53.8848,
+        "interval_width_tonnes": 23.6756,
+        "nominal_coverage": 0.9,
+        "calibrated_margin_q": 11.8378,
+        "calibration_crop": "Potatoes",
+        "method": "Crop-Conditional Conformal Quantile Calibration",
+        "unit": "tonnes/ha",
+        "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+      },
+      "shap_explanation": {
+        "values": [
+          -0.0101,
+          -0.0027,
+          0.0547,
+          -0.0426,
+          14.9214,
+          22.8917
+        ],
+        "features": [
+          "rainfall",
+          "avg_temp",
+          "pesticides",
+          "year",
+          "crop",
+          "country"
+        ],
+        "base_value_tonnes": 4.2347,
+        "method": "Exact TreeSHAP (Log-Transformed Proportional Allocation)",
+        "additivity_verified": true
+      },
+      "warnings": []
+    }
+  ],
+  "conformal_calibration_summary": {
+    "global_q_tonnes": 6.1286,
+    "group_max_q_tonnes": 14.6906,
+    "crop_quantiles": {
+      "Cassava": 8.0461,
+      "Maize": 3.0369,
+      "Plantains and others": 3.9273,
+      "Potatoes": 11.8378,
+      "Rice, paddy": 2.5099,
+      "Sorghum": 1.8529,
+      "Soybeans": 1.104,
+      "Sweet potatoes": 9.2669,
+      "Wheat": 3.6518,
+      "Yams": 14.6906
+    },
+    "empirical_coverage": 0.9202,
+    "average_width_tonnes": 11.2466
+  }
+}

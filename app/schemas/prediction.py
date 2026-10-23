@@ -43,6 +43,7 @@ class ConformalInterval(BaseModel):
     calibration_crop: Optional[str] = None
     method: str = "Crop-Conditional Conformal Quantile Calibration"
     unit: str = "tonnes/ha"
+    climate_shift_safeguard_active: bool = False
     coverage_disclaimer: str = (
         "Reported 90% coverage is marginal across eligible groups; "
         "does not guarantee 90% on every individual crop or future distribution shift."
@@ -61,6 +62,14 @@ class PredictionResponse(BaseModel):
     feature_names: Optional[List[str]] = None
     base_value: Optional[float] = None
     attribution_method: str = "Exact TreeSHAP (shap.TreeExplainer)"
+    climate_shift_detected: bool = False
+    climate_anomaly_z: Optional[float] = None
+    regional_climate_baseline: Optional[Dict[str, Any]] = None
+    regional_reliability_tier: str = "High Confidence (Nominal Climatology)"
+    used_pilot_model: bool = False
+    has_authentic_climate: bool = False
+    climate_coverage_status: str = "FAO National Climatology Fallback"
+    climate_features_used: Optional[Dict[str, Any]] = None
     warnings: List[str] = Field(default_factory=list, description="Advisory data validation and distribution shift warnings")
     timestamp: str
 
@@ -76,3 +85,16 @@ class OptionsResponse(BaseModel):
     crops: List[str]
     year_range: Dict[str, int]
     default_input: Dict[str, Any]
+
+class RegionalReliabilityResponse(BaseModel):
+    country: str
+    rainfall_baseline_mm: float
+    temp_mean_c: float
+    temp_std_c: float
+    supported_crops: List[str]
+    records_count: int
+    historical_years: List[int]
+    climatology_type: str
+    reliability_tier: str
+    coverage_disclaimer: str
+

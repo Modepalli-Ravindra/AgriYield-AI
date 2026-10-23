@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Japan,2010,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1703.9,14.59,1112.9,22.14,53,19,365,54.0
+Japan,2011,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1263.7,14.11,925.3,21.6,37,15,365,54.0
+Japan,2012,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1362.3,13.85,845.1,21.6,48,18,366,54.0
+Japan,2013,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1177.4,14.52,781.2,22.19,41,16,365,54.0
+Japan,2014,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1362.7,14.01,850.8,21.41,33,11,365,54.0
+Japan,2015,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1456.3,14.64,926.6,21.41,32,18,365,54.0
+Japan,2016,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1481.0,14.59,944.9,21.75,22,13,366,54.0
+Japan,2017,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1400.4,14.82,1090.6,22.25,50,19,365,54.0
+Japan,2018,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1372.8,15.58,952.2,22.77,63,11,365,54.0
+Japan,2019,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1791.9,15.48,1361.7,22.66,52,30,365,54.0
+Japan,2020,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1731.1,15.49,1239.3,22.41,50,29,366,54.0
+Japan,2021,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1806.0,15.43,1246.9,22.09,45,13,365,54.0
+Japan,2022,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1371.6,15.55,846.4,22.76,72,16,365,54.0
+Japan,2023,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1310.2,16.77,973.0,23.82,88,19,365,54.0
+Japan,2024,36.0,139.5,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1508.5,16.51,1037.6,23.95,79,18,366,54.0

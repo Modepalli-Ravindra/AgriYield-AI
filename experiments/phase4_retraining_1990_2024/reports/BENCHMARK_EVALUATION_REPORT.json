@@ -1,0 +1,518 @@
+{
+  "experiment_name": "Phase 4 - Multi-Model Retraining Benchmark (1990-2024)",
+  "timestamp": "2026-10-19T06:32:20Z",
+  "dataset_path": "data\\yield_df_1990_2024.csv",
+  "dataset_rows": 19996,
+  "random_seed": 42,
+  "chronological_split": {
+    "train_samples": 13281,
+    "calibration_samples": 3306,
+    "test_samples": 3409,
+    "train_years": [
+      1990,
+      2018
+    ],
+    "test_years": [
+      2019,
+      2024
+    ],
+    "metrics": {
+      "Random Forest": {
+        "r2": 0.7485,
+        "rmse_tonnes": 5.2427,
+        "mae_tonnes": 2.036,
+        "fit_time_seconds": 4.47
+      },
+      "XGBoost": {
+        "r2": 0.8124,
+        "rmse_tonnes": 4.5286,
+        "mae_tonnes": 2.1677,
+        "fit_time_seconds": 6.21
+      },
+      "LightGBM": {
+        "r2": 0.754,
+        "rmse_tonnes": 5.1852,
+        "mae_tonnes": 2.4469,
+        "fit_time_seconds": 0.59
+      },
+      "PyTorch MLP": {
+        "r2": 0.8238,
+        "rmse_tonnes": 4.3887,
+        "mae_tonnes": 1.8421,
+        "fit_time_seconds": 45.83
+      }
+    },
+    "per_crop_metrics": {
+      "Random Forest": {
+        "Cassava": {
+          "samples": 232,
+          "r2": 0.625,
+          "rmse_tonnes": 5.6433,
+          "mae_tonnes": 3.4987,
+          "mean_yield_tonnes": 15.09
+        },
+        "Maize": {
+          "samples": 533,
+          "r2": 0.7733,
+          "rmse_tonnes": 1.7086,
+          "mae_tonnes": 1.078,
+          "mean_yield_tonnes": 5.13
+        },
+        "Plantains and others": {
+          "samples": 124,
+          "r2": 0.4851,
+          "rmse_tonnes": 5.8327,
+          "mae_tonnes": 3.3636,
+          "mean_yield_tonnes": 13.22
+        },
+        "Potatoes": {
+          "samples": 553,
+          "r2": 0.7235,
+          "rmse_tonnes": 5.5898,
+          "mae_tonnes": 3.7351,
+          "mean_yield_tonnes": 23.33
+        },
+        "Rice, paddy": {
+          "samples": 378,
+          "r2": 0.6353,
+          "rmse_tonnes": 1.3929,
+          "mae_tonnes": 0.8602,
+          "mean_yield_tonnes": 4.51
+        },
+        "Sorghum": {
+          "samples": 373,
+          "r2": 0.378,
+          "rmse_tonnes": 1.3515,
+          "mae_tonnes": 0.6842,
+          "mean_yield_tonnes": 2.14
+        },
+        "Soybeans": {
+          "samples": 340,
+          "r2": 0.562,
+          "rmse_tonnes": 0.5818,
+          "mae_tonnes": 0.4413,
+          "mean_yield_tonnes": 1.9
+        },
+        "Sweet potatoes": {
+          "samples": 282,
+          "r2": 0.1684,
+          "rmse_tonnes": 13.3356,
+          "mae_tonnes": 4.6702,
+          "mean_yield_tonnes": 13.88
+        },
+        "Wheat": {
+          "samples": 471,
+          "r2": 0.3781,
+          "rmse_tonnes": 1.7447,
+          "mae_tonnes": 1.0173,
+          "mean_yield_tonnes": 3.86
+        },
+        "Yams": {
+          "samples": 123,
+          "r2": 0.2113,
+          "rmse_tonnes": 9.0819,
+          "mae_tonnes": 4.4329,
+          "mean_yield_tonnes": 13.73
+        }
+      },
+      "XGBoost": {
+        "Cassava": {
+          "samples": 232,
+          "r2": 0.6837,
+          "rmse_tonnes": 5.1831,
+          "mae_tonnes": 3.5262,
+          "mean_yield_tonnes": 15.09
+        },
+        "Maize": {
+          "samples": 533,
+          "r2": 0.4206,
+          "rmse_tonnes": 2.7313,
+          "mae_tonnes": 1.6388,
+          "mean_yield_tonnes": 5.13
+        },
+        "Plantains and others": {
+          "samples": 124,
+          "r2": 0.8357,
+          "rmse_tonnes": 3.2946,
+          "mae_tonnes": 2.424,
+          "mean_yield_tonnes": 13.22
+        },
+        "Potatoes": {
+          "samples": 553,
+          "r2": 0.7478,
+          "rmse_tonnes": 5.3389,
+          "mae_tonnes": 3.983,
+          "mean_yield_tonnes": 23.33
+        },
+        "Rice, paddy": {
+          "samples": 378,
+          "r2": 0.4822,
+          "rmse_tonnes": 1.6595,
+          "mae_tonnes": 1.187,
+          "mean_yield_tonnes": 4.51
+        },
+        "Sorghum": {
+          "samples": 373,
+          "r2": 0.1036,
+          "rmse_tonnes": 1.6224,
+          "mae_tonnes": 0.9123,
+          "mean_yield_tonnes": 2.14
+        },
+        "Soybeans": {
+          "samples": 340,
+          "r2": -0.117,
+          "rmse_tonnes": 0.9291,
+          "mae_tonnes": 0.6662,
+          "mean_yield_tonnes": 1.9
+        },
+        "Sweet potatoes": {
+          "samples": 282,
+          "r2": 0.4338,
+          "rmse_tonnes": 11.0037,
+          "mae_tonnes": 4.4577,
+          "mean_yield_tonnes": 13.88
+        },
+        "Wheat": {
+          "samples": 471,
+          "r2": 0.62,
+          "rmse_tonnes": 1.3638,
+          "mae_tonnes": 0.983,
+          "mean_yield_tonnes": 3.86
+        },
+        "Yams": {
+          "samples": 123,
+          "r2": 0.5912,
+          "rmse_tonnes": 6.5384,
+          "mae_tonnes": 3.7355,
+          "mean_yield_tonnes": 13.73
+        }
+      },
+      "LightGBM": {
+        "Cassava": {
+          "samples": 232,
+          "r2": 0.5828,
+          "rmse_tonnes": 5.9527,
+          "mae_tonnes": 4.0502,
+          "mean_yield_tonnes": 15.09
+        },
+        "Maize": {
+          "samples": 533,
+          "r2": 0.5831,
+          "rmse_tonnes": 2.3168,
+          "mae_tonnes": 1.683,
+          "mean_yield_tonnes": 5.13
+        },
+        "Plantains and others": {
+          "samples": 124,
+          "r2": 0.5726,
+          "rmse_tonnes": 5.3142,
+          "mae_tonnes": 3.4628,
+          "mean_yield_tonnes": 13.22
+        },
+        "Potatoes": {
+          "samples": 553,
+          "r2": 0.7121,
+          "rmse_tonnes": 5.7037,
+          "mae_tonnes": 4.2754,
+          "mean_yield_tonnes": 23.33
+        },
+        "Rice, paddy": {
+          "samples": 378,
+          "r2": 0.3629,
+          "rmse_tonnes": 1.8409,
+          "mae_tonnes": 1.3358,
+          "mean_yield_tonnes": 4.51
+        },
+        "Sorghum": {
+          "samples": 373,
+          "r2": 0.261,
+          "rmse_tonnes": 1.473,
+          "mae_tonnes": 1.0264,
+          "mean_yield_tonnes": 2.14
+        },
+        "Soybeans": {
+          "samples": 340,
+          "r2": -0.5704,
+          "rmse_tonnes": 1.1016,
+          "mae_tonnes": 0.7789,
+          "mean_yield_tonnes": 1.9
+        },
+        "Sweet potatoes": {
+          "samples": 282,
+          "r2": 0.2209,
+          "rmse_tonnes": 12.908,
+          "mae_tonnes": 5.3482,
+          "mean_yield_tonnes": 13.88
+        },
+        "Wheat": {
+          "samples": 471,
+          "r2": 0.6102,
+          "rmse_tonnes": 1.3813,
+          "mae_tonnes": 1.0403,
+          "mean_yield_tonnes": 3.86
+        },
+        "Yams": {
+          "samples": 123,
+          "r2": 0.3242,
+          "rmse_tonnes": 8.4067,
+          "mae_tonnes": 4.5548,
+          "mean_yield_tonnes": 13.73
+        }
+      },
+      "PyTorch MLP": {
+        "Cassava": {
+          "samples": 232,
+          "r2": 0.7445,
+          "rmse_tonnes": 4.6585,
+          "mae_tonnes": 2.9588,
+          "mean_yield_tonnes": 15.09
+        },
+        "Maize": {
+          "samples": 533,
+          "r2": 0.709,
+          "rmse_tonnes": 1.9356,
+          "mae_tonnes": 1.2522,
+          "mean_yield_tonnes": 5.13
+        },
+        "Plantains and others": {
+          "samples": 124,
+          "r2": 0.8634,
+          "rmse_tonnes": 3.0042,
+          "mae_tonnes": 1.9539,
+          "mean_yield_tonnes": 13.22
+        },
+        "Potatoes": {
+          "samples": 553,
+          "r2": 0.765,
+          "rmse_tonnes": 5.1541,
+          "mae_tonnes": 3.3251,
+          "mean_yield_tonnes": 23.33
+        },
+        "Rice, paddy": {
+          "samples": 378,
+          "r2": 0.6715,
+          "rmse_tonnes": 1.322,
+          "mae_tonnes": 0.902,
+          "mean_yield_tonnes": 4.51
+        },
+        "Sorghum": {
+          "samples": 373,
+          "r2": 0.3994,
+          "rmse_tonnes": 1.328,
+          "mae_tonnes": 0.766,
+          "mean_yield_tonnes": 2.14
+        },
+        "Soybeans": {
+          "samples": 340,
+          "r2": -0.2302,
+          "rmse_tonnes": 0.975,
+          "mae_tonnes": 0.6422,
+          "mean_yield_tonnes": 1.9
+        },
+        "Sweet potatoes": {
+          "samples": 282,
+          "r2": 0.4241,
+          "rmse_tonnes": 11.0974,
+          "mae_tonnes": 3.9426,
+          "mean_yield_tonnes": 13.88
+        },
+        "Wheat": {
+          "samples": 471,
+          "r2": 0.6098,
+          "rmse_tonnes": 1.382,
+          "mae_tonnes": 0.8705,
+          "mean_yield_tonnes": 3.86
+        },
+        "Yams": {
+          "samples": 123,
+          "r2": 0.5688,
+          "rmse_tonnes": 6.7154,
+          "mae_tonnes": 3.8857,
+          "mean_yield_tonnes": 13.73
+        }
+      }
+    }
+  },
+  "grouped_split": {
+    "train_samples": 15995,
+    "test_samples": 4001,
+    "train_groups": 488,
+    "test_groups": 123,
+    "group_overlap": 0,
+    "metrics": {
+      "Random Forest": {
+        "r2": 0.375,
+        "rmse_tonnes": 7.2637,
+        "mae_tonnes": 3.5958,
+        "fit_time_seconds": 7.66
+      },
+      "XGBoost": {
+        "r2": 0.5524,
+        "rmse_tonnes": 6.1474,
+        "mae_tonnes": 3.2593,
+        "fit_time_seconds": 3.17
+      },
+      "LightGBM": {
+        "r2": 0.5073,
+        "rmse_tonnes": 6.4495,
+        "mae_tonnes": 3.466,
+        "fit_time_seconds": 0.86
+      }
+    }
+  },
+  "production_baseline_comparison": {
+    "model_path": "models\\crop_yield_model.pkl",
+    "training_period": "1990-2013 (unaggregated baseline)",
+    "test_period": "2019-2024 (held-out)",
+    "metrics": {
+      "r2": 0.7456,
+      "rmse_tonnes": 5.2733,
+      "mae_tonnes": 2.4417
+    },
+    "per_crop_metrics": {
+      "Cassava": {
+        "samples": 232,
+        "r2": 0.3481,
+        "rmse_tonnes": 7.4413,
+        "mae_tonnes": 4.7983,
+        "mean_yield_tonnes": 15.09
+      },
+      "Maize": {
+        "samples": 533,
+        "r2": 0.7583,
+        "rmse_tonnes": 1.7642,
+        "mae_tonnes": 1.3146,
+        "mean_yield_tonnes": 5.13
+      },
+      "Plantains and others": {
+        "samples": 124,
+        "r2": 0.0908,
+        "rmse_tonnes": 7.7508,
+        "mae_tonnes": 4.6669,
+        "mean_yield_tonnes": 13.22
+      },
+      "Potatoes": {
+        "samples": 553,
+        "r2": 0.6116,
+        "rmse_tonnes": 6.6256,
+        "mae_tonnes": 4.9039,
+        "mean_yield_tonnes": 23.33
+      },
+      "Rice, paddy": {
+        "samples": 378,
+        "r2": 0.6446,
+        "rmse_tonnes": 1.3749,
+        "mae_tonnes": 0.9582,
+        "mean_yield_tonnes": 4.51
+      },
+      "Sorghum": {
+        "samples": 373,
+        "r2": 0.602,
+        "rmse_tonnes": 1.0811,
+        "mae_tonnes": 0.7634,
+        "mean_yield_tonnes": 2.14
+      },
+      "Soybeans": {
+        "samples": 340,
+        "r2": 0.2623,
+        "rmse_tonnes": 0.7551,
+        "mae_tonnes": 0.5766,
+        "mean_yield_tonnes": 1.9
+      },
+      "Sweet potatoes": {
+        "samples": 282,
+        "r2": 0.414,
+        "rmse_tonnes": 11.1943,
+        "mae_tonnes": 5.0484,
+        "mean_yield_tonnes": 13.88
+      },
+      "Wheat": {
+        "samples": 471,
+        "r2": 0.7845,
+        "rmse_tonnes": 1.027,
+        "mae_tonnes": 0.7864,
+        "mean_yield_tonnes": 3.86
+      },
+      "Yams": {
+        "samples": 123,
+        "r2": 0.1147,
+        "rmse_tonnes": 9.6216,
+        "mae_tonnes": 4.7337,
+        "mean_yield_tonnes": 13.73
+      }
+    }
+  },
+  "conformal_calibration": {
+    "nominal_coverage": 0.9,
+    "global_q_tonnes": 6.2435,
+    "group_max_q_tonnes": 11.7166,
+    "crop_conditional_coverage": {
+      "Cassava": {
+        "test_samples": 232,
+        "quantile_q_tonnes": 7.2644,
+        "empirical_coverage": 0.8707,
+        "mean_interval_width_tonnes": 14.3891
+      },
+      "Maize": {
+        "test_samples": 533,
+        "quantile_q_tonnes": 3.1643,
+        "empirical_coverage": 0.9081,
+        "mean_interval_width_tonnes": 6.0805
+      },
+      "Plantains and others": {
+        "test_samples": 124,
+        "quantile_q_tonnes": 3.2547,
+        "empirical_coverage": 0.7823,
+        "mean_interval_width_tonnes": 6.4923
+      },
+      "Potatoes": {
+        "test_samples": 553,
+        "quantile_q_tonnes": 11.7166,
+        "empirical_coverage": 0.9584,
+        "mean_interval_width_tonnes": 23.262
+      },
+      "Rice, paddy": {
+        "test_samples": 378,
+        "quantile_q_tonnes": 3.1976,
+        "empirical_coverage": 0.9418,
+        "mean_interval_width_tonnes": 6.2562
+      },
+      "Sorghum": {
+        "test_samples": 373,
+        "quantile_q_tonnes": 2.0761,
+        "empirical_coverage": 0.9196,
+        "mean_interval_width_tonnes": 3.6273
+      },
+      "Soybeans": {
+        "test_samples": 340,
+        "quantile_q_tonnes": 2.0407,
+        "empirical_coverage": 0.9735,
+        "mean_interval_width_tonnes": 3.7391
+      },
+      "Sweet potatoes": {
+        "test_samples": 282,
+        "quantile_q_tonnes": 9.5477,
+        "empirical_coverage": 0.9184,
+        "mean_interval_width_tonnes": 17.9611
+      },
+      "Wheat": {
+        "test_samples": 471,
+        "quantile_q_tonnes": 3.4739,
+        "empirical_coverage": 0.9724,
+        "mean_interval_width_tonnes": 6.3526
+      },
+      "Yams": {
+        "test_samples": 123,
+        "quantile_q_tonnes": 8.5652,
+        "empirical_coverage": 0.9431,
+        "mean_interval_width_tonnes": 16.65
+      }
+    }
+  },
+  "treeshap_verification": {
+    "method": "Exact TreeSHAP (shap.TreeExplainer)",
+    "base_value_tonnes": 7.6241,
+    "max_additivity_error_tonnes": 3.0994415283203125e-06,
+    "additivity_verified": true
+  }
+}

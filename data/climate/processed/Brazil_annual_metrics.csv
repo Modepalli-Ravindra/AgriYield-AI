@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Brazil,2010,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1462.3,25.69,912.15,25.68,238,134,365,7.2
+Brazil,2011,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1713.3,25.14,1067.8,25.05,186,109,365,7.2
+Brazil,2012,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1557.7,25.23,962.7,25.3,215,88,366,7.2
+Brazil,2013,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1944.5,25.07,1197.0,25.05,206,90,365,7.2
+Brazil,2014,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1800.5,25.19,1074.55,25.28,207,61,365,7.2
+Brazil,2015,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1419.8,25.63,835.0,25.8,244,52,365,7.2
+Brazil,2016,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1549.8,25.76,986.65,25.73,267,71,366,7.2
+Brazil,2017,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1219.7,24.83,735.05,24.91,227,83,365,7.2
+Brazil,2018,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1532.5,24.5,958.9,24.55,225,92,365,7.2
+Brazil,2019,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1022.1,25.0,607.4,25.05,266,140,365,7.2
+Brazil,2020,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1237.4,24.94,704.75,25.09,255,125,366,7.2
+Brazil,2021,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1654.2,24.46,994.75,24.52,222,107,365,7.2
+Brazil,2022,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1457.4,24.85,918.85,24.89,272,106,365,7.2
+Brazil,2023,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1254.7,25.33,718.35,25.57,288,112,365,7.2
+Brazil,2024,-12.6819,-55.4214,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1363.4,25.53,864.35,25.59,291,135,366,7.2

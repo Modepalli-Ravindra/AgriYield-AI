@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+India,2010,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),886.0,25.46,817.93,26.84,215,54,365,48.8
+India,2011,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),657.6,24.39,549.17,26.75,224,103,365,48.8
+India,2012,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),572.8,24.32,517.37,26.82,204,53,366,48.8
+India,2013,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),753.1,23.95,541.17,26.43,198,45,365,48.8
+India,2014,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),493.6,24.55,331.13,28.17,222,48,365,48.8
+India,2015,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),814.9,24.38,559.77,27.09,203,64,365,48.8
+India,2016,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),794.4,25.18,675.67,27.21,220,88,366,48.8
+India,2017,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),584.1,24.82,454.0,27.17,220,78,365,48.8
+India,2018,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),706.3,24.51,601.37,26.75,215,47,365,48.8
+India,2019,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),625.3,24.3,508.53,27.43,211,35,365,48.8
+India,2020,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),585.3,24.01,377.73,27.4,214,53,366,48.8
+India,2021,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),816.2,24.46,608.83,26.97,221,70,365,48.8
+India,2022,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),731.4,24.78,599.53,26.91,215,80,365,48.8
+India,2023,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),860.5,24.1,650.8,27.07,211,46,365,48.8
+India,2024,28.6139,77.209,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1101.0,24.78,966.0,27.51,233,79,366,48.8

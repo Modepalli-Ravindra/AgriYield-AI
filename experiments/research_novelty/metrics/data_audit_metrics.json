@@ -1,0 +1,62 @@
+{
+  "dataset_filename": "data/yield_df_1990_2024.csv",
+  "total_records": 19996,
+  "columns": [
+    "Area",
+    "Item",
+    "Year",
+    "hg/ha_yield",
+    "average_rain_fall_mm_per_year",
+    "pesticides_tonnes",
+    "avg_temp"
+  ],
+  "year_min": 1990,
+  "year_max": 2024,
+  "num_countries": 101,
+  "num_crops": 10,
+  "duplicate_keys": 0,
+  "missing_values": {
+    "Area": 0,
+    "Item": 0,
+    "Year": 0,
+    "hg/ha_yield": 0,
+    "average_rain_fall_mm_per_year": 0,
+    "pesticides_tonnes": 0,
+    "avg_temp": 0
+  },
+  "climate_variation": {
+    "rainfall_std_mean": 0.0,
+    "rainfall_zero_var_countries": 101,
+    "is_rainfall_static_per_country": true,
+    "temp_std_mean": 0.5563355371924473,
+    "pest_std_mean": 8269.669055277147
+  },
+  "series_continuity": {
+    "total_series": 611,
+    "strictly_continuous_count": 595,
+    "strictly_continuous_pct": 97.38134206219313,
+    "series_with_gaps_count": 16,
+    "series_with_gaps_pct": 2.618657937806874,
+    "mean_series_length": 32.726677577741405,
+    "median_series_length": 35.0,
+    "min_series_length": 1,
+    "max_series_length": 35,
+    "mean_max_continuous_streak": 32.55646481178396
+  },
+  "crop_counts": {
+    "Potatoes": 3203,
+    "Maize": 3094,
+    "Wheat": 2755,
+    "Rice, paddy": 2269,
+    "Sorghum": 2188,
+    "Soybeans": 1917,
+    "Sweet potatoes": 1747,
+    "Cassava": 1409,
+    "Plantains and others": 713,
+    "Yams": 701
+  },
+  "splits": {
+    "pre_test_1990_2018": 16587,
+    "held_out_test_2019_2024": 3409
+  }
+}
