@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Burkina Faso,2010,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),610.4,28.79,589.8,27.59,334,113,365,1.2
+Burkina Faso,2011,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),414.1,28.8,373.6,28.51,348,93,365,1.2
+Burkina Faso,2012,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),620.2,28.47,550.4,27.57,329,55,366,1.2
+Burkina Faso,2013,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),514.4,28.67,455.0,27.97,333,76,365,1.2
+Burkina Faso,2014,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),451.7,28.85,416.3,28.29,343,102,365,1.2
+Burkina Faso,2015,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),628.8,28.46,621.7,28.19,330,73,365,1.2
+Burkina Faso,2016,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),708.2,28.69,654.9,27.91,344,77,366,1.2
+Burkina Faso,2017,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),481.2,28.09,429.3,27.65,343,96,365,1.2
+Burkina Faso,2018,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),648.5,28.12,621.5,27.39,332,63,365,1.2
+Burkina Faso,2019,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),710.7,28.1,676.3,27.53,339,85,365,1.2
+Burkina Faso,2020,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),576.9,28.25,569.2,27.21,325,147,366,1.2
+Burkina Faso,2021,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),444.0,28.59,424.7,27.89,338,139,365,1.2
+Burkina Faso,2022,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),904.8,27.57,883.2,26.7,325,85,365,1.2
+Burkina Faso,2023,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),699.6,28.16,670.5,27.64,341,81,365,1.2
+Burkina Faso,2024,12.3714,-1.5197,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),916.9,28.28,859.0,27.32,335,126,366,1.2

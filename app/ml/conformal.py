@@ -46,17 +46,31 @@ class ConformalPredictionCalibrator:
         return self
 
     def predict_interval(
-        self, point_prediction_tonnes: float, crop: Optional[str] = None
+        self, 
+        point_prediction_tonnes: float, 
+        crop: Optional[str] = None,
+        is_climate_shift: bool = False,
+        climate_z_score: Optional[float] = None
     ) -> Dict[str, Any]:
         """
         Produce [lower_bound, upper_bound] interval with physical non-negativity constraint.
-        Applies crop-conditional calibration if crop has verified calibration quantile;
-        otherwise falls back safely to group-max conformal margin.
+        Applies crop-conditional calibration if crop has verified calibration quantile.
+        If is_climate_shift is True, dynamically scales margin by SACAP-V2 expansion multiplier (1.5x)
+        to protect against climate drift under-coverage while bounding grain width.
+        Otherwise falls back safely to group-max conformal margin for unknown crops.
         """
         if crop and crop in self.crop_quantiles:
-            q = self.crop_quantiles[crop]
-            method_used = "Crop-Conditional Conformal Quantile Calibration"
-            calib_crop = crop
+            base_q = self.crop_quantiles[crop]
+            if is_climate_shift:
+                # SACAP-V2: Crop-relative expansion multiplier bounded by group max
+                max_q = self.group_max_quantile_q if self.group_max_quantile_q else (base_q * 1.5)
+                q = min(base_q * 1.5, max_q)
+                method_used = "Crop-Conditional Conformal Calibration (SACAP-V2 Climate Safeguard)"
+                calib_crop = crop
+            else:
+                q = base_q
+                method_used = "Crop-Conditional Conformal Quantile Calibration"
+                calib_crop = crop
         else:
             q = self.group_max_quantile_q if self.group_max_quantile_q else self.quantile_q
             method_used = "Global Group-Aware Conformal Quantile Calibration (Fallback)"
@@ -75,6 +89,7 @@ class ConformalPredictionCalibrator:
             "calibration_crop": calib_crop,
             "method": method_used,
             "unit": "tonnes/ha",
+            "climate_shift_safeguard_active": is_climate_shift,
             "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
         }
 

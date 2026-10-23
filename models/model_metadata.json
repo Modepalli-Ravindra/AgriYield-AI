@@ -1,0 +1,54 @@
+{
+  "model_name": "XGBoost Regressor (Log1p Target Transformed)",
+  "framework": "xgboost",
+  "target_variable": "hg/ha_yield",
+  "target_unit": "hg/ha_yield",
+  "target_transformation": "log1p(y) with exact expm1 inverse transformation",
+  "training_data_period": "1990-2018",
+  "evaluation_data_period": "2019-2024",
+  "training_samples": 13281,
+  "calibration_samples": 3306,
+  "test_samples": 3409,
+  "feature_columns": [
+    "Area",
+    "Item",
+    "Year",
+    "average_rain_fall_mm_per_year",
+    "pesticides_tonnes",
+    "avg_temp"
+  ],
+  "conformal_calibration": {
+    "nominal_coverage": 0.9,
+    "global_q_tonnes": 6.1286,
+    "global_q_hg": 61286.0,
+    "group_max_q_tonnes": 14.6906,
+    "crop_quantiles": {
+      "Cassava": 8.0461,
+      "Maize": 3.0369,
+      "Plantains and others": 3.9273,
+      "Potatoes": 11.8378,
+      "Rice, paddy": 2.5099,
+      "Sorghum": 1.8529,
+      "Soybeans": 1.104,
+      "Sweet potatoes": 9.2669,
+      "Wheat": 3.6518,
+      "Yams": 14.6906
+    }
+  },
+  "metrics_held_out_chronological": {
+    "overall_r2": 0.8034,
+    "macro_r2": 0.6082,
+    "rmse_tonnes": 4.6357,
+    "mae_tonnes": 2.0821,
+    "deployed_test_rmse_hg": 46356.94,
+    "deployed_test_r2": 0.8034
+  },
+  "metrics_grouped_regime_b": {
+    "r2": 0.5943,
+    "rmse_tonnes": 5.8524,
+    "mae_tonnes": 2.7985,
+    "rmse_hg": 58524.21,
+    "mae_hg": 27984.93
+  },
+  "additivity_verified": true
+}

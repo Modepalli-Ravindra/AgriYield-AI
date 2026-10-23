@@ -354,18 +354,49 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                     Clear Result
                   </button>
                 )}
-                <span style={{
-                  fontSize: 11,
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: 700,
-                  background: 'rgba(228, 253, 151, 0.15)',
-                  color: 'var(--color-lime)',
-                  padding: '4px 10px',
-                  borderRadius: 100,
-                  border: '1px solid rgba(228, 253, 151, 0.25)'
-                }}>
-                  PRODUCTION XGBOOST
-                </span>
+                {prediction ? (
+                  prediction.used_pilot_model ? (
+                    <span style={{
+                      fontSize: 11,
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 700,
+                      background: 'rgba(52, 211, 153, 0.18)',
+                      color: '#34D399',
+                      padding: '4px 10px',
+                      borderRadius: 100,
+                      border: '1px solid rgba(52, 211, 153, 0.4)',
+                      boxShadow: '0 0 10px rgba(52, 211, 153, 0.2)'
+                    }}>
+                      CLIMATE-ENHANCED PILOT (ERA5-LAND)
+                    </span>
+                  ) : (
+                    <span style={{
+                      fontSize: 11,
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 700,
+                      background: 'rgba(228, 253, 151, 0.15)',
+                      color: 'var(--color-lime)',
+                      padding: '4px 10px',
+                      borderRadius: 100,
+                      border: '1px solid rgba(228, 253, 151, 0.25)'
+                    }}>
+                      PRODUCTION BASELINE (CLIMATOLOGY)
+                    </span>
+                  )
+                ) : (
+                  <span style={{
+                    fontSize: 11,
+                    fontFamily: 'var(--font-mono)',
+                    fontWeight: 700,
+                    background: 'rgba(228, 253, 151, 0.15)',
+                    color: 'var(--color-lime)',
+                    padding: '4px 10px',
+                    borderRadius: 100,
+                    border: '1px solid rgba(228, 253, 151, 0.25)'
+                  }}>
+                    PRODUCTION XGBOOST / PILOT READY
+                  </span>
+                )}
               </div>
             </div>
 
@@ -440,6 +471,78 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Climate Covariates & Provenance Card */}
+                <div style={{
+                  background: 'rgba(18, 27, 17, 0.85)',
+                  borderRadius: 14,
+                  padding: '16px 20px',
+                  border: prediction.used_pilot_model 
+                    ? '1px solid rgba(52, 211, 153, 0.35)' 
+                    : '1px solid rgba(169, 180, 158, 0.2)'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <CloudIcon style={{ width: 18, height: 18, color: prediction.used_pilot_model ? '#34D399' : 'var(--color-lime)' }} />
+                      <span style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--color-offwhite)' }}>
+                        Climate Provenance & Covariates
+                      </span>
+                    </div>
+                    <span style={{
+                      fontSize: 10.5,
+                      fontFamily: 'var(--font-mono)',
+                      color: prediction.used_pilot_model ? '#34D399' : 'var(--color-muted)',
+                      background: prediction.used_pilot_model ? 'rgba(52, 211, 153, 0.12)' : 'rgba(255, 255, 255, 0.05)',
+                      padding: '2px 8px',
+                      borderRadius: 4
+                    }}>
+                      {prediction.climate_coverage_status || (prediction.has_authentic_climate ? 'AUTHENTIC ERA5-LAND' : 'CLIMATOLOGY FALLBACK')}
+                    </span>
+                  </div>
+
+                  {prediction.used_pilot_model && prediction.climate_features_used ? (
+                    <div>
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                        gap: 10,
+                        marginTop: 10
+                      }}>
+                        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '10px 12px', borderRadius: 8 }}>
+                          <div style={{ fontSize: 11, color: 'var(--color-muted)' }}>Heat Stress (&gt;30°C)</div>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--color-offwhite)', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
+                            {prediction.climate_features_used.heat_stress_days_gt30c?.toFixed(0) ?? 0} days
+                          </div>
+                        </div>
+                        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '10px 12px', borderRadius: 8 }}>
+                          <div style={{ fontSize: 11, color: 'var(--color-muted)' }}>Growing Season Rain</div>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--color-offwhite)', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
+                            {prediction.climate_features_used.growing_season_precip_mm?.toFixed(1) ?? '—'} mm
+                          </div>
+                        </div>
+                        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '10px 12px', borderRadius: 8 }}>
+                          <div style={{ fontSize: 11, color: 'var(--color-muted)' }}>Effective Rain Ratio</div>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--color-offwhite)', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
+                            {prediction.climate_features_used.effective_rain_ratio ? (prediction.climate_features_used.effective_rain_ratio * 100).toFixed(0) + '%' : '—'}
+                          </div>
+                        </div>
+                        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '10px 12px', borderRadius: 8 }}>
+                          <div style={{ fontSize: 11, color: 'var(--color-muted)' }}>Irrigation Area</div>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: '#34D399', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
+                            {prediction.climate_features_used.irrigation_equipped_pct?.toFixed(1) ?? '—'}%
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ fontSize: 11.5, color: '#A7F3D0', marginTop: 10, lineHeight: 1.4 }}>
+                        ✓ Evaluated using authentic daily ERA5-Land reanalysis ({prediction.climate_features_used.observation_count_days || 365} observation days) and FAO AQUASTAT subnational irrigation coverage.
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: 12, color: 'var(--color-muted)', lineHeight: 1.5, marginTop: 4 }}>
+                      Authentic daily ERA5-Land weather series are not indexed for this specific country-year combination (minimum 300 observation days required). Prediction safely utilized the validated FAO national climatology baseline model.
+                    </div>
+                  )}
                 </div>
 
                 {/* Advisory Warnings */}

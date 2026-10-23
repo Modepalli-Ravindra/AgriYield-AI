@@ -16,15 +16,31 @@ def get_prediction_history(
 ):
     """
     Retrieve past prediction history strictly isolated to the authenticated user.
-    If the user has not made personal predictions yet, falls back to recent platform predictions.
+    Authenticated users with no personal history receive an empty list.
     """
     user_id = current_user["id"]
     predictions = db.get_predictions(user_id=user_id, limit=limit)
-    if not predictions:
-        predictions = db.get_predictions(user_id=None, limit=limit)
 
     return {
         "user_email": current_user["email"],
+        "count": len(predictions),
+        "total": len(predictions),
+        "history": predictions,
+        "records": predictions
+    }
+
+
+@router.get("/history/demo")
+def get_demo_prediction_history(
+    limit: int = Query(default=50, ge=1, le=200)
+):
+    """
+    Retrieve recent platform demo predictions for unauthenticated exploration.
+    Strictly queries anonymous records (user_id is None).
+    """
+    predictions = db.get_predictions(user_id=None, limit=limit)
+    return {
+        "user_email": None,
         "count": len(predictions),
         "total": len(predictions),
         "history": predictions,

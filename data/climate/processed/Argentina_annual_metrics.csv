@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Argentina,2010,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1012.3,17.11,609.9,20.65,18,22,365,6.5
+Argentina,2011,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),813.1,17.02,535.8,20.73,11,20,365,6.5
+Argentina,2012,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1353.9,17.62,835.3,21.26,31,21,366,6.5
+Argentina,2013,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),805.7,17.31,513.9,21.07,32,36,365,6.5
+Argentina,2014,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1536.3,17.38,1107.4,20.64,21,20,365,6.5
+Argentina,2015,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),697.7,17.83,410.4,20.98,20,20,365,6.5
+Argentina,2016,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1073.0,17.07,799.3,21.09,28,21,366,6.5
+Argentina,2017,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1034.9,18.08,551.2,21.19,31,17,365,6.5
+Argentina,2018,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1141.5,17.61,620.8,21.35,23,15,365,6.5
+Argentina,2019,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1187.0,17.38,749.9,20.8,24,18,365,6.5
+Argentina,2020,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),734.6,17.42,506.3,21.02,26,23,366,6.5
+Argentina,2021,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1004.8,17.51,687.5,21.32,23,17,365,6.5
+Argentina,2022,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),718.0,17.11,580.2,20.84,23,26,365,6.5
+Argentina,2023,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),916.3,18.12,627.7,21.75,40,18,365,6.5
+Argentina,2024,-34.6037,-58.3816,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1096.8,17.68,824.3,21.75,28,23,366,6.5

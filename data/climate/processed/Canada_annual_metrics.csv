@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Canada,2010,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),641.3,3.43,483.2,14.08,0,44,365,2.5
+Canada,2011,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),322.3,3.59,219.7,16.13,12,29,365,2.5
+Canada,2012,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),614.7,3.71,440.5,15.96,3,36,366,2.5
+Canada,2013,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),370.8,1.97,231.0,16.54,12,37,365,2.5
+Canada,2014,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),494.2,2.07,304.9,15.08,0,24,365,2.5
+Canada,2015,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),433.5,4.49,259.7,16.18,9,21,365,2.5
+Canada,2016,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),514.9,4.97,339.9,16.27,1,33,366,2.5
+Canada,2017,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),366.8,3.91,229.7,16.17,8,28,365,2.5
+Canada,2018,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),345.1,2.38,223.3,15.58,9,24,365,2.5
+Canada,2019,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),422.3,1.82,309.9,14.45,4,37,365,2.5
+Canada,2020,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),447.4,2.95,294.5,15.5,8,23,366,2.5
+Canada,2021,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),290.7,4.06,189.1,17.07,28,37,365,2.5
+Canada,2022,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),421.3,2.63,229.6,16.54,19,20,365,2.5
+Canada,2023,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),299.3,4.71,211.1,17.65,10,32,365,2.5
+Canada,2024,52.1332,-106.67,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),582.7,3.98,356.3,16.18,10,16,366,2.5

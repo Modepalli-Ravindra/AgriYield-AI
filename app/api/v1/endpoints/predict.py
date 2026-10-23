@@ -5,7 +5,14 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from app.api.v1.endpoints.auth import get_current_user_optional
-from app.schemas.prediction import YieldInput, PredictionResponse, BatchPredictionRequest, BatchPredictionResponse, OptionsResponse
+from app.schemas.prediction import (
+    YieldInput, 
+    PredictionResponse, 
+    BatchPredictionRequest, 
+    BatchPredictionResponse, 
+    OptionsResponse,
+    RegionalReliabilityResponse
+)
 from app.services.prediction_service import prediction_service
 
 router = APIRouter()
@@ -63,3 +70,15 @@ def get_reference_data(limit: int = Query(default=20, ge=1, le=100)):
         "mean_temp_c": round(float(df["avg_temp"].mean()), 1)
     }
     return {"summary": summary, "sample_records": sample}
+ 
+@router.get("/regional-reliability/{country}", response_model=RegionalReliabilityResponse)
+def get_regional_reliability(country: str):
+    """Retrieve verified regional climatology baselines, supported crops, and reliability tier."""
+    profile = prediction_service.get_regional_profile(country)
+    if profile is None:
+        raise HTTPException(
+            status_code=404, 
+            detail=f"Country '{country}' not found in Terraflect historical database."
+        )
+    return profile
+

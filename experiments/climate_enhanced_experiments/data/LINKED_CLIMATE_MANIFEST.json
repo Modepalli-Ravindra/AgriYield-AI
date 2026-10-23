@@ -1,0 +1,40 @@
+{
+  "source_yield_records": 19996,
+  "linked_records": 19996,
+  "genuine_climate_records": 2281,
+  "coverage_percentage": 11.41,
+  "climate_countries": [
+    "Argentina",
+    "Australia",
+    "Bangladesh",
+    "Brazil",
+    "Burkina Faso",
+    "Canada",
+    "Colombia",
+    "Egypt",
+    "France",
+    "Germany",
+    "India",
+    "Indonesia",
+    "Italy",
+    "Japan",
+    "Kenya",
+    "Mexico",
+    "Nigeria",
+    "Pakistan",
+    "Poland",
+    "South Africa",
+    "Spain",
+    "Thailand",
+    "Turkey",
+    "United Kingdom",
+    "United States of America",
+    "Vietnam"
+  ],
+  "years_covered": [
+    2010,
+    2024
+  ],
+  "output_path": "C:\\Users\\user\\OneDrive\\Desktop\\Crop_Yield_Prediction\\experiments\\climate_enhanced_experiments\\data\\yield_df_climate_enhanced.csv",
+  "status": "VALIDATED_WITHOUT_LEAKAGE"
+}

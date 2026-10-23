@@ -23,6 +23,7 @@ def _get_default_cors_origins() -> List[str]:
     ]
 
 class Settings(BaseModel):
+    BASE_DIR: Path = BASE_DIR
     PROJECT_NAME: str = "Terraflect — Crop Yield Intelligence Platform"
     VERSION: str = "2.0.0"
     API_V1_STR: str = "/api/v1"
@@ -42,6 +43,10 @@ class Settings(BaseModel):
     METADATA_PATH: Path = BASE_DIR / "models" / "model_metadata.pkl"
     DL_MODEL_PATH: Path = BASE_DIR / "models" / "dl_mlp_model.pt"
     CONFORMAL_PATH: Path = BASE_DIR / "models" / "conformal_calibrator.pkl"
+    PILOT_MODEL_PATH: Path = BASE_DIR / "models" / "climate_enhanced_pilot_model.pkl"
+    PILOT_CALIBRATOR_PATH: Path = BASE_DIR / "models" / "climate_enhanced_calibrator.pkl"
+    PILOT_METADATA_PATH: Path = BASE_DIR / "models" / "climate_enhanced_metadata.json"
+    CLIMATE_PROCESSED_DIR: Path = BASE_DIR / "data" / "climate" / "processed"
     
     # Database (InsForge PostgreSQL or Local SQLite fallback)
     DATABASE_URL: str = os.getenv(

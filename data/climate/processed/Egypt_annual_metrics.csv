@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Egypt,2010,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),9.4,23.34,0.5,27.87,203,309,365,100.0
+Egypt,2011,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),22.0,21.6,0.6,26.7,164,197,365,100.0
+Egypt,2012,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),11.7,22.36,0.9,27.91,202,289,366,100.0
+Egypt,2013,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),11.0,22.35,0.4,26.96,187,333,365,100.0
+Egypt,2014,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),8.8,22.7,0.1,27.36,186,319,365,100.0
+Egypt,2015,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),24.2,22.53,2.4,27.97,180,161,365,100.0
+Egypt,2016,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),11.6,22.96,0.1,28.0,205,249,366,100.0
+Egypt,2017,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),16.3,22.35,0.4,27.76,170,262,365,100.0
+Egypt,2018,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),29.8,23.39,1.1,28.34,196,273,365,100.0
+Egypt,2019,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),48.8,23.0,17.0,28.9,191,189,365,100.0
+Egypt,2020,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),72.3,23.33,0.0,29.2,191,231,366,100.0
+Egypt,2021,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),25.2,23.66,0.3,29.08,208,269,365,100.0
+Egypt,2022,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),58.6,22.75,9.6,28.4,191,188,365,100.0
+Egypt,2023,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),23.6,23.81,1.5,29.12,214,255,365,100.0
+Egypt,2024,30.0444,31.2357,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),14.8,24.2,0.2,29.89,204,288,366,100.0

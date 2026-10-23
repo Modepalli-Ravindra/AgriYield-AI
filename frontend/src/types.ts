@@ -40,6 +40,10 @@ export interface PredictionResponse {
   base_value?: number;
   attribution_method?: string;
   warnings?: string[];
+  used_pilot_model?: boolean;
+  has_authentic_climate?: boolean;
+  climate_coverage_status?: string;
+  climate_features_used?: Record<string, any>;
   timestamp: string;
 }
 

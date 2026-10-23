@@ -1,0 +1,53 @@
+{
+  "model_name": "Climate_Enhanced_XGBoost_v1.0_Pilot",
+  "description": "Climate-Enhanced Pilot XGBoost model with ECMWF ERA5-Land reanalysis and FAO AQUASTAT irrigation",
+  "algorithm": "XGBRegressor with TransformedTargetRegressor(log1p/expm1)",
+  "features": [
+    "Area",
+    "Item",
+    "Year",
+    "average_rain_fall_mm_per_year",
+    "pesticides_tonnes",
+    "avg_temp",
+    "effective_precip_mm",
+    "effective_temp_c",
+    "growing_season_precip_mm",
+    "heat_stress_days_above_30c",
+    "dry_spell_max_days",
+    "irrigation_equipped_pct"
+  ],
+  "categorical_features": [
+    "Area",
+    "Item"
+  ],
+  "numerical_features": [
+    "Year",
+    "average_rain_fall_mm_per_year",
+    "pesticides_tonnes",
+    "avg_temp",
+    "effective_precip_mm",
+    "effective_temp_c",
+    "growing_season_precip_mm",
+    "heat_stress_days_above_30c",
+    "dry_spell_max_days",
+    "irrigation_equipped_pct"
+  ],
+  "test_r2": 0.8026,
+  "test_mae_tonnes": 2.0109,
+  "calibration_size": 3306,
+  "conformal_nominal_coverage": 0.9,
+  "global_quantile_q": 5.5657,
+  "group_max_quantile_q": 12.2186,
+  "crop_quantiles": {
+    "Cassava": 8.4173,
+    "Maize": 3.1631,
+    "Plantains and others": 4.3912,
+    "Potatoes": 12.2186,
+    "Rice, paddy": 2.3629,
+    "Sorghum": 1.8278,
+    "Soybeans": 1.1501,
+    "Sweet potatoes": 7.0951,
+    "Wheat": 3.434,
+    "Yams": 8.9721
+  }
+}

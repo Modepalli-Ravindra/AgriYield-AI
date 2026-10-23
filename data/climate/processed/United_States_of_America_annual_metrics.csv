@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+United States of America,2010,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1231.9,9.53,1054.8,19.13,18,16,365,14.5
+United States of America,2011,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),962.9,10.01,685.0,18.33,32,16,365,14.5
+United States of America,2012,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),770.7,12.0,479.65,19.73,57,26,366,14.5
+United States of America,2013,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),996.0,8.83,754.0,17.91,35,15,365,14.5
+United States of America,2014,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1007.0,7.97,821.6,17.34,10,11,365,14.5
+United States of America,2015,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1159.9,10.23,807.3,18.45,15,23,365,14.5
+United States of America,2016,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1004.0,11.03,747.05,19.02,30,19,366,14.5
+United States of America,2017,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),778.1,11.14,507.6,18.92,35,17,365,14.5
+United States of America,2018,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1188.3,9.49,829.2,18.41,30,23,365,14.5
+United States of America,2019,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1217.1,9.06,865.9,18.41,31,18,365,14.5
+United States of America,2020,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),844.9,10.17,554.85,18.02,31,20,366,14.5
+United States of America,2021,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),750.5,10.91,480.0,19.55,43,19,365,14.5
+United States of America,2022,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),851.4,9.39,603.5,18.46,37,26,365,14.5
+United States of America,2023,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),692.4,11.2,411.05,19.15,35,23,365,14.5
+United States of America,2024,41.8781,-93.0977,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive) (Multi-basin composite),1027.8,11.43,737.8,19.09,22,27,366,14.5
