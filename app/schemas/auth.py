@@ -1,10 +1,23 @@
-"""Authentication Pydantic schemas."""
+"""Authentication Pydantic schemas with resilient email validation."""
 from __future__ import annotations
 
 import re
 from datetime import datetime
-from typing import Optional
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from typing import Optional, Annotated
+from pydantic import BaseModel, Field, field_validator, AfterValidator
+
+# Resilient email validation that doesn't crash when optional email-validator package is absent
+try:
+    from pydantic import EmailStr
+    from pydantic.networks import import_email_validator
+    import_email_validator()
+except (ImportError, Exception):
+    EMAIL_REGEX = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
+    def _validate_email(v: str) -> str:
+        if not isinstance(v, str) or not EMAIL_REGEX.match(v.strip()):
+            raise ValueError("value is not a valid email address")
+        return v.strip().lower()
+    EmailStr = Annotated[str, AfterValidator(_validate_email)]
 
 class UserRegisterRequest(BaseModel):
     email: EmailStr

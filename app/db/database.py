@@ -34,8 +34,11 @@ class Database:
 
         if self.is_postgres:
             if not PSYCOPG2_AVAILABLE:
-                raise RuntimeError("PostgreSQL URL configured but psycopg2 is not available in the Python environment.")
-            self._ensure_pool()
+                logger.warning("PostgreSQL URL configured but psycopg2 is not available; falling back to local SQLite database.")
+                self.is_postgres = False
+                self.db_url = f"sqlite:///{settings.BASE_DIR / 'crop_yield_platform.db'}"
+            else:
+                self._ensure_pool()
 
         self._init_db()
 
