@@ -1,31 +1,33 @@
 """Database persistence layer supporting InsForge PostgreSQL and SQLite."""
 from __future__ import annotations
 
-import os
+import logging
 import sqlite3
+import threading
 import uuid
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
-import logging
-from pathlib import Path
-import threading
 
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Attempt to import psycopg2 for PostgreSQL support
+# Attempt to import psycopg2 for PostgreSQL / InsForge support
 try:
     import psycopg2
-    from psycopg2.pool import ThreadedConnectionPool
     from psycopg2.extras import RealDictCursor
+    from psycopg2.pool import ThreadedConnectionPool
+
     PSYCOPG2_AVAILABLE = True
 except ImportError:
     PSYCOPG2_AVAILABLE = False
     logger.warning("psycopg2 is not installed; PostgreSQL operations will be unavailable.")
 
+
 class Database:
+    """Unified database persistence engine with connection pooling and dialect abstraction."""
+
     def __init__(self, db_url: Optional[str] = None):
         self.db_url = db_url or settings.DATABASE_URL
         self.is_postgres = self.db_url.startswith(("postgresql://", "postgres://"))
@@ -34,7 +36,9 @@ class Database:
 
         if self.is_postgres:
             if not PSYCOPG2_AVAILABLE:
-                logger.warning("PostgreSQL URL configured but psycopg2 is not available; falling back to local SQLite database.")
+                logger.warning(
+                    "PostgreSQL URL configured but psycopg2 is not available; falling back to local SQLite database."
+                )
                 self.is_postgres = False
                 self.db_url = f"sqlite:///{settings.BASE_DIR / 'crop_yield_platform.db'}"
             else:
@@ -42,8 +46,8 @@ class Database:
 
         self._init_db()
 
-    def _ensure_pool(self):
-        """Thread-safe pool initialization and recovery."""
+    def _ensure_pool(self) -> None:
+        """Thread-safe PostgreSQL pool initialization and recovery."""
         if not self.is_postgres:
             return
         if self._pool is None or self._pool.closed:
@@ -72,7 +76,7 @@ class Database:
                 with conn.cursor(cursor_factory=RealDictCursor) as cur:
                     yield cur
                 conn.commit()
-            except Exception as e:
+            except Exception:
                 broken = True
                 try:
                     if not conn.closed:
@@ -102,7 +106,13 @@ class Database:
             finally:
                 conn.close()
 
-    def _init_db(self):
+    def _sql(self, query: str) -> str:
+        """Adapt standard query for PostgreSQL vs SQLite syntax."""
+        if self.is_postgres:
+            return query
+        return query.replace("public.", "").replace("%s", "?")
+
+    def _init_db(self) -> None:
         """Initialize required application tables and concurrency pragmas."""
         try:
             with self._get_cursor() as cur:
@@ -207,69 +217,61 @@ class Database:
                 row = cur.fetchone()
                 if row is None:
                     return False
-                if isinstance(row, dict):
-                    val = list(row.values())[0]
-                else:
-                    val = row[0]
+                val = list(row.values())[0] if isinstance(row, dict) else row[0]
                 return val == 1
         except Exception as e:
             logger.error("Database health check ping failed: %s", e)
             return False
 
     # --- User operations ---
-    def create_user(self, email: str, hashed_password: str, full_name: Optional[str] = None, organization: Optional[str] = None) -> Dict[str, Any]:
+    def create_user(
+        self,
+        email: str,
+        hashed_password: str,
+        full_name: Optional[str] = None,
+        organization: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Insert a newly registered user into the database."""
         user_id = str(uuid.uuid4())
         now = datetime.now(timezone.utc).isoformat()
+        normalized_email = email.lower().strip()
+
+        query = self._sql(
+            "INSERT INTO public.app_users (id, email, hashed_password, full_name, organization, created_at) "
+            "VALUES (%s, %s, %s, %s, %s, %s);"
+        )
         with self._get_cursor() as cur:
-            if self.is_postgres:
-                cur.execute(
-                    """INSERT INTO public.app_users (id, email, hashed_password, full_name, organization, created_at)
-                       VALUES (%s, %s, %s, %s, %s, %s);""",
-                    (user_id, email.lower().strip(), hashed_password, full_name, organization, now)
-                )
-            else:
-                cur.execute(
-                    "INSERT INTO app_users (id, email, hashed_password, full_name, organization, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-                    (user_id, email.lower().strip(), hashed_password, full_name, organization, now)
-                )
+            cur.execute(query, (user_id, normalized_email, hashed_password, full_name, organization, now))
+
         return {
             "id": user_id,
-            "email": email.lower().strip(),
+            "email": normalized_email,
             "full_name": full_name,
             "organization": organization,
-            "created_at": now
+            "created_at": now,
         }
 
     def get_user_by_email(self, email: str) -> Optional[Dict[str, Any]]:
+        """Fetch user record by normalized email address."""
+        query = self._sql("SELECT * FROM public.app_users WHERE email = %s;")
         with self._get_cursor() as cur:
-            if self.is_postgres:
-                cur.execute("SELECT * FROM public.app_users WHERE email = %s;", (email.lower().strip(),))
-            else:
-                cur.execute("SELECT * FROM app_users WHERE email = ?", (email.lower().strip(),))
+            cur.execute(query, (email.lower().strip(),))
             row = cur.fetchone()
             return dict(row) if row else None
 
     def get_user_by_id(self, user_id: str) -> Optional[Dict[str, Any]]:
+        """Fetch user record by unique identifier."""
+        query = self._sql("SELECT id, email, full_name, organization, created_at FROM public.app_users WHERE id = %s;")
         with self._get_cursor() as cur:
-            if self.is_postgres:
-                cur.execute("SELECT id, email, full_name, organization, created_at FROM public.app_users WHERE id = %s;", (user_id,))
-            else:
-                cur.execute("SELECT id, email, full_name, organization, created_at FROM app_users WHERE id = ?", (user_id,))
+            cur.execute(query, (user_id,))
             row = cur.fetchone()
             return dict(row) if row else None
 
     def update_user_password(self, email: str, new_hashed_password: str) -> bool:
+        """Update password hash for a registered user."""
+        query = self._sql("UPDATE public.app_users SET hashed_password = %s WHERE email = %s;")
         with self._get_cursor() as cur:
-            if self.is_postgres:
-                cur.execute(
-                    "UPDATE public.app_users SET hashed_password = %s WHERE email = %s;",
-                    (new_hashed_password, email.lower().strip())
-                )
-            else:
-                cur.execute(
-                    "UPDATE app_users SET hashed_password = ? WHERE email = ?",
-                    (new_hashed_password, email.lower().strip())
-                )
+            cur.execute(query, (new_hashed_password, email.lower().strip()))
             return cur.rowcount > 0
 
     # --- Prediction history operations ---
@@ -286,37 +288,28 @@ class Database:
         conformal_lower_bound: float,
         conformal_upper_bound: float,
         model_version: str = "Production-XGBoost-v2",
-        user_id: Optional[str] = None
+        user_id: Optional[str] = None,
     ) -> Dict[str, Any]:
+        """Record an inference event and its calibrated bounds into prediction history."""
         pred_id = str(uuid.uuid4())
         now = datetime.now(timezone.utc).isoformat()
+
+        query = self._sql(
+            """INSERT INTO public.prediction_history (
+                id, user_id, country, crop, year, rainfall_mm, avg_temp_c, pesticides_tonnes,
+                predicted_yield_hg_per_ha, predicted_yield_tonnes_per_ha,
+                conformal_lower_bound, conformal_upper_bound, model_version, created_at
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+        )
+        params = (
+            pred_id, user_id, country, crop, year, rainfall_mm, avg_temp_c, pesticides_tonnes,
+            predicted_yield_hg_per_ha, predicted_yield_tonnes_per_ha,
+            conformal_lower_bound, conformal_upper_bound, model_version, now,
+        )
+
         with self._get_cursor() as cur:
-            if self.is_postgres:
-                cur.execute(
-                    """INSERT INTO public.prediction_history (
-                        id, user_id, country, crop, year, rainfall_mm, avg_temp_c, pesticides_tonnes,
-                        predicted_yield_hg_per_ha, predicted_yield_tonnes_per_ha,
-                        conformal_lower_bound, conformal_upper_bound, model_version, created_at
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
-                    (
-                        pred_id, user_id, country, crop, year, rainfall_mm, avg_temp_c, pesticides_tonnes,
-                        predicted_yield_hg_per_ha, predicted_yield_tonnes_per_ha,
-                        conformal_lower_bound, conformal_upper_bound, model_version, now
-                    )
-                )
-            else:
-                cur.execute(
-                    """INSERT INTO prediction_history (
-                        id, user_id, country, crop, year, rainfall_mm, avg_temp_c, pesticides_tonnes,
-                        predicted_yield_hg_per_ha, predicted_yield_tonnes_per_ha,
-                        conformal_lower_bound, conformal_upper_bound, model_version, created_at
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (
-                        pred_id, user_id, country, crop, year, rainfall_mm, avg_temp_c, pesticides_tonnes,
-                        predicted_yield_hg_per_ha, predicted_yield_tonnes_per_ha,
-                        conformal_lower_bound, conformal_upper_bound, model_version, now
-                    )
-                )
+            cur.execute(query, params)
+
         return {
             "id": pred_id,
             "country": country,
@@ -324,41 +317,29 @@ class Database:
             "year": year,
             "predicted_yield_tonnes_per_ha": predicted_yield_tonnes_per_ha,
             "conformal_interval": [conformal_lower_bound, conformal_upper_bound],
-            "created_at": now
+            "created_at": now,
         }
 
     def get_predictions(self, user_id: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
+        """Fetch recent prediction history filtered by user or globally."""
+        if user_id:
+            query = self._sql("SELECT * FROM public.prediction_history WHERE user_id = %s ORDER BY created_at DESC LIMIT %s;")
+            params = (user_id, limit)
+        else:
+            query = self._sql("SELECT * FROM public.prediction_history ORDER BY created_at DESC LIMIT %s;")
+            params = (limit,)
+
         with self._get_cursor() as cur:
-            if self.is_postgres:
-                if user_id:
-                    cur.execute(
-                        "SELECT * FROM public.prediction_history WHERE user_id = %s ORDER BY created_at DESC LIMIT %s;",
-                        (user_id, limit)
-                    )
-                else:
-                    cur.execute(
-                        "SELECT * FROM public.prediction_history ORDER BY created_at DESC LIMIT %s;",
-                        (limit,)
-                    )
-            else:
-                if user_id:
-                    cur.execute(
-                        "SELECT * FROM prediction_history WHERE user_id = ? ORDER BY created_at DESC LIMIT ?",
-                        (user_id, limit)
-                    )
-                else:
-                    cur.execute(
-                        "SELECT * FROM prediction_history ORDER BY created_at DESC LIMIT ?",
-                        (limit,)
-                    )
+            cur.execute(query, params)
             rows = cur.fetchall()
             return [dict(r) for r in rows]
 
-    def close(self):
+    def close(self) -> None:
         """Cleanly close connection pools during application shutdown."""
         with self._lock:
             if self._pool is not None and not self._pool.closed:
                 self._pool.closeall()
                 logger.info("Closed PostgreSQL ThreadedConnectionPool.")
+
 
 db = Database()

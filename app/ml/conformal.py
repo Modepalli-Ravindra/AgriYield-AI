@@ -3,12 +3,15 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Dict, Tuple, Optional, Any
-import numpy as np
+from typing import Any, Dict, Optional, Union
+
 import joblib
+import numpy as np
+
 
 class ConformalPredictionCalibrator:
     """Group-Aware & Crop-Conditional Conformal Predictor for calibrated 90% prediction intervals."""
+
     def __init__(self, nominal_coverage: float = 0.90):
         self.nominal_coverage = nominal_coverage
         self.alpha = 1.0 - nominal_coverage
@@ -35,25 +38,25 @@ class ConformalPredictionCalibrator:
         """Compute nonconformity scores on held-out calibration split (in tonnes/ha)."""
         y_true_tonnes = y_true_hg / 10000.0
         y_pred_tonnes = y_pred_hg / 10000.0
-        
+
         residuals = np.abs(y_true_tonnes - y_pred_tonnes)
         self.calibration_size = len(residuals)
-        
+
         p_level = np.ceil((self.calibration_size + 1) * (1.0 - self.alpha)) / self.calibration_size
-        p_level = min(1.0, max(0.0, p_level))
-        
+        p_level = min(1.0, max(0.0, float(p_level)))
+
         self.quantile_q = float(np.quantile(residuals, p_level))
         return self
 
     def predict_interval(
-        self, 
-        point_prediction_tonnes: float, 
+        self,
+        point_prediction_tonnes: float,
         crop: Optional[str] = None,
         is_climate_shift: bool = False,
-        climate_z_score: Optional[float] = None
+        climate_z_score: Optional[float] = None,
     ) -> Dict[str, Any]:
-        """
-        Produce [lower_bound, upper_bound] interval with physical non-negativity constraint.
+        """Produce calibrated [lower_bound, upper_bound] interval with physical non-negativity constraint.
+
         Applies crop-conditional calibration if crop has verified calibration quantile.
         If is_climate_shift is True, dynamically scales margin by SACAP-V2 expansion multiplier (1.5x)
         to protect against climate drift under-coverage while bounding grain width.
@@ -62,15 +65,13 @@ class ConformalPredictionCalibrator:
         if crop and crop in self.crop_quantiles:
             base_q = self.crop_quantiles[crop]
             if is_climate_shift:
-                # SACAP-V2: Crop-relative expansion multiplier bounded by group max
                 max_q = self.group_max_quantile_q if self.group_max_quantile_q else (base_q * 1.5)
                 q = min(base_q * 1.5, max_q)
                 method_used = "Crop-Conditional Conformal Calibration (SACAP-V2 Climate Safeguard)"
-                calib_crop = crop
             else:
                 q = base_q
                 method_used = "Crop-Conditional Conformal Quantile Calibration"
-                calib_crop = crop
+            calib_crop = crop
         else:
             q = self.group_max_quantile_q if self.group_max_quantile_q else self.quantile_q
             method_used = "Global Group-Aware Conformal Quantile Calibration (Fallback)"
@@ -90,34 +91,41 @@ class ConformalPredictionCalibrator:
             "method": method_used,
             "unit": "tonnes/ha",
             "climate_shift_safeguard_active": is_climate_shift,
-            "coverage_disclaimer": "Reported 90% coverage is marginal across eligible groups; does not guarantee 90% on every individual crop or future distribution shift."
+            "coverage_disclaimer": (
+                "Reported 90% coverage is marginal across eligible groups; does not guarantee "
+                "90% on every individual crop or future distribution shift."
+            ),
         }
 
     def evaluate_test(self, y_test_hg: np.ndarray, y_test_pred_hg: np.ndarray) -> Dict[str, float]:
         """Evaluate measured empirical coverage and average width on untouched test data."""
         y_test_tonnes = y_test_hg / 10000.0
         y_pred_tonnes = y_test_pred_hg / 10000.0
-        
+
         lowers = np.maximum(0.0, y_pred_tonnes - self.quantile_q)
         uppers = y_pred_tonnes + self.quantile_q
-        
+
         covered = (y_test_tonnes >= lowers) & (y_test_tonnes <= uppers)
         self.empirical_test_coverage = float(np.mean(covered))
         self.average_interval_width_tonnes = float(np.mean(uppers - lowers))
-        
+
         return {
             "nominal_coverage": self.nominal_coverage,
             "empirical_coverage": round(self.empirical_test_coverage, 4),
             "average_width_tonnes": round(self.average_interval_width_tonnes, 4),
-            "conformal_quantile_q": round(self.quantile_q, 4)
+            "conformal_quantile_q": round(self.quantile_q, 4),
         }
 
-    def save(self, path: Path):
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        joblib.dump(self, path)
+    def save(self, path: Union[str, Path]) -> None:
+        """Serialize calibrator state to disk."""
+        p = Path(path)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(self, p)
 
     @classmethod
-    def load(cls, path: Path) -> "ConformalPredictionCalibrator":
-        if os.path.exists(path):
-            return joblib.load(path)
+    def load(cls, path: Union[str, Path]) -> "ConformalPredictionCalibrator":
+        """Deserialize calibrator state or return default instance if not found."""
+        p = Path(path)
+        if p.exists():
+            return joblib.load(p)
         return cls()

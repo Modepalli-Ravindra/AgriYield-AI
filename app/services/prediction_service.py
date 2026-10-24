@@ -1,8 +1,17 @@
 """Prediction service encapsulating production model inference, conformal intervals, and TreeSHAP."""
 from __future__ import annotations
 
+import json
+import logging
+import os
 import sys
 import types
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Tuple
+
+import joblib
+import numpy as np
+import pandas as pd
 
 # Guard against Windows Application Control blocking unused sklearn svm C-extensions during unpickling
 for _mod in ("sklearn.svm._libsvm_sparse", "sklearn.svm._libsvm"):
@@ -12,26 +21,52 @@ for _mod in ("sklearn.svm._libsvm_sparse", "sklearn.svm._libsvm"):
         except Exception:
             sys.modules[_mod] = types.ModuleType(_mod)
 
-import os
-import json
-import joblib
-import numpy as np
-import pandas as pd
 try:
     import shap
 except (ImportError, Exception):
     shap = None
-from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any, Tuple
-
-import logging
 
 from app.core.config import settings
 from app.db.database import db
-from app.schemas.prediction import YieldInput, PredictionResponse, ConfidenceInterval, ConformalInterval
 from app.ml.conformal import ConformalPredictionCalibrator
+from app.schemas.prediction import (
+    ConfidenceInterval,
+    ConformalInterval,
+    PredictionResponse,
+    YieldInput,
+)
 
 logger = logging.getLogger(__name__)
+
+
+def _scale_log_shap_to_tonnes(
+    raw_shaps: List[float], base_val_log: float
+) -> Tuple[List[float], float]:
+    """Convert raw log1p TreeSHAP values into tonnes/ha preserving sign and additivity."""
+    sum_log = sum(raw_shaps)
+    pred_log = base_val_log + sum_log
+
+    base_val_tonnes = float(np.expm1(base_val_log) / 10000.0)
+    pred_tonnes = float(np.expm1(pred_log) / 10000.0)
+    delta_tonnes = pred_tonnes - base_val_tonnes
+
+    if abs(sum_log) > 1e-9:
+        scale = delta_tonnes / sum_log
+        scaled_shaps = [float(s * scale) for s in raw_shaps]
+    else:
+        scaled_shaps = [0.0] * len(raw_shaps)
+
+    base_val_t = round(base_val_tonnes, 4)
+    pred_t = round(pred_tonnes, 4)
+    shap_vals = [round(v, 4) for v in scaled_shaps]
+
+    # Reconcile rounding drift on the primary attribution
+    diff = pred_t - (base_val_t + sum(shap_vals))
+    if abs(diff) > 1e-6:
+        shap_vals[0] = round(shap_vals[0] + diff, 4)
+
+    return shap_vals, base_val_t
+
 
 class PredictionService:
     """Production service delivering point predictions, calibrated intervals, and feature attributions."""
@@ -41,29 +76,35 @@ class PredictionService:
         "year": {"min": 1990.0, "max": 2024.0},
         "rainfall_mm": {"min": 51.0, "max": 3240.0},
         "pesticides_tonnes": {"min": 0.04, "max": 367778.0},
-        "avg_temp_c": {"min": 1.30, "max": 30.65}
+        "avg_temp_c": {"min": 1.30, "max": 30.65},
     }
 
     def __init__(self):
+        # Baseline model & explainability
         self.model = None
         self.metadata = None
         self.conformal_calibrator = None
         self.tree_explainer = None
-        self.feature_columns = None
+        self.feature_columns: Optional[List[str]] = None
+
+        # Pilot model (climate-enhanced)
         self.pilot_model = None
         self.pilot_metadata = None
         self.pilot_conformal_calibrator = None
         self.pilot_tree_explainer = None
-        self.pilot_feature_columns = None
+        self.pilot_feature_columns: Optional[List[str]] = None
+
+        # Data & caches
         self.climate_records_cache: Dict[Tuple[str, int], Dict[str, Any]] = {}
-        self.ref_data = None
-        self.benchmark_results = None
+        self.ref_data: Optional[pd.DataFrame] = None
+        self.benchmark_results: Optional[Dict[str, Any]] = None
         self.regional_profiles: Dict[str, Dict[str, Any]] = {}
+
         self._load_artifacts()
 
-    def _load_artifacts(self):
-        """Load production XGBoost pipeline, metadata, and conformal calibrator."""
-        # 1. Pipeline & TreeExplainer
+    def _load_artifacts(self) -> None:
+        """Load production models, metadata, calibrators, and climate caches."""
+        # 1. Production Pipeline & TreeExplainer
         if os.path.exists(settings.MODEL_PATH):
             try:
                 self.model = joblib.load(settings.MODEL_PATH)
@@ -86,7 +127,7 @@ class PredictionService:
             except Exception as e:
                 logger.error("Failed to load pipeline or TreeSHAP: %s", e)
 
-        # 2. Metadata
+        # 2. Production Metadata
         if os.path.exists(settings.METADATA_PATH):
             try:
                 self.metadata = joblib.load(settings.METADATA_PATH)
@@ -94,19 +135,21 @@ class PredictionService:
             except Exception as e:
                 logger.error("Failed to load metadata: %s", e)
 
-        # 3. Conformal Calibrator
+        # 3. Production Conformal Calibrator
         if os.path.exists(settings.CONFORMAL_PATH):
             try:
                 self.conformal_calibrator = ConformalPredictionCalibrator.load(settings.CONFORMAL_PATH)
-                logger.info("Loaded group-aware conformal calibrator (Q_group_max=%.4f)",
-                            self.conformal_calibrator.group_max_quantile_q)
+                logger.info(
+                    "Loaded group-aware conformal calibrator (Q_group_max=%.4f)",
+                    self.conformal_calibrator.group_max_quantile_q,
+                )
             except Exception as e:
                 logger.error("Failed to load conformal calibrator: %s", e)
                 self.conformal_calibrator = ConformalPredictionCalibrator()
         else:
             self.conformal_calibrator = ConformalPredictionCalibrator()
 
-        # 3b. Pilot Model, Calibrator, and Metadata
+        # 4. Pilot Model, Calibrator, and Metadata
         if os.path.exists(settings.PILOT_MODEL_PATH):
             try:
                 self.pilot_model = joblib.load(settings.PILOT_MODEL_PATH)
@@ -127,7 +170,7 @@ class PredictionService:
                         "Year", "average_rain_fall_mm_per_year", "pesticides_tonnes", "avg_temp",
                         "effective_precip_mm", "effective_temp_c",
                         "growing_season_precip_mm", "heat_stress_days_above_30c", "dry_spell_max_days",
-                        "irrigation_equipped_pct"
+                        "irrigation_equipped_pct",
                     ]
                     self.pilot_feature_columns = list(cat_cols) + list(num_cols)
                     logger.info("Pilot feature columns extracted: %d features", len(self.pilot_feature_columns))
@@ -145,15 +188,17 @@ class PredictionService:
         if os.path.exists(settings.PILOT_CALIBRATOR_PATH):
             try:
                 self.pilot_conformal_calibrator = ConformalPredictionCalibrator.load(settings.PILOT_CALIBRATOR_PATH)
-                logger.info("Loaded pilot conformal calibrator (Q_group_max=%.4f)",
-                            self.pilot_conformal_calibrator.group_max_quantile_q)
+                logger.info(
+                    "Loaded pilot conformal calibrator (Q_group_max=%.4f)",
+                    self.pilot_conformal_calibrator.group_max_quantile_q,
+                )
             except Exception as e:
                 logger.warning("Failed to load pilot conformal calibrator: %s", e)
 
-        # 3c. Preload authentic climate records cache
+        # 5. Preload authentic climate records cache
         self._load_climate_records_cache()
 
-        # 4. Benchmark Results
+        # 6. Benchmark Results
         bench_path = settings.MODELS_DIR / "benchmark_results.json"
         if os.path.exists(bench_path):
             try:
@@ -162,7 +207,7 @@ class PredictionService:
             except Exception as e:
                 logger.error("Failed to load benchmark results: %s", e)
 
-        # 5. Reference data
+        # 7. Reference data
         if os.path.exists(settings.DATA_PATH):
             try:
                 df = pd.read_csv(settings.DATA_PATH)
@@ -173,60 +218,67 @@ class PredictionService:
             except Exception as e:
                 logger.error("Failed to load reference data: %s", e)
 
-        # 6. Regional climate profiles and historical baselines
-        self.regional_profiles = {}
-        primary_data_path = settings.BASE_DIR / "data" / "yield_df_1990_2024.csv"
-        src_path = primary_data_path if primary_data_path.exists() else settings.DATA_PATH
-        if os.path.exists(src_path):
-            try:
-                df_src = pd.read_csv(src_path)
-                for country, grp in df_src.groupby("Area"):
-                    rain_const = float(grp["average_rain_fall_mm_per_year"].iloc[0])
-                    t_mean = float(grp["avg_temp"].mean())
-                    t_std = float(grp["avg_temp"].std())
-                    if pd.isna(t_std) or t_std < 0.05:
-                        t_std = 0.55
-                    supported_crops = sorted(grp["Item"].unique().tolist())
-                    rec_count = int(len(grp))
-                    y_min = int(grp["Year"].min())
-                    y_max = int(grp["Year"].max())
-
-                    self.regional_profiles[country] = {
-                        "country": country,
-                        "rainfall_baseline_mm": round(rain_const, 1),
-                        "temp_mean_c": round(t_mean, 2),
-                        "temp_std_c": round(t_std, 2),
-                        "supported_crops": supported_crops,
-                        "records_count": rec_count,
-                        "historical_years": [y_min, y_max],
-                        "climatology_type": "FAO AQUASTAT Climatological Precipitation & Berkeley Earth / FAOSTAT ET Temperature",
-                        "reliability_tier": "High Confidence (Nominal Climatology)" if rec_count >= 20 else "Moderate Confidence",
-                        "coverage_disclaimer": "Historical rainfall reflects national climatological constant (FAO AQUASTAT). Temperature reflects annual mean anomalies."
-                    }
-                logger.info("Initialized regional climate profiles for %d countries", len(self.regional_profiles))
-            except Exception as e:
-                logger.error("Failed to load regional climate profiles: %s", e)
+        # 8. Regional climate profiles
+        self._load_regional_profiles()
 
     load_artifacts = _load_artifacts
 
-    def _load_climate_records_cache(self):
+    def _load_regional_profiles(self) -> None:
+        """Construct regional baseline profiles and historical boundaries from verified records."""
+        self.regional_profiles = {}
+        primary_data_path = settings.BASE_DIR / "data" / "yield_df_1990_2024.csv"
+        src_path = primary_data_path if primary_data_path.exists() else settings.DATA_PATH
+        if not os.path.exists(src_path):
+            return
+
+        try:
+            df_src = pd.read_csv(src_path)
+            for country, grp in df_src.groupby("Area"):
+                rain_const = float(grp["average_rain_fall_mm_per_year"].iloc[0])
+                t_mean = float(grp["avg_temp"].mean())
+                t_std = float(grp["avg_temp"].std())
+                if pd.isna(t_std) or t_std < 0.05:
+                    t_std = 0.55
+
+                rec_count = int(len(grp))
+                self.regional_profiles[country] = {
+                    "country": country,
+                    "rainfall_baseline_mm": round(rain_const, 1),
+                    "temp_mean_c": round(t_mean, 2),
+                    "temp_std_c": round(t_std, 2),
+                    "supported_crops": sorted(grp["Item"].unique().tolist()),
+                    "records_count": rec_count,
+                    "historical_years": [int(grp["Year"].min()), int(grp["Year"].max())],
+                    "climatology_type": "FAO AQUASTAT Climatological Precipitation & Berkeley Earth / FAOSTAT ET Temperature",
+                    "reliability_tier": "High Confidence (Nominal Climatology)" if rec_count >= 20 else "Moderate Confidence",
+                    "coverage_disclaimer": "Historical rainfall reflects national climatological constant (FAO AQUASTAT). Temperature reflects annual mean anomalies.",
+                }
+            logger.info("Initialized regional climate profiles for %d countries", len(self.regional_profiles))
+        except Exception as e:
+            logger.error("Failed to load regional climate profiles: %s", e)
+
+    def _load_climate_records_cache(self) -> None:
         """Preload daily reanalysis metrics for supported countries and years."""
         self.climate_records_cache = {}
         if not hasattr(settings, "CLIMATE_PROCESSED_DIR") or not settings.CLIMATE_PROCESSED_DIR.exists():
             return
+
         for csv_file in settings.CLIMATE_PROCESSED_DIR.glob("*_annual_metrics.csv"):
             try:
                 cdf = pd.read_csv(csv_file)
                 for _, row in cdf.iterrows():
                     c_name = str(row["country"]).strip()
                     yr = int(row["year"])
-                    self.climate_records_cache[(c_name, yr)] = row.to_dict()
+                    rec = row.to_dict()
+                    self.climate_records_cache[(c_name, yr)] = rec
+                    # Normalize country name aliases
                     if c_name == "United States of America":
-                        self.climate_records_cache[("United States", yr)] = row.to_dict()
+                        self.climate_records_cache[("United States", yr)] = rec
                     elif c_name == "United States":
-                        self.climate_records_cache[("United States of America", yr)] = row.to_dict()
+                        self.climate_records_cache[("United States of America", yr)] = rec
             except Exception as e:
                 logger.warning("Failed to parse climate metrics file %s: %s", csv_file, e)
+
         logger.info("Loaded %d authentic climate records into inference cache", len(self.climate_records_cache))
 
     def get_authentic_climate_record(self, country: str, year: int) -> Optional[Dict[str, Any]]:
@@ -238,10 +290,8 @@ class PredictionService:
             elif country == "United States of America":
                 rec = self.climate_records_cache.get(("United States", year))
 
-        if rec is not None:
-            obs_days = rec.get("observation_count_days", 0)
-            if obs_days >= 300:
-                return rec
+        if rec is not None and rec.get("observation_count_days", 0) >= 300:
+            return rec
         return None
 
     def get_options(self) -> Dict[str, Any]:
@@ -262,13 +312,13 @@ class PredictionService:
             "year": 2013,
             "rainfall_mm": 1050.0,
             "avg_temp_c": 25.5,
-            "pesticides_tonnes": 50000.0
+            "pesticides_tonnes": 50000.0,
         }
         return {
             "countries": countries,
             "crops": crops,
             "year_range": {"min": min_year, "max": max_year},
-            "default_input": default_input
+            "default_input": default_input,
         }
 
     def check_distribution_warnings(self, payload: YieldInput) -> List[str]:
@@ -309,7 +359,7 @@ class PredictionService:
         temp_max = self.TRAINING_DISTRIBUTION["avg_temp_c"]["max"]
         if payload.avg_temp_c < temp_min or payload.avg_temp_c > temp_max:
             warnings.append(
-                f"Average temperature {payload.avg_temp_c:.1f} ?C is outside historical training range ({temp_min:.1f} to {temp_max:.1f} ?C). "
+                f"Average temperature {payload.avg_temp_c:.1f} °C is outside historical training range ({temp_min:.1f} to {temp_max:.1f} °C). "
                 "Thermal stress extrapolation may reduce model accuracy."
             )
 
@@ -319,7 +369,7 @@ class PredictionService:
             if payload.country not in known_countries:
                 warnings.append(
                     f"Country '{payload.country}' is unseen in training data. "
-                    "Prediction relies on zero-shot geographic transfer (cross-country R? ~0.54)."
+                    "Prediction relies on zero-shot geographic transfer (cross-country R² ~0.54)."
                 )
 
         # 6. Crop support check
@@ -337,7 +387,9 @@ class PredictionService:
         """Retrieve verified regional climate profile for a given country."""
         return self.regional_profiles.get(country)
 
-    def assess_climatology_and_shift(self, payload: YieldInput) -> Tuple[List[str], bool, Optional[float], str]:
+    def assess_climatology_and_shift(
+        self, payload: YieldInput
+    ) -> Tuple[List[str], bool, Optional[float], str]:
         """
         Assess climatological precipitation deviation and thermal anomaly shift (Z-score).
         Returns:
@@ -404,7 +456,7 @@ class PredictionService:
                 area_indices = [i for i, c in enumerate(self.feature_columns) if c.startswith("Area_")]
                 item_indices = [i for i, c in enumerate(self.feature_columns) if c.startswith("Item_")]
 
-                # Raw SHAP values for features
+                # Raw SHAP values corresponding to feature columns order [Year, rain, pest, temp, Area..., Item...]
                 year_shap_raw = float(raw_sv[0])
                 rain_shap_raw = float(raw_sv[1])
                 pest_shap_raw = float(raw_sv[2])
@@ -415,37 +467,14 @@ class PredictionService:
                 raw_shaps = [rain_shap_raw, temp_shap_raw, pest_shap_raw, year_shap_raw, crop_shap_raw, country_shap_raw]
                 base_val_raw = float(self.tree_explainer.expected_value)
 
-                # Check if model regressor operates in log1p space (Log1p XGBoost)
+                # Check if model regressor operates in log1p space
                 reg_step = self.model.named_steps["regressor"]
                 is_log_model = hasattr(reg_step, "func") or base_val_raw < 50.0
 
                 if is_log_model:
-                    base_val_log = base_val_raw
-                    sum_log = sum(raw_shaps)
-                    pred_log = base_val_log + sum_log
-
-                    # Convert baseline and prediction to physical tonnes/ha (expm1(u) / 10000.0)
-                    base_val_tonnes = float(np.expm1(base_val_log) / 10000.0)
-                    pred_tonnes = float(np.expm1(pred_log) / 10000.0)
-                    delta_tonnes = pred_tonnes - base_val_tonnes
-
-                    # Proportional allocation preserving sign monotonicity and exact additivity
-                    if abs(sum_log) > 1e-9:
-                        scale = delta_tonnes / sum_log
-                        scaled_shaps = [float(s * scale) for s in raw_shaps]
-                    else:
-                        scaled_shaps = [0.0] * len(raw_shaps)
-
-                    base_val_t = round(base_val_tonnes, 4)
-                    pred_t = round(pred_tonnes, 4)
-                    shap_vals = [round(v, 4) for v in scaled_shaps]
-                    diff = pred_t - (base_val_t + sum(shap_vals))
-                    if abs(diff) > 1e-6:
-                        shap_vals[0] = round(shap_vals[0] + diff, 4)
-
+                    shap_vals, base_val_t = _scale_log_shap_to_tonnes(raw_shaps, base_val_raw)
                     return shap_vals, features, base_val_t, "Exact TreeSHAP (shap.TreeExplainer)"
                 else:
-                    # Legacy model trained directly in hg/ha_yield
                     base_val_tonnes = base_val_raw / 10000.0
                     shap_vals = [round(float(s) / 10000.0, 4) for s in raw_shaps]
                     return shap_vals, features, round(base_val_tonnes, 4), "Exact TreeSHAP (shap.TreeExplainer)"
@@ -460,7 +489,7 @@ class PredictionService:
             round((np.log1p(p["pesticides_tonnes"]) - 8.0) * 0.08, 3),
             round((p["Year"] - 2000) * 0.02, 3),
             round(0.85 if p["Item"] == "Potatoes" else 0.12, 3),
-            round(0.25 if p["Area"] in ["India", "United States"] else -0.1, 3)
+            round(0.25 if p["Area"] in ["India", "United States"] else -0.1, 3),
         ]
         return shap_vals, features, 2.50, "Heuristic Sensitivity Proxy"
 
@@ -469,7 +498,7 @@ class PredictionService:
         features = [
             "rainfall", "avg_temp", "pesticides", "year", "crop", "country",
             "effective_precip", "effective_temp", "growing_season_rain",
-            "heat_stress_days", "dry_spell_days", "irrigation_pct"
+            "heat_stress_days", "dry_spell_days", "irrigation_pct",
         ]
         if self.pilot_tree_explainer is not None and self.pilot_model is not None:
             try:
@@ -489,42 +518,28 @@ class PredictionService:
                 country_shap = float(np.sum(cat_shaps[area_indices]))
                 crop_shap = float(np.sum(cat_shaps[item_indices]))
 
-                # num_cols: Year, average_rain, pesticides, avg_temp, eff_precip, eff_temp, gs_precip, heat_stress, dry_spell, irrig
-                year_shap = float(num_shaps[0])
-                rain_shap = float(num_shaps[1])
-                pest_shap = float(num_shaps[2])
-                temp_shap = float(num_shaps[3])
-                eff_rain_shap = float(num_shaps[4])
-                eff_temp_shap = float(num_shaps[5])
-                gs_rain_shap = float(num_shaps[6])
-                heat_stress_shap = float(num_shaps[7])
-                dry_spell_shap = float(num_shaps[8])
-                irrig_shap = float(num_shaps[9])
-
                 raw_shaps = [
-                    rain_shap, temp_shap, pest_shap, year_shap, crop_shap, country_shap,
-                    eff_rain_shap, eff_temp_shap, gs_rain_shap, heat_stress_shap, dry_spell_shap, irrig_shap
+                    float(num_shaps[1]),  # rain
+                    float(num_shaps[3]),  # temp
+                    float(num_shaps[2]),  # pesticides
+                    float(num_shaps[0]),  # year
+                    crop_shap,
+                    country_shap,
+                    float(num_shaps[4]),  # eff_precip
+                    float(num_shaps[5]),  # eff_temp
+                    float(num_shaps[6]),  # gs_precip
+                    float(num_shaps[7]),  # heat_stress
+                    float(num_shaps[8]),  # dry_spell
+                    float(num_shaps[9]),  # irrigation
                 ]
+
                 base_val_raw = float(self.pilot_tree_explainer.expected_value)
-
-                sum_log = sum(raw_shaps)
-                base_val_tonnes = float(np.expm1(base_val_raw) / 10000.0)
-                pred_tonnes = float(np.expm1(base_val_raw + sum_log) / 10000.0)
-                delta_tonnes = pred_tonnes - base_val_tonnes
-
-                if abs(sum_log) > 1e-9:
-                    scale = delta_tonnes / sum_log
-                    scaled_shaps = [float(s * scale) for s in raw_shaps]
-                else:
-                    scaled_shaps = [0.0] * len(raw_shaps)
-
-                base_val_t = round(base_val_tonnes, 4)
-                shap_vals = [round(v, 4) for v in scaled_shaps]
+                shap_vals, base_val_t = _scale_log_shap_to_tonnes(raw_shaps, base_val_raw)
                 return shap_vals, features, base_val_t, "Exact TreeSHAP (Climate-Enhanced Pilot)"
             except Exception as e:
                 logger.warning("TreeSHAP on pilot model failed, falling back to proxy: %s", e)
 
-        base_shap, base_feat, base_val, base_method = self._compute_shap(row)
+        base_shap, _, base_val, base_method = self._compute_shap(row)
         return base_shap + [0.0] * 6, features, base_val, base_method
 
     def predict(self, payload: YieldInput, user_id: Optional[str] = None) -> PredictionResponse:
@@ -556,11 +571,10 @@ class PredictionService:
                 "growing_season_precip_mm": float(climate_rec["growing_season_precip_mm"]),
                 "heat_stress_days_above_30c": float(climate_rec["heat_stress_days_above_30c"]),
                 "dry_spell_max_days": float(climate_rec["dry_spell_max_days"]),
-                "irrigation_equipped_pct": float(climate_rec["irrigation_equipped_pct"])
+                "irrigation_equipped_pct": float(climate_rec["irrigation_equipped_pct"]),
             }])
 
-            pred_hg = float(self.pilot_model.predict(row)[0])
-            pred_hg = max(0.0, pred_hg)
+            pred_hg = max(0.0, float(self.pilot_model.predict(row)[0]))
             pred_tonnes = pred_hg / 10000.0
 
             active_calibrator = self.pilot_conformal_calibrator or self.conformal_calibrator
@@ -578,7 +592,7 @@ class PredictionService:
                 "heat_stress_days_above_30c": int(climate_rec["heat_stress_days_above_30c"]),
                 "dry_spell_max_days": int(climate_rec["dry_spell_max_days"]),
                 "irrigation_equipped_pct": round(float(climate_rec["irrigation_equipped_pct"]), 1),
-                "source": str(climate_rec.get("source", "ECMWF ERA5-Land Reanalysis"))
+                "source": str(climate_rec.get("source", "ECMWF ERA5-Land Reanalysis")),
             }
 
             shap_vals, features, base_val_t, attribution_method = self._compute_shap_pilot(row)
@@ -591,11 +605,10 @@ class PredictionService:
                 "Year": payload.year,
                 "average_rain_fall_mm_per_year": payload.rainfall_mm,
                 "pesticides_tonnes": payload.pesticides_tonnes,
-                "avg_temp": payload.avg_temp_c
+                "avg_temp": payload.avg_temp_c,
             }])
 
-            pred_hg = float(self.model.predict(row)[0])
-            pred_hg = max(0.0, pred_hg)
+            pred_hg = max(0.0, float(self.model.predict(row)[0]))
             pred_tonnes = pred_hg / 10000.0
 
             active_calibrator = self.conformal_calibrator
@@ -618,10 +631,10 @@ class PredictionService:
 
         # Conformal Prediction 90% interval (Crop-Conditional with SACAP-V2 Shift Safeguard)
         uq_dict = active_calibrator.predict_interval(
-            pred_tonnes, 
+            pred_tonnes,
             crop=payload.crop,
             is_climate_shift=is_climate_shift,
-            climate_z_score=temp_z_score
+            climate_z_score=temp_z_score,
         )
 
         # Confidence interval (parametric normal approximation)
@@ -629,7 +642,7 @@ class PredictionService:
             lower=round(max(0.0, pred_hg - 1.96 * model_test_rmse_hg), 1),
             upper=round(pred_hg + 1.96 * model_test_rmse_hg, 1),
             mean=round(pred_hg, 1),
-            std=round(model_test_rmse_hg, 1)
+            std=round(model_test_rmse_hg, 1),
         )
 
         conf_interval = ConformalInterval(
@@ -642,7 +655,7 @@ class PredictionService:
             method=uq_dict["method"],
             unit=uq_dict["unit"],
             climate_shift_safeguard_active=uq_dict.get("climate_shift_safeguard_active", False),
-            coverage_disclaimer=uq_dict["coverage_disclaimer"]
+            coverage_disclaimer=uq_dict["coverage_disclaimer"],
         )
 
         timestamp = datetime.now(timezone.utc).isoformat()
@@ -652,7 +665,7 @@ class PredictionService:
         reg_baseline = {
             "rainfall_baseline_mm": country_prof["rainfall_baseline_mm"],
             "temp_mean_c": country_prof["temp_mean_c"],
-            "temp_std_c": country_prof["temp_std_c"]
+            "temp_std_c": country_prof["temp_std_c"],
         } if country_prof else None
 
         # Save to database history
@@ -669,7 +682,7 @@ class PredictionService:
                 conformal_lower_bound=uq_dict["lower_bound"],
                 conformal_upper_bound=uq_dict["upper_bound"],
                 model_version=db_model_version,
-                user_id=user_id
+                user_id=user_id,
             )
         except Exception as e:
             logger.warning("Could not persist prediction to DB: %s", e)
@@ -698,7 +711,8 @@ class PredictionService:
             climate_coverage_status=climate_coverage_status,
             climate_features_used=climate_features_used,
             warnings=warnings,
-            timestamp=timestamp
+            timestamp=timestamp,
         )
+
 
 prediction_service = PredictionService()
