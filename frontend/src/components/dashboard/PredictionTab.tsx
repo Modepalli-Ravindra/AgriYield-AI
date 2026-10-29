@@ -758,7 +758,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 </div>
               )}
 
-              {/* Row 4: Side-by-side Top Factors & Farm Scale Projections */}
+                            {/* Row 4: Side-by-side Top Factors & Farm Scale Projections */}
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1.05fr 0.95fr',
@@ -774,18 +774,17 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   border: '1px solid rgba(169, 180, 158, 0.16)',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  gap: 8
+                  gap: 10
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                       <PresentationChartLineIcon style={{ width: 16, height: 16, color: 'var(--color-lime)' }} />
-                      <span style={{ fontSize: 12.5, fontWeight: 800, color: '#F7F7EF' }}>Top Factors Affecting Harvest</span>
+                      <span style={{ fontSize: 13, fontWeight: 800, color: '#F7F7EF' }}>Top Factors Affecting Harvest</span>
                     </div>
                     <span style={{ fontSize: 10.5, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>IMPACT</span>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 8, flex: 1, alignItems: 'stretch' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 8, flex: 1 }}>
                     {(() => {
                       const friendlyMap: Record<string, string> = {
                         crop: 'Crop Type',
@@ -812,33 +811,40 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                           <div key={idx} style={{
                             background: isPos ? 'rgba(74, 222, 128, 0.05)' : 'rgba(248, 113, 113, 0.05)',
                             borderRadius: 8,
-                            padding: '9px 12px',
+                            padding: '12px 14px',
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            gap: 4,
+                            justifyContent: 'center',
+                            gap: 8,
                             border: isPos ? '1px solid rgba(74, 222, 128, 0.22)' : '1px solid rgba(248, 113, 113, 0.22)'
                           }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span style={{ fontSize: 12, color: '#F7F7EF', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+                              <span style={{ fontSize: 12.5, color: '#F7F7EF', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 {item.name}
                               </span>
                               <span style={{
-                                fontSize: 12,
+                                fontSize: 13,
                                 fontFamily: 'var(--font-mono)',
                                 fontWeight: 800,
-                                color: isPos ? '#4ADE80' : '#F87171'
+                                color: isPos ? '#4ADE80' : '#F87171',
+                                flexShrink: 0
                               }}>
                                 {isPos ? `+${item.val.toFixed(2)}` : item.val.toFixed(2)} t/ha
                               </span>
                             </div>
-                            <div style={{ width: '100%', height: 4, background: 'rgba(255, 255, 255, 0.07)', borderRadius: 2, overflow: 'hidden' }}>
+                            <div style={{ width: '100%', height: 5, background: 'rgba(255, 255, 255, 0.08)', borderRadius: 3, overflow: 'hidden' }}>
                               <div style={{
-                                width: `${Math.min(100, Math.max(10, Math.abs(item.val) * 35))}%`,
+                                width: `${Math.min(100, Math.max(12, Math.abs(item.val) * 35))}%`,
                                 height: '100%',
                                 background: isPos ? 'linear-gradient(90deg, #22C55E, #4ADE80)' : 'linear-gradient(90deg, #EF4444, #F87171)',
-                                borderRadius: 2
+                                borderRadius: 3
                               }} />
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 10.5, color: '#94A3B8' }}>
+                              <span>{isPos ? 'Favorable boost' : 'Yield constraint'}</span>
+                              <span style={{ fontFamily: 'var(--font-mono)', color: isPos ? '#4ADE80' : '#FCA5A5', fontWeight: 700 }}>
+                                {Math.abs(item.val).toFixed(2)} pts
+                              </span>
                             </div>
                           </div>
                         );
@@ -855,37 +861,36 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   border: '1px solid rgba(169, 180, 158, 0.16)',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  gap: 8
+                  gap: 10
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 12.5, fontWeight: 800, color: '#F7F7EF' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: '#F7F7EF' }}>
                       Farm-Scale Projections ({inputData.crop})
                     </span>
                     <span style={{ fontSize: 10.5, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', fontWeight: 700 }}>HARVEST</span>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, flex: 1, alignItems: 'stretch' }}>
-                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '12px 10px', borderRadius: 8, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: 10.5, color: '#94A3B8', display: 'block', fontWeight: 600 }}>Smallholder (1 ha)</span>
-                      <span style={{ fontSize: 17, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)', margin: '4px 0' }}>
-                        {(prediction.predicted_yield_tonnes_per_ha * 10).toFixed(1)} <span style={{ fontSize: 11, fontWeight: 600 }}>qtl</span>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, flex: 1 }}>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '14px 10px', borderRadius: 8, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 11, color: '#94A3B8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Smallholder (1 ha)</span>
+                      <span style={{ fontSize: 22, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)', lineHeight: 1.1 }}>
+                        {(prediction.predicted_yield_tonnes_per_ha * 10).toFixed(1)} <span style={{ fontSize: 12, fontWeight: 600 }}>qtl</span>
                       </span>
-                      <span style={{ fontSize: 9.5, color: '#CBD5E1' }}>Direct harvest</span>
+                      <span style={{ fontSize: 10.5, color: '#CBD5E1', background: 'rgba(255, 255, 255, 0.06)', padding: '2px 8px', borderRadius: 4 }}>Direct harvest</span>
                     </div>
-                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '12px 10px', borderRadius: 8, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: 10.5, color: '#94A3B8', display: 'block', fontWeight: 600 }}>Medium Farm (5 ha)</span>
-                      <span style={{ fontSize: 17, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', margin: '4px 0' }}>
-                        {(prediction.predicted_yield_tonnes_per_ha * 5).toFixed(1)} <span style={{ fontSize: 11, fontWeight: 600 }}>t</span>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '14px 10px', borderRadius: 8, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 11, color: '#94A3B8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Medium Farm (5 ha)</span>
+                      <span style={{ fontSize: 22, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', lineHeight: 1.1 }}>
+                        {(prediction.predicted_yield_tonnes_per_ha * 5).toFixed(1)} <span style={{ fontSize: 12, fontWeight: 600 }}>t</span>
                       </span>
-                      <span style={{ fontSize: 9.5, color: '#CBD5E1' }}>5-hectare plot</span>
+                      <span style={{ fontSize: 10.5, color: '#CBD5E1', background: 'rgba(255, 255, 255, 0.06)', padding: '2px 8px', borderRadius: 4 }}>5-hectare plot</span>
                     </div>
-                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '12px 10px', borderRadius: 8, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: 10.5, color: '#94A3B8', display: 'block', fontWeight: 600 }}>Commercial (25 ha)</span>
-                      <span style={{ fontSize: 17, fontWeight: 900, color: '#34D399', fontFamily: 'var(--font-mono)', margin: '4px 0' }}>
-                        {(prediction.predicted_yield_tonnes_per_ha * 25).toFixed(1)} <span style={{ fontSize: 11, fontWeight: 600 }}>t</span>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '14px 10px', borderRadius: 8, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 11, color: '#94A3B8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Commercial (25 ha)</span>
+                      <span style={{ fontSize: 22, fontWeight: 900, color: '#34D399', fontFamily: 'var(--font-mono)', lineHeight: 1.1 }}>
+                        {(prediction.predicted_yield_tonnes_per_ha * 25).toFixed(1)} <span style={{ fontSize: 12, fontWeight: 600 }}>t</span>
                       </span>
-                      <span style={{ fontSize: 9.5, color: '#CBD5E1' }}>Estate yield</span>
+                      <span style={{ fontSize: 10.5, color: '#CBD5E1', background: 'rgba(255, 255, 255, 0.06)', padding: '2px 8px', borderRadius: 4 }}>Estate yield</span>
                     </div>
                   </div>
                 </div>
