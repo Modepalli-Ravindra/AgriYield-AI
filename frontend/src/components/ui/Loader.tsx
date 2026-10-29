@@ -256,7 +256,7 @@ export const TenSecondAILoader: React.FC<TenSecondAILoaderProps> = ({
     "2/5 · Comparing with 30+ years of regional farm harvest records...",
     "3/5 · Measuring how each weather factor helps or limits your crop yield...",
     "4/5 · Calculating realistic best-case and worst-case harvest ranges...",
-    "5/5 · Generating your plain-English yield breakdown and farm guidance..."
+    "5/5 · Generating your comprehensive yield breakdown and farm guidance..."
   ];
 
   React.useEffect(() => {

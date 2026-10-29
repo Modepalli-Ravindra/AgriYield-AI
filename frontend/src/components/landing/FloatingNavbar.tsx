@@ -79,11 +79,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
               Benchmarks
             </button>
           </li>
-          <li>
-            <button className="nav-link" onClick={() => scrollToSection('faq')}>
-              FAQ
-            </button>
-          </li>
+
         </ul>
 
         <div className="nav-actions">
@@ -140,9 +136,7 @@ export const FloatingNavbar: React.FC<FloatingNavbarProps> = ({ onOpenAuth }) =>
           <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('insights')}>
             Benchmarks
           </button>
-          <button className="nav-link" style={{ textAlign: 'left', padding: '10px 14px', fontSize: 16 }} onClick={() => scrollToSection('faq')}>
-            FAQ
-          </button>
+
           <div style={{ height: 1, background: 'rgba(169, 180, 158, 0.2)', margin: '8px 0' }} />
           <div style={{ display: 'flex', gap: 12 }}>
             <button 

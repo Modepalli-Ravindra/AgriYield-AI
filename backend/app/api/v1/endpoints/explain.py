@@ -29,7 +29,7 @@ FEATURE_FRIENDLY_NAMES = {
 
 @router.post("/explain", response_model=ExplainResponse)
 def explain_prediction(payload: YieldInput):
-    """Compute local TreeSHAP feature impact attribution for a single prediction in plain English."""
+    """Compute local TreeSHAP feature impact attribution for a single prediction with human-readable factors."""
     if prediction_service.model is None:
         raise HTTPException(status_code=503, detail="Explanation service unavailable: model artifact is not loaded.")
     pred_res = prediction_service.predict(payload)

@@ -121,10 +121,7 @@ export default function App() {
   const handleRunPrediction = async () => {
     setLoadingPred(true);
     try {
-      const [res] = await Promise.all([
-        api.predictYield(inputData),
-        new Promise((resolve) => setTimeout(resolve, 10000))
-      ]);
+      const res = await api.predictYield(inputData);
       setPrediction(res);
     } catch (err: any) {
       alert(err.message || 'Prediction failed');
@@ -231,7 +228,7 @@ export default function App() {
         case 'batch':
           return { title: 'Batch Scenario Processing', subtitle: 'Simulate up to 50 concurrent agricultural scenarios' };
         case 'explain':
-          return { title: 'Factor Contributions & Explanations', subtitle: 'Plain-English breakdown of what helped or hurt your crop yield' };
+          return { title: 'Factor Contributions & Explanations', subtitle: 'Clear breakdown of what helped or hurt your crop yield' };
         case 'sensitivity':
           return { title: 'Climate Sensitivity Analysis', subtitle: 'Parameter response curves across [-30%, +30%] variation' };
         case 'whatif':
@@ -268,14 +265,14 @@ export default function App() {
           />
 
           <main className="app-view-body">
-            <div style={{ display: activeTab === 'overview' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: activeTab === 'overview' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <OverviewTab
                 currentUser={currentUser}
                 onNavigate={(tab: any) => setActiveTab(tab)}
               />
             </div>
 
-            <div style={{ display: activeTab === 'predict' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: activeTab === 'predict' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <PredictionTab
                 inputData={inputData}
                 setInputData={setInputData}
@@ -289,11 +286,11 @@ export default function App() {
               />
             </div>
 
-            <div style={{ display: activeTab === 'batch' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: activeTab === 'batch' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <BatchPredictionTab />
             </div>
 
-            <div style={{ display: activeTab === 'explain' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: activeTab === 'explain' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <ExplainTab
                 explainData={explainData}
                 loading={loadingExplain}
@@ -302,7 +299,7 @@ export default function App() {
               />
             </div>
 
-            <div style={{ display: activeTab === 'sensitivity' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: activeTab === 'sensitivity' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <SensitivityTab
                 sensData={sensData}
                 sensParam={sensParam}
@@ -313,7 +310,7 @@ export default function App() {
               />
             </div>
 
-            <div style={{ display: activeTab === 'whatif' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: activeTab === 'whatif' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <WhatIfTab
                 inputData={inputData}
                 whatIfData={whatIfData}
@@ -323,23 +320,17 @@ export default function App() {
               />
             </div>
 
-            <div style={{ display: activeTab === 'benchmarks' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: activeTab === 'benchmarks' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <BenchmarksTab benchmarks={benchmarks} />
             </div>
 
-            <div style={{ display: activeTab === 'history' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: activeTab === 'history' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <HistoryTab onNavigateToPredict={() => setActiveTab('predict')} />
             </div>
           </main>
         </div>
 
         {/* Centered 10-Second Countdown AI Loaders */}
-        {loadingPred && (
-          <TenSecondAILoader 
-            title="Estimating Crop Yield"
-            subtitle={`Analyzing weather, soil, and historical harvest data for ${inputData.country} (${inputData.crop})...`}
-          />
-        )}
         {loadingExplain && (
           <TenSecondAILoader 
             title="Analyzing Factor Influences"

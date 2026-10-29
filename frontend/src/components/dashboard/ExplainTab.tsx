@@ -231,7 +231,7 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
             </h2>
           </div>
           <p style={{ fontSize: 14, color: '#CBD5E1', margin: 0, lineHeight: 1.5 }}>
-            Simple, plain-English explanations showing exactly what helped your crop yield and what pulled it down.
+            Simple, clear explanations showing exactly what helped your crop yield and what pulled it down.
           </p>
         </div>
 
@@ -319,7 +319,7 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
             <Info size={20} style={{ color: 'var(--color-lime)' }} />
             <div>
               <h3 style={{ fontSize: 17, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0 }}>
-                Plain-English Guide: What Every Factor Means & Why It Matters
+                Factor Guide: What Every Metric Means & Why It Matters
               </h3>
               <p style={{ fontSize: 13, color: '#94A3B8', margin: '2px 0 0' }}>
                 Everything you need to know about the numbers used to forecast your crop yield.
@@ -673,7 +673,7 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
             Ready to Explain Your Crop Yield
           </h3>
           <p style={{ fontSize: 15, maxWidth: 520, margin: '0 auto 20px', lineHeight: 1.5, color: '#94A3B8' }}>
-            Click <strong>Calculate Factor Breakdown</strong> above to see plain-English explanations for every weather and soil factor affecting your harvest.
+            Click <strong>Calculate Factor Breakdown</strong> above to see clear explanations for every weather and soil factor affecting your harvest.
           </p>
         </div>
       )}

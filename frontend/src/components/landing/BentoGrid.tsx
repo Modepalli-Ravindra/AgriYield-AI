@@ -46,9 +46,9 @@ const CAPABILITIES = [
   },
   {
     icon: CircleStackIcon,
-    tag: 'CLOUD PERSISTENCE',
-    title: 'PostgreSQL Database & Protection',
-    desc: 'Thread-safe cloud PostgreSQL storage with user-isolated prediction history, schema migrations, and real-time agronomic range and outlier warnings.',
+    tag: 'SECURE PERSISTENCE',
+    title: 'SQLite Database & Protection',
+    desc: 'Thread-safe local SQLite storage with Write-Ahead Logging (WAL), user-isolated prediction history, and real-time agronomic range and outlier warnings.',
     metric: 'Secure History & Outlier Defense'
   }
 ];

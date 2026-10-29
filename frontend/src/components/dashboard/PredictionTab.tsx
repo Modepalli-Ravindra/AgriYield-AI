@@ -13,7 +13,7 @@ import {
   CloudArrowDownIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
-import { ButtonSpinner, AIEngineLoader } from '../ui/Loader';
+import { ButtonSpinner } from '../ui/Loader';
 import type { YieldInput, PredictionResponse, OptionsResponse } from '../../types';
 import * as api from '../../api';
 
@@ -109,23 +109,18 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
       boxSizing: 'border-box'
     }}>
       {/* Primary Work Grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(420px, 480px) 1fr',
-        gap: 18,
-        alignItems: 'start',
-        width: '100%'
-      }}>
+      <div className="prediction-work-grid">
         {/* Parameter Control Form */}
         <div style={{
           background: 'var(--color-forest-surface)',
           borderRadius: 16,
           border: '1.5px solid var(--color-forest-border)',
           boxShadow: 'var(--shadow-card)',
-          padding: '22px 24px',
+          padding: '20px 22px',
           display: 'flex',
           flexDirection: 'column',
-          gap: 16
+          gap: 14,
+          minWidth: 0
         }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, paddingBottom: 10, borderBottom: '1px solid rgba(169, 180, 158, 0.14)' }}>
@@ -302,6 +297,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   step="10"
                   value={inputData.rainfall_mm}
                   onChange={(e) => handleChange('rainfall_mm', parseFloat(e.target.value))}
+                  onWheel={(e) => e.currentTarget.blur()}
                   style={{ width: '100%', accentColor: 'var(--color-lime)', cursor: 'pointer', height: 6 }}
                 />
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, color: '#94A3B8', marginTop: 5, fontWeight: 500 }}>
@@ -327,6 +323,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   step="0.5"
                   value={inputData.avg_temp_c}
                   onChange={(e) => handleChange('avg_temp_c', parseFloat(e.target.value))}
+                  onWheel={(e) => e.currentTarget.blur()}
                   style={{ width: '100%', accentColor: 'var(--color-lime)', cursor: 'pointer', height: 6 }}
                 />
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, color: '#94A3B8', marginTop: 5, fontWeight: 500 }}>
@@ -347,6 +344,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                     style={{ padding: '10px 14px', fontSize: 14.5, borderRadius: 9, minHeight: 44, width: '100%', boxSizing: 'border-box' }}
                     value={inputData.pesticides_tonnes}
                     onChange={(e) => handleChange('pesticides_tonnes', parseFloat(e.target.value) || 0)}
+                    onWheel={(e) => e.currentTarget.blur()}
                     min="0"
                   />
                 </div>
@@ -366,6 +364,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                     style={{ padding: '10px 14px', fontSize: 14.5, borderRadius: 9, minHeight: 44, width: '100%', boxSizing: 'border-box' }}
                     value={inputData.year}
                     onChange={(e) => handleChange('year', parseInt(e.target.value) || 2026)}
+                    onWheel={(e) => e.currentTarget.blur()}
                     min="1990"
                     max="2035"
                   />
@@ -425,7 +424,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               }}
             >
               {loading ? (
-                <ButtonSpinner size={18} text="Predicting (10s)..." />
+                <ButtonSpinner size={18} text="Estimating..." />
               ) : (
                 <>
                   <SparklesIcon style={{ width: 18, height: 18 }} />
@@ -466,10 +465,11 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           borderRadius: 16,
           border: '1.5px solid var(--color-forest-border)',
           boxShadow: 'var(--shadow-card)',
-          padding: '22px 24px',
+          padding: '20px 22px',
           display: 'flex',
           flexDirection: 'column',
-          gap: 16
+          gap: 14,
+          minWidth: 0
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, paddingBottom: 10, borderBottom: '1px solid rgba(169, 180, 158, 0.16)' }}>
@@ -541,26 +541,19 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               </div>
             </div>
 
-            {loading ? (
-              <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-                <AIEngineLoader 
-                  title="Terraflect Inference Pipeline"
-                  subtitle="Evaluating climate factors & conformal quantile intervals..."
-                />
+            {loading && !prediction ? (
+              <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--color-lime)' }}>
+                <ButtonSpinner size={22} text="Calculating forecast..." />
               </div>
             ) : prediction ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, minHeight: 0, justifyContent: 'flex-start' }}>
                 {/* Unified Harvest Yield & 90% Statistical Coverage Interval Card */}
-                <div style={{
+                <div className="prediction-summary-hero" style={{
                   background: 'radial-gradient(circle at 30% 30%, #20311f 0%, #132012 100%)',
                   borderRadius: 14,
                   padding: '16px 20px',
                   border: '1.5px solid var(--color-forest-border)',
-                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35)',
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: 16,
-                  alignItems: 'center'
+                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35)'
                 }}>
                   {/* Left: Estimated Harvest Yield */}
                   <div>
@@ -583,7 +576,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                     padding: '12px 16px',
                     border: '1px solid rgba(169, 180, 158, 0.2)'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6, marginBottom: 6 }}>
                       <span style={{ fontSize: 12.5, fontWeight: 800, color: '#F7F7EF' }}>
                         90% Statistical Coverage
                       </span>
@@ -616,7 +609,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   padding: '12px 18px',
                   border: '1px solid rgba(169, 180, 158, 0.18)'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8, fontSize: 13 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6, marginBottom: 8, fontSize: 13 }}>
                     <span style={{ color: '#F7F7EF', fontWeight: 800 }}>Conformal Uncertainty Distribution</span>
                     <span style={{ color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: 12.5 }}>
                       ±{(((prediction.conformal_interval_90.interval_width_tonnes ?? (prediction.conformal_interval_90.upper_bound - prediction.conformal_interval_90.lower_bound))) / 2).toFixed(2)} t/ha margin (90% Nominal Coverage)
@@ -781,7 +774,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                       </span>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                    <div className="prediction-factors-grid">
                       {(() => {
                         const friendlyMap: Record<string, string> = {
                           crop: 'Crop Choice',
@@ -848,7 +841,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                       HARVEST SCALE
                     </span>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+                  <div className="prediction-farm-scale-grid">
                     <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '10px 12px', borderRadius: 8, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
                       <span style={{ fontSize: 11.5, color: '#94A3B8', display: 'block', marginBottom: 3 }}>Smallholder (1 ha)</span>
                       <span style={{ fontSize: 16, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)' }}>
@@ -985,7 +978,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
 
           {/* Quick Actions to other tabs */}
           {prediction && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 10, paddingTop: 12, borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+            <div className="prediction-actions-grid" style={{ marginTop: 10, paddingTop: 12, borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
               <button
                 type="button"
                 className="btn-secondary"
@@ -993,7 +986,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 style={{ padding: '11px 16px', fontSize: 13.5, borderRadius: 9, justifyContent: 'center', fontWeight: 700 }}
               >
                 <PresentationChartLineIcon style={{ width: 16, height: 16 }} />
-                <span>View Plain-English Factor Breakdown</span>
+                <span>View Factor Breakdown</span>
               </button>
               <button
                 type="button"
