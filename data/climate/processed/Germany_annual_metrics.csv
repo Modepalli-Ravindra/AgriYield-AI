@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Germany,2010,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),732.6,8.43,437.4,14.12,10,22,365,2.3
+Germany,2011,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),583.9,10.44,384.7,15.11,1,30,365,2.3
+Germany,2012,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),669.0,10.01,424.2,14.43,3,17,366,2.3
+Germany,2013,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),732.3,9.44,507.3,14.47,3,20,365,2.3
+Germany,2014,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),675.2,11.2,499.5,15.32,2,13,365,2.3
+Germany,2015,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),760.0,10.62,465.4,14.16,9,16,365,2.3
+Germany,2016,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),586.5,10.42,324.7,15.34,6,19,366,2.3
+Germany,2017,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),879.5,10.26,543.4,14.55,0,15,365,2.3
+Germany,2018,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),493.9,11.3,225.3,16.78,15,17,365,2.3
+Germany,2019,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),682.6,11.2,389.1,15.59,15,14,365,2.3
+Germany,2020,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),660.3,11.34,369.7,15.21,7,28,366,2.3
+Germany,2021,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),731.5,10.0,443.4,14.36,2,10,365,2.3
+Germany,2022,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),602.4,11.28,316.2,15.81,15,17,365,2.3
+Germany,2023,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1084.7,11.32,544.4,15.52,4,15,365,2.3
+Germany,2024,52.3759,9.732,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),838.0,11.6,496.4,15.82,3,12,366,2.3

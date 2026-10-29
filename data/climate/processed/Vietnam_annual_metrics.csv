@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Vietnam,2010,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2146.3,27.05,1935.0,26.91,251,55,365,34.0
+Vietnam,2011,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1953.0,26.25,1589.6,26.58,204,40,365,34.0
+Vietnam,2012,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1941.2,26.59,1599.9,26.47,218,15,366,34.0
+Vietnam,2013,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1899.3,26.57,1568.1,26.47,214,41,365,34.0
+Vietnam,2014,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1871.4,26.6,1666.3,26.77,235,71,365,34.0
+Vietnam,2015,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1530.6,27.01,1400.9,27.27,263,39,365,34.0
+Vietnam,2016,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1900.7,27.2,1694.6,26.99,255,96,366,34.0
+Vietnam,2017,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2347.2,26.76,1924.4,26.84,220,17,365,34.0
+Vietnam,2018,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1846.0,26.9,1544.3,26.9,239,28,365,34.0
+Vietnam,2019,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1651.3,27.2,1533.5,27.11,266,30,365,34.0
+Vietnam,2020,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2293.1,27.39,2139.4,27.22,293,98,366,34.0
+Vietnam,2021,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2289.2,26.72,1987.0,26.87,243,20,365,34.0
+Vietnam,2022,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2655.6,26.7,2243.2,26.5,268,17,365,34.0
+Vietnam,2023,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2374.0,27.06,2164.7,27.09,292,41,365,34.0
+Vietnam,2024,10.0333,105.7833,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2248.2,27.59,2078.0,27.24,297,91,366,34.0

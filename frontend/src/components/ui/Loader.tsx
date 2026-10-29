@@ -236,6 +236,182 @@ export const AIEngineLoader: React.FC<AIEngineLoaderProps> = ({
 };
 
 /**
+ * Centered 10-Second Countdown Multi-Stage AI Engine Loader
+ * Displayed in the dead-center of the screen with live timer and pipeline status
+ */
+interface TenSecondAILoaderProps {
+  title?: string;
+  subtitle?: string;
+}
+
+export const TenSecondAILoader: React.FC<TenSecondAILoaderProps> = ({
+  title = "Terraflect ML-DL Inference Engine",
+  subtitle = "Calibrating environmental tensors and computing exact TreeSHAP attributions..."
+}) => {
+  const [secondsRemaining, setSecondsRemaining] = React.useState(10);
+  const [stageIndex, setStageIndex] = React.useState(0);
+
+  const PIPELINE_STAGES = [
+    "1/5 · Ingesting regional agro-climatic tensors (Open-Meteo & FAO)...",
+    "2/5 · Executing 300-estimator gradient boosted ensemble pass...",
+    "3/5 · Computing exact TreeSHAP local game-theoretic attribution matrix...",
+    "4/5 · Calibrating non-negative crop-conditional conformal intervals (90%)...",
+    "5/5 · Validating mathematical additivity & assembling final forecast..."
+  ];
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setSecondsRemaining((prev) => Math.max(0, prev - 1));
+    }, 1000);
+
+    const stageTimer = setInterval(() => {
+      setStageIndex((prev) => (prev + 1) % PIPELINE_STAGES.length);
+    }, 2000);
+
+    return () => {
+      clearInterval(timer);
+      clearInterval(stageTimer);
+    };
+  }, []);
+
+  const progressPct = ((10 - secondsRemaining) / 10) * 100;
+
+  return (
+    <>
+      <style>{LOADER_STYLES}</style>
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 99999,
+        background: 'rgba(8, 14, 8, 0.88)',
+        backdropFilter: 'blur(10px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '24px'
+      }}>
+        <div style={{
+          background: 'radial-gradient(circle at 50% 20%, #1c2b1a 0%, #0e170d 100%)',
+          border: '1.5px solid var(--color-lime)',
+          borderRadius: 24,
+          padding: '38px 44px',
+          maxWidth: 560,
+          width: '100%',
+          textAlign: 'center',
+          boxShadow: '0 24px 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(228, 253, 151, 0.25)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+          {/* Orbital Radar Pulse */}
+          <div style={{ position: 'relative', width: 72, height: 72, marginBottom: 22 }}>
+            <div 
+              className="tf-ripple-wave"
+              style={{
+                position: 'absolute',
+                inset: -14,
+                borderRadius: '50%',
+                border: '2px solid rgba(228, 253, 151, 0.6)',
+                boxShadow: '0 0 25px rgba(228, 253, 151, 0.4)'
+              }}
+            />
+            <div 
+              className="tf-spin-counter"
+              style={{
+                position: 'absolute',
+                inset: -6,
+                borderRadius: '50%',
+                border: '2.5px dashed rgba(228, 253, 151, 0.6)'
+              }}
+            />
+            <div 
+              className="tf-spin-clockwise"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                borderRadius: '50%',
+                border: '3.5px solid transparent',
+                borderTopColor: 'var(--color-lime)',
+                borderRightColor: 'var(--color-lime)',
+                boxShadow: '0 0 20px rgba(228, 253, 151, 0.9)'
+              }}
+            />
+            <div 
+              className="tf-pulse-core"
+              style={{
+                position: 'absolute',
+                inset: '25%',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, var(--color-lime) 0%, rgba(228, 253, 151, 0.4) 65%, transparent 100%)',
+                boxShadow: '0 0 22px var(--color-lime)'
+              }}
+            />
+          </div>
+
+          <h3 style={{ fontSize: 22, fontWeight: 900, color: 'var(--color-offwhite)', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+            {title}
+          </h3>
+          <p style={{ fontSize: 14, color: 'rgba(255, 255, 255, 0.75)', margin: '0 0 18px', maxWidth: 440, lineHeight: 1.4 }}>
+            {subtitle}
+          </p>
+
+          {/* Active Pipeline Stage Tag */}
+          <div style={{
+            background: 'rgba(228, 253, 151, 0.1)',
+            border: '1px solid rgba(228, 253, 151, 0.3)',
+            borderRadius: 8,
+            padding: '8px 16px',
+            fontSize: 13,
+            fontWeight: 700,
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--color-lime)',
+            marginBottom: 20,
+            width: '100%',
+            boxSizing: 'border-box'
+          }}>
+            {PIPELINE_STAGES[stageIndex]}
+          </div>
+
+          {/* Smooth Progress Bar */}
+          <div style={{
+            width: '100%',
+            height: 9,
+            background: 'rgba(255, 255, 255, 0.08)',
+            borderRadius: 6,
+            overflow: 'hidden',
+            marginBottom: 12
+          }}>
+            <div style={{
+              width: `${Math.min(100, Math.max(4, progressPct))}%`,
+              height: '100%',
+              background: 'linear-gradient(90deg, #34D399, var(--color-lime))',
+              borderRadius: 6,
+              transition: 'width 1s linear',
+              boxShadow: '0 0 10px rgba(228, 253, 151, 0.5)'
+            }} />
+          </div>
+
+          {/* Live Remaining Time */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+            fontSize: 13,
+            fontFamily: 'var(--font-mono)',
+            color: 'rgba(255, 255, 255, 0.75)'
+          }}>
+            <span>Processing Tensors</span>
+            <span style={{ color: 'var(--color-lime)', fontWeight: 800 }}>
+              {secondsRemaining}s remaining
+            </span>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+/**
  * shadcn-style Shimmer Skeleton placeholder
  */
 export const Skeleton: React.FC<{ 

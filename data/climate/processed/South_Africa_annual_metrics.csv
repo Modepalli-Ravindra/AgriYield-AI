@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+South Africa,2010,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),865.8,15.37,794.3,17.06,4,101,365,10.2
+South Africa,2011,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),786.0,14.78,681.1,16.72,11,45,365,10.2
+South Africa,2012,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),728.3,15.36,437.4,17.45,3,58,366,10.2
+South Africa,2013,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),666.5,15.65,580.8,17.46,9,82,365,10.2
+South Africa,2014,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),785.1,15.23,705.4,16.89,2,79,365,10.2
+South Africa,2015,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),462.7,16.82,382.4,18.73,27,42,365,10.2
+South Africa,2016,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),762.3,16.35,665.5,18.27,16,53,366,10.2
+South Africa,2017,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),675.0,15.89,617.2,17.4,3,125,365,10.2
+South Africa,2018,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),517.6,16.34,468.8,18.12,26,38,365,10.2
+South Africa,2019,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),434.0,17.05,418.1,18.52,19,132,365,10.2
+South Africa,2020,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),687.6,15.64,604.3,17.41,7,74,366,10.2
+South Africa,2021,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),847.8,15.6,764.8,17.35,7,75,365,10.2
+South Africa,2022,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),794.6,15.52,726.9,16.51,5,48,365,10.2
+South Africa,2023,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),561.9,16.11,487.1,17.88,20,66,365,10.2
+South Africa,2024,-26.2041,28.0473,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),318.6,16.98,257.1,19.19,34,104,366,10.2

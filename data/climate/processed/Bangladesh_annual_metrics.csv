@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Bangladesh,2010,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1746.1,25.96,1259.7,27.3,222,54,365,58.0
+Bangladesh,2011,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1894.7,25.04,1363.9,26.67,195,70,365,58.0
+Bangladesh,2012,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1624.4,25.08,1189.5,26.6,205,48,366,58.0
+Bangladesh,2013,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1831.2,24.87,962.9,26.46,175,66,365,58.0
+Bangladesh,2014,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1284.2,25.24,989.5,26.92,201,52,365,58.0
+Bangladesh,2015,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2258.9,25.13,1632.7,26.8,179,32,365,58.0
+Bangladesh,2016,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1863.4,25.63,1180.3,27.01,215,55,366,58.0
+Bangladesh,2017,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2675.0,25.2,1894.5,27.0,189,51,365,58.0
+Bangladesh,2018,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1617.7,25.05,960.4,27.2,221,56,365,58.0
+Bangladesh,2019,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1624.6,25.28,1268.6,27.39,203,55,365,58.0
+Bangladesh,2020,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2008.1,25.19,1491.3,27.47,207,40,366,58.0
+Bangladesh,2021,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1820.9,25.64,1376.0,27.17,219,68,365,58.0
+Bangladesh,2022,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1583.4,25.29,1174.7,27.38,220,62,365,58.0
+Bangladesh,2023,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1761.7,25.8,1360.4,27.86,243,38,365,58.0
+Bangladesh,2024,23.8103,90.4125,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1895.1,25.79,1525.8,27.64,233,56,366,58.0

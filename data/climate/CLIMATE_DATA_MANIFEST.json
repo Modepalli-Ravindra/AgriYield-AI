@@ -1,0 +1,238 @@
+{
+  "manifest_version": "1.0.0",
+  "dataset_name": "Terraflect Genuine Climate Observations (ECMWF ERA5-Land)",
+  "source": "ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive)",
+  "license": "Copernicus Open Access License / CC-BY 4.0",
+  "generation_timestamp_utc": "2026-10-19T16:33:40.003440+00:00",
+  "geographic_units": "Agricultural basin centroids with documented crop calendar windows",
+  "variables": [
+    {
+      "name": "annual_precip_mm",
+      "unit": "mm/year",
+      "description": "Actual measured annual precipitation sum"
+    },
+    {
+      "name": "annual_temp_mean_c",
+      "unit": "deg C",
+      "description": "Measured annual mean 2m air temperature"
+    },
+    {
+      "name": "growing_season_precip_mm",
+      "unit": "mm",
+      "description": "Rainfall during crop calendar window"
+    },
+    {
+      "name": "growing_season_temp_c",
+      "unit": "deg C",
+      "description": "Mean temperature during crop calendar window"
+    },
+    {
+      "name": "heat_stress_days_above_30c",
+      "unit": "days",
+      "description": "Days exceeding 30 deg C threshold"
+    },
+    {
+      "name": "dry_spell_max_days",
+      "unit": "days",
+      "description": "Maximum consecutive days with rain < 1mm"
+    }
+  ],
+  "countries_ingested": {
+    "Argentina": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 1008.4,
+      "mean_annual_temp_c": 17.48,
+      "mean_heat_days": 25.3
+    },
+    "Australia": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 885.7,
+      "mean_annual_temp_c": 17.51,
+      "mean_heat_days": 18.5
+    },
+    "Bangladesh": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 1832.6,
+      "mean_annual_temp_c": 25.35,
+      "mean_heat_days": 208.5
+    },
+    "Brazil": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 1479.3,
+      "mean_annual_temp_c": 25.14,
+      "mean_heat_days": 240.6
+    },
+    "Burkina Faso": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 622.0,
+      "mean_annual_temp_c": 28.39,
+      "mean_heat_days": 335.9
+    },
+    "Canada": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 437.8,
+      "mean_annual_temp_c": 3.38,
+      "mean_heat_days": 8.9
+    },
+    "Colombia": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 4452.7,
+      "mean_annual_temp_c": 13.58,
+      "mean_heat_days": 0.0
+    },
+    "Egypt": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 25.9,
+      "mean_annual_temp_c": 22.96,
+      "mean_heat_days": 192.8
+    },
+    "France": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 733.9,
+      "mean_annual_temp_c": 12.08,
+      "mean_heat_days": 9.8
+    },
+    "Germany": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 714.2,
+      "mean_annual_temp_c": 10.59,
+      "mean_heat_days": 6.3
+    },
+    "India": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 732.2,
+      "mean_annual_temp_c": 24.53,
+      "mean_heat_days": 215.1
+    },
+    "Indonesia": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 1876.1,
+      "mean_annual_temp_c": 27.46,
+      "mean_heat_days": 264.3
+    },
+    "Italy": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 1013.2,
+      "mean_annual_temp_c": 12.59,
+      "mean_heat_days": 27.9
+    },
+    "Japan": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 1473.3,
+      "mean_annual_temp_c": 15.06,
+      "mean_heat_days": 51.0
+    },
+    "Kenya": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 803.7,
+      "mean_annual_temp_c": 18.51,
+      "mean_heat_days": 7.0
+    },
+    "Mexico": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 650.1,
+      "mean_annual_temp_c": 19.58,
+      "mean_heat_days": 83.2
+    },
+    "Nigeria": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 1130.3,
+      "mean_annual_temp_c": 26.5,
+      "mean_heat_days": 226.9
+    },
+    "Pakistan": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 599.8,
+      "mean_annual_temp_c": 23.61,
+      "mean_heat_days": 205.1
+    },
+    "Poland": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 696.4,
+      "mean_annual_temp_c": 9.68,
+      "mean_heat_days": 9.3
+    },
+    "South Africa": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 659.6,
+      "mean_annual_temp_c": 15.91,
+      "mean_heat_days": 12.9
+    },
+    "Spain": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 446.0,
+      "mean_annual_temp_c": 15.06,
+      "mean_heat_days": 77.5
+    },
+    "Thailand": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 1511.1,
+      "mean_annual_temp_c": 28.03,
+      "mean_heat_days": 324.3
+    },
+    "Turkey": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 316.1,
+      "mean_annual_temp_c": 13.22,
+      "mean_heat_days": 59.1
+    },
+    "United Kingdom": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 664.1,
+      "mean_annual_temp_c": 10.86,
+      "mean_heat_days": 2.2
+    },
+    "United States of America": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 965.5,
+      "mean_annual_temp_c": 10.16,
+      "mean_heat_days": 30.7
+    },
+    "Vietnam": {
+      "years_ingested": 15,
+      "mean_annual_precip_mm": 2063.1,
+      "mean_annual_temp_c": 26.91,
+      "mean_heat_days": 250.5
+    }
+  },
+  "linkage_summary": {
+    "source_yield_records": 19996,
+    "linked_records": 19996,
+    "genuine_climate_records": 2281,
+    "coverage_percentage": 11.41,
+    "climate_countries": [
+      "Argentina",
+      "Australia",
+      "Bangladesh",
+      "Brazil",
+      "Burkina Faso",
+      "Canada",
+      "Colombia",
+      "Egypt",
+      "France",
+      "Germany",
+      "India",
+      "Indonesia",
+      "Italy",
+      "Japan",
+      "Kenya",
+      "Mexico",
+      "Nigeria",
+      "Pakistan",
+      "Poland",
+      "South Africa",
+      "Spain",
+      "Thailand",
+      "Turkey",
+      "United Kingdom",
+      "United States of America",
+      "Vietnam"
+    ],
+    "years_covered": [
+      2010,
+      2024
+    ],
+    "output_path": "C:\\Users\\user\\OneDrive\\Desktop\\Crop_Yield_Prediction\\experiments\\climate_enhanced_experiments\\data\\yield_df_climate_enhanced.csv",
+    "status": "VALIDATED_WITHOUT_LEAKAGE"
+  }
+}

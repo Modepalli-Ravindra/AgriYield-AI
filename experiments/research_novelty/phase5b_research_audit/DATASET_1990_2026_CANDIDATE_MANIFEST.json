@@ -1,0 +1,54 @@
+{
+  "manifest_name": "Terraflect Historical & Prospective Dataset Extension Manifest (1990-2026)",
+  "audit_phase": "Phase 5B Research Audit",
+  "audit_timestamp": "2026-10-19T10:18:00Z",
+  "current_golden_dataset": {
+    "file_path": "data/yield_df_1990_2024.csv",
+    "sha256": "c89d272f569e6ec0f98114f941c78e5d015540b6ad19956886c8c30a56e4748a",
+    "total_rows": 19996,
+    "unique_countries": 101,
+    "unique_crops": 10,
+    "verified_year_range": [1990, 2024],
+    "verification_status": "VERIFIED_PUBLISHED_ACTUAL_DATA"
+  },
+  "candidate_extension_evaluation": {
+    "target_horizon": [1990, 2026],
+    "extension_feasibility": "UNAVAILABLE_PENDING_OFFICIAL_RELEASE",
+    "decision": "PRESERVE_EXISTING_DATASET_WITHOUT_FABRICATION",
+    "candidate_file_created": false,
+    "rationale": "Verified actual annual crop yields for calendar years 2025 and 2026 are not yet published in official UN FAOSTAT QCL bulk archives. Calendar year 2026 is currently active and unharvested. Generating synthetic, projected, or imputed crop yields and labeling them as official historical observations violates scientific integrity guidelines."
+  },
+  "year_by_year_availability_audit": {
+    "1990_2013": {
+      "status": "VERIFIED_PUBLISHED_ACTUAL_DATA",
+      "sources": ["FAOSTAT QCL", "FAOSTAT RP", "Berkeley Earth / FAOSTAT ET", "AQUASTAT/World Bank"],
+      "rows_per_year_approx": 570,
+      "target_imputation": "NONE (Pure observed data)"
+    },
+    "2014_2024": {
+      "status": "VERIFIED_PUBLISHED_ACTUAL_DATA",
+      "sources": ["UN FAOSTAT Normalized Bulk Archives (October 2026 retrieval)"],
+      "rows_per_year_approx": 624,
+      "target_imputation": "NONE (Zero synthetic interpolation)"
+    },
+    "2025": {
+      "status": "UNAVAILABLE_IN_GLOBAL_BULK_ARCHIVES",
+      "fao_qcl_crop_yield": "PENDING (National questionnaire collection & validation in progress)",
+      "fao_rp_pesticides": "PENDING (18-24 month reporting lag)",
+      "fao_et_temperature": "PROVISIONAL_PUBLISHED (Meteorological land surface anomaly available)",
+      "aqua_stat_rainfall": "STATIC_NATIONAL_CONSTANT"
+    },
+    "2026": {
+      "status": "STRICTLY_UNAVAILABLE_GLOBALLY",
+      "fao_qcl_crop_yield": "NOT_OCCURRED (2026 agricultural calendar year is active and unfinalized)",
+      "fao_rp_pesticides": "UNAVAILABLE (Current year sales uncollected)",
+      "fao_et_temperature": "PARTIAL (Incomplete monthly anomalies only)",
+      "aqua_stat_rainfall": "STATIC_NATIONAL_CONSTANT"
+    }
+  },
+  "governance_and_compliance": {
+    "zero_hallucination_rule": "Adhered. No placeholder, synthetic, or model-predicted yields inserted into golden dataset.",
+    "future_ingestion_path": "When FAOSTAT releases 2025-2026 normalized production archives, execute scripts/update_historical_data_to_2024.py with updated target_years array.",
+    "contact": "Antigravity AI Research Pair Programmer"
+  }
+}

@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+France,2010,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),605.5,10.42,279.7,15.95,6,24,365,5.8
+France,2011,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),571.1,12.53,275.3,16.91,2,32,365,5.8
+France,2012,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),665.7,11.53,369.3,15.91,6,21,366,5.8
+France,2013,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),669.1,11.11,308.8,16.02,8,18,365,5.8
+France,2014,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),811.7,12.25,474.7,16.08,1,24,365,5.8
+France,2015,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),534.7,12.25,270.6,16.71,13,20,365,5.8
+France,2016,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),707.7,11.7,380.3,16.71,8,19,366,5.8
+France,2017,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),705.2,12.04,355.8,16.65,12,21,365,5.8
+France,2018,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),773.9,12.57,304.5,17.91,13,20,365,5.8
+France,2019,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),744.8,12.24,312.5,16.83,17,24,365,5.8
+France,2020,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),651.3,13.04,185.0,17.86,19,23,366,5.8
+France,2021,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),754.4,11.43,391.0,15.84,3,18,365,5.8
+France,2022,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),712.8,12.87,335.7,17.54,18,19,365,5.8
+France,2023,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),949.0,12.93,499.0,17.4,14,27,365,5.8
+France,2024,48.8566,2.3522,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1152.1,12.28,644.7,16.34,7,15,366,5.8

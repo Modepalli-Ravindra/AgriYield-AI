@@ -2,16 +2,16 @@ import React from 'react';
 import { 
   Squares2X2Icon, 
   ChartBarIcon, 
-  DocumentDuplicateIcon, 
   PresentationChartLineIcon, 
-  AdjustmentsHorizontalIcon, 
   ArrowsRightLeftIcon, 
-  CpuChipIcon, 
   ClockIcon, 
   UserIcon, 
   ArrowRightOnRectangleIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  DocumentDuplicateIcon,
+  AdjustmentsHorizontalIcon,
+  CpuChipIcon
 } from '@heroicons/react/24/outline';
 import type { UserProfile } from '../../types';
 
@@ -35,10 +35,10 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   const NAV_ITEMS = [
     { id: 'overview', label: 'System Overview', icon: Squares2X2Icon },
     { id: 'predict', label: 'Yield Prediction', icon: ChartBarIcon },
-    { id: 'batch', label: 'Batch Processing', icon: DocumentDuplicateIcon },
     { id: 'explain', label: 'Factor Contributions', icon: PresentationChartLineIcon },
-    { id: 'sensitivity', label: 'Climate Sensitivity', icon: AdjustmentsHorizontalIcon },
     { id: 'whatif', label: 'What-If Scenarios', icon: ArrowsRightLeftIcon },
+    { id: 'batch', label: 'Batch Forecast', icon: DocumentDuplicateIcon },
+    { id: 'sensitivity', label: 'Climate Sensitivity', icon: AdjustmentsHorizontalIcon },
     { id: 'benchmarks', label: 'Model Benchmarks', icon: CpuChipIcon },
     { id: 'history', label: 'Prediction History', icon: ClockIcon }
   ];

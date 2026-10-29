@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Nigeria,2010,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1336.6,27.06,1286.6,24.86,223,73,365,1.0
+Nigeria,2011,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1152.6,26.73,1135.9,24.79,220,70,365,1.0
+Nigeria,2012,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1812.1,26.4,1730.7,24.37,206,52,366,1.0
+Nigeria,2013,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1468.8,26.61,1311.5,24.62,212,66,365,1.0
+Nigeria,2014,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1533.0,26.53,1408.5,24.79,214,43,365,1.0
+Nigeria,2015,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1192.5,26.82,1138.7,25.32,230,51,365,1.0
+Nigeria,2016,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1514.9,26.94,1376.7,25.13,234,66,366,1.0
+Nigeria,2017,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),633.5,26.71,619.2,24.87,241,95,365,1.0
+Nigeria,2018,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1028.0,25.99,972.7,24.49,223,64,365,1.0
+Nigeria,2019,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1110.3,25.97,1019.0,24.29,203,48,365,1.0
+Nigeria,2020,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),867.5,26.35,857.8,24.51,233,82,366,1.0
+Nigeria,2021,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),747.1,26.39,734.1,24.87,250,78,365,1.0
+Nigeria,2022,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1023.3,25.87,968.0,24.13,219,68,365,1.0
+Nigeria,2023,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),833.8,26.28,789.1,25.07,246,79,365,1.0
+Nigeria,2024,9.0765,7.3986,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),701.1,26.79,682.1,25.01,250,72,366,1.0

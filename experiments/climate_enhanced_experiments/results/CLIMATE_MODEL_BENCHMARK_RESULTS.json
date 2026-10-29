@@ -1,0 +1,175 @@
+{
+  "evaluation_protocol": "Disjoint Chronological Split (Train: 1990-2013, Calib: 2014-2018, Test: 2019-2024)",
+  "full_test_metrics": {
+    "sample_count": 3409,
+    "baseline_model": {
+      "model_name": "Baseline (Static AQUASTAT Rain)",
+      "r2": 0.6796,
+      "mae_tonnes": 2.6623,
+      "rmse_tonnes": 5.9177,
+      "mae_hg": 26622.9,
+      "rmse_hg": 59176.8,
+      "conformal_empirical_coverage": 0.8806,
+      "mean_interval_width_tonnes": 9.7737
+    },
+    "climate_enhanced_model": {
+      "model_name": "Climate-Enhanced (Measured ERA5-Land)",
+      "r2": 0.6807,
+      "mae_tonnes": 2.6624,
+      "rmse_tonnes": 5.9079,
+      "mae_hg": 26624.2,
+      "rmse_hg": 59078.9,
+      "conformal_empirical_coverage": 0.8838,
+      "mean_interval_width_tonnes": 9.9246
+    },
+    "overall_delta_mae_t": 0.0001,
+    "overall_delta_r2": 0.0011
+  },
+  "climate_covered_subset_metrics": {
+    "sample_count": 312,
+    "baseline": {
+      "r2": 0.8471,
+      "mae_tonnes": 2.4982,
+      "rmse_tonnes": 4.3067
+    },
+    "enhanced": {
+      "r2": 0.8392,
+      "mae_tonnes": 2.5009,
+      "rmse_tonnes": 4.4158
+    },
+    "mae_improvement_pct": -0.11,
+    "rmse_improvement_pct": -2.53
+  },
+  "per_crop_breakdown": {
+    "Cassava": {
+      "sample_count": 18,
+      "baseline_r2": 0.1705,
+      "enhanced_r2": -0.2078,
+      "baseline_mae_t": 7.3601,
+      "enhanced_mae_t": 8.6879,
+      "mae_improvement_pct": -18.04
+    },
+    "Maize": {
+      "sample_count": 42,
+      "baseline_r2": 0.4482,
+      "enhanced_r2": 0.6393,
+      "baseline_mae_t": 1.7889,
+      "enhanced_mae_t": 1.3775,
+      "mae_improvement_pct": 23.0
+    },
+    "Potatoes": {
+      "sample_count": 42,
+      "baseline_r2": 0.6542,
+      "enhanced_r2": 0.7016,
+      "baseline_mae_t": 5.8717,
+      "enhanced_mae_t": 5.3258,
+      "mae_improvement_pct": 9.3
+    },
+    "Rice, paddy": {
+      "sample_count": 42,
+      "baseline_r2": 0.6838,
+      "enhanced_r2": 0.5669,
+      "baseline_mae_t": 1.0624,
+      "enhanced_mae_t": 1.2322,
+      "mae_improvement_pct": -15.98
+    },
+    "Sorghum": {
+      "sample_count": 42,
+      "baseline_r2": 0.8222,
+      "enhanced_r2": 0.8505,
+      "baseline_mae_t": 0.5081,
+      "enhanced_mae_t": 0.4988,
+      "mae_improvement_pct": 1.83
+    },
+    "Soybeans": {
+      "sample_count": 42,
+      "baseline_r2": 0.6377,
+      "enhanced_r2": 0.5389,
+      "baseline_mae_t": 0.428,
+      "enhanced_mae_t": 0.5065,
+      "mae_improvement_pct": -18.34
+    },
+    "Sweet potatoes": {
+      "sample_count": 30,
+      "baseline_r2": 0.8512,
+      "enhanced_r2": 0.7925,
+      "baseline_mae_t": 3.1072,
+      "enhanced_mae_t": 3.8447,
+      "mae_improvement_pct": -23.74
+    },
+    "Wheat": {
+      "sample_count": 36,
+      "baseline_r2": 0.7046,
+      "enhanced_r2": 0.7723,
+      "baseline_mae_t": 0.8179,
+      "enhanced_mae_t": 0.693,
+      "mae_improvement_pct": 15.27
+    },
+    "Yams": {
+      "sample_count": 18,
+      "baseline_r2": -0.7902,
+      "enhanced_r2": -0.6041,
+      "baseline_mae_t": 6.5896,
+      "enhanced_mae_t": 6.0059,
+      "mae_improvement_pct": 8.86
+    }
+  },
+  "per_country_breakdown": {
+    "Brazil": {
+      "sample_count": 54,
+      "baseline_mae_t": 2.5814,
+      "enhanced_mae_t": 2.5645,
+      "mae_improvement_pct": 0.65,
+      "baseline_r2": 0.7821,
+      "enhanced_r2": 0.7757
+    },
+    "Burkina Faso": {
+      "sample_count": 48,
+      "baseline_mae_t": 2.5782,
+      "enhanced_mae_t": 2.7792,
+      "mae_improvement_pct": -7.8,
+      "baseline_r2": 0.4759,
+      "enhanced_r2": 0.4105
+    },
+    "Egypt": {
+      "sample_count": 42,
+      "baseline_mae_t": 1.5116,
+      "enhanced_mae_t": 1.7686,
+      "mae_improvement_pct": -17.0,
+      "baseline_r2": 0.9381,
+      "enhanced_r2": 0.9181
+    },
+    "France": {
+      "sample_count": 36,
+      "baseline_mae_t": 1.3918,
+      "enhanced_mae_t": 1.5408,
+      "mae_improvement_pct": -10.71,
+      "baseline_r2": 0.9776,
+      "enhanced_r2": 0.9587
+    },
+    "India": {
+      "sample_count": 54,
+      "baseline_mae_t": 3.8129,
+      "enhanced_mae_t": 4.0882,
+      "mae_improvement_pct": -7.22,
+      "baseline_r2": 0.7067,
+      "enhanced_r2": 0.6596
+    },
+    "South Africa": {
+      "sample_count": 42,
+      "baseline_mae_t": 3.1198,
+      "enhanced_mae_t": 2.5793,
+      "mae_improvement_pct": 17.32,
+      "baseline_r2": 0.8393,
+      "enhanced_r2": 0.8958
+    },
+    "Spain": {
+      "sample_count": 36,
+      "baseline_mae_t": 1.827,
+      "enhanced_mae_t": 1.3767,
+      "mae_improvement_pct": 24.65,
+      "baseline_r2": 0.937,
+      "enhanced_r2": 0.9629
+    }
+  }
+}

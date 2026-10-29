@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Colombia,2010,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2290.1,14.13,1835.1,14.08,0,16,365,9.0
+Colombia,2011,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2837.4,13.7,2049.0,13.83,0,14,365,9.0
+Colombia,2012,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1938.7,14.32,1276.6,14.61,0,25,366,9.0
+Colombia,2013,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1876.9,14.39,1289.6,14.52,0,12,365,9.0
+Colombia,2014,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2090.3,14.48,1341.5,14.68,0,18,365,9.0
+Colombia,2015,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1339.7,15.1,1037.4,15.28,0,37,365,9.0
+Colombia,2016,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2362.6,14.97,1555.1,15.07,0,39,366,9.0
+Colombia,2017,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),5001.8,12.73,4425.4,12.81,0,4,365,9.0
+Colombia,2018,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),5928.8,12.54,5069.0,12.6,0,3,365,9.0
+Colombia,2019,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),6270.5,12.91,4954.5,12.93,0,4,365,9.0
+Colombia,2020,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),6354.3,12.95,5537.2,12.95,0,3,366,9.0
+Colombia,2021,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),7349.3,12.55,6104.3,12.58,0,2,365,9.0
+Colombia,2022,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),7182.2,12.22,6215.3,12.32,0,2,365,9.0
+Colombia,2023,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),6894.7,13.02,5630.5,13.22,0,2,365,9.0
+Colombia,2024,4.5709,-74.2973,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),7073.8,13.66,6157.6,13.68,0,4,366,9.0

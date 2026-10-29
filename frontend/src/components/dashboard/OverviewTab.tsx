@@ -8,7 +8,6 @@ import {
   CloudSun, 
   Layers,
   Sliders,
-  GitCompare,
   Activity
 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
@@ -335,7 +334,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
         </div>
 
         <div 
-          onClick={() => onNavigate('sensitivity')}
+          onClick={() => onNavigate('whatif')}
           style={{
             background: 'var(--color-forest-surface)',
             borderRadius: 12,
@@ -364,20 +363,20 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
               <Sliders size={16} />
             </div>
             <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-offwhite)', marginBottom: 3 }}>
-              Climate Curves
+              What-If Sweeps
             </h4>
             <p style={{ fontSize: 11.5, color: 'var(--color-muted)', lineHeight: 1.35, margin: 0 }}>
-              Simulate dynamic changes in rainfall and temperature.
+              Simulate counterfactual drought, heatwave, or rainfall scenarios.
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--color-lime)', fontSize: 11.5, fontWeight: 600, marginTop: 10 }}>
-            <span>Analyze Curves</span>
+            <span>Simulate What-If</span>
             <ArrowRight size={12} />
           </div>
         </div>
 
         <div 
-          onClick={() => onNavigate('benchmarks')}
+          onClick={() => onNavigate('history')}
           style={{
             background: 'var(--color-forest-surface)',
             borderRadius: 12,
@@ -403,17 +402,17 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentUser, onNavigat
               justifyContent: 'center',
               marginBottom: 8
             }}>
-              <GitCompare size={16} />
+              <History size={16} />
             </div>
             <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-offwhite)', marginBottom: 3 }}>
-              ML Benchmarks
+              Prediction Audit History
             </h4>
             <p style={{ fontSize: 11.5, color: 'var(--color-muted)', lineHeight: 1.35, margin: 0 }}>
-              XGBoost vs Random Forest vs LightGBM vs Deep MLP.
+              Review past predictions, filter by crop, and export audit trails.
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: 'var(--color-lime)', fontSize: 11.5, fontWeight: 600, marginTop: 10 }}>
-            <span>View Benchmarks</span>
+            <span>View Records</span>
             <ArrowRight size={12} />
           </div>
         </div>

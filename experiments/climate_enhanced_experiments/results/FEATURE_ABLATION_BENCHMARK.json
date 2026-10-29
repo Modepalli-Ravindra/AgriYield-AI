@@ -1,0 +1,758 @@
+{
+  "meta": {
+    "split_description": "Regime A: Train <= 2018 (80/20 GroupShuffleSplit), Test 2019-2024",
+    "train_samples": 13281,
+    "calib_samples": 3306,
+    "test_samples": 3409,
+    "climate_covered_test_samples": 888,
+    "algorithm": "XGBoost Regressor (n_estimators=300, max_depth=6, lr=0.1, TransformedTargetRegressor log1p/expm1, seed=42)"
+  },
+  "ablation_models": {
+    "Ablation_1_Baseline": {
+      "name": "1. Baseline Features Only",
+      "feature_count": 6,
+      "features_used": [
+        "Area",
+        "Item",
+        "Year",
+        "average_rain_fall_mm_per_year",
+        "pesticides_tonnes",
+        "avg_temp"
+      ],
+      "overall_metrics": {
+        "r2": 0.7875,
+        "mae_tonnes": 2.0629,
+        "rmse_tonnes": 4.8196,
+        "conformal_standard_coverage_pct": 91.85,
+        "mean_interval_width_standard_tonnes": 9.6265,
+        "conformal_sacap_coverage_pct": 92.23,
+        "mean_interval_width_sacap_tonnes": 9.8035,
+        "bootstrap_95_ci_mae_improvement_vs_baseline": [
+          0.0,
+          0.0
+        ]
+      },
+      "climate_covered_subset": {
+        "test_n": 888,
+        "r2": 0.9038,
+        "mae_tonnes": 1.9055,
+        "rmse_tonnes": 3.2606,
+        "per_crop_metrics": {
+          "Cassava": {
+            "test_n": 54,
+            "mae_tonnes": 4.6916,
+            "rmse_tonnes": 5.3026
+          },
+          "Maize": {
+            "test_n": 126,
+            "mae_tonnes": 1.3077,
+            "rmse_tonnes": 1.7063
+          },
+          "Plantains and others": {
+            "test_n": 18,
+            "mae_tonnes": 3.1291,
+            "rmse_tonnes": 3.6688
+          },
+          "Potatoes": {
+            "test_n": 132,
+            "mae_tonnes": 4.6858,
+            "rmse_tonnes": 6.2939
+          },
+          "Rice, paddy": {
+            "test_n": 108,
+            "mae_tonnes": 0.6993,
+            "rmse_tonnes": 0.96
+          },
+          "Sorghum": {
+            "test_n": 96,
+            "mae_tonnes": 0.7505,
+            "rmse_tonnes": 1.013
+          },
+          "Soybeans": {
+            "test_n": 126,
+            "mae_tonnes": 0.4894,
+            "rmse_tonnes": 0.6714
+          },
+          "Sweet potatoes": {
+            "test_n": 72,
+            "mae_tonnes": 2.6043,
+            "rmse_tonnes": 3.8135
+          },
+          "Wheat": {
+            "test_n": 120,
+            "mae_tonnes": 0.7092,
+            "rmse_tonnes": 0.8932
+          },
+          "Yams": {
+            "test_n": 36,
+            "mae_tonnes": 3.2571,
+            "rmse_tonnes": 4.367
+          }
+        }
+      },
+      "per_crop_conformal": {
+        "Maize": {
+          "test_n": 533,
+          "coverage_pct": 86.87,
+          "mean_width_tonnes": 4.9608,
+          "margin_q_tonnes": 2.6276
+        },
+        "Potatoes": {
+          "test_n": 553,
+          "coverage_pct": 96.02,
+          "mean_width_tonnes": 22.7272,
+          "margin_q_tonnes": 11.4985
+        },
+        "Soybeans": {
+          "test_n": 340,
+          "coverage_pct": 95.59,
+          "mean_width_tonnes": 2.2449,
+          "margin_q_tonnes": 1.154
+        },
+        "Wheat": {
+          "test_n": 471,
+          "coverage_pct": 97.24,
+          "mean_width_tonnes": 5.8755,
+          "margin_q_tonnes": 3.2098
+        },
+        "Rice, paddy": {
+          "test_n": 378,
+          "coverage_pct": 93.92,
+          "mean_width_tonnes": 5.0508,
+          "margin_q_tonnes": 2.605
+        },
+        "Sorghum": {
+          "test_n": 373,
+          "coverage_pct": 91.42,
+          "mean_width_tonnes": 3.1193,
+          "margin_q_tonnes": 1.7877
+        },
+        "Cassava": {
+          "test_n": 232,
+          "coverage_pct": 86.21,
+          "mean_width_tonnes": 15.3212,
+          "margin_q_tonnes": 7.9113
+        },
+        "Sweet potatoes": {
+          "test_n": 282,
+          "coverage_pct": 86.17,
+          "mean_width_tonnes": 14.5864,
+          "margin_q_tonnes": 7.5928
+        },
+        "Plantains and others": {
+          "test_n": 124,
+          "coverage_pct": 79.84,
+          "mean_width_tonnes": 9.0056,
+          "margin_q_tonnes": 4.5711
+        },
+        "Yams": {
+          "test_n": 123,
+          "coverage_pct": 94.31,
+          "mean_width_tonnes": 18.0218,
+          "margin_q_tonnes": 9.4664
+        }
+      }
+    },
+    "Ablation_2_Climate_Only": {
+      "name": "2. Baseline + Authentic Climate Features",
+      "feature_count": 11,
+      "features_used": [
+        "Area",
+        "Item",
+        "Year",
+        "average_rain_fall_mm_per_year",
+        "pesticides_tonnes",
+        "avg_temp",
+        "effective_precip_mm",
+        "effective_temp_c",
+        "growing_season_precip_mm",
+        "heat_stress_days_above_30c",
+        "dry_spell_max_days"
+      ],
+      "overall_metrics": {
+        "r2": 0.8075,
+        "mae_tonnes": 1.9816,
+        "rmse_tonnes": 4.5868,
+        "conformal_standard_coverage_pct": 92.49,
+        "mean_interval_width_standard_tonnes": 10.0141,
+        "conformal_sacap_coverage_pct": 92.87,
+        "mean_interval_width_sacap_tonnes": 10.206,
+        "bootstrap_95_ci_mae_improvement_vs_baseline": [
+          0.051,
+          0.1131
+        ]
+      },
+      "climate_covered_subset": {
+        "test_n": 888,
+        "r2": 0.907,
+        "mae_tonnes": 1.7948,
+        "rmse_tonnes": 3.2065,
+        "per_crop_metrics": {
+          "Cassava": {
+            "test_n": 54,
+            "mae_tonnes": 3.3386,
+            "rmse_tonnes": 4.3171
+          },
+          "Maize": {
+            "test_n": 126,
+            "mae_tonnes": 1.1783,
+            "rmse_tonnes": 1.5404
+          },
+          "Plantains and others": {
+            "test_n": 18,
+            "mae_tonnes": 2.8355,
+            "rmse_tonnes": 3.4215
+          },
+          "Potatoes": {
+            "test_n": 132,
+            "mae_tonnes": 4.8779,
+            "rmse_tonnes": 6.6763
+          },
+          "Rice, paddy": {
+            "test_n": 108,
+            "mae_tonnes": 0.7532,
+            "rmse_tonnes": 1.0362
+          },
+          "Sorghum": {
+            "test_n": 96,
+            "mae_tonnes": 0.6428,
+            "rmse_tonnes": 0.8504
+          },
+          "Soybeans": {
+            "test_n": 126,
+            "mae_tonnes": 0.455,
+            "rmse_tonnes": 0.6335
+          },
+          "Sweet potatoes": {
+            "test_n": 72,
+            "mae_tonnes": 2.3486,
+            "rmse_tonnes": 3.2639
+          },
+          "Wheat": {
+            "test_n": 120,
+            "mae_tonnes": 0.7601,
+            "rmse_tonnes": 0.9522
+          },
+          "Yams": {
+            "test_n": 36,
+            "mae_tonnes": 3.039,
+            "rmse_tonnes": 4.1456
+          }
+        }
+      },
+      "per_crop_conformal": {
+        "Maize": {
+          "test_n": 533,
+          "coverage_pct": 91.18,
+          "mean_width_tonnes": 5.8442,
+          "margin_q_tonnes": 3.1672
+        },
+        "Potatoes": {
+          "test_n": 553,
+          "coverage_pct": 96.56,
+          "mean_width_tonnes": 24.2877,
+          "margin_q_tonnes": 12.3015
+        },
+        "Soybeans": {
+          "test_n": 340,
+          "coverage_pct": 93.53,
+          "mean_width_tonnes": 2.247,
+          "margin_q_tonnes": 1.1541
+        },
+        "Wheat": {
+          "test_n": 471,
+          "coverage_pct": 97.24,
+          "mean_width_tonnes": 6.2938,
+          "margin_q_tonnes": 3.5191
+        },
+        "Rice, paddy": {
+          "test_n": 378,
+          "coverage_pct": 92.86,
+          "mean_width_tonnes": 4.9145,
+          "margin_q_tonnes": 2.5318
+        },
+        "Sorghum": {
+          "test_n": 373,
+          "coverage_pct": 91.15,
+          "mean_width_tonnes": 2.8591,
+          "margin_q_tonnes": 1.6116
+        },
+        "Cassava": {
+          "test_n": 232,
+          "coverage_pct": 87.07,
+          "mean_width_tonnes": 14.4543,
+          "margin_q_tonnes": 7.4286
+        },
+        "Sweet potatoes": {
+          "test_n": 282,
+          "coverage_pct": 86.88,
+          "mean_width_tonnes": 15.5372,
+          "margin_q_tonnes": 8.1691
+        },
+        "Plantains and others": {
+          "test_n": 124,
+          "coverage_pct": 83.87,
+          "mean_width_tonnes": 9.5076,
+          "margin_q_tonnes": 4.8299
+        },
+        "Yams": {
+          "test_n": 123,
+          "coverage_pct": 93.5,
+          "mean_width_tonnes": 16.4694,
+          "margin_q_tonnes": 8.5487
+        }
+      }
+    },
+    "Ablation_3_Irrigation_Only": {
+      "name": "3. Baseline + FAO AQUASTAT Irrigation",
+      "feature_count": 7,
+      "features_used": [
+        "Area",
+        "Item",
+        "Year",
+        "average_rain_fall_mm_per_year",
+        "pesticides_tonnes",
+        "avg_temp",
+        "irrigation_equipped_pct"
+      ],
+      "overall_metrics": {
+        "r2": 0.801,
+        "mae_tonnes": 2.0083,
+        "rmse_tonnes": 4.6633,
+        "conformal_standard_coverage_pct": 92.52,
+        "mean_interval_width_standard_tonnes": 9.5637,
+        "conformal_sacap_coverage_pct": 92.93,
+        "mean_interval_width_sacap_tonnes": 9.7343,
+        "bootstrap_95_ci_mae_improvement_vs_baseline": [
+          0.0278,
+          0.082
+        ]
+      },
+      "climate_covered_subset": {
+        "test_n": 888,
+        "r2": 0.9153,
+        "mae_tonnes": 1.7948,
+        "rmse_tonnes": 3.0594,
+        "per_crop_metrics": {
+          "Cassava": {
+            "test_n": 54,
+            "mae_tonnes": 3.974,
+            "rmse_tonnes": 4.5792
+          },
+          "Maize": {
+            "test_n": 126,
+            "mae_tonnes": 1.2329,
+            "rmse_tonnes": 1.5962
+          },
+          "Plantains and others": {
+            "test_n": 18,
+            "mae_tonnes": 3.3218,
+            "rmse_tonnes": 3.7167
+          },
+          "Potatoes": {
+            "test_n": 132,
+            "mae_tonnes": 4.5733,
+            "rmse_tonnes": 6.1516
+          },
+          "Rice, paddy": {
+            "test_n": 108,
+            "mae_tonnes": 0.7455,
+            "rmse_tonnes": 1.015
+          },
+          "Sorghum": {
+            "test_n": 96,
+            "mae_tonnes": 0.6914,
+            "rmse_tonnes": 0.9577
+          },
+          "Soybeans": {
+            "test_n": 126,
+            "mae_tonnes": 0.4682,
+            "rmse_tonnes": 0.6486
+          },
+          "Sweet potatoes": {
+            "test_n": 72,
+            "mae_tonnes": 2.329,
+            "rmse_tonnes": 3.3385
+          },
+          "Wheat": {
+            "test_n": 120,
+            "mae_tonnes": 0.7667,
+            "rmse_tonnes": 0.943
+          },
+          "Yams": {
+            "test_n": 36,
+            "mae_tonnes": 2.6339,
+            "rmse_tonnes": 3.5464
+          }
+        }
+      },
+      "per_crop_conformal": {
+        "Maize": {
+          "test_n": 533,
+          "coverage_pct": 91.56,
+          "mean_width_tonnes": 5.7047,
+          "margin_q_tonnes": 3.0987
+        },
+        "Potatoes": {
+          "test_n": 553,
+          "coverage_pct": 94.58,
+          "mean_width_tonnes": 21.1123,
+          "margin_q_tonnes": 10.6567
+        },
+        "Soybeans": {
+          "test_n": 340,
+          "coverage_pct": 95.88,
+          "mean_width_tonnes": 2.3151,
+          "margin_q_tonnes": 1.1912
+        },
+        "Wheat": {
+          "test_n": 471,
+          "coverage_pct": 97.66,
+          "mean_width_tonnes": 6.0731,
+          "margin_q_tonnes": 3.3538
+        },
+        "Rice, paddy": {
+          "test_n": 378,
+          "coverage_pct": 93.39,
+          "mean_width_tonnes": 4.9748,
+          "margin_q_tonnes": 2.5646
+        },
+        "Sorghum": {
+          "test_n": 373,
+          "coverage_pct": 89.28,
+          "mean_width_tonnes": 2.9057,
+          "margin_q_tonnes": 1.6418
+        },
+        "Cassava": {
+          "test_n": 232,
+          "coverage_pct": 90.52,
+          "mean_width_tonnes": 15.6944,
+          "margin_q_tonnes": 8.0953
+        },
+        "Sweet potatoes": {
+          "test_n": 282,
+          "coverage_pct": 85.46,
+          "mean_width_tonnes": 14.6817,
+          "margin_q_tonnes": 7.6518
+        },
+        "Plantains and others": {
+          "test_n": 124,
+          "coverage_pct": 83.06,
+          "mean_width_tonnes": 10.1184,
+          "margin_q_tonnes": 5.1599
+        },
+        "Yams": {
+          "test_n": 123,
+          "coverage_pct": 95.12,
+          "mean_width_tonnes": 18.2044,
+          "margin_q_tonnes": 9.5712
+        }
+      }
+    },
+    "Ablation_4_Climate_Plus_Irrigation": {
+      "name": "4. Baseline + Climate + Irrigation (Full Environmental)",
+      "feature_count": 12,
+      "features_used": [
+        "Area",
+        "Item",
+        "Year",
+        "average_rain_fall_mm_per_year",
+        "pesticides_tonnes",
+        "avg_temp",
+        "effective_precip_mm",
+        "effective_temp_c",
+        "growing_season_precip_mm",
+        "heat_stress_days_above_30c",
+        "dry_spell_max_days",
+        "irrigation_equipped_pct"
+      ],
+      "overall_metrics": {
+        "r2": 0.8165,
+        "mae_tonnes": 1.9607,
+        "rmse_tonnes": 4.478,
+        "conformal_standard_coverage_pct": 92.93,
+        "mean_interval_width_standard_tonnes": 9.8866,
+        "conformal_sacap_coverage_pct": 93.25,
+        "mean_interval_width_sacap_tonnes": 10.074,
+        "bootstrap_95_ci_mae_improvement_vs_baseline": [
+          0.0704,
+          0.1342
+        ]
+      },
+      "climate_covered_subset": {
+        "test_n": 888,
+        "r2": 0.9103,
+        "mae_tonnes": 1.7786,
+        "rmse_tonnes": 3.1479,
+        "per_crop_metrics": {
+          "Cassava": {
+            "test_n": 54,
+            "mae_tonnes": 3.8598,
+            "rmse_tonnes": 4.8894
+          },
+          "Maize": {
+            "test_n": 126,
+            "mae_tonnes": 1.1022,
+            "rmse_tonnes": 1.4187
+          },
+          "Plantains and others": {
+            "test_n": 18,
+            "mae_tonnes": 2.5411,
+            "rmse_tonnes": 3.0541
+          },
+          "Potatoes": {
+            "test_n": 132,
+            "mae_tonnes": 4.7361,
+            "rmse_tonnes": 6.4005
+          },
+          "Rice, paddy": {
+            "test_n": 108,
+            "mae_tonnes": 0.7358,
+            "rmse_tonnes": 0.9647
+          },
+          "Sorghum": {
+            "test_n": 96,
+            "mae_tonnes": 0.6346,
+            "rmse_tonnes": 0.8782
+          },
+          "Soybeans": {
+            "test_n": 126,
+            "mae_tonnes": 0.4746,
+            "rmse_tonnes": 0.6493
+          },
+          "Sweet potatoes": {
+            "test_n": 72,
+            "mae_tonnes": 2.342,
+            "rmse_tonnes": 3.2213
+          },
+          "Wheat": {
+            "test_n": 120,
+            "mae_tonnes": 0.7119,
+            "rmse_tonnes": 0.9222
+          },
+          "Yams": {
+            "test_n": 36,
+            "mae_tonnes": 2.9712,
+            "rmse_tonnes": 4.0921
+          }
+        }
+      },
+      "per_crop_conformal": {
+        "Maize": {
+          "test_n": 533,
+          "coverage_pct": 91.18,
+          "mean_width_tonnes": 5.677,
+          "margin_q_tonnes": 3.0699
+        },
+        "Potatoes": {
+          "test_n": 553,
+          "coverage_pct": 96.56,
+          "mean_width_tonnes": 23.4119,
+          "margin_q_tonnes": 11.8443
+        },
+        "Soybeans": {
+          "test_n": 340,
+          "coverage_pct": 94.12,
+          "mean_width_tonnes": 2.2782,
+          "margin_q_tonnes": 1.1707
+        },
+        "Wheat": {
+          "test_n": 471,
+          "coverage_pct": 97.66,
+          "mean_width_tonnes": 6.293,
+          "margin_q_tonnes": 3.502
+        },
+        "Rice, paddy": {
+          "test_n": 378,
+          "coverage_pct": 92.06,
+          "mean_width_tonnes": 4.9038,
+          "margin_q_tonnes": 2.5272
+        },
+        "Sorghum": {
+          "test_n": 373,
+          "coverage_pct": 91.42,
+          "mean_width_tonnes": 2.9739,
+          "margin_q_tonnes": 1.6865
+        },
+        "Cassava": {
+          "test_n": 232,
+          "coverage_pct": 87.5,
+          "mean_width_tonnes": 15.0796,
+          "margin_q_tonnes": 7.7858
+        },
+        "Sweet potatoes": {
+          "test_n": 282,
+          "coverage_pct": 91.49,
+          "mean_width_tonnes": 15.9473,
+          "margin_q_tonnes": 8.4111
+        },
+        "Plantains and others": {
+          "test_n": 124,
+          "coverage_pct": 83.87,
+          "mean_width_tonnes": 9.2006,
+          "margin_q_tonnes": 4.6636
+        },
+        "Yams": {
+          "test_n": 123,
+          "coverage_pct": 92.68,
+          "mean_width_tonnes": 15.389,
+          "margin_q_tonnes": 7.9505
+        }
+      }
+    },
+    "Ablation_5_Full_With_Anomaly": {
+      "name": "5. Baseline + Climate + Irrigation + Anomaly Signals",
+      "feature_count": 15,
+      "features_used": [
+        "Area",
+        "Item",
+        "Year",
+        "average_rain_fall_mm_per_year",
+        "pesticides_tonnes",
+        "avg_temp",
+        "effective_precip_mm",
+        "effective_temp_c",
+        "growing_season_precip_mm",
+        "heat_stress_days_above_30c",
+        "dry_spell_max_days",
+        "irrigation_equipped_pct",
+        "rainfall_deviation_pct",
+        "temp_z_score",
+        "thermal_anomaly_flag"
+      ],
+      "overall_metrics": {
+        "r2": 0.7958,
+        "mae_tonnes": 2.0225,
+        "rmse_tonnes": 4.7249,
+        "conformal_standard_coverage_pct": 92.9,
+        "mean_interval_width_standard_tonnes": 9.9068,
+        "conformal_sacap_coverage_pct": 93.22,
+        "mean_interval_width_sacap_tonnes": 10.0943,
+        "bootstrap_95_ci_mae_improvement_vs_baseline": [
+          0.0076,
+          0.0752
+        ]
+      },
+      "climate_covered_subset": {
+        "test_n": 888,
+        "r2": 0.9098,
+        "mae_tonnes": 1.706,
+        "rmse_tonnes": 3.1571,
+        "per_crop_metrics": {
+          "Cassava": {
+            "test_n": 54,
+            "mae_tonnes": 3.4936,
+            "rmse_tonnes": 4.9997
+          },
+          "Maize": {
+            "test_n": 126,
+            "mae_tonnes": 1.1933,
+            "rmse_tonnes": 1.5288
+          },
+          "Plantains and others": {
+            "test_n": 18,
+            "mae_tonnes": 1.9639,
+            "rmse_tonnes": 2.3396
+          },
+          "Potatoes": {
+            "test_n": 132,
+            "mae_tonnes": 4.6377,
+            "rmse_tonnes": 6.5601
+          },
+          "Rice, paddy": {
+            "test_n": 108,
+            "mae_tonnes": 0.6146,
+            "rmse_tonnes": 0.8612
+          },
+          "Sorghum": {
+            "test_n": 96,
+            "mae_tonnes": 0.661,
+            "rmse_tonnes": 0.9194
+          },
+          "Soybeans": {
+            "test_n": 126,
+            "mae_tonnes": 0.4796,
+            "rmse_tonnes": 0.6437
+          },
+          "Sweet potatoes": {
+            "test_n": 72,
+            "mae_tonnes": 2.0982,
+            "rmse_tonnes": 2.9598
+          },
+          "Wheat": {
+            "test_n": 120,
+            "mae_tonnes": 0.7135,
+            "rmse_tonnes": 0.8867
+          },
+          "Yams": {
+            "test_n": 36,
+            "mae_tonnes": 2.8183,
+            "rmse_tonnes": 3.6854
+          }
+        }
+      },
+      "per_crop_conformal": {
+        "Maize": {
+          "test_n": 533,
+          "coverage_pct": 91.18,
+          "mean_width_tonnes": 5.8941,
+          "margin_q_tonnes": 3.2108
+        },
+        "Potatoes": {
+          "test_n": 553,
+          "coverage_pct": 96.02,
+          "mean_width_tonnes": 22.9692,
+          "margin_q_tonnes": 11.6202
+        },
+        "Soybeans": {
+          "test_n": 340,
+          "coverage_pct": 95.29,
+          "mean_width_tonnes": 2.4629,
+          "margin_q_tonnes": 1.2744
+        },
+        "Wheat": {
+          "test_n": 471,
+          "coverage_pct": 97.24,
+          "mean_width_tonnes": 6.1508,
+          "margin_q_tonnes": 3.4059
+        },
+        "Rice, paddy": {
+          "test_n": 378,
+          "coverage_pct": 93.65,
+          "mean_width_tonnes": 5.0238,
+          "margin_q_tonnes": 2.5759
+        },
+        "Sorghum": {
+          "test_n": 373,
+          "coverage_pct": 90.88,
+          "mean_width_tonnes": 2.9736,
+          "margin_q_tonnes": 1.6775
+        },
+        "Cassava": {
+          "test_n": 232,
+          "coverage_pct": 87.5,
+          "mean_width_tonnes": 15.4339,
+          "margin_q_tonnes": 7.9711
+        },
+        "Sweet potatoes": {
+          "test_n": 282,
+          "coverage_pct": 90.07,
+          "mean_width_tonnes": 15.511,
+          "margin_q_tonnes": 8.1687
+        },
+        "Plantains and others": {
+          "test_n": 124,
+          "coverage_pct": 83.87,
+          "mean_width_tonnes": 8.9594,
+          "margin_q_tonnes": 4.5345
+        },
+        "Yams": {
+          "test_n": 123,
+          "coverage_pct": 92.68,
+          "mean_width_tonnes": 17.2396,
+          "margin_q_tonnes": 8.954
+        }
+      }
+    }
+  }
+}

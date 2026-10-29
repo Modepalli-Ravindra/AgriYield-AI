@@ -1,0 +1,94 @@
+{
+  "dataset_name": "Terraflect Historical Crop Yield & Environmental Dataset (1990-2024)",
+  "output_path": "data\\yield_df_1990_2024.csv",
+  "output_sha256": "c89d272f569e6ec0f98114f941c78e5d015540b6ad19956886c8c30a56e4748a",
+  "legacy_baseline_path": "data\\yield_df_1990_2013_baseline.csv",
+  "legacy_baseline_sha256": "3d47d3fdc35950b5333348c0d28dbe5534346237813dd1db9d4c26f2935d888b",
+  "generation_timestamp": "2026-10-19T06:24:41Z",
+  "grain": "Exactly one observation per (Area, Item, Year) tuple",
+  "total_rows": 19996,
+  "historical_aggregated_rows_1990_2013": 13130,
+  "verified_new_rows_2003_and_2014_2024": 6866,
+  "year_range": [
+    1990,
+    2024
+  ],
+  "total_continuous_years": 35,
+  "unique_countries": 101,
+  "unique_crops": 10,
+  "crops_represented": [
+    "Cassava",
+    "Maize",
+    "Plantains and others",
+    "Potatoes",
+    "Rice, paddy",
+    "Sorghum",
+    "Soybeans",
+    "Sweet potatoes",
+    "Wheat",
+    "Yams"
+  ],
+  "columns": [
+    "Area",
+    "Item",
+    "Year",
+    "hg/ha_yield",
+    "average_rain_fall_mm_per_year",
+    "pesticides_tonnes",
+    "avg_temp"
+  ],
+  "summary_statistics": {
+    "hg/ha_yield": {
+      "min": 50.0,
+      "max": 1032057.0,
+      "mean": 77427.8
+    },
+    "pesticides_tonnes": {
+      "min": 0.04,
+      "max": 800652.0,
+      "mean": 19200.4
+    },
+    "average_rain_fall_mm_per_year": {
+      "min": 51.0,
+      "max": 3240.0,
+      "mean": 1156.42
+    },
+    "avg_temp": {
+      "min": 1.3,
+      "max": 30.49,
+      "mean": 20.08
+    }
+  },
+  "sources": [
+    {
+      "domain": "UN FAOSTAT QCL (Crops and Livestock Products)",
+      "url": "https://bulks-faostat.fao.org/production/Production_Crops_Livestock_E_All_Data_(Normalized).zip",
+      "element": "Yield (Code 5419)",
+      "source_unit": "kg/ha",
+      "target_unit": "hg/ha (conversion factor 10.0)",
+      "license": "CC-BY 3.0 IGO"
+    },
+    {
+      "domain": "UN FAOSTAT RP (Inputs: Pesticides Use)",
+      "url": "https://bulks-faostat.fao.org/production/Inputs_Pesticides_Use_E_All_Data_(Normalized).zip",
+      "element": "Agricultural Use (Code 5157)",
+      "item": "Pesticides (total)",
+      "source_unit": "t (tonnes)",
+      "target_unit": "tonnes (conversion factor 1.0)",
+      "license": "CC-BY 3.0 IGO"
+    },
+    {
+      "domain": "UN FAOSTAT ET (Temperature Change on Land)",
+      "url": "https://bulks-faostat.fao.org/production/Environment_Temperature_change_E_All_Data_(Normalized).zip",
+      "element": "Temperature change (Meteorological year)",
+      "unit": "deg C anomaly relative to 1951-1980 climatology",
+      "license": "CC-BY 3.0 IGO"
+    },
+    {
+      "domain": "FAO AQUASTAT / World Bank (AG.LND.PRCP.MM)",
+      "indicator": "Average precipitation in depth (mm per year)",
+      "property": "National long-term climatological constant per country",
+      "unit": "mm/year"
+    }
+  ]
+}

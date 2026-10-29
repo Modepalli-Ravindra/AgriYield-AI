@@ -4,11 +4,11 @@ import type { YieldInput, BatchItemResult } from '../../types';
 import * as api from '../../api';
 
 const DEFAULT_SCENARIOS: YieldInput[] = [
-  { country: 'India', crop: 'Wheat', year: 2013, rainfall_mm: 1050, avg_temp_c: 25.5, pesticides_tonnes: 50000 },
-  { country: 'United States', crop: 'Maize', year: 2012, rainfall_mm: 980, avg_temp_c: 21.0, pesticides_tonnes: 45000 },
-  { country: 'France', crop: 'Wheat', year: 2011, rainfall_mm: 820, avg_temp_c: 16.5, pesticides_tonnes: 14000 },
-  { country: 'Germany', crop: 'Potatoes', year: 2010, rainfall_mm: 780, avg_temp_c: 14.8, pesticides_tonnes: 21000 },
-  { country: 'Brazil', crop: 'Soybeans', year: 2013, rainfall_mm: 1450, avg_temp_c: 24.5, pesticides_tonnes: 62000 }
+  { country: 'India', crop: 'Wheat', year: 2026, rainfall_mm: 1050, avg_temp_c: 25.5, pesticides_tonnes: 50000 },
+  { country: 'United States', crop: 'Maize', year: 2026, rainfall_mm: 980, avg_temp_c: 21.0, pesticides_tonnes: 45000 },
+  { country: 'France', crop: 'Wheat', year: 2026, rainfall_mm: 820, avg_temp_c: 16.5, pesticides_tonnes: 14000 },
+  { country: 'Germany', crop: 'Potatoes', year: 2026, rainfall_mm: 780, avg_temp_c: 14.8, pesticides_tonnes: 21000 },
+  { country: 'Brazil', crop: 'Soybeans', year: 2026, rainfall_mm: 1450, avg_temp_c: 24.5, pesticides_tonnes: 62000 }
 ];
 
 export const BatchPredictionTab: React.FC = () => {

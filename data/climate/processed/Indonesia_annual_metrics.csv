@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Indonesia,2010,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2883.8,26.96,2215.8,26.79,215,7,365,14.8
+Indonesia,2011,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1583.9,26.97,1499.1,26.58,229,66,365,14.8
+Indonesia,2012,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1578.4,27.07,1510.8,26.81,252,69,366,14.8
+Indonesia,2013,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2249.8,26.98,1920.2,26.75,196,81,365,14.8
+Indonesia,2014,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1546.0,27.4,1470.2,26.98,263,96,365,14.8
+Indonesia,2015,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1466.6,27.33,1456.2,27.03,274,146,365,14.8
+Indonesia,2016,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2346.1,27.4,1679.9,27.36,268,11,366,14.8
+Indonesia,2017,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1827.0,27.59,1615.7,27.31,242,58,365,14.8
+Indonesia,2018,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1273.4,27.71,1233.5,27.59,294,71,365,14.8
+Indonesia,2019,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1421.8,27.81,1401.3,27.85,294,49,365,14.8
+Indonesia,2020,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1982.6,27.82,1815.5,27.56,277,55,366,14.8
+Indonesia,2021,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2096.4,27.52,1860.1,27.08,256,33,365,14.8
+Indonesia,2022,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),2418.5,27.29,2056.2,26.94,240,24,365,14.8
+Indonesia,2023,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1478.2,27.85,1440.8,27.61,317,106,365,14.8
+Indonesia,2024,-7.2504,112.7688,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),1988.6,28.13,1905.0,27.81,348,51,366,14.8

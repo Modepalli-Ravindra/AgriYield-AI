@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Spain,2010,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),492.2,13.71,211.2,18.41,77,32,365,22.4
+Spain,2011,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),429.1,14.76,225.3,19.19,71,71,365,22.4
+Spain,2012,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),305.9,14.39,132.0,19.41,83,51,366,22.4
+Spain,2013,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),404.2,13.77,211.5,18.21,69,61,365,22.4
+Spain,2014,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),447.6,14.79,118.4,19.07,51,46,365,22.4
+Spain,2015,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),245.0,15.21,115.4,20.02,77,24,365,22.4
+Spain,2016,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),497.8,14.86,196.0,19.0,88,69,366,22.4
+Spain,2017,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),356.8,15.9,221.5,20.81,86,50,365,22.4
+Spain,2018,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),538.3,14.65,262.0,19.15,82,47,365,22.4
+Spain,2019,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),373.1,15.42,188.7,19.89,74,123,365,22.4
+Spain,2020,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),510.2,15.4,291.0,19.98,81,34,366,22.4
+Spain,2021,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),550.8,15.01,283.9,19.48,74,38,365,22.4
+Spain,2022,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),531.5,16.33,306.5,20.64,87,50,365,22.4
+Spain,2023,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),516.7,15.87,294.5,20.75,82,72,365,22.4
+Spain,2024,40.4168,-3.7038,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),490.6,15.8,242.1,20.09,80,60,366,22.4

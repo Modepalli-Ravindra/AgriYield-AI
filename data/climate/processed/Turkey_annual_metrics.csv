@@ -1,0 +1,16 @@
+country,year,latitude,longitude,source,annual_precip_mm,annual_temp_mean_c,growing_season_precip_mm,growing_season_temp_c,heat_stress_days_above_30c,dry_spell_max_days,observation_count_days,irrigation_equipped_pct
+Turkey,2010,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),294.1,14.45,155.8,19.78,67,70,365,21.0
+Turkey,2011,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),312.5,11.45,167.4,17.51,38,95,365,21.0
+Turkey,2012,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),304.0,12.64,84.3,19.8,62,60,366,21.0
+Turkey,2013,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),207.7,12.99,102.0,18.77,42,97,365,21.0
+Turkey,2014,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),314.4,13.58,131.2,19.2,63,36,365,21.0
+Turkey,2015,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),276.3,12.63,131.0,18.85,56,93,365,21.0
+Turkey,2016,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),283.8,13.54,92.5,20.1,64,40,366,21.0
+Turkey,2017,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),337.2,12.53,143.1,19.25,67,44,365,21.0
+Turkey,2018,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),358.4,14.17,149.9,20.03,61,79,365,21.0
+Turkey,2019,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),411.0,13.28,146.9,19.18,43,32,365,21.0
+Turkey,2020,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),293.9,13.71,74.0,20.2,74,85,366,21.0
+Turkey,2021,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),308.7,13.15,71.2,19.15,49,38,365,21.0
+Turkey,2022,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),354.1,12.54,101.3,19.3,63,85,365,21.0
+Turkey,2023,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),389.7,13.51,191.6,19.33,61,100,365,21.0
+Turkey,2024,37.8746,32.4932,ECMWF ERA5-Land Reanalysis (via Open-Meteo Historical Archive),295.0,14.16,153.9,20.28,76,40,366,21.0

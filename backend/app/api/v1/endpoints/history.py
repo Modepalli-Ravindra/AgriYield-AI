@@ -1,0 +1,47 @@
+"""User-specific prediction audit trail and history endpoints."""
+from __future__ import annotations
+
+from typing import Any, Dict, List, Optional
+from fastapi import APIRouter, Depends, Query
+
+from app.api.v1.endpoints.auth import get_current_user_optional
+from app.db.database import db
+
+router = APIRouter()
+
+@router.get("/history")
+def get_prediction_history(
+    limit: int = Query(default=50, ge=1, le=200),
+    current_user: Optional[dict] = Depends(get_current_user_optional)
+):
+    """
+    Retrieve past prediction history for the current user, or recent platform runs if personal history is empty.
+    """
+    user_id = current_user["id"] if current_user else None
+    predictions = db.get_predictions(user_id=user_id, limit=limit)
+
+    return {
+        "user_email": current_user["email"] if current_user else None,
+        "count": len(predictions),
+        "total": len(predictions),
+        "history": predictions,
+        "records": predictions
+    }
+
+
+@router.get("/history/demo")
+def get_demo_prediction_history(
+    limit: int = Query(default=50, ge=1, le=200)
+):
+    """
+    Retrieve recent platform demo predictions for unauthenticated exploration.
+    Strictly queries anonymous records (user_id is None).
+    """
+    predictions = db.get_predictions(user_id=None, limit=limit)
+    return {
+        "user_email": None,
+        "count": len(predictions),
+        "total": len(predictions),
+        "history": predictions,
+        "records": predictions
+    }
