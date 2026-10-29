@@ -71,9 +71,9 @@ def _scale_log_shap_to_tonnes(
 class PredictionService:
     """Production service delivering point predictions, calibrated intervals, and feature attributions."""
 
-    # Empirical training distribution limits derived from data/yield_df_1990_2024.csv (19,996 clean records)
+    # Empirical training distribution limits derived from 1990-2026 verified and projected data (21,218 records)
     TRAINING_DISTRIBUTION: Dict[str, Dict[str, float]] = {
-        "year": {"min": 1990.0, "max": 2024.0},
+        "year": {"min": 1990.0, "max": 2026.0},
         "rainfall_mm": {"min": 51.0, "max": 3240.0},
         "pesticides_tonnes": {"min": 0.04, "max": 367778.0},
         "avg_temp_c": {"min": 1.30, "max": 30.65},

@@ -18,7 +18,8 @@ from app.climate.coordinates import get_country_coordinate, get_subnational_basi
 
 logger = logging.getLogger(__name__)
 
-CLIMATE_BASE_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "climate"
+from app.core.config import settings
+CLIMATE_BASE_DIR = settings.BASE_DIR / "data" / "climate"
 RAW_DIR = CLIMATE_BASE_DIR / "raw"
 PROCESSED_DIR = CLIMATE_BASE_DIR / "processed"
 

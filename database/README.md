@@ -1,29 +1,16 @@
-# Database Architecture — InsForge Managed PostgreSQL
+# Database Architecture — SQLite
 
 ## Overview
-Terraflect uses **InsForge Managed PostgreSQL** (`PostgreSQL 15.18 on aarch64-unknown-linux-gnu`) as its production persistence layer. The database provides strict ACID guarantees, foreign-key relational integrity, and user-isolated prediction history.
+Terraflect uses **SQLite** (`crop_yield_platform.db`) as its persistence layer. The database operates in Write-Ahead Logging (WAL) mode with foreign keys enabled, providing high concurrent read performance, zero-configuration local portability, and robust data integrity.
 
 ## Connection Architecture
-- **Connection Engine:** Dual-engine persistence layer implemented in `app/db/database.py`.
-- **Driver:** `psycopg2` with `psycopg2.pool.ThreadedConnectionPool` (1–20 connections).
-- **Self-Recovery:** Thread-safe lazy recovery (`_ensure_pool()`) ensures the pool re-initializes seamlessly if connections are interrupted or reset during testing.
+- **Engine:** Pure Python `sqlite3` driver implemented in `app/db/database.py`.
+- **Concurrency Mode:** WAL mode (`PRAGMA journal_mode = WAL;`) allowing concurrent reads alongside active writes without database lock contention.
+- **Relational Integrity:** Foreign keys strictly enforced on all connections via `PRAGMA foreign_keys = ON;`.
 - **Transaction Safety:** Managed via context manager `_get_cursor()` providing automatic commit on success and rollback upon exception.
-- **Local Fallback:** If `DATABASE_URL` is set to `sqlite:///...`, `Database` automatically operates with SQLite in WAL mode with `PRAGMA foreign_keys = ON;`.
+- **Data File:** `crop_yield_platform.db` located at the project workspace root.
 
-## InsForge Project Details
-- **Project Name:** `verity`
-- **Region:** `us-east`
-- **Project ID:** `45dfdddd-6bd8-4ee6-83e0-a0016c0c9c85`
-- **AppKey:** `xga5neu3`
-- **CLI Commands:**
-  - `npx -y @insforge/cli db query "SELECT 1;"`
-  - `npx -y @insforge/cli db tables`
-  - `npx -y @insforge/cli db migrations list`
-  - `npx -y @insforge/cli db migrations up --all`
-
-## Migration Files
-- `migrations/20261018072637_init-crop-yield-platform.sql`: Initial PostgreSQL DDL migration applied via `@insforge/cli`.
-- `scripts/migrate_sqlite_to_postgres.py`: Data migration script that transferred 61 users and 987 historical predictions from SQLite with exact count verification.
-
-## Synthetic Benchmark Users
-During the SQLite migration, 20 synthetic test accounts (`user_0` through `user_19`, email `user_N@benchmark.internal`) were registered with placeholder password hashes (`$argon2id$...$syntheticbenchmarkhash$placeholder`). These exist solely to satisfy foreign-key constraints for historical concurrency benchmark records and cannot be logged into or used to access researcher data.
+## Tables
+1. `app_users`: User registration, profile details, and authentication hashes.
+2. `prediction_history`: Audited inference logs with country, crop, year, environmental factors, predicted yields, and 90% conformal prediction bounds.
+3. `robustness_benchmark_runs`: Persisted results of missingness and noise robustness experiments.

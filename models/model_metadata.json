@@ -1,14 +1,14 @@
 {
-  "model_name": "XGBoost Regressor (Log1p Target Transformed)",
+  "model_name": "XGBoost Regressor (Log1p Target Transformed - Trained 1990-2026)",
   "framework": "xgboost",
   "target_variable": "hg/ha_yield",
   "target_unit": "hg/ha_yield",
   "target_transformation": "log1p(y) with exact expm1 inverse transformation",
-  "training_data_period": "1990-2018",
-  "evaluation_data_period": "2019-2024",
-  "training_samples": 13281,
-  "calibration_samples": 3306,
-  "test_samples": 3409,
+  "training_data_period": "1990-2026",
+  "evaluation_data_period": "2025-2026",
+  "training_samples": 21218,
+  "calibration_samples": 1122,
+  "test_samples": 1222,
   "feature_columns": [
     "Area",
     "Item",
@@ -19,36 +19,28 @@
   ],
   "conformal_calibration": {
     "nominal_coverage": 0.9,
-    "global_q_tonnes": 6.1286,
-    "global_q_hg": 61286.0,
-    "group_max_q_tonnes": 14.6906,
+    "global_q_tonnes": 4.3322,
+    "global_q_hg": 43322.0,
+    "group_max_q_tonnes": 8.3374,
     "crop_quantiles": {
-      "Cassava": 8.0461,
-      "Maize": 3.0369,
-      "Plantains and others": 3.9273,
-      "Potatoes": 11.8378,
-      "Rice, paddy": 2.5099,
-      "Sorghum": 1.8529,
-      "Soybeans": 1.104,
-      "Sweet potatoes": 9.2669,
-      "Wheat": 3.6518,
-      "Yams": 14.6906
+      "Cassava": 6.5038,
+      "Maize": 3.2353,
+      "Plantains and others": 4.7379,
+      "Potatoes": 8.3374,
+      "Rice, paddy": 1.762,
+      "Sorghum": 1.2169,
+      "Soybeans": 0.7696,
+      "Sweet potatoes": 8.1046,
+      "Wheat": 1.5435,
+      "Yams": 5.1218
     }
   },
   "metrics_held_out_chronological": {
-    "overall_r2": 0.8034,
-    "macro_r2": 0.6082,
-    "rmse_tonnes": 4.6357,
-    "mae_tonnes": 2.0821,
-    "deployed_test_rmse_hg": 46356.94,
-    "deployed_test_r2": 0.8034
+    "overall_r2": 0.861,
+    "rmse_tonnes": 4.1277,
+    "mae_tonnes": 2.0388,
+    "deployed_test_r2": 0.861
   },
-  "metrics_grouped_regime_b": {
-    "r2": 0.5943,
-    "rmse_tonnes": 5.8524,
-    "mae_tonnes": 2.7985,
-    "rmse_hg": 58524.21,
-    "mae_hg": 27984.93
-  },
+  "empirical_test_coverage": 0.8773,
   "additivity_verified": true
 }

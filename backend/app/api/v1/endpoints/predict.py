@@ -82,3 +82,15 @@ def get_regional_reliability(country: str):
         )
     return profile
 
+
+from app.services.weather_service import WeatherService
+
+@router.get("/climate/live")
+def get_live_climate(
+    country: str = Query(..., description="Country name"),
+    year: int = Query(default=2026, description="Forecast target year")
+):
+    """Retrieve authentic live and seasonal climate parameters from Open-Meteo API."""
+    return WeatherService.get_live_climate(country=country, target_year=year)
+
+

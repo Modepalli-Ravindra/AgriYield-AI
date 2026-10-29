@@ -33,8 +33,8 @@ requests>=2.31
 joblib>=1.3
 python-dotenv>=1.0.0
 
-# Database Persistence (InsForge Managed PostgreSQL)
-psycopg2-binary>=2.9.9
+# Database Persistence
+# SQLite (Standard library sqlite3 with WAL mode)
 
 # Security, JWT & Auth Validation
 argon2-cffi>=23.1.0

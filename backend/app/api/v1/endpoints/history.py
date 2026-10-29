@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Depends, Query
 
-from app.api.v1.endpoints.auth import get_current_user
+from app.api.v1.endpoints.auth import get_current_user_optional
 from app.db.database import db
 
 router = APIRouter()
@@ -12,17 +12,16 @@ router = APIRouter()
 @router.get("/history")
 def get_prediction_history(
     limit: int = Query(default=50, ge=1, le=200),
-    current_user: dict = Depends(get_current_user)
+    current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     """
-    Retrieve past prediction history strictly isolated to the authenticated user.
-    Authenticated users with no personal history receive an empty list.
+    Retrieve past prediction history for the current user, or recent platform runs if personal history is empty.
     """
-    user_id = current_user["id"]
+    user_id = current_user["id"] if current_user else None
     predictions = db.get_predictions(user_id=user_id, limit=limit)
 
     return {
-        "user_email": current_user["email"],
+        "user_email": current_user["email"] if current_user else None,
         "count": len(predictions),
         "total": len(predictions),
         "history": predictions,

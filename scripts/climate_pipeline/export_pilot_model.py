@@ -20,6 +20,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import xgboost as xgb
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(BASE_DIR / "backend"))
 sys.path.insert(0, str(BASE_DIR))
 
 from app.ml.conformal import ConformalPredictionCalibrator

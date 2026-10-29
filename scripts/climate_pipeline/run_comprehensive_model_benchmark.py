@@ -23,6 +23,7 @@ import lightgbm as lgb
 from catboost import CatBoostRegressor
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(BASE_DIR / "backend"))
 sys.path.insert(0, str(BASE_DIR))
 
 from app.ml.conformal import ConformalPredictionCalibrator

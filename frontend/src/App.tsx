@@ -11,6 +11,7 @@ import { TrustFaqFooter } from './components/landing/TrustFaqFooter';
 import { AuthModal } from './components/auth/AuthModal';
 import { AppSidebar } from './components/dashboard/AppSidebar';
 import { AppHeader } from './components/dashboard/AppHeader';
+import { TenSecondAILoader } from './components/ui/Loader';
 
 import { OverviewTab } from './components/dashboard/OverviewTab';
 import { PredictionTab } from './components/dashboard/PredictionTab';
@@ -48,7 +49,7 @@ export default function App() {
   const [inputData, setInputData] = useState<YieldInput>({
     country: 'India',
     crop: 'Wheat',
-    year: 2013,
+    year: 2026,
     rainfall_mm: 1050.0,
     avg_temp_c: 25.5,
     pesticides_tonnes: 50000.0
@@ -122,7 +123,7 @@ export default function App() {
     try {
       const [res] = await Promise.all([
         api.predictYield(inputData),
-        new Promise((resolve) => setTimeout(resolve, 800))
+        new Promise((resolve) => setTimeout(resolve, 10000))
       ]);
       setPrediction(res);
     } catch (err: any) {
@@ -137,7 +138,7 @@ export default function App() {
     try {
       const [res] = await Promise.all([
         api.fetchExplanation(inputData),
-        new Promise((resolve) => setTimeout(resolve, 850))
+        new Promise((resolve) => setTimeout(resolve, 10000))
       ]);
       setExplainData(res);
     } catch (err: any) {
@@ -331,6 +332,20 @@ export default function App() {
             </div>
           </main>
         </div>
+
+        {/* Centered 10-Second Countdown AI Loaders */}
+        {loadingPred && (
+          <TenSecondAILoader 
+            title="Terraflect Inference Pipeline"
+            subtitle={`Calibrating 2026 climate tensors & conformal bounds for ${inputData.country} (${inputData.crop})...`}
+          />
+        )}
+        {loadingExplain && (
+          <TenSecondAILoader 
+            title="TreeSHAP Attribution Pass"
+            subtitle={`Computing exact Shapley factor contributions for ${inputData.country} (${inputData.crop})...`}
+          />
+        )}
       </div>
     );
   }

@@ -10,7 +10,8 @@ import type {
   GlobalImportanceResponse,
   TokenResponse,
   UserProfile,
-  HistoryResponse
+  HistoryResponse,
+  LiveClimateResponse
 } from './types';
 
 const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:8000') + '/api/v1';
@@ -29,6 +30,16 @@ export async function fetchHealth(): Promise<{ status: string; database: string;
 export async function fetchOptions(): Promise<OptionsResponse> {
   const res = await fetch(`${API_BASE}/options`);
   if (!res.ok) throw new Error('Failed to load options');
+  return res.json();
+}
+
+export async function fetchLiveClimate(country: string, year: number = 2026): Promise<LiveClimateResponse> {
+  const url = `${API_BASE}/climate/live?country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to fetch live climate' }));
+    throw new Error(err.detail || 'Failed to fetch live climate');
+  }
   return res.json();
 }
 

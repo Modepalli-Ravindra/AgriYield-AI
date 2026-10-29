@@ -7,8 +7,16 @@ from typing import List
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-# Load .env file for InsForge PostgreSQL and production configuration
+def _find_repo_root() -> Path:
+    current = Path(__file__).resolve().parent
+    for _ in range(5):
+        if (current / "models").exists() and (current / "data").exists():
+            return current
+        current = current.parent
+    return Path(__file__).resolve().parent.parent.parent
+
+BASE_DIR = _find_repo_root()
+# Load .env file for configuration
 load_dotenv(BASE_DIR / ".env")
 
 def _get_default_cors_origins() -> List[str]:
@@ -48,7 +56,7 @@ class Settings(BaseModel):
     PILOT_METADATA_PATH: Path = BASE_DIR / "models" / "climate_enhanced_metadata.json"
     CLIMATE_PROCESSED_DIR: Path = BASE_DIR / "data" / "climate" / "processed"
     
-    # Database (InsForge PostgreSQL or Local SQLite fallback)
+    # Database (SQLite)
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL", 
         f"sqlite:///{BASE_DIR / 'crop_yield_platform.db'}"

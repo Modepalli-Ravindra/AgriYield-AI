@@ -44,6 +44,25 @@ export interface PredictionResponse {
   has_authentic_climate?: boolean;
   climate_coverage_status?: string;
   climate_features_used?: Record<string, any>;
+  climate_anomaly_z?: number;
+  climate_shift_detected?: boolean;
+  regional_reliability_tier?: string;
+  regional_climate_baseline?: Record<string, any>;
+  timestamp: string;
+}
+
+export interface LiveClimateResponse {
+  country: string;
+  year: number;
+  latitude: number;
+  longitude: number;
+  avg_temp_c: number;
+  rainfall_mm: number;
+  current_ambient_temp_c: number;
+  current_precip_mm: number;
+  humidity_pct: number;
+  source: string;
+  is_live: boolean;
   timestamp: string;
 }
 
