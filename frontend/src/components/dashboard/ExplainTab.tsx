@@ -125,46 +125,48 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
       flexDirection: 'column',
       height: '100%',
       width: '100%',
-      gap: 8,
-      boxSizing: 'border-box'
+      gap: 12,
+      boxSizing: 'border-box',
+      flex: 1,
+      minHeight: 0
     }}>
       {/* Top Header & Actions Bar */}
       <div style={{
         background: 'var(--color-forest-surface)',
-        borderRadius: 12,
-        padding: '8px 16px',
+        borderRadius: 14,
+        padding: '12px 20px',
         border: '1.5px solid var(--color-forest-border)',
         boxShadow: 'var(--shadow-card)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap',
-        gap: 8,
+        gap: 10,
         flexShrink: 0
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 7, background: 'rgba(228, 253, 151, 0.12)', color: 'var(--color-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <FileText size={16} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 34, height: 34, borderRadius: 8, background: 'rgba(228, 253, 151, 0.12)', color: 'var(--color-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <FileText size={18} />
           </div>
           <div>
-            <h2 style={{ fontSize: 14.5, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0 }}>
+            <h2 style={{ fontSize: 16, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0 }}>
               Factor Contributions Breakdown
             </h2>
-            <p style={{ fontSize: 10.5, color: '#94A3B8', margin: 0 }}>
+            <p style={{ fontSize: 11.5, color: '#94A3B8', margin: 0 }}>
               Ranked meteorological and agro-management drivers explaining this harvest.
             </p>
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           {explainData && onClearExplain && (
             <button
               type="button"
               onClick={onClearExplain}
               style={{
-                padding: '5px 10px',
-                fontSize: 11.5,
-                borderRadius: 6,
+                padding: '6px 14px',
+                fontSize: 12.5,
+                borderRadius: 7,
                 background: 'rgba(255, 255, 255, 0.06)',
                 border: '1px solid var(--color-forest-border)',
                 color: '#CBD5E1',
@@ -181,21 +183,21 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
             onClick={onRunExplain}
             disabled={loading}
             style={{ 
-              padding: '6px 16px', 
-              fontSize: 12, 
-              borderRadius: 6, 
+              padding: '8px 20px', 
+              fontSize: 13.5, 
+              borderRadius: 8, 
               fontWeight: 800,
               boxShadow: '0 3px 10px var(--color-lime-glow)',
               display: 'flex',
               alignItems: 'center',
-              gap: 5
+              gap: 6
             }}
           >
             {loading ? (
-              <ButtonSpinner size={12} text="Calculating..." />
+              <ButtonSpinner size={13} text="Calculating..." />
             ) : (
               <>
-                <Sparkles size={13} />
+                <Sparkles size={15} />
                 <span>{explainData ? 'Recalculate Factors' : 'Calculate Factor Breakdown'}</span>
               </>
             )}
@@ -208,64 +210,58 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 8,
+          gap: 12,
           flex: 1,
           minHeight: 0
         }}>
           {/* Executive Yield Impact Summary Card */}
           <div style={{
             background: 'radial-gradient(circle at 30% 30%, #20311f 0%, #132012 100%)',
-            borderRadius: 11,
-            padding: '10px 16px',
+            borderRadius: 14,
+            padding: '16px 20px',
             border: '1.5px solid var(--color-forest-border)',
-            boxShadow: '0 4px 14px rgba(0, 0, 0, 0.3)',
+            boxShadow: 'var(--shadow-card)',
             display: 'flex',
             flexDirection: 'column',
-            gap: 8,
+            gap: 12,
             flexShrink: 0
           }}>
-            {/* 3 Metric Blocks */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 12,
-              alignItems: 'center'
-            }}>
-              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '7px 12px', borderRadius: 7, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                <span style={{ fontSize: 9.5, fontFamily: 'var(--font-mono)', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px 16px', borderRadius: 9, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   Baseline Reference Mean
                 </span>
-                <div style={{ fontSize: 20, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
-                  {explainData.base_value.toFixed(2)} <span style={{ fontSize: 11, color: '#94A3B8', fontWeight: 600 }}>t/ha</span>
+                <div style={{ fontSize: 26, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)', marginTop: 3 }}>
+                  {explainData.base_value.toFixed(2)} <span style={{ fontSize: 13, fontWeight: 600 }}>t/ha</span>
                 </div>
-                <span style={{ fontSize: 10, color: '#94A3B8' }}>Global multi-crop historical mean</span>
+                <span style={{ fontSize: 11, color: '#94A3B8' }}>Global multi-crop historical mean</span>
               </div>
 
-              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '7px 12px', borderRadius: 7, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                <span style={{ fontSize: 9.5, fontFamily: 'var(--font-mono)', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px 16px', borderRadius: 9, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   Net Farm Factors Impact
                 </span>
                 <div style={{ 
-                  fontSize: 20, 
+                  fontSize: 26, 
                   fontWeight: 900, 
                   fontFamily: 'var(--font-mono)', 
-                  marginTop: 2,
+                  marginTop: 3,
                   color: (explainData.prediction_tonnes_per_ha - explainData.base_value) >= 0 ? '#4ADE80' : '#F87171'
                 }}>
                   {(explainData.prediction_tonnes_per_ha - explainData.base_value) >= 0 ? '+' : ''}
-                  {(explainData.prediction_tonnes_per_ha - explainData.base_value).toFixed(2)} <span style={{ fontSize: 11, fontWeight: 600 }}>t/ha</span>
+                  {(explainData.prediction_tonnes_per_ha - explainData.base_value).toFixed(2)} <span style={{ fontSize: 13, fontWeight: 600 }}>t/ha</span>
                 </div>
-                <span style={{ fontSize: 10, color: '#94A3B8' }}>Combined weather, inputs & crop shift</span>
+                <span style={{ fontSize: 11, color: '#94A3B8' }}>Combined weather, inputs & crop shift</span>
               </div>
 
-              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '7px 12px', borderRadius: 7, border: '1px solid rgba(228, 253, 151, 0.25)' }}>
-                <span style={{ fontSize: 9.5, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 700 }}>
+              <div style={{ background: 'rgba(0, 0, 0, 0.3)', padding: '12px 16px', borderRadius: 9, border: '1px solid rgba(228, 253, 151, 0.25)' }}>
+                <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 700 }}>
                   Final Yield Forecast
                 </span>
-                <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
-                  {explainData.prediction_tonnes_per_ha.toFixed(2)} <span style={{ fontSize: 12, color: '#F7F7EF', fontWeight: 600 }}>t/ha</span>
+                <div style={{ fontSize: 28, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', marginTop: 3 }}>
+                  {explainData.prediction_tonnes_per_ha.toFixed(2)} <span style={{ fontSize: 14, color: '#F7F7EF', fontWeight: 600 }}>t/ha</span>
                 </div>
-                <span style={{ fontSize: 10.5, color: '#CBD5E1', fontWeight: 600 }}>
+                <span style={{ fontSize: 11.5, color: '#CBD5E1', fontWeight: 600 }}>
                   ~<strong>{(explainData.prediction_tonnes_per_ha * 10).toFixed(1)}</strong> quintals per hectare
                 </span>
               </div>
@@ -275,15 +271,15 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
             {explainData.summary_text && (
               <div style={{
                 background: 'rgba(0, 0, 0, 0.25)',
-                borderRadius: 6,
-                padding: '6px 12px',
+                borderRadius: 8,
+                padding: '9px 16px',
                 border: '1px solid rgba(228, 253, 151, 0.18)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 8
+                gap: 10
               }}>
-                <Lightbulb size={15} style={{ color: 'var(--color-lime)', flexShrink: 0 }} />
-                <p style={{ fontSize: 11.5, color: '#E2E8F0', margin: 0, lineHeight: 1.35, fontWeight: 500 }}>
+                <Lightbulb size={18} style={{ color: 'var(--color-lime)', flexShrink: 0 }} />
+                <p style={{ fontSize: 12.5, color: '#E2E8F0', margin: 0, lineHeight: 1.45, fontWeight: 500 }}>
                   {explainData.summary_text}
                 </p>
               </div>
@@ -293,37 +289,36 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
           {/* Clean Factor Drivers Grid (Ranked by Impact) */}
           <div style={{
             background: 'var(--color-forest-surface)',
-            borderRadius: 11,
-            padding: '10px 14px',
+            borderRadius: 14,
+            padding: '14px 20px',
             border: '1.5px solid var(--color-forest-border)',
             boxShadow: 'var(--shadow-card)',
             display: 'flex',
             flexDirection: 'column',
-            gap: 6,
+            gap: 10,
             flex: 1,
             minHeight: 0
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 5, borderBottom: '1px solid rgba(169, 180, 158, 0.16)', flexShrink: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 12.5, fontWeight: 800, color: '#F7F7EF' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 8, borderBottom: '1px solid rgba(169, 180, 158, 0.16)', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 14, fontWeight: 800, color: '#F7F7EF' }}>
                   Ranked Factor Drivers (SHAP Value Attribution)
                 </span>
-                <span style={{ fontSize: 9.5, color: 'var(--color-muted)' }}>
+                <span style={{ fontSize: 11, color: 'var(--color-muted)' }}>
                   — sorted by absolute impact
                 </span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ 
-                  fontSize: 9.5, 
+                  fontSize: 10.5, 
                   fontFamily: 'var(--font-mono)', 
                   background: 'rgba(228, 253, 151, 0.1)', 
-                  color: 'var(--color-lime)',
-                  border: '1px solid rgba(228, 253, 151, 0.25)',
-                  padding: '1px 7px', 
-                  borderRadius: 4,
-                  fontWeight: 700
+                  color: 'var(--color-lime)', 
+                  padding: '3px 9px', 
+                  borderRadius: 4, 
+                  fontWeight: 700 
                 }}>
-                  {showAll ? 'All Factors' : 'Top 6 Primary Drivers'}
+                  {showAll ? `All ${sortedFactors.length} Factors` : 'Top 6 Primary Drivers'}
                 </span>
                 {sortedFactors.length > 6 && (
                   <button
@@ -333,9 +328,9 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
                       background: 'rgba(255, 255, 255, 0.08)',
                       border: '1px solid var(--color-forest-border)',
                       color: 'var(--color-lime)',
-                      padding: '1px 7px',
-                      borderRadius: 4,
-                      fontSize: 9.5,
+                      padding: '3px 10px',
+                      borderRadius: 5,
+                      fontSize: 11,
                       fontWeight: 700,
                       cursor: 'pointer'
                     }}
@@ -346,12 +341,16 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
               </div>
             </div>
 
-            {/* 2-Column Compact Grid of Factor Tiles */}
+            {/* 2-Column Grid of Factor Tiles filling the available height */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gap: 6,
-              alignItems: 'start'
+              gridTemplateRows: showAll ? 'repeat(auto-fill, minmax(72px, 1fr))' : 'repeat(3, 1fr)',
+              gap: 10,
+              flex: 1,
+              minHeight: 0,
+              alignItems: 'stretch',
+              overflowY: showAll ? 'auto' : 'hidden'
             }}>
               {visibleFactors.map((fc, idx) => {
                 const isPos = fc.shap_value >= 0;
@@ -363,67 +362,83 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
                     key={idx}
                     style={{
                       background: isPos ? 'rgba(74, 222, 128, 0.04)' : 'rgba(248, 113, 113, 0.04)',
-                      borderRadius: 7,
-                      padding: '7px 10px',
+                      borderRadius: 9,
+                      padding: '11px 16px',
                       border: isPos ? '1px solid rgba(74, 222, 128, 0.22)' : '1px solid rgba(248, 113, 113, 0.22)',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: 3
+                      justifyContent: 'space-between',
+                      height: '100%',
+                      boxSizing: 'border-box'
                     }}
                   >
                     {/* Top Row: Icon + Name + Value */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
                         <div style={{ 
-                          width: 22, 
-                          height: 22, 
-                          borderRadius: 5, 
-                          background: isPos ? 'rgba(74, 222, 128, 0.15)' : 'rgba(248, 113, 113, 0.15)', 
+                          width: 28, 
+                          height: 28, 
+                          borderRadius: 7, 
+                          background: isPos ? 'rgba(74, 222, 128, 0.12)' : 'rgba(248, 113, 113, 0.12)', 
                           display: 'flex', 
                           alignItems: 'center', 
                           justifyContent: 'center',
-                          flexShrink: 0
+                          flexShrink: 0 
                         }}>
                           {getFeatureIcon(fc.feature)}
                         </div>
-                        <span style={{ fontSize: 12, fontWeight: 800, color: '#F7F7EF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <span style={{ fontSize: 13.5, fontWeight: 700, color: '#F7F7EF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {cleanFeatureLabel(fc.feature)}
                         </span>
                       </div>
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
-                        <span style={{ fontSize: 9.5, color: '#94A3B8', fontFamily: 'var(--font-mono)' }}>
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
+                        <span style={{ fontSize: 11.5, fontFamily: 'var(--font-mono)', color: '#94A3B8' }}>
                           {fc.percentage_contribution.toFixed(0)}%
                         </span>
                         <span style={{
-                          background: isPos ? 'rgba(74, 222, 128, 0.18)' : 'rgba(248, 113, 113, 0.18)',
-                          border: isPos ? '1px solid rgba(74, 222, 128, 0.35)' : '1px solid rgba(248, 113, 113, 0.35)',
-                          borderRadius: 4,
-                          padding: '1px 6px',
-                          fontSize: 11.5,
-                          fontWeight: 800,
+                          fontSize: 13,
                           fontFamily: 'var(--font-mono)',
-                          color: isPos ? '#4ADE80' : '#F87171'
+                          fontWeight: 800,
+                          color: isPos ? '#4ADE80' : '#F87171',
+                          background: isPos ? 'rgba(74, 222, 128, 0.12)' : 'rgba(248, 113, 113, 0.12)',
+                          padding: '2px 8px',
+                          borderRadius: 5
                         }}>
-                          {isPos ? `+${absVal}` : `-${absVal}`} t/ha
+                          {isPos ? `+${absVal}` : `-${absVal}`} <span style={{ fontSize: 10.5, fontWeight: 600 }}>t/ha</span>
                         </span>
                       </div>
                     </div>
 
-                    {/* Concise Narrative */}
-                    <p style={{ fontSize: 10.5, color: '#CBD5E1', margin: 0, lineHeight: 1.3 }}>
-                      {explanation}
-                    </p>
-
-                    {/* Mini Visual Influence Bar */}
-                    <div style={{ width: '100%', height: 3.5, background: 'rgba(255, 255, 255, 0.08)', borderRadius: 2, overflow: 'hidden', marginTop: 1 }}>
+                    {/* Visual Meter Bar */}
+                    <div style={{ 
+                      width: '100%', 
+                      height: 5, 
+                      background: 'rgba(255, 255, 255, 0.07)', 
+                      borderRadius: 3, 
+                      overflow: 'hidden',
+                      margin: '5px 0'
+                    }}>
                       <div style={{
-                        width: `${Math.min(100, Math.max(4, fc.percentage_contribution))}%`,
+                        width: `${Math.min(100, Math.max(8, fc.percentage_contribution))}%`,
                         height: '100%',
                         background: isPos ? 'linear-gradient(90deg, #22C55E, #4ADE80)' : 'linear-gradient(90deg, #EF4444, #F87171)',
-                        borderRadius: 2
+                        borderRadius: 3
                       }} />
                     </div>
+
+                    {/* 1-Line Explanation */}
+                    <p style={{ 
+                      fontSize: 12, 
+                      color: '#CBD5E1', 
+                      margin: 0, 
+                      lineHeight: 1.35, 
+                      overflow: 'hidden', 
+                      textOverflow: 'ellipsis', 
+                      whiteSpace: 'nowrap' 
+                    }}>
+                      {explanation}
+                    </p>
                   </div>
                 );
               })}
@@ -444,11 +459,11 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           flex: 1,
-          gap: 12
+          gap: 14
         }}>
           <div style={{
-            width: 48,
-            height: 48,
+            width: 52,
+            height: 52,
             borderRadius: '50%',
             background: 'rgba(228, 253, 151, 0.1)',
             display: 'flex',
@@ -457,13 +472,13 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
             color: 'var(--color-lime)',
             border: '1.5px solid rgba(228, 253, 151, 0.3)'
           }}>
-            <Sparkles size={24} />
+            <Sparkles size={26} />
           </div>
           <div>
-            <h3 style={{ fontSize: 17, color: 'var(--color-offwhite)', margin: '0 0 4px', fontWeight: 800 }}>
+            <h3 style={{ fontSize: 18, color: 'var(--color-offwhite)', margin: '0 0 6px', fontWeight: 800 }}>
               Ready to Explain Your Crop Harvest
             </h3>
-            <p style={{ fontSize: 13, maxWidth: 440, margin: 0, lineHeight: 1.45, color: '#94A3B8' }}>
+            <p style={{ fontSize: 13.5, maxWidth: 460, margin: 0, lineHeight: 1.45, color: '#94A3B8' }}>
               Click <strong>Calculate Factor Breakdown</strong> above to see exact mathematical contributions from rainfall, temperature, pest management, and seeds.
             </p>
           </div>
@@ -472,21 +487,21 @@ export const ExplainTab: React.FC<ExplainTabProps> = ({
             onClick={onRunExplain}
             disabled={loading}
             style={{ 
-              padding: '9px 22px', 
-              fontSize: 13, 
+              padding: '11px 26px', 
+              fontSize: 14, 
               borderRadius: 8, 
               fontWeight: 800,
               boxShadow: '0 3px 12px var(--color-lime-glow)',
               display: 'flex',
               alignItems: 'center',
-              gap: 6
+              gap: 7
             }}
           >
             {loading ? (
-              <ButtonSpinner size={14} text="Calculating..." />
+              <ButtonSpinner size={15} text="Calculating..." />
             ) : (
               <>
-                <Sparkles size={15} />
+                <Sparkles size={16} />
                 <span>Calculate Factor Breakdown</span>
               </>
             )}
