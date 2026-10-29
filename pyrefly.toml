@@ -1,0 +1,6 @@
+# Pyrefly Configuration for Terraflect
+# Ensures Pyrefly language server resolves modules from backend/
+search-path = [
+    ".",
+    "backend"
+]
