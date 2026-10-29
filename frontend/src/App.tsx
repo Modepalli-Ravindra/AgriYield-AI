@@ -272,7 +272,7 @@ export default function App() {
               />
             </div>
 
-            <div style={{ display: activeTab === 'predict' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
+            <div style={{ display: activeTab === 'predict' ? 'flex' : 'none', flexDirection: 'column', flex: 1, height: '100%', minHeight: 0, width: '100%' }}>
               <PredictionTab
                 inputData={inputData}
                 setInputData={setInputData}
