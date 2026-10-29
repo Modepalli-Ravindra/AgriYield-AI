@@ -11,7 +11,6 @@ import { TrustFaqFooter } from './components/landing/TrustFaqFooter';
 import { AuthModal } from './components/auth/AuthModal';
 import { AppSidebar } from './components/dashboard/AppSidebar';
 import { AppHeader } from './components/dashboard/AppHeader';
-import { TenSecondAILoader } from './components/ui/Loader';
 
 import { OverviewTab } from './components/dashboard/OverviewTab';
 import { PredictionTab } from './components/dashboard/PredictionTab';
@@ -133,10 +132,7 @@ export default function App() {
   const handleRunExplain = async () => {
     setLoadingExplain(true);
     try {
-      const [res] = await Promise.all([
-        api.fetchExplanation(inputData),
-        new Promise((resolve) => setTimeout(resolve, 10000))
-      ]);
+      const res = await api.fetchExplanation(inputData);
       setExplainData(res);
     } catch (err: any) {
       alert(err.message || 'Explanation failed');
@@ -290,7 +286,7 @@ export default function App() {
               <BatchPredictionTab />
             </div>
 
-            <div style={{ display: activeTab === 'explain' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
+            <div style={{ display: activeTab === 'explain' ? 'flex' : 'none', flexDirection: 'column', flex: 1, height: '100%', minHeight: 0, width: '100%' }}>
               <ExplainTab
                 explainData={explainData}
                 loading={loadingExplain}
@@ -330,13 +326,7 @@ export default function App() {
           </main>
         </div>
 
-        {/* Centered 10-Second Countdown AI Loaders */}
-        {loadingExplain && (
-          <TenSecondAILoader 
-            title="Analyzing Factor Influences"
-            subtitle={`Calculating how each environmental factor affected your ${inputData.crop} harvest in ${inputData.country}...`}
-          />
-        )}
+
       </div>
     );
   }

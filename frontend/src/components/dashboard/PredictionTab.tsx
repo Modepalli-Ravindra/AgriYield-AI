@@ -101,14 +101,14 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
     <div style={{
       display: 'flex',
       flexDirection: 'column',
-      gap: 8,
+      height: '100%',
       width: '100%',
       boxSizing: 'border-box'
     }}>
       {/* Primary 2-Column Work Grid */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'minmax(340px, 395px) minmax(0, 1fr)',
+        gridTemplateColumns: 'minmax(350px, 400px) minmax(0, 1fr)',
         gap: 12,
         alignItems: 'start'
       }}>
@@ -118,22 +118,22 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           borderRadius: 14,
           border: '1.5px solid var(--color-forest-border)',
           boxShadow: 'var(--shadow-card)',
-          padding: '10px 14px',
+          padding: '12px 16px',
           display: 'flex',
           flexDirection: 'column',
-          gap: 8,
+          gap: 10,
           minWidth: 0,
           boxSizing: 'border-box'
         }}>
           {/* Card Header with Live Sync & Reset */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 6, borderBottom: '1px solid rgba(169, 180, 158, 0.16)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
-              <div style={{ width: 26, height: 26, borderRadius: 6, background: 'rgba(228, 253, 151, 0.12)', color: 'var(--color-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <ChartBarIcon style={{ width: 15, height: 15 }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+              <div style={{ width: 28, height: 28, borderRadius: 7, background: 'rgba(228, 253, 151, 0.12)', color: 'var(--color-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <ChartBarIcon style={{ width: 16, height: 16 }} />
               </div>
               <div style={{ minWidth: 0 }}>
-                <h3 style={{ fontSize: 14, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0, lineHeight: 1.2 }}>Environmental Parameters</h3>
-                <span style={{ fontSize: 10, color: climateStatus ? (climateStatus.success ? '#4ADE80' : '#FCA5A5') : '#A0AEC0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block' }}>
+                <h3 style={{ fontSize: 14.5, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0, lineHeight: 1.2 }}>Environmental Parameters</h3>
+                <span style={{ fontSize: 10.5, color: climateStatus ? (climateStatus.success ? '#4ADE80' : '#FCA5A5') : '#A0AEC0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block' }}>
                   {climateStatus ? climateStatus.message : 'Configure agro-meteorological variables'}
                 </span>
               </div>
@@ -148,13 +148,13 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 3,
+                  gap: 4,
                   background: 'var(--color-lime)',
                   color: '#0E160D',
                   border: 'none',
                   borderRadius: 6,
-                  padding: '3px 8px',
-                  fontSize: 10.5,
+                  padding: '4px 9px',
+                  fontSize: 11,
                   fontWeight: 800,
                   cursor: loadingClimate ? 'wait' : 'pointer',
                   boxShadow: '0 2px 6px rgba(228, 253, 151, 0.25)'
@@ -167,7 +167,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   </>
                 ) : (
                   <>
-                    <BoltIcon style={{ width: 11, height: 11 }} />
+                    <BoltIcon style={{ width: 12, height: 12 }} />
                     <span>Live Sync</span>
                   </>
                 )}
@@ -184,30 +184,30 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   background: 'rgba(255, 255, 255, 0.07)',
                   border: '1px solid var(--color-forest-border)',
                   color: '#CBD5E1',
-                  padding: '3px 7px',
+                  padding: '4px 8px',
                   borderRadius: 6,
-                  fontSize: 10.5,
+                  fontSize: 11,
                   fontWeight: 700,
                   cursor: 'pointer'
                 }}
               >
-                <ArrowPathIcon style={{ width: 10, height: 10 }} />
+                <ArrowPathIcon style={{ width: 11, height: 11 }} />
                 <span>Reset</span>
               </button>
             </div>
           </div>
 
-          {/* Form Fields Stack (Consistent 8px gaps, NO space-between) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {/* Form Fields Stack */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {/* Country & Crop Selectors */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
               <div>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#E2E8F0', marginBottom: 3 }}>
+                <label style={{ display: 'block', fontSize: 11.5, fontWeight: 700, color: '#E2E8F0', marginBottom: 4 }}>
                   Country / Region
                 </label>
                 <select
                   className="form-input"
-                  style={{ padding: '6px 9px', fontSize: 12.5, borderRadius: 6, height: 34, minHeight: 34, width: '100%', boxSizing: 'border-box' }}
+                  style={{ padding: '7px 10px', fontSize: 13, borderRadius: 7, height: 36, minHeight: 36, width: '100%', boxSizing: 'border-box' }}
                   value={inputData.country}
                   onChange={(e) => handleChange('country', e.target.value)}
                 >
@@ -218,12 +218,12 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#E2E8F0', marginBottom: 3 }}>
+                <label style={{ display: 'block', fontSize: 11.5, fontWeight: 700, color: '#E2E8F0', marginBottom: 4 }}>
                   Crop Species
                 </label>
                 <select
                   className="form-input"
-                  style={{ padding: '6px 9px', fontSize: 12.5, borderRadius: 6, height: 34, minHeight: 34, width: '100%', boxSizing: 'border-box' }}
+                  style={{ padding: '7px 10px', fontSize: 13, borderRadius: 7, height: 36, minHeight: 36, width: '100%', boxSizing: 'border-box' }}
                   value={inputData.crop}
                   onChange={(e) => handleChange('crop', e.target.value)}
                 >
@@ -237,16 +237,16 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             {/* Average Rainfall Slider Card */}
             <div style={{
               background: 'rgba(255, 255, 255, 0.03)',
-              padding: '8px 11px',
+              padding: '9px 12px',
               borderRadius: 8,
               border: '1px solid rgba(255, 255, 255, 0.07)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#E2E8F0' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                <span style={{ fontSize: 11.5, fontWeight: 700, color: '#E2E8F0' }}>
                   Average Rainfall
                 </span>
-                <span style={{ fontSize: 13.5, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)' }}>
-                  {inputData.rainfall_mm} <span style={{ fontSize: 10.5, color: '#A0AEC0' }}>mm</span>
+                <span style={{ fontSize: 14, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)' }}>
+                  {inputData.rainfall_mm} <span style={{ fontSize: 11, color: '#A0AEC0' }}>mm</span>
                 </span>
               </div>
               <input
@@ -258,7 +258,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 onChange={(e) => handleChange('rainfall_mm', parseFloat(e.target.value))}
                 onWheel={(e) => e.currentTarget.blur()}
                 className="range-slider"
-                style={{ width: '100%', cursor: 'pointer', height: 4, margin: '3px 0' }}
+                style={{ width: '100%', cursor: 'pointer', height: 5, margin: '4px 0' }}
               />
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#94A3B8', marginTop: 1 }}>
                 <span>100 mm (Arid / Drought)</span>
@@ -269,16 +269,16 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             {/* Mean Temperature Slider Card */}
             <div style={{
               background: 'rgba(255, 255, 255, 0.03)',
-              padding: '8px 11px',
+              padding: '9px 12px',
               borderRadius: 8,
               border: '1px solid rgba(255, 255, 255, 0.07)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#E2E8F0' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                <span style={{ fontSize: 11.5, fontWeight: 700, color: '#E2E8F0' }}>
                   Mean Temperature
                 </span>
-                <span style={{ fontSize: 13.5, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)' }}>
-                  {inputData.avg_temp_c.toFixed(1)} <span style={{ fontSize: 10.5, color: '#A0AEC0' }}>°C</span>
+                <span style={{ fontSize: 14, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)' }}>
+                  {inputData.avg_temp_c.toFixed(1)} <span style={{ fontSize: 11, color: '#A0AEC0' }}>°C</span>
                 </span>
               </div>
               <input
@@ -290,7 +290,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 onChange={(e) => handleChange('avg_temp_c', parseFloat(e.target.value))}
                 onWheel={(e) => e.currentTarget.blur()}
                 className="range-slider"
-                style={{ width: '100%', cursor: 'pointer', height: 4, margin: '3px 0' }}
+                style={{ width: '100%', cursor: 'pointer', height: 5, margin: '4px 0' }}
               />
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#94A3B8', marginTop: 1 }}>
                 <span>0 °C (Frost / Cold)</span>
@@ -299,15 +299,15 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             </div>
 
             {/* Pesticide & Crop Year */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
               <div>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#E2E8F0', marginBottom: 3 }}>
+                <label style={{ display: 'block', fontSize: 11.5, fontWeight: 700, color: '#E2E8F0', marginBottom: 4 }}>
                   Pesticides (tonnes)
                 </label>
                 <input
                   type="number"
                   className="form-input"
-                  style={{ padding: '6px 9px', fontSize: 12.5, borderRadius: 6, height: 34, minHeight: 34, width: '100%', boxSizing: 'border-box' }}
+                  style={{ padding: '7px 10px', fontSize: 13, borderRadius: 7, height: 36, minHeight: 36, width: '100%', boxSizing: 'border-box' }}
                   value={inputData.pesticides_tonnes}
                   onChange={(e) => handleChange('pesticides_tonnes', parseFloat(e.target.value) || 0)}
                   onWheel={(e) => e.currentTarget.blur()}
@@ -316,18 +316,18 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               </div>
 
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
-                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#E2E8F0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <label style={{ display: 'block', fontSize: 11.5, fontWeight: 700, color: '#E2E8F0' }}>
                     Crop Year
                   </label>
-                  <span style={{ fontSize: 9, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', background: 'rgba(228, 253, 151, 0.1)', padding: '1px 3px', borderRadius: 3, fontWeight: 700 }}>
+                  <span style={{ fontSize: 9.5, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', background: 'rgba(228, 253, 151, 0.1)', padding: '1px 4px', borderRadius: 3, fontWeight: 700 }}>
                     1990–2026
                   </span>
                 </div>
                 <input
                   type="number"
                   className="form-input"
-                  style={{ padding: '6px 9px', fontSize: 12.5, borderRadius: 6, height: 34, minHeight: 34, width: '100%', boxSizing: 'border-box' }}
+                  style={{ padding: '7px 10px', fontSize: 13, borderRadius: 7, height: 36, minHeight: 36, width: '100%', boxSizing: 'border-box' }}
                   value={inputData.year}
                   onChange={(e) => handleChange('year', parseInt(e.target.value) || 2026)}
                   onWheel={(e) => e.currentTarget.blur()}
@@ -340,27 +340,27 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             {/* Regional Agro-Context Summary */}
             <div style={{
               background: 'rgba(255, 255, 255, 0.025)',
-              borderRadius: 7,
-              padding: '6px 9px',
+              borderRadius: 8,
+              padding: '7px 10px',
               border: '1px solid rgba(255, 255, 255, 0.06)',
               display: 'flex',
               flexDirection: 'column',
-              gap: 3
+              gap: 4
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 10.5, color: '#CBD5E1' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11, color: '#CBD5E1' }}>
                 <span style={{ fontWeight: 700 }}>{inputData.country} Agro-Envelope ({inputData.crop})</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', fontSize: 9, fontWeight: 700 }}>FAO Reference</span>
+                <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', fontSize: 9.5, fontWeight: 700 }}>FAO Reference</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-                <div style={{ background: 'rgba(0,0,0,0.25)', padding: '4px 7px', borderRadius: 5, border: '1px solid rgba(255, 255, 255, 0.04)' }}>
-                  <span style={{ color: '#94A3B8', display: 'block', fontSize: 8.5, marginBottom: 1 }}>Precipitation</span>
-                  <span style={{ color: '#F7F7EF', fontWeight: 800, fontFamily: 'var(--font-mono)', fontSize: 11 }}>
+                <div style={{ background: 'rgba(0,0,0,0.25)', padding: '5px 8px', borderRadius: 5, border: '1px solid rgba(255, 255, 255, 0.04)' }}>
+                  <span style={{ color: '#94A3B8', display: 'block', fontSize: 9, marginBottom: 1 }}>Precipitation</span>
+                  <span style={{ color: '#F7F7EF', fontWeight: 800, fontFamily: 'var(--font-mono)', fontSize: 11.5 }}>
                     {inputData.rainfall_mm > 1600 ? 'High Tropical' : inputData.rainfall_mm < 450 ? 'Arid Deficit' : 'Optimal Subtropical'}
                   </span>
                 </div>
-                <div style={{ background: 'rgba(0,0,0,0.25)', padding: '4px 7px', borderRadius: 5, border: '1px solid rgba(255, 255, 255, 0.04)' }}>
-                  <span style={{ color: '#94A3B8', display: 'block', fontSize: 8.5, marginBottom: 1 }}>Thermal Class</span>
-                  <span style={{ color: inputData.avg_temp_c > 32 ? '#F87171' : '#F7F7EF', fontWeight: 800, fontFamily: 'var(--font-mono)', fontSize: 11 }}>
+                <div style={{ background: 'rgba(0,0,0,0.25)', padding: '5px 8px', borderRadius: 5, border: '1px solid rgba(255, 255, 255, 0.04)' }}>
+                  <span style={{ color: '#94A3B8', display: 'block', fontSize: 9, marginBottom: 1 }}>Thermal Class</span>
+                  <span style={{ color: inputData.avg_temp_c > 32 ? '#F87171' : '#F7F7EF', fontWeight: 800, fontFamily: 'var(--font-mono)', fontSize: 11.5 }}>
                     {inputData.avg_temp_c > 32 ? 'Heat Stress' : inputData.avg_temp_c < 12 ? 'Temperate Chill' : 'Vegetative Optimum'}
                   </span>
                 </div>
@@ -369,7 +369,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           </div>
 
           {/* Action Row */}
-          <div style={{ display: 'flex', gap: 7, marginTop: 1 }}>
+          <div style={{ display: 'flex', gap: 8, marginTop: 2 }}>
             <button
               type="button"
               className="btn-primary"
@@ -377,22 +377,22 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               disabled={loading}
               style={{ 
                 flex: 1, 
-                padding: '9px 0', 
-                fontSize: 13, 
+                padding: '10px 0', 
+                fontSize: 14, 
                 fontWeight: 800, 
                 borderRadius: 8,
                 boxShadow: '0 3px 12px var(--color-lime-glow)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 5
+                gap: 6
               }}
             >
               {loading ? (
-                <ButtonSpinner size={14} text="Estimating..." />
+                <ButtonSpinner size={15} text="Estimating..." />
               ) : (
                 <>
-                  <SparklesIcon style={{ width: 14, height: 14 }} />
+                  <SparklesIcon style={{ width: 15, height: 15 }} />
                   <span>Estimate Crop Yield</span>
                 </>
               )}
@@ -406,18 +406,18 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 3,
-                padding: '9px 12px',
+                gap: 4,
+                padding: '10px 14px',
                 background: 'rgba(255, 255, 255, 0.07)',
                 border: '1px solid var(--color-forest-border)',
                 borderRadius: 8,
                 color: '#CBD5E1',
-                fontSize: 12,
+                fontSize: 12.5,
                 fontWeight: 700,
                 cursor: 'pointer'
               }}
             >
-              <ArrowPathIcon style={{ width: 12, height: 12 }} />
+              <ArrowPathIcon style={{ width: 13, height: 13 }} />
               <span>Clear</span>
             </button>
           </div>
@@ -429,20 +429,20 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
           borderRadius: 14,
           border: '1.5px solid var(--color-forest-border)',
           boxShadow: 'var(--shadow-card)',
-          padding: '10px 14px',
+          padding: '12px 16px',
           display: 'flex',
           flexDirection: 'column',
-          gap: 8,
+          gap: 10,
           minWidth: 0,
           boxSizing: 'border-box'
         }}>
           {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 6, borderBottom: '1px solid rgba(169, 180, 158, 0.16)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <ShieldCheckIcon style={{ width: 16, height: 16, color: 'var(--color-lime)' }} />
-              <h3 style={{ fontSize: 14, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0 }}>Forecast Results & Confidence</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <ShieldCheckIcon style={{ width: 17, height: 17, color: 'var(--color-lime)' }} />
+              <h3 style={{ fontSize: 14.5, color: 'var(--color-offwhite)', fontWeight: 800, margin: 0 }}>Forecast Results & Confidence</h3>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               {prediction && (
                 <>
                   <button
@@ -452,18 +452,18 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 3,
+                      gap: 4,
                       background: 'rgba(228, 253, 151, 0.12)',
                       border: '1px solid rgba(228, 253, 151, 0.3)',
                       color: 'var(--color-lime)',
-                      padding: '2px 7px',
-                      borderRadius: 4,
-                      fontSize: 10,
+                      padding: '3px 8px',
+                      borderRadius: 5,
+                      fontSize: 10.5,
                       fontWeight: 700,
                       cursor: 'pointer'
                     }}
                   >
-                    <PresentationChartLineIcon style={{ width: 11, height: 11 }} />
+                    <PresentationChartLineIcon style={{ width: 12, height: 12 }} />
                     <span>Breakdown</span>
                   </button>
                   <button
@@ -473,18 +473,18 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 3,
+                      gap: 4,
                       background: 'rgba(255, 255, 255, 0.08)',
                       border: '1px solid var(--color-forest-border)',
                       color: '#E2E8F0',
-                      padding: '2px 7px',
-                      borderRadius: 4,
-                      fontSize: 10,
+                      padding: '3px 8px',
+                      borderRadius: 5,
+                      fontSize: 10.5,
                       fontWeight: 700,
                       cursor: 'pointer'
                     }}
                   >
-                    <ArrowsRightLeftIcon style={{ width: 11, height: 11 }} />
+                    <ArrowsRightLeftIcon style={{ width: 12, height: 12 }} />
                     <span>What-If</span>
                   </button>
                   <button
@@ -494,9 +494,9 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                       background: 'rgba(248, 113, 113, 0.1)',
                       border: '1px solid rgba(248, 113, 113, 0.3)',
                       color: '#FCA5A5',
-                      padding: '2px 7px',
-                      borderRadius: 4,
-                      fontSize: 10,
+                      padding: '3px 8px',
+                      borderRadius: 5,
+                      fontSize: 10.5,
                       fontWeight: 600,
                       cursor: 'pointer'
                     }}
@@ -508,12 +508,12 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               {prediction ? (
                 prediction.used_pilot_model ? (
                   <span style={{
-                    fontSize: 9,
+                    fontSize: 9.5,
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
                     background: 'rgba(52, 211, 153, 0.18)',
                     color: '#34D399',
-                    padding: '2px 6px',
+                    padding: '2px 7px',
                     borderRadius: 100,
                     border: '1px solid rgba(52, 211, 153, 0.4)'
                   }}>
@@ -521,12 +521,12 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   </span>
                 ) : (
                   <span style={{
-                    fontSize: 9,
+                    fontSize: 9.5,
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
                     background: 'rgba(228, 253, 151, 0.15)',
                     color: 'var(--color-lime)',
-                    padding: '2px 6px',
+                    padding: '2px 7px',
                     borderRadius: 100,
                     border: '1px solid rgba(228, 253, 151, 0.25)'
                   }}>
@@ -535,12 +535,12 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 )
               ) : (
                 <span style={{
-                  fontSize: 9,
+                  fontSize: 9.5,
                   fontFamily: 'var(--font-mono)',
                   fontWeight: 700,
                   background: 'rgba(228, 253, 151, 0.15)',
                   color: 'var(--color-lime)',
-                  padding: '2px 6px',
+                  padding: '2px 7px',
                   borderRadius: 100,
                   border: '1px solid rgba(228, 253, 151, 0.25)'
                 }}>
@@ -558,30 +558,30 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: 8
+              gap: 10
             }}>
               {/* Row 1: Unified Harvest Yield & 90% Statistical Coverage Interval Card */}
               <div style={{
                 background: 'radial-gradient(circle at 30% 30%, #20311f 0%, #132012 100%)',
-                borderRadius: 9,
-                padding: '10px 14px',
+                borderRadius: 10,
+                padding: '12px 16px',
                 border: '1.5px solid var(--color-forest-border)',
                 boxShadow: '0 4px 14px rgba(0, 0, 0, 0.3)',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                gap: 12,
+                gap: 14,
                 alignItems: 'center'
               }}>
                 {/* Left: Estimated Harvest Yield */}
                 <div>
-                  <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
+                  <span style={{ fontSize: 10.5, fontFamily: 'var(--font-mono)', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
                     Estimated Harvest Yield
                   </span>
-                  <div style={{ fontSize: 26, fontWeight: 900, color: 'var(--color-lime)', margin: '1px 0', fontFamily: 'var(--font-display)', lineHeight: 1.1 }}>
+                  <div style={{ fontSize: 28, fontWeight: 900, color: 'var(--color-lime)', margin: '2px 0', fontFamily: 'var(--font-display)', lineHeight: 1.1 }}>
                     {prediction.predicted_yield_tonnes_per_ha.toFixed(2)}
-                    <span style={{ fontSize: 15, fontWeight: 700, color: '#F7F7EF', marginLeft: 5 }}>t/ha</span>
+                    <span style={{ fontSize: 16, fontWeight: 700, color: '#F7F7EF', marginLeft: 6 }}>t/ha</span>
                   </div>
-                  <p style={{ fontSize: 11.5, color: '#CBD5E1', margin: 0, fontWeight: 500 }}>
+                  <p style={{ fontSize: 12, color: '#CBD5E1', margin: 0, fontWeight: 500 }}>
                     Approximately <strong style={{ color: 'var(--color-lime)' }}>{(prediction.predicted_yield_tonnes_per_ha * 10).toFixed(1)}</strong> quintals/hectare
                   </p>
                 </div>
@@ -589,30 +589,30 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 {/* Right: 90% Statistical Coverage Interval */}
                 <div style={{
                   background: 'rgba(0, 0, 0, 0.35)',
-                  borderRadius: 7,
-                  padding: '7px 12px',
+                  borderRadius: 8,
+                  padding: '9px 14px',
                   border: '1px solid rgba(169, 180, 158, 0.2)'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: '#F7F7EF' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 11.5, fontWeight: 800, color: '#F7F7EF' }}>
                       90% Statistical Coverage
                     </span>
-                    <span style={{ fontSize: 9, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', background: 'rgba(228, 253, 151, 0.12)', border: '1px solid rgba(228, 253, 151, 0.25)', padding: '1px 4px', borderRadius: 3, fontWeight: 700 }}>
+                    <span style={{ fontSize: 9.5, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', background: 'rgba(228, 253, 151, 0.12)', border: '1px solid rgba(228, 253, 151, 0.25)', padding: '1px 5px', borderRadius: 3, fontWeight: 700 }}>
                       CALIBRATED
                     </span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: 6 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: 8 }}>
                     <div style={{ textAlign: 'center' }}>
-                      <span style={{ fontSize: 9, color: '#94A3B8', display: 'block' }}>Worst-Case</span>
-                      <span style={{ fontSize: 14, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)' }}>
-                        {prediction.conformal_interval_90.lower_bound.toFixed(2)} <span style={{ fontSize: 9.5, fontWeight: 600 }}>t/ha</span>
+                      <span style={{ fontSize: 10, color: '#94A3B8', display: 'block' }}>Worst-Case (Min)</span>
+                      <span style={{ fontSize: 15, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)' }}>
+                        {prediction.conformal_interval_90.lower_bound.toFixed(2)} <span style={{ fontSize: 10.5, fontWeight: 600 }}>t/ha</span>
                       </span>
                     </div>
-                    <div style={{ height: 22, width: 1, background: 'rgba(169, 180, 158, 0.25)' }} />
+                    <div style={{ height: 26, width: 1, background: 'rgba(169, 180, 158, 0.25)' }} />
                     <div style={{ textAlign: 'center' }}>
-                      <span style={{ fontSize: 9, color: '#94A3B8', display: 'block' }}>Best-Case</span>
-                      <span style={{ fontSize: 14, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)' }}>
-                        {prediction.conformal_interval_90.upper_bound.toFixed(2)} <span style={{ fontSize: 9.5, fontWeight: 600 }}>t/ha</span>
+                      <span style={{ fontSize: 10, color: '#94A3B8', display: 'block' }}>Best-Case (Max)</span>
+                      <span style={{ fontSize: 15, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)' }}>
+                        {prediction.conformal_interval_90.upper_bound.toFixed(2)} <span style={{ fontSize: 10.5, fontWeight: 600 }}>t/ha</span>
                       </span>
                     </div>
                   </div>
@@ -622,25 +622,25 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               {/* Row 2: Conformal Uncertainty Distribution Gauge */}
               <div style={{
                 background: 'rgba(0, 0, 0, 0.25)',
-                borderRadius: 8,
-                padding: '7px 12px',
+                borderRadius: 9,
+                padding: '9px 14px',
                 border: '1px solid rgba(169, 180, 158, 0.16)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4, fontSize: 11 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5, fontSize: 11.5 }}>
                   <span style={{ color: '#F7F7EF', fontWeight: 700 }}>Conformal Uncertainty Distribution</span>
-                  <span style={{ color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: 10.5 }}>
+                  <span style={{ color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: 11 }}>
                     ±{(((prediction.conformal_interval_90.interval_width_tonnes ?? (prediction.conformal_interval_90.upper_bound - prediction.conformal_interval_90.lower_bound))) / 2).toFixed(2)} t/ha margin
                   </span>
                 </div>
                 {/* Gauge Track */}
-                <div style={{ position: 'relative', width: '100%', height: 6, background: 'rgba(255, 255, 255, 0.09)', borderRadius: 3, overflow: 'visible', margin: '4px 0' }}>
+                <div style={{ position: 'relative', width: '100%', height: 7, background: 'rgba(255, 255, 255, 0.09)', borderRadius: 4, overflow: 'visible', margin: '5px 0' }}>
                   <div style={{
                     position: 'absolute',
                     left: 0,
                     top: 0,
                     height: '100%',
                     width: '100%',
-                    borderRadius: 3,
+                    borderRadius: 4,
                     background: 'linear-gradient(90deg, rgba(239, 68, 68, 0.5) 0%, rgba(228, 253, 151, 0.7) 45%, rgba(52, 211, 153, 0.6) 100%)'
                   }} />
                   {(() => {
@@ -654,8 +654,8 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                         position: 'absolute',
                         left: `${pct}%`,
                         top: -3,
-                        width: 12,
-                        height: 12,
+                        width: 13,
+                        height: 13,
                         borderRadius: '50%',
                         background: 'var(--color-lime)',
                         border: '2px solid #0E160D',
@@ -665,7 +665,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                     );
                   })()}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, color: '#CBD5E1', fontFamily: 'var(--font-mono)', marginTop: 3 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#CBD5E1', fontFamily: 'var(--font-mono)', marginTop: 4 }}>
                   <span>Worst: <strong>{prediction.conformal_interval_90.lower_bound.toFixed(2)} t/ha</strong></span>
                   <span style={{ color: 'var(--color-lime)', fontWeight: 800 }}>Point Forecast: {prediction.predicted_yield_tonnes_per_ha.toFixed(2)} t/ha</span>
                   <span>Best: <strong>{prediction.conformal_interval_90.upper_bound.toFixed(2)} t/ha</strong></span>
@@ -676,32 +676,32 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               {prediction.climate_shift_detected ? (
                 <div style={{
                   background: 'rgba(239, 68, 68, 0.1)',
-                  borderRadius: 7,
-                  padding: '6px 10px',
+                  borderRadius: 8,
+                  padding: '7px 12px',
                   border: '1px solid rgba(239, 68, 68, 0.35)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   gap: 8
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
-                    <ExclamationTriangleIcon style={{ width: 14, height: 14, color: '#F87171', flexShrink: 0 }} />
-                    <span style={{ fontSize: 10.5, fontWeight: 800, color: '#FCA5A5', lineHeight: 1.2 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
+                    <ExclamationTriangleIcon style={{ width: 15, height: 15, color: '#F87171', flexShrink: 0 }} />
+                    <span style={{ fontSize: 11, fontWeight: 800, color: '#FCA5A5', lineHeight: 1.2 }}>
                       CLIMATE SHIFT DETECTED ({prediction.climate_anomaly_z !== undefined ? `${prediction.climate_anomaly_z > 0 ? '+' : ''}${prediction.climate_anomaly_z.toFixed(2)}σ` : 'Anomaly'})
                     </span>
-                    <span style={{ fontSize: 9.5, color: 'rgba(255, 255, 255, 0.75)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <span style={{ fontSize: 10, color: 'rgba(255, 255, 255, 0.75)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       Baseline {prediction.regional_climate_baseline?.temp_mean_c?.toFixed(1) ?? 'historical'}°C
                     </span>
                   </div>
                   <span style={{
-                    fontSize: 9,
+                    fontSize: 9.5,
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
                     background: 'rgba(239, 68, 68, 0.25)',
                     color: '#FCA5A5',
                     border: '1px solid rgba(239, 68, 68, 0.4)',
-                    padding: '1px 5px',
-                    borderRadius: 3,
+                    padding: '2px 6px',
+                    borderRadius: 4,
                     flexShrink: 0
                   }}>
                     {prediction.regional_reliability_tier || 'Moderate'} Tier
@@ -710,34 +710,34 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               ) : (
                 <div style={{
                   background: 'rgba(52, 211, 153, 0.08)',
-                  borderRadius: 7,
-                  padding: '6px 10px',
+                  borderRadius: 8,
+                  padding: '7px 12px',
                   border: '1px solid rgba(52, 211, 153, 0.25)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   gap: 8
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
-                    <ShieldCheckIcon style={{ width: 14, height: 14, color: '#34D399', flexShrink: 0 }} />
-                    <span style={{ fontSize: 10.5, color: 'var(--color-offwhite)', fontWeight: 600 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
+                    <ShieldCheckIcon style={{ width: 15, height: 15, color: '#34D399', flexShrink: 0 }} />
+                    <span style={{ fontSize: 11, color: 'var(--color-offwhite)', fontWeight: 600 }}>
                       Climate Alignment: <strong style={{ color: '#34D399' }}>Verified</strong>{' '}
                       {prediction.climate_anomaly_z !== undefined && (
-                        <span style={{ color: 'var(--color-muted)', fontSize: 9.5 }}>
+                        <span style={{ color: 'var(--color-muted)', fontSize: 10 }}>
                           (z = {prediction.climate_anomaly_z > 0 ? '+' : ''}{prediction.climate_anomaly_z.toFixed(2)}σ)
                         </span>
                       )}
                     </span>
                   </div>
                   <span style={{
-                    fontSize: 9,
+                    fontSize: 9.5,
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
                     color: '#34D399',
                     background: 'rgba(52, 211, 153, 0.14)',
                     border: '1px solid rgba(52, 211, 153, 0.3)',
-                    padding: '1px 5px',
-                    borderRadius: 3,
+                    padding: '2px 6px',
+                    borderRadius: 4,
                     flexShrink: 0
                   }}>
                     {prediction.regional_reliability_tier || 'High Confidence'} Tier
@@ -749,27 +749,27 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1.05fr 0.95fr',
-                gap: 8
+                gap: 10
               }}>
                 {/* Left Half: Top Factors */}
                 <div style={{
                   background: 'rgba(0, 0, 0, 0.25)',
-                  borderRadius: 8,
-                  padding: '7px 10px',
+                  borderRadius: 9,
+                  padding: '9px 12px',
                   border: '1px solid rgba(169, 180, 158, 0.16)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 5
+                  gap: 6
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                      <PresentationChartLineIcon style={{ width: 13, height: 13, color: 'var(--color-lime)' }} />
-                      <span style={{ fontSize: 11, fontWeight: 800, color: '#F7F7EF' }}>Top Factors Affecting Harvest</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <PresentationChartLineIcon style={{ width: 14, height: 14, color: 'var(--color-lime)' }} />
+                      <span style={{ fontSize: 11.5, fontWeight: 800, color: '#F7F7EF' }}>Top Factors Affecting Harvest</span>
                     </div>
-                    <span style={{ fontSize: 9, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>IMPACT</span>
+                    <span style={{ fontSize: 9.5, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>IMPACT</span>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
                     {(() => {
                       const friendlyMap: Record<string, string> = {
                         crop: 'Crop Type',
@@ -795,25 +795,25 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                         return (
                           <div key={idx} style={{
                             background: isPos ? 'rgba(74, 222, 128, 0.05)' : 'rgba(248, 113, 113, 0.05)',
-                            borderRadius: 5,
-                            padding: '5px 7px',
+                            borderRadius: 6,
+                            padding: '6px 8px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'space-between',
-                            gap: 5,
+                            gap: 6,
                             border: isPos ? '1px solid rgba(74, 222, 128, 0.22)' : '1px solid rgba(248, 113, 113, 0.22)'
                           }}>
-                            <span style={{ fontSize: 10.5, color: '#F7F7EF', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            <span style={{ fontSize: 11, color: '#F7F7EF', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                               {item.name}
                             </span>
                             <span style={{
-                              fontSize: 10.5,
+                              fontSize: 11,
                               fontFamily: 'var(--font-mono)',
                               fontWeight: 800,
                               color: isPos ? '#4ADE80' : '#F87171',
                               flexShrink: 0
                             }}>
-                              {isPos ? `+${item.val.toFixed(2)}` : item.val.toFixed(2)}
+                              {isPos ? `+${item.val.toFixed(2)}` : item.val.toFixed(2)} t/ha
                             </span>
                           </div>
                         );
@@ -825,37 +825,37 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 {/* Right Half: Farm Scale Projections */}
                 <div style={{
                   background: 'rgba(0, 0, 0, 0.25)',
-                  borderRadius: 8,
-                  padding: '7px 10px',
+                  borderRadius: 9,
+                  padding: '9px 12px',
                   border: '1px solid rgba(169, 180, 158, 0.16)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 5
+                  gap: 6
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: '#F7F7EF' }}>
+                    <span style={{ fontSize: 11.5, fontWeight: 800, color: '#F7F7EF' }}>
                       Farm-Scale Projections ({inputData.crop})
                     </span>
-                    <span style={{ fontSize: 9, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', fontWeight: 700 }}>HARVEST</span>
+                    <span style={{ fontSize: 9.5, fontFamily: 'var(--font-mono)', color: 'var(--color-lime)', fontWeight: 700 }}>HARVEST</span>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 5 }}>
-                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '5px 4px', borderRadius: 5, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                      <span style={{ fontSize: 8.5, color: '#94A3B8', display: 'block', marginBottom: 1 }}>Smallholder (1 ha)</span>
-                      <span style={{ fontSize: 12.5, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)' }}>
-                        {(prediction.predicted_yield_tonnes_per_ha * 10).toFixed(1)} <span style={{ fontSize: 9, fontWeight: 600 }}>qtl</span>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '7px 6px', borderRadius: 6, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                      <span style={{ fontSize: 9.5, color: '#94A3B8', display: 'block', marginBottom: 2 }}>Smallholder (1 ha)</span>
+                      <span style={{ fontSize: 13.5, fontWeight: 900, color: '#F7F7EF', fontFamily: 'var(--font-mono)' }}>
+                        {(prediction.predicted_yield_tonnes_per_ha * 10).toFixed(1)} <span style={{ fontSize: 10, fontWeight: 600 }}>qtl</span>
                       </span>
                     </div>
-                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '5px 4px', borderRadius: 5, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                      <span style={{ fontSize: 8.5, color: '#94A3B8', display: 'block', marginBottom: 1 }}>Medium Farm (5 ha)</span>
-                      <span style={{ fontSize: 12.5, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)' }}>
-                        {(prediction.predicted_yield_tonnes_per_ha * 5).toFixed(1)} <span style={{ fontSize: 9, fontWeight: 600 }}>t</span>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '7px 6px', borderRadius: 6, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                      <span style={{ fontSize: 9.5, color: '#94A3B8', display: 'block', marginBottom: 2 }}>Medium Farm (5 ha)</span>
+                      <span style={{ fontSize: 13.5, fontWeight: 900, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)' }}>
+                        {(prediction.predicted_yield_tonnes_per_ha * 5).toFixed(1)} <span style={{ fontSize: 10, fontWeight: 600 }}>t</span>
                       </span>
                     </div>
-                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '5px 4px', borderRadius: 5, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                      <span style={{ fontSize: 8.5, color: '#94A3B8', display: 'block', marginBottom: 1 }}>Commercial (25 ha)</span>
-                      <span style={{ fontSize: 12.5, fontWeight: 900, color: '#34D399', fontFamily: 'var(--font-mono)' }}>
-                        {(prediction.predicted_yield_tonnes_per_ha * 25).toFixed(1)} <span style={{ fontSize: 9, fontWeight: 600 }}>t</span>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.035)', padding: '7px 6px', borderRadius: 6, textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                      <span style={{ fontSize: 9.5, color: '#94A3B8', display: 'block', marginBottom: 2 }}>Commercial (25 ha)</span>
+                      <span style={{ fontSize: 13.5, fontWeight: 900, color: '#34D399', fontFamily: 'var(--font-mono)' }}>
+                        {(prediction.predicted_yield_tonnes_per_ha * 25).toFixed(1)} <span style={{ fontSize: 10, fontWeight: 600 }}>t</span>
                       </span>
                     </div>
                   </div>
@@ -869,13 +869,13 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '14px',
+              padding: '16px',
               textAlign: 'center',
-              gap: 10
+              gap: 12
             }}>
               <div style={{
-                width: 40,
-                height: 40,
+                width: 44,
+                height: 44,
                 borderRadius: '50%',
                 background: 'rgba(228, 253, 151, 0.1)',
                 display: 'flex',
@@ -884,23 +884,23 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 color: 'var(--color-lime)',
                 border: '1.5px solid rgba(228, 253, 151, 0.3)'
               }}>
-                <SparklesIcon style={{ width: 20, height: 20 }} />
+                <SparklesIcon style={{ width: 22, height: 22 }} />
               </div>
               <div>
-                <h4 style={{ fontSize: 14.5, color: 'var(--color-offwhite)', margin: '0 0 3px', fontWeight: 800 }}>
+                <h4 style={{ fontSize: 15, color: 'var(--color-offwhite)', margin: '0 0 4px', fontWeight: 800 }}>
                   Awaiting Prediction Request
                 </h4>
-                <p style={{ fontSize: 11.5, maxWidth: 380, lineHeight: 1.35, margin: 0, color: 'var(--color-muted)' }}>
+                <p style={{ fontSize: 12, maxWidth: 380, lineHeight: 1.4, margin: 0, color: 'var(--color-muted)' }}>
                   Configure environmental parameters on the left or select a <strong>Quick Agro-Climatic Preset</strong> below to preview crop forecasts.
                 </p>
               </div>
 
               {/* Quick Presets */}
               <div style={{ width: '100%', maxWidth: 440 }}>
-                <div style={{ fontSize: 9.5, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', textTransform: 'uppercase', marginBottom: 5, textAlign: 'left', letterSpacing: '0.04em' }}>
+                <div style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--color-muted)', textTransform: 'uppercase', marginBottom: 6, textAlign: 'left', letterSpacing: '0.04em' }}>
                   Quick Agro-Climatic Presets
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
                   {PRESET_SCENARIOS.map((preset) => (
                     <button
                       key={preset.label}
@@ -909,10 +909,10 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                       style={{
                         background: 'rgba(255, 255, 255, 0.04)',
                         border: '1px solid var(--color-forest-border)',
-                        borderRadius: 6,
-                        padding: '7px 9px',
+                        borderRadius: 7,
+                        padding: '8px 10px',
                         color: 'var(--color-offwhite)',
-                        fontSize: 11,
+                        fontSize: 11.5,
                         fontWeight: 600,
                         cursor: 'pointer',
                         display: 'flex',
@@ -931,7 +931,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                       }}
                     >
                       <span style={{ fontWeight: 800, color: 'var(--color-lime)' }}>{preset.label}</span>
-                      <span style={{ fontSize: 9.5, color: 'var(--color-muted)' }}>{preset.rainfall}mm · {preset.temp}°C</span>
+                      <span style={{ fontSize: 10, color: 'var(--color-muted)' }}>{preset.rainfall}mm · {preset.temp}°C</span>
                     </button>
                   ))}
                 </div>
@@ -941,56 +941,28 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: 6,
+                gap: 8,
                 width: '100%',
                 maxWidth: 440
               }}>
-                <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '7px 5px', borderRadius: 6, border: '1px solid rgba(255, 255, 255, 0.05)', textAlign: 'center' }}>
-                  <CloudIcon style={{ width: 14, height: 14, color: 'var(--color-lime)', margin: '0 auto 2px' }} />
-                  <div style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--color-offwhite)' }}>Rainfall Range</div>
-                  <div style={{ fontSize: 9, color: 'var(--color-muted)' }}>100 – 3500 mm</div>
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '8px 6px', borderRadius: 7, border: '1px solid rgba(255, 255, 255, 0.05)', textAlign: 'center' }}>
+                  <CloudIcon style={{ width: 15, height: 15, color: 'var(--color-lime)', margin: '0 auto 3px' }} />
+                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-offwhite)' }}>Rainfall Range</div>
+                  <div style={{ fontSize: 9.5, color: 'var(--color-muted)' }}>100 – 3500 mm</div>
                 </div>
-                <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '7px 5px', borderRadius: 6, border: '1px solid rgba(255, 255, 255, 0.05)', textAlign: 'center' }}>
-                  <SunIcon style={{ width: 14, height: 14, color: '#FCD34D', margin: '0 auto 2px' }} />
-                  <div style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--color-offwhite)' }}>Thermal Range</div>
-                  <div style={{ fontSize: 9, color: 'var(--color-muted)' }}>0.0 – 38.0 °C</div>
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '8px 6px', borderRadius: 7, border: '1px solid rgba(255, 255, 255, 0.05)', textAlign: 'center' }}>
+                  <SunIcon style={{ width: 15, height: 15, color: '#FCD34D', margin: '0 auto 3px' }} />
+                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-offwhite)' }}>Thermal Range</div>
+                  <div style={{ fontSize: 9.5, color: 'var(--color-muted)' }}>0.0 – 38.0 °C</div>
                 </div>
-                <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '7px 5px', borderRadius: 6, border: '1px solid rgba(255, 255, 255, 0.05)', textAlign: 'center' }}>
-                  <BeakerIcon style={{ width: 14, height: 14, color: '#93C5FD', margin: '0 auto 2px' }} />
-                  <div style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--color-offwhite)' }}>Pest Protection</div>
-                  <div style={{ fontSize: 9, color: 'var(--color-muted)' }}>FAO Agro Standards</div>
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '8px 6px', borderRadius: 7, border: '1px solid rgba(255, 255, 255, 0.05)', textAlign: 'center' }}>
+                  <BeakerIcon style={{ width: 15, height: 15, color: '#93C5FD', margin: '0 auto 3px' }} />
+                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-offwhite)' }}>Pest Protection</div>
+                  <div style={{ fontSize: 9.5, color: 'var(--color-muted)' }}>FAO Agro Standards</div>
                 </div>
               </div>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Model Assurance Telemetry Bar (Sleek Single Line Footer) */}
-      <div style={{
-        background: 'var(--color-forest-surface)',
-        borderRadius: 8,
-        padding: '5px 14px',
-        border: '1px solid var(--color-forest-border)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: 6,
-        fontSize: 10.5,
-        color: 'var(--color-muted)',
-        flexShrink: 0
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ADE80', boxShadow: '0 0 5px #4ADE80' }} />
-          <span style={{ color: 'var(--color-offwhite)', fontWeight: 600 }}>Active Production Engine: XGBoost Regressor (1990–2026)</span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-          <span>86.10% Test R² (2025–2026 Chronological Evaluation)</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span>RMSE: <strong style={{ color: 'var(--color-offwhite)' }}>4.13 t/ha</strong></span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>•</span>
-          <span>Coverage: <strong style={{ color: 'var(--color-lime)' }}>90% Calibrated Guarantee</strong></span>
         </div>
       </div>
     </div>
