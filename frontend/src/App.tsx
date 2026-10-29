@@ -231,7 +231,7 @@ export default function App() {
         case 'batch':
           return { title: 'Batch Scenario Processing', subtitle: 'Simulate up to 50 concurrent agricultural scenarios' };
         case 'explain':
-          return { title: 'TreeSHAP Feature Attribution', subtitle: 'Exact game-theoretic local feature contributions' };
+          return { title: 'Factor Contributions & Explanations', subtitle: 'Plain-English breakdown of what helped or hurt your crop yield' };
         case 'sensitivity':
           return { title: 'Climate Sensitivity Analysis', subtitle: 'Parameter response curves across [-30%, +30%] variation' };
         case 'whatif':
@@ -336,14 +336,14 @@ export default function App() {
         {/* Centered 10-Second Countdown AI Loaders */}
         {loadingPred && (
           <TenSecondAILoader 
-            title="Terraflect Inference Pipeline"
-            subtitle={`Calibrating 2026 climate tensors & conformal bounds for ${inputData.country} (${inputData.crop})...`}
+            title="Estimating Crop Yield"
+            subtitle={`Analyzing weather, soil, and historical harvest data for ${inputData.country} (${inputData.crop})...`}
           />
         )}
         {loadingExplain && (
           <TenSecondAILoader 
-            title="TreeSHAP Attribution Pass"
-            subtitle={`Computing exact Shapley factor contributions for ${inputData.country} (${inputData.crop})...`}
+            title="Analyzing Factor Influences"
+            subtitle={`Calculating how each environmental factor affected your ${inputData.crop} harvest in ${inputData.country}...`}
           />
         )}
       </div>

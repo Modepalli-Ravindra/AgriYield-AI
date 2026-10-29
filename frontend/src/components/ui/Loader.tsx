@@ -245,18 +245,18 @@ interface TenSecondAILoaderProps {
 }
 
 export const TenSecondAILoader: React.FC<TenSecondAILoaderProps> = ({
-  title = "Terraflect ML-DL Inference Engine",
-  subtitle = "Calibrating environmental tensors and computing exact TreeSHAP attributions..."
+  title = "Analyzing Farm Growing Conditions",
+  subtitle = "Evaluating weather, temperature, soil, and crop factors to build your harvest forecast..."
 }) => {
   const [secondsRemaining, setSecondsRemaining] = React.useState(10);
   const [stageIndex, setStageIndex] = React.useState(0);
 
   const PIPELINE_STAGES = [
-    "1/5 · Ingesting regional agro-climatic tensors (Open-Meteo & FAO)...",
-    "2/5 · Executing 300-estimator gradient boosted ensemble pass...",
-    "3/5 · Computing exact TreeSHAP local game-theoretic attribution matrix...",
-    "4/5 · Calibrating non-negative crop-conditional conformal intervals (90%)...",
-    "5/5 · Validating mathematical additivity & assembling final forecast..."
+    "1/5 · Checking local rainfall, temperature, and historical climate data...",
+    "2/5 · Comparing with 30+ years of regional farm harvest records...",
+    "3/5 · Measuring how each weather factor helps or limits your crop yield...",
+    "4/5 · Calculating realistic best-case and worst-case harvest ranges...",
+    "5/5 · Generating your plain-English yield breakdown and farm guidance..."
   ];
 
   React.useEffect(() => {

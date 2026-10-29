@@ -12,9 +12,24 @@ from app.services.prediction_service import prediction_service
 
 router = APIRouter()
 
+FEATURE_FRIENDLY_NAMES = {
+    "rainfall": "Annual Rainfall",
+    "avg_temp": "Average Temperature",
+    "pesticides": "Pest and Crop Protection",
+    "year": "Farming Technology and Modern Seeds",
+    "crop": "Crop Type",
+    "country": "Regional Soil and Location",
+    "effective_precip": "Rainfall During Crop Season",
+    "effective_temp": "Growing Season Temperature",
+    "growing_season_rain": "Crop Season Total Rainfall",
+    "heat_stress_days": "Hot Days (Above 30°C)",
+    "dry_spell_days": "Longest Dry Period Without Rain",
+    "irrigation_pct": "Farm Irrigation Access",
+}
+
 @router.post("/explain", response_model=ExplainResponse)
 def explain_prediction(payload: YieldInput):
-    """Compute local TreeSHAP feature impact attribution for a single prediction."""
+    """Compute local TreeSHAP feature impact attribution for a single prediction in plain English."""
     if prediction_service.model is None:
         raise HTTPException(status_code=503, detail="Explanation service unavailable: model artifact is not loaded.")
     pred_res = prediction_service.predict(payload)
@@ -37,10 +52,19 @@ def explain_prediction(payload: YieldInput):
             percentage_contribution=pct
         ))
         
+    best = max(contributions, key=lambda c: c.shap_value)
+    worst = min(contributions, key=lambda c: c.shap_value)
+    best_name = FEATURE_FRIENDLY_NAMES.get(best.feature.lower(), best.feature.replace("_", " ").title())
+    worst_name = FEATURE_FRIENDLY_NAMES.get(worst.feature.lower(), worst.feature.replace("_", " ").title())
+
+    if worst.feature == "crop" and worst.shap_value < -0.5:
+        worst_clause = f"Crop Selection (-{abs(worst.shap_value):.2f} t/ha, because grains like {payload.crop} naturally produce fewer tonnes per hectare than heavy root crops like potatoes)"
+    else:
+        worst_clause = f"{worst_name} ({worst.shap_value:+.2f} t/ha)"
+
     summary = (
-        f"Base expected yield: {base_val:.2f} t/ha. "
-        f"Primary driver: {max(contributions, key=lambda c: c.shap_value).feature}; "
-        f"primary constraint: {min(contributions, key=lambda c: c.shap_value).feature}."
+        f"Starting from a typical multi-crop reference yield of {base_val:.2f} t/ha, your farm conditions forecast a final harvest of {pred_t:.2f} t/ha. "
+        f"Your strongest positive factor was {best_name} (+{best.shap_value:.2f} t/ha), while your primary limiting factor was {worst_clause}."
     )
     
     # Verify additivity: sum of feature attributions equals prediction - base_val within tolerance

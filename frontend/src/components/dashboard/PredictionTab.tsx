@@ -761,7 +761,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                   </div>
                 )}
 
-                {/* Top Local Feature Drivers (Live TreeSHAP Breakdown) */}
+                {/* Top Local Feature Drivers (Live Factor Breakdown) */}
                 {prediction.shap_values && prediction.feature_names && prediction.shap_values.length > 0 && (
                   <div style={{
                     background: 'rgba(0, 0, 0, 0.28)',
@@ -773,19 +773,31 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <PresentationChartLineIcon style={{ width: 17, height: 17, color: 'var(--color-lime)' }} />
                         <span style={{ fontSize: 13.5, fontWeight: 800, color: '#F7F7EF' }}>
-                          Top Key Factors Driving Forecast (TreeSHAP)
+                          Top Factors Affecting This Harvest
                         </span>
                       </div>
                       <span style={{ fontSize: 11, color: 'var(--color-lime)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
-                        LOCAL IMPACT
+                        YIELD IMPACT
                       </span>
                     </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
                       {(() => {
+                        const friendlyMap: Record<string, string> = {
+                          crop: 'Crop Choice',
+                          avg_temp: 'Average Temperature',
+                          pesticides: 'Pest Protection',
+                          effective_temp: 'Growing Season Temp',
+                          rainfall: 'Annual Rainfall',
+                          heat_stress_days: 'Hot Days (>30°C)',
+                          irrigation_pct: 'Irrigation Access',
+                          year: 'Farming Tech & Seeds',
+                          effective_precip: 'Rain in Crop Season',
+                          dry_spell_days: 'Dry Spell Length'
+                        };
                         const shapList = prediction.shap_values || [];
                         const pairs = (prediction.feature_names || []).map((name, i) => ({
-                          name,
+                          name: friendlyMap[name.toLowerCase()] || name.replace(/_/g, ' '),
                           val: shapList[i] ?? 0
                         }));
                         pairs.sort((a, b) => Math.abs(b.val) - Math.abs(a.val));
@@ -800,10 +812,10 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'space-between',
-                              border: isPos ? '1px solid rgba(74, 222, 128, 0.2)' : '1px solid rgba(248, 113, 113, 0.2)'
+                              border: isPos ? '1px solid rgba(74, 222, 128, 0.25)' : '1px solid rgba(248, 113, 113, 0.25)'
                             }}>
-                              <span style={{ fontSize: 13, color: '#F7F7EF', fontWeight: 700, textTransform: 'capitalize' }}>
-                                {item.name.replace(/_/g, ' ')}
+                              <span style={{ fontSize: 13, color: '#F7F7EF', fontWeight: 700 }}>
+                                {item.name}
                               </span>
                               <span style={{
                                 fontSize: 13.5,
@@ -981,7 +993,7 @@ export const PredictionTab: React.FC<PredictionTabProps> = ({
                 style={{ padding: '11px 16px', fontSize: 13.5, borderRadius: 9, justifyContent: 'center', fontWeight: 700 }}
               >
                 <PresentationChartLineIcon style={{ width: 16, height: 16 }} />
-                <span>TreeSHAP Factor Explanations</span>
+                <span>View Plain-English Factor Breakdown</span>
               </button>
               <button
                 type="button"
