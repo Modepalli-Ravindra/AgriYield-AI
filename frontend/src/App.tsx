@@ -14,9 +14,7 @@ import { AppHeader } from './components/dashboard/AppHeader';
 
 import { OverviewTab } from './components/dashboard/OverviewTab';
 import { PredictionTab } from './components/dashboard/PredictionTab';
-import { BatchPredictionTab } from './components/dashboard/BatchPredictionTab';
 import { ExplainTab } from './components/dashboard/ExplainTab';
-import { SensitivityTab } from './components/dashboard/SensitivityTab';
 import { WhatIfTab } from './components/dashboard/WhatIfTab';
 import { BenchmarksTab } from './components/dashboard/BenchmarksTab';
 import { HistoryTab } from './components/dashboard/HistoryTab';
@@ -26,7 +24,6 @@ import type {
   PredictionResponse, 
   OptionsResponse, 
   ExplainResponse, 
-  SensitivityResponse, 
   WhatIfResponse, 
   ModelComparisonResponse, 
   UserProfile 
@@ -36,7 +33,7 @@ import * as api from './api';
 export default function App() {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [view, setView] = useState<'landing' | 'app'>('landing');
-  const [activeTab, setActiveTab] = useState<'overview' | 'predict' | 'batch' | 'explain' | 'sensitivity' | 'whatif' | 'benchmarks' | 'history'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'predict' | 'explain' | 'whatif' | 'benchmarks' | 'history'>('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Auth modal state
@@ -60,9 +57,6 @@ export default function App() {
   const [explainData, setExplainData] = useState<ExplainResponse | null>(null);
   const [loadingExplain, setLoadingExplain] = useState(false);
 
-  const [sensParam, setSensParam] = useState('rainfall_mm');
-  const [sensData, setSensData] = useState<SensitivityResponse | null>(null);
-  const [loadingSens, setLoadingSens] = useState(false);
 
   const [whatIfData, setWhatIfData] = useState<WhatIfResponse | null>(null);
   const [loadingWhatIf, setLoadingWhatIf] = useState(false);
@@ -104,7 +98,6 @@ export default function App() {
     // Clear all workspace states on signout
     setPrediction(null);
     setExplainData(null);
-    setSensData(null);
     setWhatIfData(null);
     setInputData({
       country: options?.countries[0] || 'India',
@@ -141,20 +134,6 @@ export default function App() {
     }
   };
 
-  const handleRunSensitivity = async () => {
-    setLoadingSens(true);
-    try {
-      const [res] = await Promise.all([
-        api.runSensitivity(inputData, sensParam),
-        new Promise((resolve) => setTimeout(resolve, 850))
-      ]);
-      setSensData(res);
-    } catch (err: any) {
-      alert(err.message || 'Sensitivity analysis failed');
-    } finally {
-      setLoadingSens(false);
-    }
-  };
 
   const handleRunWhatIf = async () => {
     setLoadingWhatIf(true);
@@ -205,9 +184,6 @@ export default function App() {
     setExplainData(null);
   };
 
-  const handleClearSensitivity = () => {
-    setSensData(null);
-  };
 
   const handleClearWhatIf = () => {
     setWhatIfData(null);
@@ -221,12 +197,8 @@ export default function App() {
           return { title: 'System Overview & Workspace', subtitle: 'Live model telemetry and verified evaluation metrics' };
         case 'predict':
           return { title: 'Crop Yield Prediction', subtitle: 'Point inference with nominal 90% conformal uncertainty intervals' };
-        case 'batch':
-          return { title: 'Batch Scenario Processing', subtitle: 'Simulate up to 50 concurrent agricultural scenarios' };
         case 'explain':
           return { title: 'Factor Contributions & Explanations', subtitle: 'Clear breakdown of what helped or hurt your crop yield' };
-        case 'sensitivity':
-          return { title: 'Climate Sensitivity Analysis', subtitle: 'Parameter response curves across [-30%, +30%] variation' };
         case 'whatif':
           return { title: 'What-If Climate Simulator', subtitle: 'Evaluate counterfactual environmental shifts against baseline' };
         case 'benchmarks':
@@ -282,9 +254,6 @@ export default function App() {
               />
             </div>
 
-            <div style={{ display: activeTab === 'batch' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
-              <BatchPredictionTab />
-            </div>
 
             <div style={{ display: activeTab === 'explain' ? 'flex' : 'none', flexDirection: 'column', flex: 1, height: '100%', minHeight: 0, width: '100%' }}>
               <ExplainTab
@@ -295,16 +264,6 @@ export default function App() {
               />
             </div>
 
-            <div style={{ display: activeTab === 'sensitivity' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
-              <SensitivityTab
-                sensData={sensData}
-                sensParam={sensParam}
-                setSensParam={setSensParam}
-                loading={loadingSens}
-                onRunSensitivity={handleRunSensitivity}
-                onClearSensitivity={handleClearSensitivity}
-              />
-            </div>
 
             <div style={{ display: activeTab === 'whatif' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 'min-content', width: '100%' }}>
               <WhatIfTab

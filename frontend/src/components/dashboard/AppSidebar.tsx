@@ -9,8 +9,6 @@ import {
   ArrowRightOnRectangleIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  DocumentDuplicateIcon,
-  AdjustmentsHorizontalIcon,
   CpuChipIcon
 } from '@heroicons/react/24/outline';
 import type { UserProfile } from '../../types';
@@ -37,8 +35,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
     { id: 'predict', label: 'Yield Prediction', icon: ChartBarIcon },
     { id: 'explain', label: 'Factor Contributions', icon: PresentationChartLineIcon },
     { id: 'whatif', label: 'What-If Scenarios', icon: ArrowsRightLeftIcon },
-    { id: 'batch', label: 'Batch Forecast', icon: DocumentDuplicateIcon },
-    { id: 'sensitivity', label: 'Climate Sensitivity', icon: AdjustmentsHorizontalIcon },
     { id: 'benchmarks', label: 'Model Benchmarks', icon: CpuChipIcon },
     { id: 'history', label: 'Prediction History', icon: ClockIcon }
   ];
