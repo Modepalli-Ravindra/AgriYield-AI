@@ -17,5 +17,10 @@ if not exist ".env" (
         copy ".env.example" ".env" >nul
     )
 )
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload --reload-dir app
+where py >nul 2>nul
+if %errorlevel% equ 0 (
+    py -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload --reload-dir app
+) else (
+    python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload --reload-dir app
+)
 pause
